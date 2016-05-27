@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="288px" height="384px" viewBox="0 0 288 384" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12072) - http://www.bohemiancoding.com/sketch -->
+    <title>ios-trash-outline</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="ios-trash-outline" sketch:type="MSLayerGroup" fill="#000000">
+            <g id="Group" sketch:type="MSShapeGroup">
+                <path d="M288,49.3 L208,49.3 L208,29.3 C208,13.1 194.9,0 178.7,0 L109.2,0 C93.1,0 80,13.1 80,29.3 L80,49.3 L0,49.3 L0,64 L21.1,64 L44.7,354.7 C44.7,370.9 57.8,384 74,384 L215,384 C231.2,384 244.3,370.9 244.3,354.7 L267.6,64 L288,64 L288,49.3 L288,49.3 Z M94.6,29.3 C94.6,21.2 101.2,14.6 109.2,14.6 L178.7,14.6 C186.8,14.6 193.3,21.2 193.3,29.3 L193.3,49.3 L94.6,49.3 L94.6,29.3 L94.6,29.3 Z M229.6,353.9 L229.6,354.3 L229.6,354.7 C229.6,362.8 223,369.4 215,369.4 L74,369.4 C65.9,369.4 59.4,362.8 59.4,354.7 L59.4,354.3 L59.4,353.9 L35.7,64 L252.9,64 L229.6,353.9 L229.6,353.9 Z" id="Shape"></path>
+                <g transform="translate(80.000000, 96.000000)">
+                    <rect id="Rectangle-path" x="57" y="0" width="14" height="241"></rect>
+                    <path d="M128,0 L113.4,0 L102.7,241 L117.3,241 L128,0 Z" id="Shape"></path>
+                    <path d="M14.5,0 L0,0 L10.7,241 L25.3,241 L14.5,0 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

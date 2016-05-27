@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="288px" height="384px" viewBox="0 0 288 384" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12072) - http://www.bohemiancoding.com/sketch -->
+    <title>ios-copy-outline</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="ios-copy-outline" sketch:type="MSLayerGroup" fill="#000000">
+            <g id="Group" sketch:type="MSShapeGroup">
+                <path d="M192,32 L176,32 L176,112 L256,112 L256,96 L192,96 L192,32 Z" id="Shape"></path>
+                <path d="M213.3,0 L48,0 L48,48 L0,48 L0,384 L240,384 L240,336 L288,336 L288,75 L213.3,0 L213.3,0 Z M224,368 L16,368 L16,64 L48,64 L48,336 L224,336 L224,368 L224,368 Z M272,320 L64,320 L64,16 L206.7,16 L272,81.6 L272,320 L272,320 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

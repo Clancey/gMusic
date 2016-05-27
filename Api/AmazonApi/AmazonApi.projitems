@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>919fc2d7-b737-4790-8dbb-42eb415be33b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MusicPlayer.Api</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AmazonAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Account\CloudAccountInfoResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Account\CloudDataTotals.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Account\CloudDataUsage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Account\CloudEndpointResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Account\CloudQuotaResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Account\CloudUsageResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Changes\CloudChangesResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\CloudDriveApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\ContentExtensionFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\ContentNameFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\ContentTypeFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\DateTimeBetweenNodeFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\DateTimeNodeFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\NodeFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\NodeFilterGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\NodeOrderBy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\NodeProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Filters\NodeTypeFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Models\CloudNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Models\ContentNodeImageProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Models\ContentNodeProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Models\ContentNodeVideoProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Models\ParentMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Requests\CloudChangesRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Requests\CloudNodeRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Requests\CloudNodeRequests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CloudDrive\Nodes\Requests\FileUploadData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MimeTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AmazonMusicProvider.cs" />
+  </ItemGroup>
+</Project>

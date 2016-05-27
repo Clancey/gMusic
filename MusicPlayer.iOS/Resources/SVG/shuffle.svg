@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="396px" height="268px" viewBox="0 0 396 268" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>shuffle</title>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="noun_50589" sketch:type="MSLayerGroup" fill="#000000">
+            <path d="M357.657,75.657 L346.343,64.343 L372.686,38 L346.343,11.657 L357.657,0.343 L395.314,38 L357.657,75.657 Z" id="Shape" sketch:type="MSShapeGroup"></path>
+            <path d="M357.657,267.657 L346.343,256.343 L372.686,230 L346.343,203.657 L357.657,192.343 L395.314,230 L357.657,267.657 Z" id="Shape" sketch:type="MSShapeGroup"></path>
+            <path d="M96,238 L0,238 L0,222 L96,222 C139.056,222 161.297,177.517 184.845,130.422 C209.53,81.052 235.056,30 288,30 L384,30 L384,46 L288,46 C244.944,46 222.703,90.483 199.155,137.578 C174.47,186.948 148.944,238 96,238 L96,238 Z" id="Shape" sketch:type="MSShapeGroup"></path>
+            <path d="M384,238 L288,238 C235.056,238 209.53,186.948 184.845,137.578 C161.297,90.483 139.056,46 96,46 L0,46 L0,30 L96,30 C148.944,30 174.47,81.052 199.155,130.422 C222.703,177.517 244.944,222 288,222 L384,222 L384,238 L384,238 Z" id="Shape" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

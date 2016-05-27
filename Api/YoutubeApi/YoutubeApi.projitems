@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{87BF6B8A-9680-4589-8430-23FEAD83694F}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>YoutubeApi</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Google.Apis.Youtube.v3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDirectResponseSchema.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YoutubeOauthApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YoutubeProvider.cs" />
+  </ItemGroup>
+</Project>

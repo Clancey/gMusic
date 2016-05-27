@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="45px" height="45px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>playlists</title>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="list" sketch:type="MSLayerGroup">
+            <g id="list-[Converted]-copy" transform="translate(0.000000, 9.000000)" fill="#000000" sketch:type="MSShapeGroup">
+                <path d="M0,24 L20,24 L16.692,26 L0,26 L0,24 L0,24 Z" id="Shape"></path>
+                <path d="M0,16 L32,16 L32,18 L0,18 L0,16 L0,16 Z" id="Shape"></path>
+                <path d="M0,0 L32,0 L32,2 L0,2 L0,0 L0,0 Z" id="Shape"></path>
+                <path d="M0,8 L32,8 L32,10 L0,10 L0,8 L0,8 Z" id="Shape"></path>
+            </g>
+            <g id="note" transform="translate(16.000000, 0.000000)" stroke="#000000" sketch:type="MSShapeGroup">
+                <path d="M11.4832907,34.0683194 C15.7437621,34.4629981 18.992,36.5203233 18.992,39 C18.992,41.761 14.963,44 9.992,44 C5.021,44 0.992,41.761 0.992,39 C0.992,36.239 5.021,34 9.992,34 C10.5000183,34 10.9982153,34.0233833 11.4832907,34.0683194 Z" id="Shape"></path>
+                <path d="M19,0.893196203 C19,0.893196203 25.622,4.265 28,24 C22,12.346 19,11 19,11 L19,38.8666 L19,0.893196203 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

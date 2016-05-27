@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7473494d-7872-4dc5-b0e7-0fed6668d234</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MusicPlayer</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Locations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\QueueStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\RequestCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ScrobbleDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\SlideQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\BaseNotify.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\DateExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\EventHandlerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\JsonContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Spinner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\TrackListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\YouTubeHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\ArtworkManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\DownloadManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\LogManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\ManagerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\MusicManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\NotificationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\OfflineManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\PlaybackManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\ScrobbleManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\StateManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\TempFileManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Album.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AlbumArtwork.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AlbumIds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Artist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ArtistArtwork.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ArtistIds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Artwork.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BackgroundDownloadFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DownloadUrlData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EqualizerPreset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EqualizerPresetValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FullTrackData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Genre.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\iDirty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MediaItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MediaType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OfflineClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PlaybackState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Playlist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PlaylistSong.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PlaylistType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RadioStation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RadioStationArtwork.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RadioStationSeed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RadioStationSong.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RepeatMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Scrobbling\NowPlayingEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Scrobbling\PlaybackEndedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Scrobbling\SongPlaybackEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Song.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SongPlaybackData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StreamQuality.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Track.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TrackPosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MusicProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\Equalizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\IEqualizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\PlaybackContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlbumViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ArtistSongsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurrentPlaylistViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DownloadViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LocalSearchListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OnlineAlbumDetailsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OnlineArtistDetailsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OnlinePlaylistViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RadioStationViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SongViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ArtistViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GenreViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ApiModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\ApiManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\CryptoRandom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlaylistViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlaylistSongViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ArrayExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlbumDetailsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ArtistAlbumsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\SearchManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SearchResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IEnumberableExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GenreAlbumsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\EqualizerManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumerationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\ShareManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{64C9F055-D338-4576-AC40-7A1F7623E99B}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SoundCloud</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SoundCloudApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SoundCloudProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SoundCloudAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SoundCloudAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\STrack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SApiResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+  </ItemGroup>
+</Project>

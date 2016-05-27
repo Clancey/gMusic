@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d5d37fdd-da2e-455c-b210-d1dc217af590</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>OneDrive</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)OneDriveApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OneDriveAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OneDriveProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveIdentity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveIdentitySet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveFolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveSpecialFolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveAudio.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveVideo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveLink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Responses\OneDriveDeltaResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Responses\OneDriveShareResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Responses\" />
+  </ItemGroup>
+</Project>

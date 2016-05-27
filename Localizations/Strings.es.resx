@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Songs" xml:space="preserve">
+    <value>Canciones</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>En línea</value>
+  </data>
+  <data name="Albums" xml:space="preserve">
+    <value>Álbumes</value>
+  </data>
+  <data name="CurrentDownloads" xml:space="preserve">
+    <value>Descargas Actuales</value>
+  </data>
+  <data name="EqualizerPresets" xml:space="preserve">
+    <value>Ajustes del Ecualizador</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Por Defecto</value>
+  </data>
+  <data name="Equalizer" xml:space="preserve">
+    <value>Ecualizador</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Activo</value>
+  </data>
+  <data name="DefaultPreset" xml:space="preserve">
+    <value>Ajuste Predeterminado</value>
+  </data>
+  <data name="RenamePreset" xml:space="preserve">
+    <value>Renombrar Ajuste</value>
+  </data>
+  <data name="RenameError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="InvalidName" xml:space="preserve">
+    <value>Nombre inválido</value>
+  </data>
+  <data name="CopyPreset" xml:space="preserve">
+    <value>Copiar Ajuste</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>¿Estás seguro?</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reestablecer</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Borrar</value>
+  </data>
+  <data name="NewPreset" xml:space="preserve">
+    <value>Nuevo Ajuste</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Bienvenido</value>
+  </data>
+  <data name="SyncingDatabase" xml:space="preserve">
+    <value>Sincronizar Base de Datos</value>
+  </data>
+  <data name="WelcomToGmusic" xml:space="preserve">
+    <value>Bienvenido a gMusic</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="Sorry" xml:space="preserve">
+    <value>Lo siento</value>
+  </data>
+  <data name="ThereWasAnErrorPlayingTrack" xml:space="preserve">
+    <value>Se ha producido un error al reproducir esta pista</value>
+  </data>
+  <data name="PlaylistName" xml:space="preserve">
+    <value>nombre de la lista</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="Radio" xml:space="preserve">
+    <value>Radio</value>
+  </data>
+  <data name="RecentStations" xml:space="preserve">
+    <value>Estaciones Recientes</value>
+  </data>
+  <data name="MyStations" xml:space="preserve">
+    <value>Mis Emisoras</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="CreatingStation" xml:space="preserve">
+    <value>Creando Estación</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="Playback" xml:space="preserve">
+    <value>Reproducción</value>
+  </data>
+  <data name="EnableLikeOnTheLockScreen" xml:space="preserve">
+    <value>Habilitar me gusta en la pantalla de bloqueo</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Artist" xml:space="preserve">
+    <value>Artista</value>
+  </data>
+  <data name="Album" xml:space="preserve">
+    <value>Álbum</value>
+  </data>
+  <data name="AlbumArtist" xml:space="preserve">
+    <value>Álbum de Artista</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>Género</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Pista</value>
+  </data>
+  <data name="TrackNumber" xml:space="preserve">
+    <value>Número de pista</value>
+  </data>
+  <data name="Disc" xml:space="preserve">
+    <value>Disco</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="EnableLikeHint" xml:space="preserve">
+    <value>Cuando esta opción está activada, el botón anterior se sustituye por botones me gusta/me disgusta. (IOS 7.1 y superior)</value>
+  </data>
+  <data name="EnableGaplessPlayback" xml:space="preserve">
+    <value>Permitir la reproducción sin pausas</value>
+  </data>
+  <data name="EnableGapplessHint" xml:space="preserve">
+    <value>Esto elimina el silencio de los últimos segundos de una canción y se inicia la
+siguiente</value>
+  </data>
+  <data name="PlayVideosWhenAvailable" xml:space="preserve">
+    <value>Reproduce vídeos cuando están disponibles</value>
+  </data>
+  <data name="PlaysMusicVideoHint" xml:space="preserve">
+    <value>Reproduce el vídeo de la música en lugar de la canción cuando un vídeo musical está disponible.</value>
+  </data>
+  <data name="PlayCleanVersionsOfSongs" xml:space="preserve">
+    <value>Reproduce versiones limpias de canciones</value>
+  </data>
+  <data name="PlayesCleanVersionOfSongsHint" xml:space="preserve">
+    <value>Reproduce versiones limpias de canciones durante la reproducción de radio cuando está disponible.</value>
+  </data>
+  <data name="Streaming" xml:space="preserve">
+    <value>Transmisión</value>
+  </data>
+  <data name="DisableAllAccess" xml:space="preserve">
+    <value>Desactivar Acceso Total</value>
+  </data>
+  <data name="DisableAllAccessHint" xml:space="preserve">
+    <value>Desactivar si no tiene integración de acceso total</value>
+  </data>
+  <data name="CellularAudioQuality" xml:space="preserve">
+    <value>Calidad de audio celular</value>
+  </data>
+  <data name="WifiAudioQuality" xml:space="preserve">
+    <value>Calidad de Audio Wifi</value>
+  </data>
+  <data name="VideoQuality" xml:space="preserve">
+    <value>Calidad de Video</value>
+  </data>
+  <data name="OfflineAudioQuality" xml:space="preserve">
+    <value>Calidad de Audio Fuera de Línea</value>
+  </data>
+  <data name="QualityHints" xml:space="preserve">
+    <value>Si usted está teniendo problemas con el almacenamiento o saltos trate de bajar la calidad de
+la señal. Bajar las calidades de la señal hace que se utilice menos datos y ocupe menos espacio para almacenar
+en el dispositivo .</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Comentarios</value>
+  </data>
+  <data name="SendFeedback" xml:space="preserve">
+    <value>Enviar comentarios</value>
+  </data>
+  <data name="PleaseRate" xml:space="preserve">
+    <value>Por favor, califique</value>
+  </data>
+  <data name="NobodyHasRatedYet" xml:space="preserve">
+    <value>Nadie ha calificado todavía :(</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>cuentas</value>
+  </data>
+  <data name="ImportIPodMusic" xml:space="preserve">
+    <value>Importar música de iPod</value>
+  </data>
+  <data name="ImportIpodHint" xml:space="preserve">
+    <value>Importa y reproduce música de su biblioteca local automáticamente. Esto ahorra
+datos y espacio en el teléfono .</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="ResyncDatabase" xml:space="preserve">
+    <value>Sincroniza Base de Datos</value>
+  </data>
+  <data name="ResyncDatabaseHint" xml:space="preserve">
+    <value>Esto eliminará la base de datos y realizará una sincronización completa desde el servidor.</value>
+  </data>
+  <data name="DownloadQueue" xml:space="preserve">
+    <value>Cola de Descarga</value>
+  </data>
+  <data name="SongsCount" xml:space="preserve">
+    <value>Conteo de Canciones</value>
+  </data>
+  <data name="PleaseTryAgain" xml:space="preserve">
+    <value>Por favor, inténtelo de nuevo</value>
+  </data>
+  <data name="ErrorLoggingInto" xml:space="preserve">
+    <value>Error al Registrarse</value>
+  </data>
+  <data name="OnlyOnePersonHasRatedThisVersion" xml:space="preserve">
+    <value>Sólo 1 persona ha valorado esta versión</value>
+  </data>
+  <data name="Only" xml:space="preserve">
+    <value>Solamente</value>
+  </data>
+  <data name="PeopleHaveRatedThisVersion" xml:space="preserve">
+    <value>personas han valorado esta versión</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medio</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Bajo</value>
+  </data>
+  <data name="PleaseSendAnEmailTo" xml:space="preserve">
+    <value>Por favor envíe un correo electrónico a</value>
+  </data>
+  <data name="ThankYou" xml:space="preserve">
+    <value>Gracias</value>
+  </data>
+  <data name="YouShouldReceiveAReplyShortly_" xml:space="preserve">
+    <value>Debe recibir una respuesta a la brevedad.</value>
+  </data>
+  <data name="UsesLessData" xml:space="preserve">
+    <value>(Utiliza menos datos)</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="UsesMoreData" xml:space="preserve">
+    <value>(Utiliza más datos)</value>
+  </data>
+  <data name="DoYouWantToContinue" xml:space="preserve">
+    <value>¿Quieres continuar?</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="Nevermind" xml:space="preserve">
+    <value>No importa</value>
+  </data>
+  <data name="Song" xml:space="preserve">
+    <value>Canción</value>
+  </data>
+  <data name="AdditionalTracks" xml:space="preserve">
+    <value>Pistas adicionales</value>
+  </data>
+  <data name="Artists" xml:space="preserve">
+    <value>artistas</value>
+  </data>
+  <data name="CurrentPlaylist" xml:space="preserve">
+    <value>Lista de reproducción actual</value>
+  </data>
+  <data name="Genres" xml:space="preserve">
+    <value>Géneros</value>
+  </data>
+  <data name="Playlists" xml:space="preserve">
+    <value>Listas de reproducción</value>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="StartingARadioStationWillDisableOfflineMode" xml:space="preserve">
+    <value>El Inicio de una estación de radio desactivará el modo fuera de línea.</value>
+  </data>
+  <data name="LoggingOut" xml:space="preserve">
+    <value>Cerrando sesión</value>
+  </data>
+</root>

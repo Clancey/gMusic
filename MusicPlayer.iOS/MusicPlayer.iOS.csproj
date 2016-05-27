@@ -1,0 +1,664 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectGuid>{37D41839-0FB8-4F73-AB10-64E6310D7924}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MusicPlayer.iOS</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <XamarinInsightsApiKey>356a89f8c20f2990fba254c8afbd21c7ff9e1243</XamarinInsightsApiKey>
+    <AssemblyName>MusicPlayeriOS</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;__UNIFIED__;__MOBILE__;__IOS__;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <MtouchProfiling>true</MtouchProfiling>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Clean" command="SetupDev.sh" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>i386</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchUseThumb>true</MtouchUseThumb>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Clean" command="SetupDev.sh" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchProfiling>True</MtouchProfiling>
+    <MtouchUseSGen>True</MtouchUseSGen>
+    <MtouchUseRefCounting>True</MtouchUseRefCounting>
+    <IpaPackageName>gMusic</IpaPackageName>
+    <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <CodesignProvision>
+    </CodesignProvision>
+    <BuildIpa>true</BuildIpa>
+    <IpaMetadata>MediaPlayer</IpaMetadata>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Clean" command="SetupDev.sh" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchUseThumb>true</MtouchUseThumb>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Clean" command="SetupDev.sh" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;ADHOC</DefineConstants>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="zip -r MusicPlayeriOS.app.dSYM.zip MusicPlayeriOS.app.dSYM" workingdir="${TargetDir}" />
+        <Command type="AfterBuild" command="curl -F &quot;dsym=@MusicPlayeriOS.app.dSYM.zip;type=application/zip&quot; https://xaapi.xamarin.com/api/dsym?apikey=356a89f8c20f2990fba254c8afbd21c7ff9e1243" workingdir="${TargetDir}" />
+        <Command type="Clean" command="SetupDev.sh" />
+      </CustomCommands>
+    </CustomCommands>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <BuildIpa>True</BuildIpa>
+    <CodesignKey>iPhone Distribution: INTERACTIVE INNOVATIVE SOLUTIONS LLC</CodesignKey>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchUseThumb>true</MtouchUseThumb>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
+    <IpaPackageName>MediaPlayer</IpaPackageName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;APPSTORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>a712e7b8-771a-455a-a577-38305651357e</CodesignProvision>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <MtouchUseLlvm>True</MtouchUseLlvm>
+    <MtouchUseThumb>True</MtouchUseThumb>
+    <MtouchUseSGen>True</MtouchUseSGen>
+    <MtouchUseRefCounting>True</MtouchUseRefCounting>
+    <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
+    <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Clean" command="SetupAppStore.sh" />
+        <Command type="AfterBuild" command="zip -r MusicPlayeriOS.app.dSYM.zip MusicPlayeriOS.app.dSYM" workingdir="${TargetDir}" />
+        <Command type="AfterBuild" command="curl -F &quot;dsym=@MusicPlayeriOS.app.dSYM.zip;type=application/zip&quot; https://xaapi.xamarin.com/api/dsym?apikey=4da241d5460e5658993bb9ec95c7a09ceba4246d" workingdir="${TargetDir}" />
+      </CustomCommands>
+    </CustomCommands>
+    <BuildIpa>true</BuildIpa>
+    <IpaPackageName>MusicPlayer</IpaPackageName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhoneSimulator'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>bin\Ad-Hoc</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;ADHOC</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <MtouchArch>i386</MtouchArch>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Clean" command="SetupDev.sh" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|iPhoneSimulator'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>bin\AppStore</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <MtouchArch>i386</MtouchArch>
+    <IntermediateOutputPath>obj\iPhoneSimulator\AppStore</IntermediateOutputPath>
+    <ExternalConsole>false</ExternalConsole>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignKey>
+    </CodesignKey>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
+    <MtouchExtraArgs>
+    </MtouchExtraArgs>
+    <IpaMetadata>
+    </IpaMetadata>
+    <IpaPackageName>
+    </IpaPackageName>
+    <CrashReportingApiKey>
+    </CrashReportingApiKey>
+    <MtouchI18n>
+    </MtouchI18n>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'TestCloud|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\TestCloud</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;ADHOC;TESTCLOUD;</DefineConstants>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="zip -r MusicPlayeriOS.app.dSYM.zip MusicPlayeriOS.app.dSYM" workingdir="${TargetDir}" />
+        <Command type="AfterBuild" command="curl -F &quot;dsym=@MusicPlayeriOS.app.dSYM.zip;type=application/zip&quot; https://xaapi.xamarin.com/api/dsym?apikey=356a89f8c20f2990fba254c8afbd21c7ff9e1243" workingdir="${TargetDir}" />
+        <Command type="Clean" command="SetupDev.sh" />
+      </CustomCommands>
+    </CustomCommands>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <BuildIpa>true</BuildIpa>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchUseThumb>true</MtouchUseThumb>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
+    <IpaPackageName>MediaPlayer</IpaPackageName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
+    <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <CodesignProvision>f31b2da1-5f7b-4866-8e66-8b44e619fdf2</CodesignProvision>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Cells\AlbumCell.cs" />
+    <Compile Include="Cells\AlbumSongCell.cs" />
+    <Compile Include="Cells\ArtistCell.cs" />
+    <Compile Include="Cells\GenreCell.cs" />
+    <Compile Include="Cells\MediaItemCell.cs" />
+    <Compile Include="Cells\MenuElement.cs" />
+    <Compile Include="Cells\MenuHeaderElement.cs" />
+    <Compile Include="Cells\MenuHelpTextElement.cs" />
+    <Compile Include="Cells\MenuSection.cs" />
+    <Compile Include="Cells\MenuSwitch.cs" />
+    <Compile Include="Cells\MultiImageMediaItemCell.cs" />
+    <Compile Include="Cells\PlaylistCell.cs" />
+    <Compile Include="Cells\RadioStationCell.cs" />
+    <Compile Include="Cells\SongDownloadCell.cs" />
+    <Compile Include="Cells\SpinnerCell.cs" />
+    <Compile Include="Controls\ActionSheet.cs" />
+    <Compile Include="Controls\AlertView.cs" />
+    <Compile Include="Controls\BlurredImageView.cs" />
+    <Compile Include="Controls\LoginEntryAlert.cs" />
+    <Compile Include="Controls\OBSlider.cs" />
+    <Compile Include="Cells\SettingsBooleanElement.cs" />
+    <Compile Include="Cells\SettingsElement.cs" />
+    <Compile Include="Cells\SettingsSwitch.cs" />
+    <Compile Include="Helpers\AppStore.cs" />
+    <Compile Include="Helpers\MediaItemImageExtensions.cs" />
+    <Compile Include="Helpers\TableViewExtensions.cs" />
+    <Compile Include="Native\PopupManager.cs" />
+    <Compile Include="Controls\ProgressView.cs" />
+    <Compile Include="Controls\TextInputAlert.cs" />
+    <Compile Include="Helpers\CGRectHelpers.cs" />
+    <Compile Include="Helpers\Device.cs" />
+    <Compile Include="Helpers\Fonts.cs" />
+    <Compile Include="Helpers\ImageExtensions.cs" />
+    <Compile Include="Helpers\Images.cs" />
+    <Compile Include="Helpers\NGraphicsExtensions.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="Native\BackgroundDownloadManager.cs" />
+    <Compile Include="Playback\AVPlayerEqualizer.cs" />
+    <Compile Include="Playback\PictureInPictureManager.cs" />
+    <Compile Include="UI\AlbumHeaderView.cs" />
+    <Compile Include="UI\DarkBlurView.cs" />
+    <Compile Include="UI\VideoView.cs" />
+    <Compile Include="ViewControllers\ArtistAlbumsViewController.cs" />
+    <Compile Include="ViewControllers\ArtistDetailViewController.cs" />
+    <Compile Include="ViewControllers\ArtistSongsViewController.cs" />
+    <Compile Include="ViewControllers\BaseEditTableViewController.cs" />
+    <Compile Include="ViewControllers\BaseModelViewController.cs" />
+    <Compile Include="ViewControllers\BaseViewController.cs" />
+    <Compile Include="ViewControllers\CurrentPlaylistViewController.cs" />
+    <Compile Include="ViewControllers\DownloadViewController.cs" />
+    <Compile Include="ViewControllers\FullScreenMoviewController.cs" />
+    <Compile Include="ViewControllers\NowPlayingCollectionView.cs" />
+    <Compile Include="ViewControllers\OnlineArtistDetailsViewController.cs" />
+    <Compile Include="ViewControllers\OnlinePlaylistViewController.cs" />
+    <Compile Include="ViewControllers\PlaylistPickerViewController.cs" />
+    <Compile Include="ViewControllers\RadioStationViewController.cs" />
+    <Compile Include="ViewControllers\SearchListViewController.cs" />
+    <Compile Include="ViewControllers\SearchViewController.cs" />
+    <Compile Include="ViewControllers\SettingViewController.cs" />
+    <Compile Include="ViewModels\CurrentPlaylistViewModel.cs" />
+    <None Include="Info.plist" />
+    <Compile Include="Playback\NativeAudioPlayer.cs" />
+    <Compile Include="Playback\NativeTrackHandler.cs" />
+    <Compile Include="Playback\RemoteControlHandler.cs" />
+    <Compile Include="Cells\PlaylistSongCell.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="packages.config" />
+    <Compile Include="ViewControllers\BaseTableViewController.cs" />
+    <Compile Include="ViewControllers\NowPlayingViewController.cs" />
+    <Compile Include="ViewControllers\RootViewController.cs" />
+    <Compile Include="ViewControllers\SongViewController.cs" />
+    <Compile Include="ViewControllers\AlbumViewController.cs" />
+    <Compile Include="ViewControllers\ArtistViewController.cs" />
+    <Compile Include="ViewControllers\GenreViewController.cs" />
+    <Compile Include="Cells\SongCell.cs" />
+    <Compile Include="Cells\BaseCell.cs" />
+    <Compile Include="ViewControllers\IntroViewController.cs" />
+    <Compile Include="Playback\AVPlayerExtension.cs" />
+    <Compile Include="ViewControllers\PlaylistViewController.cs" />
+    <Compile Include="ViewControllers\PlaylistSongsViewController.cs" />
+    <Compile Include="Controls\TopTabBarController.cs" />
+    <Compile Include="Controls\SimpleButton.cs" />
+    <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
+    <Compile Include="Controls\TwoLabelView.cs" />
+    <Compile Include="Helpers\Style.cs" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Black.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Bold.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Heavy.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Light.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Medium.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Regular.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Semibold.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Thin.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Display-Ultralight.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-Bold.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-BoldItalic.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-Heavy.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-HeavyItalic.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-Italic.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-Light.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-LightItalic.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-Medium.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-MediumItalic.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-Regular.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-Semibold.otf" />
+    <BundleResource Include="Resources\Fonts\SF-UI-Text-SemiboldItalic.otf" />
+    <Compile Include="ViewModels\PlaylistViewModel.cs" />
+    <Compile Include="ViewModels\RadioStationViewModel.cs" />
+    <Compile Include="ViewModels\PlaylistSongViewModel.cs" />
+    <Compile Include="ViewControllers\AlbumDetailsViewController.cs" />
+    <Compile Include="ViewControllers\EqualizerViewController.cs" />
+    <Compile Include="ViewControllers\EqualizerPickerViewController.cs" />
+    <Compile Include="Controls\UIComboBox.cs" />
+    <BundleResource Include="Resources\Fonts\icomoon.ttf" />
+    <Compile Include="Helpers\UIViewExtensions.cs" />
+    <Compile Include="Native\NativeIndexer.cs" />
+    <Compile Include="Cells\MenuSubtextSwitch.cs" />
+    <Compile Include="Playback\AudioFadePlayer.cs" />
+    <BundleResource Include="Resources\accentColorHorizontal.png" />
+    <BundleResource Include="Resources\accentColorHorizontal%402x.png" />
+    <Compile Include="Native\SongSharingActivityProvider.cs" />
+    <Compile Include="ViewControllers\SongTagEditor.cs" />
+    <Compile Include="Cells\AccountCell.cs" />
+    <BundleResource Include="Resources\SVG\google-drive.svg" />
+    <BundleResource Include="Resources\SVG\googleMusic.svg" />
+    <BundleResource Include="Resources\SVG\amazon.svg" />
+    <BundleResource Include="Resources\SVG\dropbox-outline.svg" />
+    <BundleResource Include="Resources\SVG\onedrive.svg" />
+    <BundleResource Include="Resources\SVG\soundCloudColor.svg" />
+    <BundleResource Include="Resources\SVG\youtubeLogo.svg" />
+    <Compile Include="Native\ScreenManager.cs" />
+    <Compile Include="UI\TabButton.cs" />
+    <Compile Include="UI\TabBar.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="App.iOS.cs" />
+    <Compile Include="ApiConstants.iOS.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Haneke">
+      <HintPath>..\Components\haneke-1.0.1\lib\ios-unified\Haneke.dll</HintPath>
+    </Reference>
+    <Reference Include="Punchclock">
+      <HintPath>..\packages\Punchclock.1.2.0\lib\Portable-net45+win+wpa81+wp80\Punchclock.dll</HintPath>
+    </Reference>
+    <Reference Include="RadialProgress.iOS">
+      <HintPath>..\Components\radialprogress-1.0.1.3\lib\ios-unified\RadialProgress.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="ModernHttpClient, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphics">
+      <HintPath>..\packages\NGraphics.0.4.0\lib\Xamarin.iOS10\NGraphics.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphics.iOS">
+      <HintPath>..\packages\NGraphics.0.4.0\lib\Xamarin.iOS10\NGraphics.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
+    </Reference>
+    <Reference Include="PioneerKit">
+      <HintPath>..\References\PioneerKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Calabash">
+      <HintPath>..\packages\Xamarin.TestCloud.Agent.0.19.0\lib\Xamarin.iOS10\Calabash.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Insights">
+      <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+    </Reference>
+    <Reference Include="PLCrashReporterUnifiedBinding">
+      <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity">
+      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="OnePasswordExtension">
+      <HintPath>..\packages\clancey.OnePassword.1.0.3\lib\Xamarin.iOS10\OnePasswordExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.1.0\lib\Xamarin.iOS10\Plugin.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.1.0\lib\Xamarin.iOS10\Plugin.Settings.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entitlements.plist" />
+    <BundleResource Include="Resources\launchBg.png" />
+    <BundleResource Include="Resources\launchBg%402x.png" />
+    <BundleResource Include="Resources\headphones.png" />
+    <BundleResource Include="Resources\headphones%402x.png" />
+    <BundleResource Include="Resources\SVG\settings.svg" />
+    <BundleResource Include="Resources\SVG\artist.svg" />
+    <BundleResource Include="Resources\SVG\album.svg" />
+    <BundleResource Include="Resources\SVG\genres.svg" />
+    <BundleResource Include="Resources\SVG\playlists.svg" />
+    <BundleResource Include="Resources\SVG\equalizer.svg">
+      <SubType>Designer</SubType>
+    </BundleResource>
+    <BundleResource Include="Resources\SVG\radio.svg" />
+    <BundleResource Include="Resources\SVG\songs.svg" />
+    <BundleResource Include="Resources\SVG\offline.svg" />
+    <BundleResource Include="Resources\SVG\trending.svg" />
+    <BundleResource Include="Resources\SVG\icon.svg" />
+    <BundleResource Include="Resources\SVG\more.svg">
+      <SubType>Designer</SubType>
+    </BundleResource>
+    <BundleResource Include="Resources\SVG\moreTall.svg" />
+    <BundleResource Include="Resources\SVG\playButton.svg" />
+    <BundleResource Include="Resources\accentColor%402x.png" />
+    <BundleResource Include="Resources\accentColor.png" />
+    <BundleResource Include="Resources\SVG\songsDefault.svg" />
+    <BundleResource Include="Resources\SVG\menu.svg" />
+    <BundleResource Include="Resources\SVG\pauseButton.svg" />
+    <BundleResource Include="Resources\SVG\next.svg" />
+    <BundleResource Include="Resources\SVG\previous.svg" />
+    <BundleResource Include="Resources\SVG\repeat.svg" />
+    <BundleResource Include="Resources\SVG\repeatOne.svg" />
+    <BundleResource Include="Resources\SVG\shuffle.svg" />
+    <BundleResource Include="Resources\SVG\thumbsDown.svg" />
+    <BundleResource Include="Resources\SVG\thumbsUp.svg" />
+    <BundleResource Include="Resources\SVG\share.svg" />
+    <BundleResource Include="Resources\SVG\close.svg" />
+    <BundleResource Include="Resources\SVG\sliderTrack.svg">
+      <SubType>Designer</SubType>
+    </BundleResource>
+    <BundleResource Include="Resources\SVG\playButtonBordered.svg" />
+    <BundleResource Include="Resources\SVG\pauseButtonBordered.svg" />
+    <BundleResource Include="Resources\SVG\musicalNotes.svg" />
+    <BundleResource Include="Resources\SVG\isOffline.svg" />
+    <BundleResource Include="Resources\SVG\airplay.svg" />
+    <BundleResource Include="Resources\SVG\playbackSliderThumb.svg" />
+    <BundleResource Include="Resources\SVG\videoIcon.svg" />
+    <BundleResource Include="Resources\SVG\search.svg" />
+    <BundleResource Include="Resources\SVG\trash.svg" />
+    <BundleResource Include="Resources\SVG\undo.svg" />
+    <BundleResource Include="Resources\SVG\copy.svg" />
+    <BundleResource Include="Resources\SVG\edit.svg" />
+    <BundleResource Include="Resources\empty.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FlyoutNavigation\FlyoutNavigation\FlyoutNavigation.csproj">
+      <Project>{BEC8904A-0E39-4117-9E4D-AAE6A6A50B4A}</Project>
+      <Name>FlyoutNavigation</Name>
+      <IsAppExtension>False</IsAppExtension>
+      <IsWatchApp>False</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MonoTouch.Dialog\MonoTouch.Dialog\MonoTouch.Dialog.csproj">
+      <Project>{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}</Project>
+      <Name>MonoTouch.Dialog</Name>
+      <IsAppExtension>False</IsAppExtension>
+      <IsWatchApp>False</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\Api\Api.iOS\Api.iOS.csproj">
+      <Project>{5914FC5F-C364-4E11-9248-27BA7C8C17D0}</Project>
+      <Name>Api.iOS</Name>
+      <IsAppExtension>False</IsAppExtension>
+      <IsWatchApp>False</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SimpleAuth\src\SimpleAuth.iOS\SimpleAuth.iOS.csproj">
+      <Project>{2C2264A6-2534-485E-8772-623D1ABEEFFF}</Project>
+      <Name>SimpleAuth.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SimpleAuth\src\SimpleAuth.OnePassword.iOS\SimpleAuth.OnePassword.iOS.csproj">
+      <Project>{3978F9A7-1AD2-4550-A0FE-86793CA912CD}</Project>
+      <Name>SimpleAuth.OnePassword.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localizations\Localizations.csproj">
+      <Project>{630262F0-FA3F-4DFB-BD64-EFDB89474F49}</Project>
+      <Name>Localizations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SimpleTables\src\SimpleTables.iOS\SimpleTables.iOS.csproj">
+      <Project>{FFDAC76C-FB0C-4B30-B802-59112659A2D9}</Project>
+      <Name>SimpleTables.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems" Label="Shared" Condition="Exists('..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems')" />
+  <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
+  <Import Project="..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" />
+  <Import Project="..\Api\AmazonApi\AmazonApi.projitems" Label="Shared" />
+  <Import Project="..\..\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor.projitems" Label="Shared" />
+  <Import Project="..\MusicPlayer.Shared\MusicPlayer.Shared.projitems" Condition="Exists('..\MusicPlayer.Shared\MusicPlayer.Shared.projitems')" Label="Shared" />
+  <Import Project="..\..\taglib-sharp\src\taglib-sharp.projitems" Label="Shared" Condition="Exists('..\..\taglib-sharp\src\taglib-sharp.projitems')" />
+  <Import Project="..\Api\iPodApi\iPodApi.projitems" Label="Shared" Condition="Exists('..\Api\iPodApi\iPodApi.projitems')" />
+  <Import Project="..\Api\YoutubeApi\YoutubeApi.projitems" Label="Shared" />
+  <Import Project="..\Api\OneDrive\OneDrive.projitems" Label="Shared" />
+  <Import Project="..\..\lastfm-sharp\lastfm-sharp\LastFM.projitems" Label="Shared" Condition="Exists('..\..\lastfm-sharp\lastfm-sharp\LastFM.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
+  <ItemGroup>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-60%403x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-76.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-76%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small%403x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Spotlight-iOS7.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Spotlight-iOS7%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-568h%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Landscape~ipad.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Landscape~ipad%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Portrait~ipad.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Portrait~ipad%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small-50.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-iPad-Spotlight-iOS7%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-72.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-72%402x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-120.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\iTunesArtwork%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-167.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="haneke">
+      <Version>1.0.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="radialprogress">
+      <Version>1.0.1.3</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="hockeyappios">
+      <Version>3.8.5.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="btprogresshud">
+      <Version>1.20</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+    <ITunesArtwork Include="iTunesArtwork" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="500px" height="500px" viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <defs>
+        <linearGradient x1="73.7052374%" y1="91.1866321%" x2="48.7341054%" y2="5.65953593%" id="linearGradient-1">
+            <stop stop-color="#FF2A68" offset="0%"></stop>
+            <stop stop-color="#FF2B67" offset="16.229558%"></stop>
+            <stop stop-color="#FF2C66" offset="33.0183448%"></stop>
+            <stop stop-color="#FF5E3A" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Vector-Smart-Object-copy" sketch:type="MSLayerGroup">
+            <g id="Group" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-3" fill="url(#linearGradient-1)" x="0" y="0" width="500" height="500"></rect>
+                <g id="Clipped-+-Clipped" transform="translate(88.000000, 67.000000)">
+                    <g id="Clipped">
+                        <g fill="#FDFDFD">
+                            <path d="M311.503476,162.568853 L35.9951872,3.2535461 C19.990107,-5.98652482 0,5.55271868 0,24.0545508 L0,68.8233452 C0,55.5271868 14.3807487,47.1981087 25.881016,53.8570331 L223.962834,168.403546 C235.463102,175.04078 235.463102,191.677246 223.962834,198.33617 L25.881016,312.860993 C14.3807487,319.541608 0,311.21253 0,297.938061 L0,342.663475 C0,361.186998 19.990107,372.769622 35.9951872,363.48617 L311.503476,204.192553 C327.508556,194.952482 327.508556,171.808924 311.503476,162.568853" id="Shape"></path>
+                        </g>
+                        <g transform="translate(0.000000, 103.245863)" fill="#FFFFFF">
+                            <path d="M15.6368984,1.86536643 L135.360963,71.0791371 C142.313102,75.091844 142.313102,85.1561466 135.360963,89.1688534 L15.6585561,158.382624 C8.68475936,162.438712 0,157.38487 0,149.337766 L0,10.9102246 C0,2.86312057 8.68475936,-2.14734043 15.6368984,1.86536643" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
