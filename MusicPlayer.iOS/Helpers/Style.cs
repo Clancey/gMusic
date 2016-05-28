@@ -23,7 +23,7 @@ namespace MusicPlayer.iOS
 			Styles = new Dictionary<nint, Style>
 			{
 				{0,currentStyle},
-				//{1,new PioneerStyle()}
+				{1,new CarStyle()}
 			};
 		}
 

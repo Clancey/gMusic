@@ -387,6 +387,14 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="App.iOS.cs" />
     <Compile Include="ApiConstants.iOS.cs" />
+    <Compile Include="ViewControllers\Car\CarArtistViewController.cs" />
+    <Compile Include="ViewControllers\Car\CarGenreViewController.cs" />
+    <Compile Include="ViewControllers\Car\CarHeadViewController.cs" />
+    <Compile Include="ViewControllers\Car\CarNavigation.cs" />
+    <Compile Include="ViewControllers\Car\CarPlaylistViewController.cs" />
+    <Compile Include="ViewControllers\Car\CarRadioViewController.cs" />
+    <Compile Include="ViewControllers\Car\CarSongsViewController.cs" />
+    <Compile Include="ViewControllers\Car\CarStyle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Haneke">
@@ -660,5 +668,8 @@
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork%402x" />
     <ITunesArtwork Include="iTunesArtwork" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewControllers\Car\" />
   </ItemGroup>
 </Project>

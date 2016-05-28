@@ -76,6 +76,8 @@ namespace MusicPlayer.iOS
 			{
 				Console.WriteLine(ex);
 			}
+			//TODO: uncomment this to work on the Secondary Screen/Car interface.
+			//TestCarInterface ();
 			return handled;
 		}
 
@@ -83,8 +85,21 @@ namespace MusicPlayer.iOS
 		{
 			completionHandler(HandleShortcut(shortcutItem));
 		}
+		#if DEBUG
+		UIWindow carTestWindow;
+		public void TestCarInterface ()
+		{
 
+			carTestWindow = new UIWindow (UIScreen.MainScreen.Bounds);
+			carTestWindow.Tag = 1;
+			var style = carTestWindow.GetStyle ();
+			carTestWindow.TintColor = style.AccentColor;
+			if (carTestWindow.RootViewController == null)
+				carTestWindow.RootViewController = new Car.CarHeadViewController ();
 
+			carTestWindow.Hidden = false;
+		}
+		#endif
 		void CheckLogin()
 		{
 			if (ApiManager.Shared.Count == 0)

@@ -175,7 +175,7 @@
     <Compile Include="Cells\SongCell.cs" />
     <Compile Include="Cells\SpinnerCell.cs" />
     <Compile Include="Cells\VideoCell.cs" />
-    <Compile Include="Data\BackgroundDownloadManger.cs" />
+    <Compile Include="Data\BackgroundDownloadManager.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\VideoConvertor.cs" />
     <Compile Include="AkavacheSqliteLinkerOverride.cs" />

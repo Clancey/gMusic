@@ -6,10 +6,6 @@ using Localizations;
 using MusicPlayer.Models;
 using MusicPlayer.Playback;
 using MusicPlayer.Managers;
-#if PIONEER
-using PioneerKit;
-using MusicPlayer.iOS.Pioneer;
-#endif
 
 namespace MusicPlayer.iOS
 {

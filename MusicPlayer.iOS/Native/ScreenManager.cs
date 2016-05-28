@@ -7,7 +7,6 @@ namespace MusicPlayer.iOS
 {
 	public class ScreenManager : ManagerBase<ScreenManager>
 	{
-		
 		public ScreenManager()
 		{
 			UIScreen.Notifications.ObserveDidConnect((object sender, Foundation.NSNotificationEventArgs e)  => {
@@ -23,17 +22,31 @@ namespace MusicPlayer.iOS
 		}
 		public void Init()
 		{
-			
-
+			StartWindow ();
 		}
 
 		UIWindow Window;
-		public async Task StartWindow()
+		public virtual async Task StartWindow()
 		{
-			//TODO: Add external display
+			await Task.Delay (500);
+			if (UIScreen.Screens.Length < 2)
+				return;
+			var screen = UIScreen.Screens.Last ();
+			if (Window == null)
+				Window = new UIWindow (screen.Bounds);
+			else
+				Window.Bounds = screen.Bounds;
+			Window.Tag = 1;
+			var style = Window.GetStyle ();
+			Window.Screen = screen;
+			Window.TintColor = style.AccentColor;
+			if (Window.RootViewController == null)
+				Window.RootViewController = new Car.CarHeadViewController ();
+			Window.Hidden = false;
+			UIApplication.SharedApplication.IdleTimerDisabled = true;
 		}
 
-		public void StopWindow()
+		public virtual void StopWindow()
 		{
 			UIApplication.SharedApplication.IdleTimerDisabled = false;
 			if (Window == null)
@@ -43,24 +56,23 @@ namespace MusicPlayer.iOS
 		}
 
 
+		public virtual void WillTerminate()
+		{
+			
+		}
+		public virtual void OnActivated()
+		{
+			StartWindow ();
+		}
+		public virtual void DidEnterBackground()
+		{
+			
+		}
+		public virtual void OnResignActivation()
+		{
 
-		public void WillTerminate()
-		{
-			
 		}
-		public void OnActivated()
-		{
-			
-		}
-		public void DidEnterBackground()
-		{
-			
-		}
-		public void OnResignActivation()
-		{
-
-		}
-		public void WillEnterForeground()
+		public virtual void WillEnterForeground()
 		{
 			
 		}
