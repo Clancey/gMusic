@@ -97,6 +97,8 @@ namespace MusicPlayer.Managers
 
 		public async Task CreateYouTube()
 		{
+			if (string.IsNullOrWhiteSpace (ApiConstants.YouTubeClientId))
+				return;
 			var youtubsApis = Collection.Values.Where(x => x.ServiceType == ServiceType.YouTube).ToList();
 			if (youtubsApis.Any(x => x.Id != YoutubeProvider.DefaultId))
 			{
