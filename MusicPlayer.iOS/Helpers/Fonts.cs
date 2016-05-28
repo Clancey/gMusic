@@ -9,16 +9,16 @@ namespace MusicPlayer.iOS
 	{
 		public static string NormalFontName => "SFUIText-Regular";
 
-		public static UIFont NormalFont(nfloat size)
+		public static UIFont NormalFont (nfloat size)
 		{
-			return UIFont.FromName(NormalFontName, size);
+			return UIFont.FromName (NormalFontName, size) ?? UIFont.SystemFontOfSize (size);
 		}
 
 		public static string ThinFontName => "SFUIDisplay-Thin";
 
-		public static UIFont ThinFont(nfloat size)
+		public static UIFont ThinFont (nfloat size)
 		{
-			return UIFont.FromName(ThinFontName, size);
+			return UIFont.FromName (ThinFontName, size) ?? UIFont.SystemFontOfSize (size);
 		}
 	}
 }
