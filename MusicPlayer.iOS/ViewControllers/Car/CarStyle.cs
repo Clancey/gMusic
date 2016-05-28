@@ -5,6 +5,7 @@ namespace MusicPlayer.iOS
 {
 	public class CarStyle : DarkStyle
 	{
+		public static double NavIconImagePercent = .06;
 		static nfloat rowHeight;
 
 		public static nfloat RowHeight

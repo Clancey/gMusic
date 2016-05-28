@@ -17,7 +17,7 @@ namespace MusicPlayer.iOS.ViewControllers
 		{
 		}
 
-		UIBarButtonItem menuButton;
+		protected UIBarButtonItem menuButton;
 		public override void LoadView()
 		{
 			base.LoadView();

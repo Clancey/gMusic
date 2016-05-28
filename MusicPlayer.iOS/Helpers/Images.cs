@@ -160,7 +160,9 @@ namespace MusicPlayer
 		}
 
 
-		public static UIImage MenuImage => GetGeneratedImage("SVG/menu.svg", 15, 15);
+		public static UIImage MenuImage => GetMenuImage (15);
+
+		public static UIImage GetMenuImage (double size) => GetGeneratedImage ("SVG/menu.svg", size, size);
 
 		static UIImage GetGeneratedImage(string name, double size)
 		{

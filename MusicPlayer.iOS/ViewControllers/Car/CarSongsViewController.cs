@@ -27,8 +27,12 @@ namespace MusicPlayer.iOS.Car
 			if (lastSize == size)
 				return;
 			lastSize = size;
+			if (menuButton != null) {
+				menuButton.Image = Images.GetMenuImage (size.Width * CarStyle.NavIconImagePercent);
+			}
 			TableView.RowHeight = CarStyle.RowHeight;
 			TableView.ReloadData();
 		}
+
 	}
 }
