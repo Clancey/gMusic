@@ -13,6 +13,7 @@ namespace MusicPlayer.Api
 		YouTube = 5,
 		FileSystem = 6,
 		SoundCloud = 7,
-		OneDrive,
+		OneDrive = 8,
+		Tunez = 9,
     }
 }

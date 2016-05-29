@@ -22,6 +22,7 @@ namespace MusicPlayer.Managers
 			{ServiceType.OneDrive,typeof(OneDriveApi)},
 			{ServiceType.SoundCloud,typeof(SoundCloudApi)},
 			{ServiceType.YouTube,typeof(YoutubeOauthApi)},
+			{ServiceType.Tunez,typeof(TunezApi.TunezApi)},
 		};
 		Dictionary<Type, Type> ApiProviderTypes = new Dictionary<Type, Type>
 		{
@@ -30,6 +31,7 @@ namespace MusicPlayer.Managers
 			{typeof(SoundCloudApi),typeof(SoundCloudProvider) },
 			{typeof(CloudDriveApi),typeof(AmazonMusicProvider) },
 			{typeof(OneDriveApi),typeof(OneDriveProvider) },
+			{typeof(TunezApi.TunezApi), typeof(TunezApi.TunezProvider) },
 		};
 
 		public ApiManager()
@@ -182,7 +184,6 @@ namespace MusicPlayer.Managers
 			Collection.Add(api.Identifier, provider);
 
 			return provider;
-
 		}
 
 		public void SaveApi(SimpleAuth.Api api)
@@ -211,6 +212,8 @@ namespace MusicPlayer.Managers
 				return ServiceType.SoundCloud;
 			if (api is OneDriveApi)
 				return ServiceType.OneDrive;
+			if (api is TunezApi.TunezApi)
+				return ServiceType.Tunez;
 
 			App.ShowNotImplmented(new Dictionary<string, string> { { "Api type", api.GetType().ToString() } });
 			return ServiceType.FileSystem;
@@ -281,6 +284,8 @@ namespace MusicPlayer.Managers
 				return "SVG/youtubeLogo.svg";
 				case ServiceType.OneDrive:
 				return "SVG/onedrive.svg";
+				case ServiceType.Tunez:
+				return "SVG/tunez.svg";
 			}
 			return "";
 		}

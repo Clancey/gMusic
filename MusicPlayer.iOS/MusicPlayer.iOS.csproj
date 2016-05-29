@@ -111,7 +111,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseLlvm>true</MtouchUseLlvm>
@@ -445,6 +445,10 @@
     <Compile Include="ViewControllers\Car\CarSongsViewController.cs" />
     <Compile Include="ViewControllers\Car\CarStyle.cs" />
     <Compile Include="ViewControllers\ServicePickerViewController.cs" />
+    <Compile Include="Tunez\TunezApi.cs" />
+    <Compile Include="Tunez\TunezProvider.cs" />
+    <Compile Include="Tunez\TunezProvider.Radio.cs" />
+    <BundleResource Include="Resources\SVG\tunez.svg" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Haneke">
@@ -613,6 +617,8 @@
   </ItemGroup>
   <Import Project="..\ApiConstants.targets" />
   <Import Project="..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems" Label="Shared" Condition="Exists('..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems')" />
+  <Import Project="..\..\tunez\Shared\TunezCore\TunezCore.projitems" Label="Shared" Condition="Exists('..\..\tunez\Shared\TunezCore\TunezCore.projitems')" />
+  <Import Project="..\..\tunez\Client\TunezClientCore\TunezClientCore.projitems" Label="Shared" Condition="Exists('..\..\tunez\Client\TunezClientCore\TunezClientCore.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" />
   <Import Project="..\Api\AmazonApi\AmazonApi.projitems" Label="Shared" />
@@ -722,5 +728,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewControllers\Car\" />
+    <Folder Include="Tunez\" />
   </ItemGroup>
 </Project>
