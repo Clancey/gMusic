@@ -86,7 +86,7 @@ namespace MusicPlayer.Managers
 		public async void ToggleOffline (MediaItemBase item)
 		{
 			LogManager.Shared.Log ("Toggle Offline", item);
-			var shouldBeLocal = !item.ShouldBeLocal () || item.OfflineCount <= 0;
+			var shouldBeLocal = !(item.ShouldBeLocal () || item.OfflineCount > 0);
 
 			if (shouldBeLocal && (item is TempSong || item is TempAlbum || item is OnlineSong || item is OnlineAlbum)) {
 				await MusicManager.Shared.AddToLibrary (item);
