@@ -3,11 +3,6 @@ namespace MusicPlayer
 {
 	internal static partial class ApiConstants
 	{
-		//TODO: Sign up for a Last.Fm api key
-		internal const string LastFmApiKey = "";
-		internal const string LastFmSecret = "";
-
-
 		//TODO: Go sign up for an Amazon Cloud Drive Api key
 		internal const string AmazonApiKey = "";
 		internal const string AmazonAppIdentifier = "";
