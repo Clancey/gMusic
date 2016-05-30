@@ -437,7 +437,7 @@ namespace MusicPlayer.Managers
 				Task.Run(() => NotificationManager.Shared.ProcSongDownloadPulsed(SongId,1f));
 #pragma warning restore 4014
 			}
-			Console.WriteLine ($"Total lendth: {Stream.FinalLength}");
+			Console.WriteLine ($"Total length: {Stream.FinalLength}");
 			
 			Debug.WriteLine($"Finished processing stream {TrackId} - {success}");
 			return success;
