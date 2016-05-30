@@ -59,7 +59,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 					}),
 
-					(lastFmElement = new SettingsSwitch("Last.FM", Settings.LastFmEnabled)),
+					(lastFmElement = string.IsNullOrEmpty (ApiConstants.LastFmApiKey) ? null : new SettingsSwitch("Last.FM", Settings.LastFmEnabled)),
 					(twitterScrobbleElement = new SettingsSwitch("Auto Tweet", Settings.TwitterEnabled){Detail = Settings.TwitterDisplay}),
 					new SettingsSwitch("Import iPod Music", Settings.IncludeIpod)
 					{
@@ -140,32 +140,34 @@ namespace MusicPlayer.iOS.ViewControllers
 					(songsElement = new SettingsElement(Strings.SongsCount))
 				}
 			};
-			lastFmElement.ValueUpdated = async b =>
-			{
-				if (!b)
+			if (lastFmElement != null) {
+				lastFmElement.ValueUpdated = async b =>
 				{
-					Settings.LastFmEnabled = false;
-					ScrobbleManager.Shared.LogOut();
-					return;
-				}
-				var success = false;
-				try
-				{
-					success = await ScrobbleManager.Shared.LoginToLastFm();
-				}
-				catch (TaskCanceledException ex)
-				{
-					lastFmElement.Value = Settings.LastFmEnabled = false;
-					TableView.ReloadData();
-					return;
-				}
-				Settings.LastFmEnabled = success;
-				if (success) return;
+					if (!b)
+					{
+						Settings.LastFmEnabled = false;
+						ScrobbleManager.Shared.LogOut();
+						return;
+					}
+					var success = false;
+					try
+					{
+						success = await ScrobbleManager.Shared.LoginToLastFm();
+					}
+					catch (TaskCanceledException ex)
+					{
+						lastFmElement.Value = Settings.LastFmEnabled = false;
+						TableView.ReloadData();
+						return;
+					}
+					Settings.LastFmEnabled = success;
+					if (success) return;
 
-				lastFmElement.Value = false;
-				ReloadData();
-				App.ShowAlert($"{Strings.ErrorLoggingInto} Last.FM", Strings.PleaseTryAgain);
-			};
+					lastFmElement.Value = false;
+					ReloadData();
+					App.ShowAlert($"{Strings.ErrorLoggingInto} Last.FM", Strings.PleaseTryAgain);
+				};
+			}
 			twitterScrobbleElement.ValueUpdated = async b =>
 			{
 				if (!b)

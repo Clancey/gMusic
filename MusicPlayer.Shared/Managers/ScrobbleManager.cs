@@ -100,14 +100,14 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				//var credentials = await PopupManager.Shared.GetCredentials("Login to Last.FM", extra, "http://www.last.fm");
-				//await session.AuthenticateAsync(credentials.Item1, Utilities.MD5(credentials.Item2));
-				//if (session.Authenticated)
-				//{
-				//	Api.Utility.SetSecured("last.fm", session.ToJson(), API_KEY);
-				//	Init();
-				//	return true;
-				//}
+				var credentials = await PopupManager.Shared.GetCredentials("Login to Last.FM", extra, "http://www.last.fm");
+				await session.AuthenticateAsync(credentials.Item1, Utilities.MD5(credentials.Item2));
+				if (session.Authenticated)
+				{
+					Api.Utility.SetSecured("last.fm", session.ToJson(), ApiConstants.LastFmApiKey);
+					Init();
+					return true;
+				}
 				return false;
 			}
 			catch (TaskCanceledException)
