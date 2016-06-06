@@ -293,6 +293,17 @@ where Id = ?
 			});
 		}
 
+		/// <summary>
+		/// Deletes all the tracks associated from the database which are associated with this service
+		/// </summary>
+		/// <returns>The tracks.</returns>
+		/// <param name="id">The ID of the Api whose tracks you want to delete.</param>
+		internal static async Task RemoveTracks(string id)
+		{
+			await Database.Main.ExecuteAsync("delete from track where ServiceId = ?", id);
+			await FinalizeProcessing(id);
+		}
+
 //		internal static async void RemoveApi(ServiceType serviceType)
 //		{
 //			using (new Spinner("Updating Database")) {
@@ -303,10 +314,7 @@ where Id = ?
 		internal static async Task RemoveApi(string  id)
 		{
 			using (new Spinner(Strings.LoggingOut))
-			{
-				await Database.Main.ExecuteAsync("delete from track where ServiceId = ?", id);
-				await FinalizeProcessing(id);
-			}
+				await RemoveTracks(id);
 		}
 
 		public static Task SetOfflineEverything()
