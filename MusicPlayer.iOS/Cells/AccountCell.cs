@@ -18,15 +18,11 @@ namespace MusicPlayer.iOS
 
 		public override UIKit.UITableViewCell GetCell(UIKit.UITableView tv)
 		{
-			var email = ApiManager.Shared.GetAccount(ServiceType);
-			if (string.IsNullOrWhiteSpace(email))
-			{
+			Value = ApiManager.Shared.GetAccount(ServiceType) ?? "";
+			if (string.IsNullOrWhiteSpace(Value))
 				Caption = $"Sign in to {ApiManager.Shared.DisplayName(ServiceType)}";
-			}
-			else {
+			else
 				Caption = "Logout";
-				Value = email;
-			}
 
 			var cell = base.GetCell(tv);
 			cell.ImageView.LoadSvg(ApiManager.Shared.GetSvg(ServiceType),new NGraphics.Size(30,30));
