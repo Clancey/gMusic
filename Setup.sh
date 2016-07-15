@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 echo 'Running'
+
+pushd `dirname $0` > /dev/null
+SCRIPT_PATH=`pwd`
+popd > /dev/null
+
 remoteRepos=(
  "https://github.com/Clancey/SimpleAuth.git"
  "https://github.com/Clancey/SimpleTables.git"
@@ -37,8 +42,8 @@ git checkout dialog
 cd ..
 
 cd SimpleAuth
-mono --runtime=v4.0 ../gMusic/tools/NuGet/nuget.exe restore src/SimpleAuth.sln
+mono --runtime=v4.0 $SCRIPT_PATH/tools/NuGet/nuget.exe restore src/SimpleAuth.sln
 cd ..
 
 cd Akavache
-mono --runtime=v4.0 ../gMusic/tools/NuGet/nuget.exe restore Akavache.sln
+mono --runtime=v4.0 $SCRIPT_PATH/tools/NuGet/nuget.exe restore Akavache.sln
