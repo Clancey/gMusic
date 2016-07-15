@@ -247,7 +247,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
-    <CodesignProvision>f31b2da1-5f7b-4866-8e66-8b44e619fdf2</CodesignProvision>
+    <CodesignProvision>5148054d-8ee9-499a-a06b-1848ed058136</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Cells\AlbumCell.cs" />
