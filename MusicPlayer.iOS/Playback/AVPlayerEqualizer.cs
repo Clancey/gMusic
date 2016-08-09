@@ -41,21 +41,16 @@ namespace MusicPlayer.iOS.Playback
 			var audio = item.Tracks.FirstOrDefault(x => x.AssetTrack.HasMediaCharacteristic(AVMediaCharacteristic.Audible));
 			if (audio == null)
 				return;
-			if (processor != null && processor.audioAssetTrack == audio.AssetTrack)
+			if (processor == null || processor?.audioAssetTrack != audio.AssetTrack)
 			{
-				item.AudioMix = processor.AudioMix;
-				for (int i = 0; i < Bands.Count(); i++)
-				{
-					UpdateBand(i, Bands[i].Gain);
-				}
-				return;
+				processor?.Dispose ();
+				processor = new AudioTapProcessor (audio.AssetTrack) {
+					Parent = this,
+					IsBandpassFilterEnabled = Active,
+				};
 			}
-			processor?.Dispose();
-			processor = new AudioTapProcessor(audio.AssetTrack)
-			{
-				Parent = this,
-				IsBandpassFilterEnabled = Active,
-			};
+
+			processor.IsBandpassFilterEnabled = StateManager.Shared.EqualizerEnabled;
 			item.AudioMix = processor.AudioMix;
 			for (int i = 0; i < Bands.Count(); i++)
 			{
@@ -103,7 +98,7 @@ namespace MusicPlayer.iOS.Playback
 			set
 			{
 				Settings.EqualizerEnabled = value;
-				#if __IOS__
+				#if __IOS__ || __OSX__
 				if (processor != null)
 					processor.IsBandpassFilterEnabled = value;
 

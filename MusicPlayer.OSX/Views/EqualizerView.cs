@@ -115,14 +115,13 @@ namespace MusicPlayer
 			{
 				EqualizerManager.Shared.SaveCurrent();
 				shouldSave = false;
-				Equalizer.Shared.CurrentPreset = preset;
 				Settings.EqualizerPreset = preset.Id;
 				for (int i = 0; i < preset.Values.Length; i++)
 				{
 					var value = preset.Values[i].Value;
 					sliders[i].DoubleValue = value;
-					EqualizerManager.Shared.SetGain((int) sliders[i].Tag,(float) value);
 				}
+				Equalizer.Shared.ApplyPreset (preset);
 				shouldSave = true;
 			}
 			catch (Exception ex)
