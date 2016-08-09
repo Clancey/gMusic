@@ -287,6 +287,7 @@
     <InterfaceDefinition Include="Views\AlbumDetailView.xib" />
     <InterfaceDefinition Include="VideoPlaybackWindow.xib" />
   </ItemGroup>
+  <Import Project="..\LastFM.targets" />
   <Import Project="..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems" Label="Shared" Condition="Exists('..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems')" />
   <Import Project="..\Api\OneDrive\OneDrive.projitems" Label="Shared" Condition="Exists('..\Api\OneDrive\OneDrive.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
@@ -545,4 +546,5 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
+  <Import Project="..\packages\SQLitePCL.raw_basic.0.8.6\build\Xamarin.Mac20\SQLitePCL.raw_basic.targets" Condition="Exists('..\packages\SQLitePCL.raw_basic.0.8.6\build\Xamarin.Mac20\SQLitePCL.raw_basic.targets')" />
 </Project>
