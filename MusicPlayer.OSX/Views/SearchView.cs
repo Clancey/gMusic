@@ -35,9 +35,13 @@ namespace MusicPlayer
 		{
 			AddSubview(SearchBar = new NSSearchField(new CGRect(0,0,400,50)));
 			SearchBar.SearchingStarted += (object sender, EventArgs e) => {
-				Model.Search(SearchBar.StringValue);
+ 				Model.Search(SearchBar.StringValue);
+			};
+			SearchBar.Changed += (sender, e) => {
+				Model.KeyPressed (SearchBar.StringValue);
 			};
 			SearchBar.SendsSearchStringImmediately = false;
+			SearchBar.SendsWholeSearchString = true;
 			AddSubview (SearchScrollView = new NSScrollView ());
 
 		}
