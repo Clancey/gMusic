@@ -106,6 +106,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumerationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\ShareManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserDetails.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />
   </ItemGroup>
 </Project>

@@ -610,7 +610,7 @@
       <Name>SimpleTables.iOS</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\LastFM.targets" />
+  <Import Project="..\ApiConstants.targets" />
   <Import Project="..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems" Label="Shared" Condition="Exists('..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.Shared.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" />
