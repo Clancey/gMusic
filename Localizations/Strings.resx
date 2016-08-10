@@ -190,6 +190,9 @@ gMusic</value>
 	<data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+	<data name="Skip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
 	<data name="Sorry" xml:space="preserve">
     <value>Sorry</value>
   </data>

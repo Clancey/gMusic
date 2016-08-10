@@ -147,7 +147,8 @@ namespace MusicPlayer.Managers
 
 		readonly Dictionary<string, MusicProvider> Collection = new Dictionary<string, MusicProvider>();
 
-		public int Count => Collection.Count(x=> x.Value.RequiresAuthentication && x.Value.ServiceType == ServiceType.Google);
+		//If IPodOnly, iPod on counts
+		public int Count => Collection.Count(x=> x.Value.RequiresAuthentication) +  (Settings.IPodOnly && Settings.IncludeIpod ? 1 : 0);
 
 		public ServiceType[] SearchableServiceTypes => Collection.Values.Where(x=> x.Capabilities.Contains(MediaProviderCapabilities.Searchable)).Select(x => x.ServiceType).Distinct().ToArray();
 

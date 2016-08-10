@@ -213,6 +213,16 @@ namespace MusicPlayer.iOS
 			return button;
 		}
 
+		public static T StyleAsTextButton<T> (this T button) where T : UIButton
+		{
+			//var style = button.GetStyle();
+			var color = UIColor.White;
+			button.SetTitleColor (color, UIControlState.Normal);
+
+			return button;
+		}
+
+
 		public static T StyleSectionHeader<T>(this T header) where T : UITableViewHeaderFooterView
 		{
 			var style = header.GetStyle();

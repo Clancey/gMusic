@@ -101,6 +101,11 @@ namespace MusicPlayer.Data
 			set{ SetBool(value); }
 		}
 
+		public static bool IPodOnly {
+			get { return GetBool (false); }
+			set { SetBool (value); }
+		}
+
 		public static bool ExcludeFileSystem
 		{
 			get{ return GetBool(); }

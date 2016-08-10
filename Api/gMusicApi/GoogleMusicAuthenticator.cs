@@ -71,6 +71,8 @@ namespace MusicPlayer.Api
 			var cookie =
 				cookies.FirstOrDefault(x => x.Name.IndexOf("oauth_code", StringComparison.InvariantCultureIgnoreCase) == 0);
 			if (string.IsNullOrWhiteSpace(cookie?.Value)) return false;
+
+			Cookies = cookies?.Select (x => new CookieHolder { Domain =x.Domain, Path = x.Path, Name = x.Name, Value = x.Value }).ToArray ();
 			FoundAuthCode(cookie.Value);
 			return true;
 		}

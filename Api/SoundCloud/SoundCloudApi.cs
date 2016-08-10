@@ -72,6 +72,7 @@ namespace SoundCloud
 				}
 				catch (WebException webEx)
 				{
+					Console.WriteLine (webEx);
 					return CurrentAccount = account;
 				}
 				catch (Exception ex)
@@ -96,10 +97,10 @@ namespace SoundCloud
 			return account;
 		}
 
-		protected override async Task<bool> RefreshAccount(Account account)
+		protected override Task<bool> RefreshAccount(Account account)
 		{
 			//No need, it doesnt expire.
-			return true;
+			return  Task.FromResult(true);
 		}
 
 		protected virtual WebAuthenticator CreateAuthenticator()
@@ -107,6 +108,7 @@ namespace SoundCloud
 			return new SoundCloudAuthenticator(redirectUrl, ClientId, ClientSecret)
 			{
 				Scope = new List<string> { "non-expiring" },
+				Cookies = CurrentOAuthAccount?.Cookies,
 			};
 		}
 		protected virtual async Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)

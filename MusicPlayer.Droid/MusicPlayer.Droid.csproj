@@ -201,6 +201,7 @@
     <Compile Include="Services\MediaNotificationManager.cs" />
     <Compile Include="Helpers\ResourceHelper.cs" />
     <Compile Include="ApiConstants.Droid.cs" />
+    <Compile Include="UI\PopupManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

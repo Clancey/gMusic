@@ -4,6 +4,7 @@ using UIKit;
 using CoreGraphics;
 using System.Threading.Tasks;
 using Localizations;
+using MusicPlayer.Data;
 
 namespace MusicPlayer.iOS
 {
@@ -59,6 +60,13 @@ namespace MusicPlayer.iOS
 				Console.WriteLine(ex);
 			}
 		}
+
+		public async Task Skip ()
+		{
+			Settings.IncludeIpod = Settings.IPodOnly = true;
+			await this.DismissViewControllerAsync (true);
+		}
+
 		IntroView view;
 		public override void LoadView()
 		{
@@ -67,12 +75,14 @@ namespace MusicPlayer.iOS
 		public override void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
-			view.login.Tapped = (b)=> Login();
+			view.login.Tapped = async (b)=> await Login();
+			view.signinLater.Tapped = async (b) => await Skip ();
         }
 		public override void ViewWillDisappear(bool animated)
 		{
 			base.ViewWillDisappear(animated);
 			view.login.Tapped = null;
+			view.signinLater.Tapped = null;
 		}
 
 		class IntroView : UIView
@@ -81,7 +91,7 @@ namespace MusicPlayer.iOS
 			UITextView headerText;
 			UIImageView image;
 			public SimpleButton login;
-			UIButton signinLater;
+			public SimpleButton signinLater;
 			UIView blurView;
             public IntroView()
 			{
@@ -112,12 +122,12 @@ namespace MusicPlayer.iOS
 				Add(login = new SimpleButton {
 					Text = Strings.Login,
 				}.StyleAsBorderedButton());
-				login.SizeToFit();
-				//Add(signinLater = new SimpleButton
-				//{
-				//	Text = "Login",
-				//	Tapped = Cancel,
-				//});
+				login.SizeToFit(); 
+
+				Add (signinLater = new SimpleButton {
+					Text = Strings.Skip,
+				}.StyleAsTextButton ());
+				signinLater.SizeToFit ();
 			}
 		
 			public override void LayoutSubviews()
@@ -141,11 +151,18 @@ namespace MusicPlayer.iOS
 
 				y = headerText.Frame.Bottom + 10;
 
-				var frame = login.Frame;
+				var frame = signinLater.Frame;
 				frame.Width = width;
 				frame.X = x;
 				frame.Y = bounds.Bottom - frame.Height - 30f;
+				signinLater.Frame = frame;
+
+				frame.Height = login.Frame.Height;
+				frame.Y -= frame.Height + 10f;
 				login.Frame = frame;
+
+
+
 
 				//textView.Frame = new CGRect(x,y,width,frame.Y - y);
 
