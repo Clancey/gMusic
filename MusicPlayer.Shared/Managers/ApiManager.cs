@@ -106,9 +106,8 @@ namespace MusicPlayer.Managers
 			}
 			var hasGoogle = Collection.Values.Any (x => x.ServiceType == ServiceType.Google);
 
-			//TODO: check for youtube setting.
 			//If setting is on, and google is logged in. Then login, create youtube api
-			if (hasGoogle) {
+			if (hasGoogle && Settings.AutoAddYoutube) {
 				if (youtubsApis.Count > 0)
 				{
 					Collection.Remove(youtubsApis.First().Id);
@@ -150,7 +149,10 @@ namespace MusicPlayer.Managers
 		//If IPodOnly, iPod on counts
 		public int Count => Collection.Count(x=> x.Value.RequiresAuthentication) +  (Settings.IPodOnly && Settings.IncludeIpod ? 1 : 0);
 
+		public MusicProvider [] CurrentProviders => Collection.Where (x => x.Value.RequiresAuthentication).Select(x=> x.Value).ToArray ();
+
 		public ServiceType[] SearchableServiceTypes => Collection.Values.Where(x=> x.Capabilities.Contains(MediaProviderCapabilities.Searchable)).Select(x => x.ServiceType).Distinct().ToArray();
+		public ServiceType [] AvailableApiServiceTypes => ApiServiceTypes.Keys.ToArray ();
 
 		public SimpleAuth.AuthenticatedApi CreateApi(ServiceType type)
 		{
@@ -195,6 +197,7 @@ namespace MusicPlayer.Managers
 			};
 			Settings.AddApiModel(record);
 		}
+
 
 		static ServiceType GetServiceType(SimpleAuth.Api api)
 		{
@@ -282,40 +285,20 @@ namespace MusicPlayer.Managers
 			return "";
 		}
 
-		public async Task LogInOut(ServiceType service)
+		public async Task LogOut (MusicProvider provider)
 		{
-			try
-			{
-				var provider = GetMusicProvider(service);
-				if (provider == null)
-				{
-					//Create and Login
-					await CreateAndLogin(service);
-					return;
-					///await api.
-				}
-				else if (string.IsNullOrWhiteSpace(provider.Email))
-				{
-					//login
-					//TODO maybe this is wrong;
-					await provider.Resync();
-					return;
-				}
-				else
-				{
-					//logout
-					//TODO: logout
-					await provider.Logout();
-				}
-			}
-			catch (TaskCanceledException)
-			{
+			try {
 
+				await provider.Logout ();
+				int id;
+				if(int.TryParse(provider.Id,out id))
+					Settings.DeleteApiModel (id);
+				Collection.Remove (provider.Id);
+
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
 			}
-			catch (Exception ex)
-			{
-				LogManager.Shared.Report(ex);
-			}
+
 		}
 
 		public async Task<bool> CreateAndLogin(ServiceType service)

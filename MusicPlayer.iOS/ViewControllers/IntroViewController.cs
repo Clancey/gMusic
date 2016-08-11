@@ -13,47 +13,18 @@ namespace MusicPlayer.iOS
 		public IntroViewController()
 		{
 			Title = "Welcome";
-			//EdgesForExtendedLayout = UIRectEdge.None;
-			this.NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Add, async (s, e) =>
-			{
-				try
-				{
-					var api = ApiManager.Shared.CreateApi(MusicPlayer.Api.ServiceType.Google);
-					api.ResetData();
-					var account = await api.Authenticate();
-					if (account == null)
-						return;
-					ApiManager.Shared.AddApi(api);
-					ApiManager.Shared.CreateYouTube();
-					ApiManager.Shared.GetMusicProvider(Api.ServiceType.YouTube).SyncDatabase();
-					var manager = ApiManager.Shared.GetMusicProvider(api.Identifier);
-					using (new Spinner("Syncing Database"))
-					{
-						await manager.Resync();
-					}
-					await this.DismissViewControllerAsync(true);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(ex);
-				}
-			});
 		}
 		public async Task Login()
 		{
 			try
 			{
-				var api = ApiManager.Shared.CreateApi(MusicPlayer.Api.ServiceType.Google);
-				var account = await api.Authenticate();
-				if (account == null)
-					return;
-				ApiManager.Shared.AddApi(api);
-				var manager = ApiManager.Shared.GetMusicProvider(api.Identifier);
-				using (new Spinner("Syncing Database"))
-				{
-					await manager.SyncDatabase();
+				var vc = new ServicePickerViewController ();
+				this.PresentModalViewController (new UINavigationController (vc), true);
+				var service = await vc.GetServiceTypeAsync ();
+				var s = await ApiManager.Shared.CreateAndLogin (service);
+				if (s) {
+					await this.DismissViewControllerAsync (true);
 				}
-				await this.DismissViewControllerAsync(true);
 			}
 			catch (Exception ex)
 			{

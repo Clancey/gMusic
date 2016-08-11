@@ -137,7 +137,19 @@ namespace YoutubeApi
 			}
 		}
 
-
+		public string Email {
+			get {
+				string email = "";
+				CurrentOAuthAccount?.UserData?.TryGetValue ("email", out email);
+				if (string.IsNullOrWhiteSpace (email)){
+					var parentID = GetAccountParentId (CurrentOAuthAccount);
+					if (!string.IsNullOrWhiteSpace (parentID)) {
+						return ApiManager.Shared.GetMusicProvider (parentID)?.Email;
+					}
+				}
+				return email;
+			}
+		}
 		protected override WebAuthenticator CreateAuthenticator ()
 		{
 			return new GoogleMusicAuthenticator {

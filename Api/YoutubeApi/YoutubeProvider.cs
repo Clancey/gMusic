@@ -50,10 +50,7 @@ namespace YoutubeApi
 		{
 			get
 			{
-
-				string email = "";
-				Api?.CurrentOAuthAccount?.UserData?.TryGetValue("email", out email);
-				return email;
+				return Api?.Email ?? "";
 			}
 		}
 		#region implemented abstract members of MusicProvider
@@ -88,7 +85,12 @@ namespace YoutubeApi
 			//TODO clar playist tags
 			return await SyncDatabase();
 		}
-
+		public override async Task Logout ()
+		{
+			Api.ResetData ();
+			Settings.AutoAddYoutube = false;
+			await base.Logout ();
+		}
 		public override Task<Uri> GetPlaybackUri (Track track)
 		{
 			return Task.Run(() => {

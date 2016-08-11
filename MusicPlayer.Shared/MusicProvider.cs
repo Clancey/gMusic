@@ -118,7 +118,7 @@ namespace MusicPlayer.Api
 
 		public virtual async Task Logout()
 		{
-			
+			await RemoveApi (Id);
 		}
 
 		//Static stuff used for processing data

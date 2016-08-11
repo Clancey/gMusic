@@ -51,7 +51,11 @@ namespace MusicPlayer.Api
 		}
 
 		#region implemented abstract members of MusicProvider
-
+		public override async Task Logout ()
+		{
+			Api.ResetData ();
+			await base.Logout ();
+		}
 
 		protected override async Task<bool> Sync()
 		{

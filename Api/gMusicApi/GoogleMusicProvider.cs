@@ -2333,10 +2333,8 @@ namespace MusicPlayer.Api.GoogleMusic
 
 		public override async Task Logout()
 		{
-			Api.ResetData();
-			await RemoveApi(Id);
-			ApiManager.Shared.SaveApi(Api);
-			await LogIn(false);
+			Api.ResetData ();
+			await base.Logout ();
 		}
 
 		async Task LogIn(bool allowCancel)

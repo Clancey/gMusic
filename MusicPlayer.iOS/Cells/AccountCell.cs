@@ -8,17 +8,21 @@ namespace MusicPlayer.iOS
 {
 	public class AccountCell : StyledStringElement, IElementSizing
 	{
-		public AccountCell(ServiceType type, Action tapped) : base("", tapped)
+		public MusicProvider Provider { get; private set;}
+		public AccountCell (ServiceType serviceType, Action tapped) : base ("", tapped)
 		{
 			this.style = UIKit.UITableViewCellStyle.Subtitle;
-			ServiceType = type;
-
+			ServiceType = serviceType;
 			BackgroundColor = UIColor.Clear;
+		}
+		public AccountCell(MusicProvider provider, Action tapped) : this(provider.ServiceType, tapped)
+		{
+			Provider = provider;
 		}
 
 		public override UIKit.UITableViewCell GetCell(UIKit.UITableView tv)
 		{
-			Value = ApiManager.Shared.GetAccount(ServiceType) ?? "";
+			Value = Provider?.Email ?? "";
 			if (string.IsNullOrWhiteSpace(Value))
 				Caption = $"Sign in to {ApiManager.Shared.DisplayName(ServiceType)}";
 			else

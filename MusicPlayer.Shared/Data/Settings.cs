@@ -343,14 +343,14 @@ namespace MusicPlayer.Data
 			}
 		}
 
-		public static void DeleteApiModel(ApiModel model)
+		public static void DeleteApiModel(int id)
 		{
 			LoadModels();
 			lock(currentApiModels)
 			{
-				if (!currentApiModels.ContainsKey(model.Id))
+				if (!currentApiModels.ContainsKey(id))
 					return;
-				currentApiModels.Remove(model.Id);
+				currentApiModels.Remove(id);
 			}
 			SaveCurrentApiModels();
 		}
@@ -429,6 +429,11 @@ namespace MusicPlayer.Data
 				SetString(value);
 				NotificationManager.Shared.ProcStyleChanged();
 			}
+		}
+
+		public static bool AutoAddYoutube {
+			get { return GetBool (true); }
+			set { SetBool (value); }
 		}
 	}
 }

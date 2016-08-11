@@ -444,6 +444,7 @@
     <Compile Include="ViewControllers\Car\CarRadioViewController.cs" />
     <Compile Include="ViewControllers\Car\CarSongsViewController.cs" />
     <Compile Include="ViewControllers\Car\CarStyle.cs" />
+    <Compile Include="ViewControllers\ServicePickerViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Haneke">

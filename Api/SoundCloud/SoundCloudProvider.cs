@@ -62,6 +62,12 @@ namespace SoundCloud
 			return false;
 		}
 
+		public override async Task Logout ()
+		{
+			Api.ResetData ();
+			await base.Logout ();
+		}
+
 		public override Task<bool> AddToLibrary(Track track)
 		{
 			return SetRating(track, 5);

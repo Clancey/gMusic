@@ -21,45 +21,43 @@ using UIKit;
 using Xamarin;
 using MusicPlayer.Playback;
 using Accounts;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace MusicPlayer.iOS.ViewControllers
 {
 	internal class SettingViewController : DialogViewController
 	{
 		readonly SettingsSwitch lastFmElement;
+		readonly SettingsElement addNewAccountElement;
 		readonly SettingsSwitch twitterScrobbleElement;
 		readonly StringElement songsElement;
-		SettingsElement logoutElement;
 		MFMailComposeViewController mailController;
 		MenuHelpTextElement ratingMessage;
+		MenuSection accountsSection;
 
 		public SettingViewController() : base(UITableViewStyle.Plain, null)
 		{
 			Title = Strings.Settings;
-			Root = new RootElement(Strings.Settings)
-			{
-				new MenuSection("Accounts")
-				{
-					new AccountCell(ServiceType.SoundCloud,async ()=>{
-						await ApiManager.Shared.LogInOut(ServiceType.SoundCloud);
-						ReloadData();
-					}),
-					new AccountCell(ServiceType.OneDrive,async ()=>{
-						await ApiManager.Shared.LogInOut(ServiceType.OneDrive);
-						ReloadData();
+			accountsSection = new MenuSection ("Accounts"){
+				(addNewAccountElement = new SettingsElement("Add Streaming Service",async ()=>{
+					try{
+						var vc = new ServicePickerViewController();
+						this.PresentModalViewController(new UINavigationController(vc),true);
+						var service = await vc.GetServiceTypeAsync();
+						await ApiManager.Shared.CreateAndLogin(service);
+						UpdateAccounts();
+					}
+					catch(TaskCanceledException)
+					{
 
-					}),
-					new AccountCell(ServiceType.Amazon,async ()=>{
-
-						await ApiManager.Shared.LogInOut(ServiceType.Amazon);
-					}),
-					new AccountCell(ServiceType.Google,async ()=>{
-						await ApiManager.Shared.LogInOut(ServiceType.Google);
-						ReloadData();
-
-					}),
-
-					(lastFmElement = string.IsNullOrEmpty (ApiConstants.LastFmApiKey) ? null : new SettingsSwitch("Last.FM", Settings.LastFmEnabled)),
+					}
+					catch(Exception ex)
+					{
+						Console.WriteLine(ex);
+					}
+				})),
+				(lastFmElement = string.IsNullOrEmpty (ApiConstants.LastFmApiKey) ? null : new SettingsSwitch("Last.FM", Settings.LastFmEnabled)),
 					(twitterScrobbleElement = new SettingsSwitch("Auto Tweet", Settings.TwitterEnabled){Detail = Settings.TwitterDisplay}),
 					new SettingsSwitch("Import iPod Music", Settings.IncludeIpod)
 					{
@@ -67,12 +65,11 @@ namespace MusicPlayer.iOS.ViewControllers
 					},
 					new MenuHelpTextElement(
 						"Automatically imports and plays music from your local library. This saves data and space on your phone."),
-					//(logoutElement =new SettingsElement("Logout", () =>
-					//{
-					//	var api = ApiManager.Shared.GetMusicProvider<GoogleMusicProvider>(ServiceType.Google);
-					//	api.Logout();
-					//})),
-				},
+			};
+
+			Root = new RootElement(Strings.Settings)
+			{
+				accountsSection,
 				new MenuSection(Strings.Playback)
 				{
 					new SettingsSwitch(Strings.EnableLikeOnTheLockScreen, Settings.ThubsUpOnLockScreen)
@@ -288,6 +285,32 @@ namespace MusicPlayer.iOS.ViewControllers
 			this.ReloadData();
 		}
 
+		void UpdateAccounts ()
+		{
+			var endIndex = accountsSection.Elements.IndexOf (addNewAccountElement);
+			var elements = accountsSection.Elements.OfType<AccountCell> ().ToList();
+			var newElements = new List<Element> ();
+			ApiManager.Shared.CurrentProviders.ToList ().ForEach ((x) => {
+				var element = elements.FirstOrDefault (e => e.Provider.Id == x.Id);
+				if (element != null)
+					elements.Remove (element);
+				else {
+					newElements.Add (new AccountCell (x, () => {
+					new AlertView ("Logout", "Are you sure you want to logout?") {
+							{"Logout",async()=>{
+									await ApiManager.Shared.LogOut (x);
+									UpdateAccounts ();
+								}},
+							{"Cancel",null,true}
+						}.Show(this);
+					}));
+				}
+			});
+			if(newElements.Count > 0)
+				accountsSection.Insert (endIndex, newElements.ToArray());
+			elements.ForEach (accountsSection.Remove);
+
+		}
 
 		void setQualityValue(SettingsElement element, StreamQuality quality)
 		{
@@ -315,6 +338,7 @@ namespace MusicPlayer.iOS.ViewControllers
             TableView.ReloadData();
 			this.StyleViewController();
 			UpdateRatingMessage();
+			UpdateAccounts ();
 			NotificationManager.Shared.StyleChanged += Shared_StyleChanged;
 		}
 
