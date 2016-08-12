@@ -963,7 +963,9 @@ namespace MusicPlayer.Managers
 			var currIndex = Database.Main.ExecuteScalar<int>("select rowid from SongsOrdered where Id = ?", song.Id);
 			if (currIndex > 0 && CurrentSongIndex > 0)
 			{
-				MoveSong(CurrentOrder.IndexOf(currIndex - 1), CurrentSongIndex + 1);
+				var songIndex = CurrentOrder.IndexOf (currIndex - 1);
+				var offset = songIndex < CurrentSongIndex ? 0 : 1;
+				MoveSong(songIndex, CurrentSongIndex + offset);
 				return;
 			}
 			Database.Main.Insert(new SongsOrdered() { Id = song.Id });
