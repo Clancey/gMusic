@@ -93,6 +93,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
 	<key>NSAppleMusicUsageDescription</key>
+	<string>This app needs access to your Music.</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
 </dict>
