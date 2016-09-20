@@ -84,6 +84,7 @@ namespace MusicPlayer.Api.GoogleMusic
 		public GoogleMusicApi(string id, HttpMessageHandler handler = null)
 			: base(id, "936475272427.apps.googleusercontent.com", "KWsJlkaMn1jGLxQpWxMnOox-", handler)
 		{
+			CurrentShowAuthenticator = null;
 			Scopes = new[] {"https://www.google.com/accounts/OAuthLogin", "https://www.googleapis.com/auth/userinfo.email"};
             ForceRefresh = true;
 			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>

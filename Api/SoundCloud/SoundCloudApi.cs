@@ -9,11 +9,11 @@ namespace SoundCloud
 {
 	public class SoundCloudApi : AuthenticatedApi
 	{
-		public SoundCloudApi(string id, HttpMessageHandler handler = null) : base(id, handler)
+		public SoundCloudApi(string id, HttpMessageHandler handler = null) : base(id,MusicPlayer.ApiConstants.SoundCloudSecret , handler)
 		{
 			redirectUrl = "http://localhost";
 			ClientId = MusicPlayer.ApiConstants.SoundCloudClientId;
-			ClientSecret = MusicPlayer.ApiConstants.SouncCloudSecret;
+			ClientSecret = MusicPlayer.ApiConstants.SoundCloudSecret;
 			BaseAddress = new Uri("http://api.soundcloud.com/");
 			ApiKey = MusicPlayer.ApiConstants.SoundCloudApiKey;
 			AuthKey = "client_id";

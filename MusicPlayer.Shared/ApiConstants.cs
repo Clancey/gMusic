@@ -25,7 +25,7 @@ namespace MusicPlayer
 		//TODO: Sign up for a Sound Cloud api key
 		internal const string SoundCloudApiKey = "";
 		internal const string SoundCloudClientId= "";
-		internal const string SouncCloudSecret = "";
+		internal const string SoundCloudSecret = "";
 
 	}
 }
