@@ -82,7 +82,7 @@ namespace MusicPlayer.Api.GoogleMusic
 		string extraDataString;
 
 		public GoogleMusicApi(string id, HttpMessageHandler handler = null)
-			: base(id, "936475272427.apps.googleusercontent.com", "KWsJlkaMn1jGLxQpWxMnOox-", handler)
+			: base(id, "936475272427", "KWsJlkaMn1jGLxQpWxMnOox-", handler)
 		{
 			CurrentShowAuthenticator = null;
 			Scopes = new[] {"https://www.google.com/accounts/OAuthLogin", "https://www.googleapis.com/auth/userinfo.email"};
