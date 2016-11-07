@@ -32,10 +32,13 @@ namespace MusicPlayer.Api
 
 	public abstract class MusicProvider
 	{
+		public SimpleAuth.Api Api { get; }
+
 		public MusicProvider(SimpleAuth.Api api)
 		{
-
+			Api = api;
 		}
+
 		public abstract ServiceType ServiceType { get; }
 
 		public abstract bool RequiresAuthentication {get;}
@@ -116,9 +119,10 @@ namespace MusicPlayer.Api
 
 		public abstract string Email { get; }
 
-		public virtual async Task Logout()
+		public virtual Task Logout ()
 		{
-			await RemoveApi (Id);
+			Api.ResetData ();
+			return RemoveApi (Id);
 		}
 
 		//Static stuff used for processing data

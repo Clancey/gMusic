@@ -12,6 +12,10 @@ namespace MusicPlayer.Api
 {
 	public class AmazonMusicProvider : MusicProvider
 	{
+		public new CloudDriveApi Api {
+			get {  return (CloudDriveApi) base.Api; }
+		}
+
 		public override ServiceType ServiceType {
 			get {
 				return ServiceType.Amazon;
@@ -35,10 +39,9 @@ namespace MusicPlayer.Api
 				return new[]{ MediaProviderCapabilities.None};
 			}
 		}
-		public CloudDriveApi Api {get;private set;}
 		public AmazonMusicProvider (CloudDriveApi api) : base (api)
 		{
-			Api = api;
+
 		}
 		public override string Email
 		{
@@ -51,11 +54,6 @@ namespace MusicPlayer.Api
 		}
 
 		#region implemented abstract members of MusicProvider
-		public override async Task Logout ()
-		{
-			Api.ResetData ();
-			await base.Logout ();
-		}
 
 		protected override async Task<bool> Sync()
 		{

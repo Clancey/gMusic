@@ -29,7 +29,11 @@ namespace MusicPlayer.Api.GoogleMusic
 				return new []{ MediaProviderCapabilities.Searchable , MediaProviderCapabilities.Radio , MediaProviderCapabilities.NewReleases , MediaProviderCapabilities.Trending , MediaProviderCapabilities.Playlists};
 			}
 		}
-		public GoogleMusicApi Api;
+
+		public new GoogleMusicApi Api {
+			get {  return (GoogleMusicApi) base.Api; }
+		}
+
 		public override bool RequiresAuthentication => true;
 		public override ServiceType ServiceType => ServiceType.Google;
 
@@ -37,7 +41,6 @@ namespace MusicPlayer.Api.GoogleMusic
 
 		public GoogleMusicProvider(GoogleMusicApi api) : base(api)
 		{
-			Api = api;
 			CrossConnectivity.Current.ConnectivityChanged += async (sender, args) =>
 			{
 				if (Api.HasAuthenticated) return;
@@ -2329,12 +2332,6 @@ namespace MusicPlayer.Api.GoogleMusic
 					return $"&opt=low&net={netString}&targetkbps=64";
 			}
 			return "&opt=low&net=wifi&targetkbps=128";
-		}
-
-		public override async Task Logout()
-		{
-			Api.ResetData ();
-			await base.Logout ();
 		}
 
 		async Task LogIn(bool allowCancel)
