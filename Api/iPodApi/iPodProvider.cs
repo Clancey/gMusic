@@ -47,6 +47,9 @@ namespace MusicPlayer.Api.iPodApi
 					var mediaQuery = MPMediaQuery.SongsQuery;
 					var predicate = MPMediaPropertyPredicate.PredicateWithValue(NSNumber.FromBoolean(false),MPMediaItem.IsCloudItemProperty);
 					mediaQuery.AddFilterPredicate(predicate);
+					if (mediaQuery.Items == null)
+						return true;
+
 					var items = mediaQuery.Items.Where(x=> x.AssetURL != null && !string.IsNullOrEmpty(x.AssetURL.AbsoluteString)).Select(x => new FullTrackData(x.Title,x.Artist,x.AlbumArtist,x.AlbumTitle,x.Genre) {
 						Id = x.PersistentID.ToString(),
 						AlbumServerId = x.AlbumPersistentID.ToString(),
