@@ -18,6 +18,9 @@ namespace YoutubeApi
 {
 	public class YoutubeProvider : MusicProvider
 	{
+		public new YoutubeOauthApi Api {
+			get {  return (YoutubeOauthApi) base.Api; }
+		}
 
 		public override ServiceType ServiceType => ServiceType.YouTube;
 
@@ -34,11 +37,10 @@ namespace YoutubeApi
 				return new[]{ MediaProviderCapabilities.Searchable ,  MediaProviderCapabilities.NewReleases , MediaProviderCapabilities.Trending };
 			}
 		}
-		public YoutubeOauthApi Api { get; set; }
 
 		public YoutubeProvider (YoutubeOauthApi api) : base(api)
 		{
-			Api = api;
+
         }
 
 		public const string DefaultId = "youtube";
@@ -85,11 +87,10 @@ namespace YoutubeApi
 			//TODO clar playist tags
 			return await SyncDatabase();
 		}
-		public override async Task Logout ()
+		public override Task Logout ()
 		{
-			Api.ResetData ();
 			Settings.AutoAddYoutube = false;
-			await base.Logout ();
+			return base.Logout ();
 		}
 		public override Task<Uri> GetPlaybackUri (Track track)
 		{

@@ -16,8 +16,9 @@ namespace SoundCloud
 {
 	public class SoundCloudProvider : MusicProvider
 	{
-
-		public SoundCloudApi Api { get; set; }
+		public new SoundCloudApi Api {
+			get {  return (SoundCloudApi) base.Api; }
+		}
 
 		public SoundCloudProvider(HttpMessageHandler handler = null) : this(new SoundCloudApi("soundcloud",handler))
 		{
@@ -26,7 +27,7 @@ namespace SoundCloud
 
 		public SoundCloudProvider(SoundCloudApi api) : base(api)
 		{
-			Api = api;
+
 		}
 
 		public override MediaProviderCapabilities[] Capabilities
@@ -60,12 +61,6 @@ namespace SoundCloud
 		{
 			App.ShowNotImplmented();
 			return false;
-		}
-
-		public override async Task Logout ()
-		{
-			Api.ResetData ();
-			await base.Logout ();
 		}
 
 		public override Task<bool> AddToLibrary(Track track)

@@ -14,12 +14,14 @@ namespace OneDrive
 {
     class OneDriveProvider : MusicProvider
     {
+		public new OneDriveApi Api {
+			get {  return (OneDriveApi) base.Api; }
+		}
+
 		public OneDriveProvider(OneDriveApi api) : base(api)
 	    {
-		    Api = api;
 			Api.AutoAuthenticate = true;
 	    }
-		public OneDriveApi Api {get; set; }
 	    public override ServiceType ServiceType => ServiceType.OneDrive;
 	    public override bool RequiresAuthentication => true;
 	    public override string Id => Api.Identifier;
@@ -239,13 +241,6 @@ namespace OneDrive
 				Api?.CurrentOAuthAccount?.UserData?.TryGetValue("name", out email);
 				return email;
 			}
-		}
-
-		public override async Task Logout()
-		{
-			Api.ResetData();
-			await RemoveApi(Id);
-			ApiManager.Shared.SaveApi(Api);
 		}
     }
 }
