@@ -38,6 +38,11 @@
           <type>Clean</type>
           <command>SetupDev.sh</command>
         </Command>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>../PrebuildStep.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -64,6 +69,11 @@
         <Command>
           <type>Clean</type>
           <command>SetupDev.sh</command>
+        </Command>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>../PrebuildStep.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -99,6 +109,11 @@
           <type>Clean</type>
           <command>SetupDev.sh</command>
         </Command>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>../PrebuildStep.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
       </CustomCommands>
     </CustomCommands>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
@@ -126,6 +141,11 @@
           <type>Clean</type>
           <command>SetupDev.sh</command>
         </Command>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>../PrebuildStep.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -149,6 +169,11 @@
         <Command>
           <type>Clean</type>
           <command>SetupDev.sh</command>
+        </Command>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>../PrebuildStep.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -225,6 +250,11 @@
           <type>Clean</type>
           <command>SetupDev.sh</command>
         </Command>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>../PrebuildStep.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -276,6 +306,11 @@
         <Command>
           <type>Clean</type>
           <command>SetupDev.sh</command>
+        </Command>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>../PrebuildStep.sh</command>
+          <workingdir>${SolutionDir}</workingdir>
         </Command>
       </CustomCommands>
     </CustomCommands>
