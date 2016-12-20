@@ -198,6 +198,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			await GetAuthToken(account as OAuthAccount);
 			if (!account.IsValid())
 			{
+				refreshTask = null;
 				if (await PerformAuthenticate() == null)
 					return false;
 			}
@@ -294,9 +295,10 @@ namespace MusicPlayer.Api.GoogleMusic
 
 		internal async Task GetAuthToken(OAuthAccount account)
 		{
-			var deviceID = string.IsNullOrWhiteSpace (DeviceId) ? Utility.DeviceId : DeviceId;
-			var data = new Dictionary<string, string>
-			{
+			try {
+				var deviceID = string.IsNullOrWhiteSpace (DeviceId) ? Utility.DeviceId : DeviceId;
+				var data = new Dictionary<string, string>
+				{
 				{"app_id", "com.google.PlayMusic"},
 				{"client_id", "228293309116.apps.googleusercontent.com"},
 				{"device_id", deviceID},
@@ -308,29 +310,30 @@ namespace MusicPlayer.Api.GoogleMusic
 					"https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/skyjam"
 				},
 			};
-			//var client = Handler == null ? new HttpClient() : new HttpClient(Handler);
-			var client = new HttpClient(new ModernHttpClient.NativeMessageHandler());
-			client.DefaultRequestHeaders.Authorization =
-				new System.Net.Http.Headers.AuthenticationHeaderValue(CurrentOAuthAccount.TokenType,
-					CurrentAccount.UserData["MasterToken"]);
+				//var client = Handler == null ? new HttpClient() : new HttpClient(Handler);
+				var client = new HttpClient ();
+				client.DefaultRequestHeaders.Authorization =
+					new System.Net.Http.Headers.AuthenticationHeaderValue (CurrentOAuthAccount.TokenType,
+						CurrentAccount.UserData ["MasterToken"]);
 
-			var message =
-				await client.PostAsync("https://www.googleapis.com/oauth2/v2/IssueToken", new FormUrlEncodedContent(data));
-			var json = await message.Content.ReadAsStringAsync();
-			var resp = Deserialize<GoogleTokenIssueResponse>(json);
-			if (resp?.Error?.Code == 400)
-			{
-				account.Token = "";
-				account.RefreshToken = "";
-				account.ExpiresIn = 0;
+				var message =
+					await client.PostAsync ("https://www.googleapis.com/oauth2/v2/IssueToken", new FormUrlEncodedContent (data));
+				var json = await message.Content.ReadAsStringAsync ();
+				var resp = Deserialize<GoogleTokenIssueResponse> (json);
+				if (resp?.Error?.Code == 400) {
+					account.Token = "";
+					account.RefreshToken = "";
+					account.ExpiresIn = 0;
+					SaveAccount (account);
 
-			}
-			else
-			{
-				account.Token = resp.Token;
-				account.ExpiresIn = resp.ExpiresIn;
-				account.Created = DateTime.UtcNow;
-				await PrepareClient(Client);
+				} else {
+					account.Token = resp.Token;
+					account.ExpiresIn = resp.ExpiresIn;
+					account.Created = DateTime.UtcNow;
+					await PrepareClient (Client);
+				}
+			} catch (Exception ex) {
+				LogManager.Shared.Report (ex);
 			}
 		}
 		public override void ResetData ()
