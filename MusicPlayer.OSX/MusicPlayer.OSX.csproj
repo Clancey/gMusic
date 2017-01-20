@@ -457,69 +457,91 @@
     <BundleResource Include="Resources\icon.icns" />
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Black.otf">
       <Link>Resources\Fonts\SF-UI-Display-Black.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Bold.otf">
       <Link>Resources\Fonts\SF-UI-Display-Bold.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Heavy.otf">
       <Link>Resources\Fonts\SF-UI-Display-Heavy.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Light.otf">
       <Link>Resources\Fonts\SF-UI-Display-Light.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Medium.otf">
       <Link>Resources\Fonts\SF-UI-Display-Medium.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Regular.otf">
       <Link>Resources\Fonts\SF-UI-Display-Regular.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Semibold.otf">
       <Link>Resources\Fonts\SF-UI-Display-Semibold.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Thin.otf">
       <Link>Resources\Fonts\SF-UI-Display-Thin.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Ultralight.otf">
       <Link>Resources\Fonts\SF-UI-Display-Ultralight.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Bold.otf">
       <Link>Resources\Fonts\SF-UI-Text-Bold.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-BoldItalic.otf">
       <Link>Resources\Fonts\SF-UI-Text-BoldItalic.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Heavy.otf">
       <Link>Resources\Fonts\SF-UI-Text-Heavy.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-HeavyItalic.otf">
       <Link>Resources\Fonts\SF-UI-Text-HeavyItalic.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Italic.otf">
       <Link>Resources\Fonts\SF-UI-Text-Italic.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Light.otf">
       <Link>Resources\Fonts\SF-UI-Text-Light.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-LightItalic.otf">
       <Link>Resources\Fonts\SF-UI-Text-LightItalic.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Medium.otf">
       <Link>Resources\Fonts\SF-UI-Text-Medium.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-MediumItalic.otf">
       <Link>Resources\Fonts\SF-UI-Text-MediumItalic.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Regular.otf">
       <Link>Resources\Fonts\SF-UI-Text-Regular.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Semibold.otf">
       <Link>Resources\Fonts\SF-UI-Text-Semibold.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-SemiboldItalic.otf">
       <Link>Resources\Fonts\SF-UI-Text-SemiboldItalic.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\Fonts\icomoon.ttf">
       <Link>Resources\Fonts\icomoon.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\accentColor.png">
       <Link>Resources\accentColor.png</Link>
