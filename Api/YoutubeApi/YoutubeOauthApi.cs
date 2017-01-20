@@ -68,11 +68,15 @@ namespace YoutubeApi
 					return null;
 				return account;
 			}
-			var api = ApiManager.Shared.GetMusicProvider (ServiceType.Google);
-			var googleId = api?.Id;
+			var googleProvider = ApiManager.Shared.GetMusicProvider (ServiceType.Google);
+			var googleId = googleProvider?.Id;
 			if (string.IsNullOrWhiteSpace (googleId))
 				return null;
-			account = GetAccount<OAuthAccount> (googleId);
+
+			var googleApi = (googleProvider?.Api as GoogleMusicApi);
+			if (!googleApi?.HasAuthenticated ?? true)
+				await googleApi.Authenticate();
+			account = googleApi?.CurrentOAuthAccount;
 			if (account == null)
 				return null;
 			
@@ -82,7 +86,7 @@ namespace YoutubeApi
 				TokenType = account.TokenType,
 				RefreshToken = "NA",
 				UserData = new Dictionary<string, string>{
-					{"ParentId", api.Id},
+					{"ParentId", googleProvider.Id},
 				}
 			};
 			return currentAccount;
