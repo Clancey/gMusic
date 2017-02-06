@@ -144,7 +144,7 @@ namespace MusicPlayer.Managers
 		{
 			var track = Database.Main.GetObject<Track, TempTrack>(trackId);
 			var noPlayingTrack = new NowplayingTrack(song.Artist, song.Name,
-				new TimeSpan(0, 0, 0, 0, (int) (track?.Duration ?? 0)));
+				TimeSpan.FromSeconds ((int) (track?.Duration ?? 0)));
 			try
 			{
 				lock (locker)
@@ -238,7 +238,7 @@ namespace MusicPlayer.Managers
 					return true;
 				}
 				manager.Queue(new Entry(song.Artist, song.Name, song.Album, DateTime.UtcNow, PlaybackSource.User,
-					new TimeSpan(0, 0, 0, 0, (int) duration), ScrobbleMode.Played));
+				                        TimeSpan.FromSeconds (duration), ScrobbleMode.Played));
 				return true;
 			}
 			catch (Exception ex)
