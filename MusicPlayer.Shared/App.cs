@@ -41,6 +41,7 @@ namespace MusicPlayer
 			if (completed)
 				return;
 			MainThread = Thread.CurrentThread;
+			InMemoryConsole.Current.Activate();
 			TempFileManager.Shared.Cleanup();
 			RegisterCells();
 			var userData = Settings.CurrentUserDetails;

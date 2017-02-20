@@ -10,9 +10,26 @@ namespace MusicPlayer
 {
 	public partial class MainWindow : NSWindow
 	{
-		public MainWindow (IntPtr handle) : base (handle)
+		public MainWindow(IntPtr handle) : base(handle)
 		{
-	
+#if DEBUG
+			var button = new NSButton();
+			button.SetButtonType(NSButtonType.MomentaryChange);
+			button.Frame = new CoreGraphics.CGRect(0, 0, 100, 40);
+			button.Title = "Console";
+			button.Activated += (sender, e) =>
+			{
+				var popover = new NSPopover
+				{
+					ContentSize = new CoreGraphics.CGSize(600, 400),
+					Behavior = NSPopoverBehavior.Transient,
+					Animates = true,
+					ContentViewController = new ConsoleViewController(),
+				};
+				popover.Show(button.Frame, this.ContentView.Superview, NSRectEdge.MinYEdge);
+			};
+			AddViewToTitleBar(button, ContentView.Frame.Width - (button.Frame.Width + 10));
+#endif
 		}
 		public override void SendEvent (NSEvent theEvent)
 		{
@@ -22,5 +39,23 @@ namespace MusicPlayer
 		{
 			base.BecomeMainWindow ();
 		}
+
+		void AddViewToTitleBar(NSView view, nfloat x)
+		{
+			view.Frame = new CoreGraphics.CGRect(x, ContentView.Frame.Height, view.Frame.Width, TitleBarHeight);
+			NSViewResizingMask mask = 0;
+		   if( x > Frame.Width / 2 )
+		   {
+		      mask |= NSViewResizingMask.MinXMargin;
+		   }
+		   else
+		   {
+		      mask |= NSViewResizingMask.MaxXMargin;
+		   }
+			view.AutoresizingMask = mask | NSViewResizingMask.MinYMargin;
+			ContentView.Superview.AddSubview(view);
+		}
+
+		nfloat TitleBarHeight => ContentView.Superview.Frame.Height - ContentView.Frame.Height;
 	}
 }

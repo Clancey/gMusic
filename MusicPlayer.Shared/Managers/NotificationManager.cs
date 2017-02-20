@@ -207,5 +207,10 @@ namespace MusicPlayer.Managers
 			#endif
 			StyleChanged?.InvokeOnMainThread(this);
 		}
+		public event EventHandler ConsoleChanged;
+		public void ProcConsoleChangedd()
+		{
+			ConsoleChanged?.InvokeOnMainThread(this);
+		}
 	}
 }

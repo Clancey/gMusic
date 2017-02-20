@@ -295,6 +295,7 @@
       <Link>ModernHttpClient\iOS\NSErrorExtended.cs</Link>
     </Compile>
     <Compile Include="ApiConstants.Mac.cs" />
+    <Compile Include="Views\ConsoleViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\MainMenu.xib" />
