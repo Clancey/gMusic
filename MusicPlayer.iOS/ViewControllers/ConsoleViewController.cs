@@ -13,7 +13,7 @@ namespace MusicPlayer.iOS
 		}
 		public override void LoadView()
 		{
-			View = new UITextView();
+			View = new UITextView() { Editable = false };
 		}
 
 		public override void ViewWillAppear(bool animated)
