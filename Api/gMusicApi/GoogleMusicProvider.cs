@@ -2213,7 +2213,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				var resp = respTask.Result;
 
 				var returlUri = resp.RequestMessage.RequestUri;
-				resp.Headers.ForEach(x => Console.WriteLine(x));
+				//resp.Headers.ForEach(x => Console.WriteLine(x));
 				if(resp.IsSuccessStatusCode)
 					return new Tuple<string, Uri>(startUrl, returlUri);
 				if (tryCount == 0 && !string.IsNullOrWhiteSpace(track.ServiceExtra))
