@@ -49,6 +49,10 @@ namespace MusicPlayer.iOS.ViewControllers
 					, MusicPlayer.Playback.Equalizer.Shared.CurrentPreset?.Name , "SVG/equalizer.svg", Settings.EqualizerEnabled){ValueUpdated = (b) => MusicPlayer.Playback.Equalizer.Shared.Active = b},
 					new EqualizerViewController()),
 				new Tuple<Element, UIViewController>(new MenuElement("Settings", "SVG/settings.svg"){SaveIndex = false }, new SettingViewController()),
+				#if DEBUG || ADHOC
+
+				new Tuple<Element, UIViewController>(new MenuElement("Console", "SVG/settings.svg"){SaveIndex = false }, new ConsoleViewController()),
+				#endif
 			};
 			Menu = new FlyoutNavigationController {};
 			Menu.NavigationRoot = new RootElement("gMusic")

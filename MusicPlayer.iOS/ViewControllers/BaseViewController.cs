@@ -6,7 +6,7 @@ using UIKit;
 
 namespace MusicPlayer.iOS.ViewControllers
 {
-	internal class BaseViewController : UITableViewController
+	public class BaseViewController : UITableViewController
 	{
 		public bool ShouldHideMenu { get; set; }
 

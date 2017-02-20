@@ -482,6 +482,7 @@
     <Compile Include="ViewControllers\Car\CarSongsViewController.cs" />
     <Compile Include="ViewControllers\Car\CarStyle.cs" />
     <Compile Include="ViewControllers\ServicePickerViewController.cs" />
+    <Compile Include="ViewControllers\ConsoleViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Haneke">

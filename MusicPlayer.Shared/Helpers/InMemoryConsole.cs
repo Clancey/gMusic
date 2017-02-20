@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -56,6 +57,10 @@ namespace MusicPlayer
 			private readonly object privateLockObject = new object();
 
 			readonly ConcurrentQueue<T> queue = new ConcurrentQueue<T>();
+
+			public int Count => queue.Count;
+
+			public T this[int i] => queue.ElementAt(i);
 
 			public int Size { get; private set; }
 
