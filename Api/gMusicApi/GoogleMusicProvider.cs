@@ -2228,7 +2228,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					{
 						var reason = reasons.FirstOrDefault();
 						Console.WriteLine("Rejected reason: " + reason);
-						Xamarin.Insights.Track("Rejected reason","Reason",reason);
+						LogManager.Shared.Log("Rejected reason","Reason",reason);
 						if(reason == "DEVICE_NOT_AUTHORIZED" || reason	== "EXCEEDED_DEVICE_TRANSITION_QUOTA")
 						{
 							LogManager.Shared.GetPlaybackUrlError(reason, tryCount, track);
@@ -2241,7 +2241,7 @@ namespace MusicPlayer.Api.GoogleMusic
                         }
 						else
 						{
-							Xamarin.Insights.Report(new Exception($"Get Url Rejected: {reason}"));
+							LogManager.Shared.Report(new Exception($"Get Url Rejected: {reason}"));
 							return new Tuple<string, Uri>("ERROR", null) ;
 						}
 					}

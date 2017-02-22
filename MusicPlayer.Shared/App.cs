@@ -46,7 +46,7 @@ namespace MusicPlayer
 			RegisterCells();
 			var userData = Settings.CurrentUserDetails;
 			if (userData != null) {
-				Insights.Identify(userData.Email);
+				LogManager.Shared.Identify(userData.Email);
 			}
 			completed = true;
 			await NativeStart();

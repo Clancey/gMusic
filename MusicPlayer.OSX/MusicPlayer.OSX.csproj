@@ -296,6 +296,7 @@
     </Compile>
     <Compile Include="ApiConstants.Mac.cs" />
     <Compile Include="Views\ConsoleViewController.cs" />
+    <Compile Include="Managers\LogManager.Mac.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\MainMenu.xib" />
@@ -355,6 +356,7 @@
     <Folder Include="Plugins\Connectivity\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Controls\" />
+    <Folder Include="Managers\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\SVG\airplay.svg">

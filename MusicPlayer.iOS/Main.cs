@@ -9,15 +9,10 @@ namespace MusicPlayer.iOS
 {
 	public class Application
 	{
-
-		public static Xamarin.ITrackHandle AppStart;
 		// This is the main entry point of the application.
 		static void Main (string[] args)
 		{
 
-			Xamarin.Insights.Initialize (ApiConstants.InsightsApiKey);
-
-			AppStart = Xamarin.Insights.TrackTime ("App Launch Time");
 			UIApplication.CheckForIllegalCrossThreadCalls = false;
 			System.Net.ServicePointManager.DefaultConnectionLimit = 50;
 			NSString appClass = new NSString (@"MyUIApp");

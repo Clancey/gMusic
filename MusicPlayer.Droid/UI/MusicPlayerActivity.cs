@@ -10,6 +10,9 @@ using Android.Provider;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 using MusicPlayer.Managers;
 
 namespace MusicPlayer.Droid.UI
@@ -53,8 +56,8 @@ namespace MusicPlayer.Droid.UI
 			if (IsSetup)
 				return;
 			IsSetup = true;
-
-			Xamarin.Insights.Initialize(ApiConstants.InsightsApiKey, this);
+			MobileCenter.Start(ApiConstants.MobileCenterApiKey,
+					typeof(Analytics), typeof(Crashes));
 			var appInfo = this.ApplicationInfo;
 
 			App.Context = this;

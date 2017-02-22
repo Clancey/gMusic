@@ -285,7 +285,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					Email = email,
 					UserData = data,
 				};
-				Xamarin.Insights.Identify(email,data);
+				LogManager.Shared.Identify(email,data);
 			}
 			catch (Exception ex)
 			{

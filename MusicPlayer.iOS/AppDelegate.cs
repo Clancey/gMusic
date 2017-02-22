@@ -14,6 +14,9 @@ using MusicPlayer.Managers;
 using MusicPlayer.iOS.Playback;
 using MusicPlayer.Data;
 using System.Threading.Tasks;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 
 namespace MusicPlayer.iOS
 {
@@ -40,7 +43,8 @@ namespace MusicPlayer.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary launchOptions)
 		{
 			bool handled = true;
-
+			MobileCenter.Start(ApiConstants.MobileCenterApiKey,
+					typeof(Analytics), typeof(Crashes));
 
 			// Get possible shortcut item
 			if (launchOptions != null && UIApplication.LaunchOptionsShortcutItemKey != null) {
@@ -68,14 +72,6 @@ namespace MusicPlayer.iOS
 			window.RootViewController = new RootViewController();
 
 			CheckLogin();
-			try
-			{
-				Application.AppStart?.Stop();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-			}
 			//TODO: uncomment this to work on the Secondary Screen/Car interface.
 			//TestCarInterface ();
 			return handled;

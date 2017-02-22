@@ -1,18 +1,20 @@
-﻿#if !__OSX__
-using MusicPlayer.Models;
+﻿using MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Xamarin;
 using System.Threading.Tasks;
-using Microsoft.Azure.Mobile.Analytics;
 
 namespace MusicPlayer.Managers
 {
 
 	internal class LogManager : ManagerBase<LogManager>
 	{
+		public void Identify(string email, Dictionary<string, string> data = null)
+		{
+			Xamarin.Insights.Identify(email, data);
+		}
 		public void Report(Exception ex,
 							   [CallerMemberName] string memberName = "",
 							   [CallerFilePath] string sourceFilePath = "",
@@ -24,26 +26,18 @@ namespace MusicPlayer.Managers
 				Console.WriteLine(ex);
 				Console.WriteLine("{0} - {1} - {2} \r\n {3}", sourceFilePath, memberName, sourceLineNumber, ex);
 
-				TrackEvent("Exception", new Dictionary<string, string>{
-					{"Exception",ex.Message},
-					{"Method",memberName},
-					{"File Name",sourceFilePath},
-					{"Line Number",sourceLineNumber.ToString()},
+				Task.Run(()=>{
+					Insights.Report(ex, new Dictionary<string, object>{
+						{"Method",memberName},
+						{"File Name",sourceFilePath},
+						{"Line Number",sourceLineNumber},
+					});
 				});
 			}
 			catch (Exception ex1)
 			{
 				Console.WriteLine(ex1);
 			}
-		}
-
-		void TrackEvent(string name, Dictionary<string, string> data = null)
-		{
-			Task.Run(() => Analytics.TrackEvent(name, data));
-		}
-		void TrackEvent(string name, string key, string value)
-		{
-			TrackEvent(name, new Dictionary<string, string> { { key, value } });
 		}
 		public void Report(MusicPlayer.Api.GoogleMusic.Error error, string requestText,
 							   [CallerMemberName] string memberName = "",
@@ -59,7 +53,7 @@ namespace MusicPlayer.Managers
 				{
 					Data = { { "Code", error.Code }, { "request json", requestText } }
 				};
-				Report(ex, memberName, sourceFilePath, sourceLineNumber);
+				Task.Run(()=> Report(ex, memberName, sourceFilePath, sourceLineNumber));
 			}
 			catch (Exception ex1)
 			{
@@ -76,7 +70,7 @@ namespace MusicPlayer.Managers
 				{"File",sourceFilePath },
 				{"Line number",sourceLineNumber.ToString() },
 			};
-			TrackEvent(message, dictionary);
+			Task.Run(()=> Insights.Track(message, dictionary));
 		}
 
 		public void Log(string message, string key, string value, [CallerMemberName] string memberName = "",
@@ -91,7 +85,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				TrackEvent(message, dictionary);
+				Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -113,7 +107,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				TrackEvent(message, dictionary);
+				Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -138,7 +132,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				TrackEvent(message, dictionary);
+				Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -163,7 +157,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				TrackEvent(message, dictionary);
+				Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -190,7 +184,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				TrackEvent("Failed to get playback url", dictionary);
+				Task.Run(()=> Insights.Track("Failed to get playback url", dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -214,7 +208,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				TrackEvent(message, dictionary);
+				Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -225,7 +219,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Pressed Play");
+				Task.Run(()=>Insights.Track("Pressed Play"));
 			}
 			catch (Exception ex)
 			{
@@ -237,7 +231,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Pressed Pause");
+				Task.Run(()=>{
+					Insights.Track("Pressed Pause");
+				});
 			}
 			catch (Exception ex)
 			{
@@ -250,7 +246,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Pressed Next");
+				Task.Run(()=>Insights.Track("Pressed Next"));
 			}
 			catch (Exception ex)
 			{
@@ -263,7 +259,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Pressed Previous");
+				Task.Run(()=> Insights.Track("Pressed Previous"));
 			}
 			catch (Exception ex)
 			{
@@ -276,11 +272,11 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Play Album", new Dictionary<string, string> {
+				Task.Run(()=> Insights.Track("Play Album", new Dictionary<string, string> {
 					{ "Album", album?.Name },
 					{ "Artist", album?.Artist },
 					{ "Album Artist",album?.AlbumArtist },
-				});
+				}));
 			}
 			catch (Exception ex)
 			{
@@ -294,7 +290,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Artist Play", new Dictionary<string, string> { { "Artist", artist.Name } });
+				Task.Run(()=> Insights.Track("Artist Play", new Dictionary<string, string> { { "Artist", artist.Name } }));
 			}
 			catch (Exception ex)
 			{
@@ -307,7 +303,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Play Song", new Dictionary<string, string>{
+				Task.Run(()=> Insights.Track("Play Song", new Dictionary<string, string>{
 					{"Song",song?.ToString()},
 					{"Title",song?.Name},
 					{"Artist",song?.Artist},
@@ -315,24 +311,20 @@ namespace MusicPlayer.Managers
 					{"Genre", song?.Genre},
 					{"Id", song?.Id},
 					{"ServiceTypes", song?.ServiceTypesString},
-				});
+				}));
 			}
 			catch (Exception ex)
 			{
 				Report(ex);
 			}
 		}
-
-		public void Identify(string email, Dictionary<string, string> data = null)
-		{
-			//Ignore for now, since Mobile Center cannot identify a user
-		}
-
 		public void LogPlay(Genre genre)
 		{
 			try
 			{
-				TrackEvent("Play Genre", "Genre", genre?.Name);
+				Task.Run(()=> Insights.Track("Play Genre", new Dictionary<string, string>{
+					{"Genre",genre?.Name},
+				}));
 			}
 			catch (Exception ex)
 			{
@@ -345,7 +337,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Play Online playlist");
+				Task.Run(()=> Insights.Track("Play Online playlist", new Dictionary<string, string>
+				{
+					}));
 			}
 			catch (Exception ex)
 			{
@@ -357,7 +351,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Play playlist entry");
+				Task.Run(()=> Insights.Track("Play playlist entry", new Dictionary<string, string>
+				{
+					}));
 			}
 			catch (Exception ex)
 			{
@@ -369,7 +365,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Play Playlist");
+				Task.Run(()=> Insights.Track("Play Playlist", new Dictionary<string, string>
+				{
+					}));
 			}
 			catch (Exception ex)
 			{
@@ -377,15 +375,15 @@ namespace MusicPlayer.Managers
 			}
 		}
 
-
+		
 		public void LogPlay(RadioStation station)
 		{
 			try
 			{
-				TrackEvent("Play Station", new Dictionary<string, string>{
+				Task.Run(()=> Insights.Track("Play Station", new Dictionary<string, string>{
 					{"Station",station?.ToString()},
 					{"Id", station?.Id},
-				});
+				}));
 			}
 			catch (Exception ex)
 			{
@@ -393,11 +391,18 @@ namespace MusicPlayer.Managers
 			}
 		}
 
-		public void LogNotImplemented(Dictionary<string, string> extra, string method, string file, int lineNumber)
+		public void LogNotImplemented(Dictionary<string,string> extra,string method, string file, int lineNumber)
 		{
 			try
 			{
-				Report(new Exception($"Not Implemented Exception: {method}"), method, file, lineNumber);
+				extra = extra ?? new Dictionary<string, string>();
+				extra["Method"] = method;
+				extra["File"] = file;
+				extra["Line number"] = lineNumber.ToString();
+				Task.Run(() =>
+					{
+					Insights.Report(new Exception($"Not Implemented Exception: {method}"),extra,Insights.Severity.Error);
+				});
 			}
 			catch (Exception ex)
 			{
@@ -407,4 +412,4 @@ namespace MusicPlayer.Managers
 		}
 	}
 }
-#endif
+

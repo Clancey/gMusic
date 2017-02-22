@@ -359,11 +359,10 @@ namespace MusicPlayer.iOS.ViewControllers
 				mailController.Dispose();
 				mailController = null;
 			}
-
-			Insights.Track("Tapped Feedback");
+			LogManager.Shared.Log("Tapped Feedback");
 			if (!MFMailComposeViewController.CanSendMail)
 			{
-				Insights.Track("Feedback failed: No email");
+				LogManager.Shared.Log("Feedback failed: No email");
 				new AlertView(Strings.PleaseSendAnEmailTo, "Support@youriisolutions.com").Show(this);
 				return;
 			}
@@ -376,11 +375,11 @@ namespace MusicPlayer.iOS.ViewControllers
 				if (args.Result == MFMailComposeResult.Sent)
 				{
 					new AlertView(Strings.ThankYou, Strings.YouShouldReceiveAReplyShortly_).Show(this);
-					Insights.Track("Feedback Sent");
+					LogManager.Shared.Log("Feedback Sent");
 				}
 				else
 				{
-					Insights.Track("Feedback failed", "Reason", args.Result.ToString());
+					LogManager.Shared.Log("Feedback failed", "Reason", args.Result.ToString());
 				}
 				await args.Controller.DismissViewControllerAsync(true);
 				if (tintColor != null)
@@ -392,7 +391,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 		async void RateAppStore()
 		{
-			Insights.Track("Rated app");
+			LogManager.Shared.Log("Rated app");
 			try
 			{
 				var url =
