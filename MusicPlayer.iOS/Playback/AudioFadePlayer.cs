@@ -121,10 +121,10 @@ namespace  MusicPlayer.iOS.Playback
 			return false;
 		}
 
-		public async Task<bool> PlaySong (Song song, bool isVideo)
+		public async Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false)
 		{
 			eqApplied = false;
-			if (isSongPlaying (song))
+			if (!forcePlay && isSongPlaying (song))
 				return true;
 			else if (isSongPrepared (song) || song == fadingToSong) {
 				fadingToSong = null;
