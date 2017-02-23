@@ -70,7 +70,7 @@ namespace MusicPlayer.iOS.Playback
 			Equalizer.Shared.ApplyPreset(curEq);
 			Equalizer.Shared.CurEqId = curEq.GlobalId;
 #endif
-			ApplyEqualizer(Equalizer.Shared.Bands, item);
+			await ApplyEqualizer(Equalizer.Shared.Bands, item);
 		}
 
 		public void UpdateBand(int band, float gain)
@@ -180,7 +180,7 @@ namespace MusicPlayer.iOS.Playback
 				if (context.AudioUnit == null)
 					return;
 
-				var bypass = context.AudioUnit.SetParameter(AudioUnitParameterType.AUNBandEQGain + index, gain,
+				var bypass = context.AudioUnit.SetParameter(AudioUnitParameterType.AUNBandEQGain + index, gain * 1.5f,
 					AudioUnitScopeType.Global);
 				//Console.WriteLine(bypass);
 			}
@@ -312,7 +312,7 @@ namespace MusicPlayer.iOS.Playback
 				}
 
 				context.AudioUnit = audioUnit;
-				uint value = 10;
+				uint value = (uint)Parent.Bands.Length;
 				uint size = sizeof (uint);
 				var stat = AudioUnitSetProperty(audioUnit.Handle, AUNGraphicParams.NumberOfBands, AudioUnitScopeType.Global, 0,
 					ref value, size);
