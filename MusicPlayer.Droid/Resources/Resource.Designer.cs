@@ -29,6 +29,12 @@ namespace MusicPlayer.Droid
 			global::NGraphics.Android.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
 			global::ModernHttpClient.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
 			global::Splat.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
+			global::SimpleAuth.Resource.Id.loginButton = global::MusicPlayer.Droid.Resource.Id.loginButton;
+			global::SimpleAuth.Resource.Id.password = global::MusicPlayer.Droid.Resource.Id.password;
+			global::SimpleAuth.Resource.Id.username = global::MusicPlayer.Droid.Resource.Id.username;
+			global::SimpleAuth.Resource.Layout.login = global::MusicPlayer.Droid.Resource.Layout.login;
+			global::SimpleAuth.Resource.String.ApplicationName = global::MusicPlayer.Droid.Resource.String.ApplicationName;
+			global::SimpleAuth.Resource.String.Hello = global::MusicPlayer.Droid.Resource.String.Hello;
 			global::SimpleTables.Resource.Animation.slide_in_left = global::MusicPlayer.Droid.Resource.Animation.slide_in_left;
 			global::SimpleTables.Resource.Animation.slide_in_right = global::MusicPlayer.Droid.Resource.Animation.slide_in_right;
 			global::SimpleTables.Resource.Animation.slide_out_left = global::MusicPlayer.Droid.Resource.Animation.slide_out_left;
@@ -3034,8 +3040,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0088
 			public const int LinearLayout01 = 2131558536;
 			
-			// aapt resource value: 0x7f0d00cd
-			public const int action0 = 2131558605;
+			// aapt resource value: 0x7f0d00d0
+			public const int action0 = 2131558608;
 			
 			// aapt resource value: 0x7f0d0065
 			public const int action_bar = 2131558501;
@@ -3058,17 +3064,17 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0042
 			public const int action_bar_title = 2131558466;
 			
-			// aapt resource value: 0x7f0d00ca
-			public const int action_container = 2131558602;
+			// aapt resource value: 0x7f0d00cd
+			public const int action_container = 2131558605;
 			
 			// aapt resource value: 0x7f0d0066
 			public const int action_context_bar = 2131558502;
 			
-			// aapt resource value: 0x7f0d00d1
-			public const int action_divider = 2131558609;
+			// aapt resource value: 0x7f0d00d4
+			public const int action_divider = 2131558612;
 			
-			// aapt resource value: 0x7f0d00cb
-			public const int action_image = 2131558603;
+			// aapt resource value: 0x7f0d00ce
+			public const int action_image = 2131558606;
 			
 			// aapt resource value: 0x7f0d0005
 			public const int action_menu_divider = 2131558405;
@@ -3085,11 +3091,11 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0044
 			public const int action_mode_close_button = 2131558468;
 			
-			// aapt resource value: 0x7f0d00cc
-			public const int action_text = 2131558604;
+			// aapt resource value: 0x7f0d00cf
+			public const int action_text = 2131558607;
 			
-			// aapt resource value: 0x7f0d00da
-			public const int actions = 2131558618;
+			// aapt resource value: 0x7f0d00dd
+			public const int actions = 2131558621;
 			
 			// aapt resource value: 0x7f0d0045
 			public const int activity_chooser_view_content = 2131558469;
@@ -3127,8 +3133,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d004c
 			public const int buttonPanel = 2131558476;
 			
-			// aapt resource value: 0x7f0d00ce
-			public const int cancel_action = 2131558606;
+			// aapt resource value: 0x7f0d00d1
+			public const int cancel_action = 2131558609;
 			
 			// aapt resource value: 0x7f0d0017
 			public const int center = 2131558423;
@@ -3142,8 +3148,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d005c
 			public const int checkbox = 2131558492;
 			
-			// aapt resource value: 0x7f0d00d6
-			public const int chronometer = 2131558614;
+			// aapt resource value: 0x7f0d00d9
+			public const int chronometer = 2131558617;
 			
 			// aapt resource value: 0x7f0d0023
 			public const int clip_horizontal = 2131558435;
@@ -3181,8 +3187,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0048
 			public const int default_activity_button = 2131558472;
 			
-			// aapt resource value: 0x7f0d00af
-			public const int description = 2131558575;
+			// aapt resource value: 0x7f0d00b2
+			public const int description = 2131558578;
 			
 			// aapt resource value: 0x7f0d0091
 			public const int design_bottom_sheet = 2131558545;
@@ -3250,8 +3256,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d007c
 			public const int endText = 2131558524;
 			
-			// aapt resource value: 0x7f0d00de
-			public const int end_padder = 2131558622;
+			// aapt resource value: 0x7f0d00e1
+			public const int end_padder = 2131558625;
 			
 			// aapt resource value: 0x7f0d0010
 			public const int enterAlways = 2131558416;
@@ -3301,8 +3307,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d004a
 			public const int icon = 2131558474;
 			
-			// aapt resource value: 0x7f0d00db
-			public const int icon_group = 2131558619;
+			// aapt resource value: 0x7f0d00de
+			public const int icon_group = 2131558622;
 			
 			// aapt resource value: 0x7f0d003f
 			public const int ifRoom = 2131558463;
@@ -3310,8 +3316,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0047
 			public const int image = 2131558471;
 			
-			// aapt resource value: 0x7f0d00d7
-			public const int info = 2131558615;
+			// aapt resource value: 0x7f0d00da
+			public const int info = 2131558618;
 			
 			// aapt resource value: 0x7f0d000c
 			public const int item_touch_helper_previous_elevation = 2131558412;
@@ -3340,17 +3346,20 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d00a9
 			public const int list_view = 2131558569;
 			
-			// aapt resource value: 0x7f0d00df
-			public const int main_browse_fragment = 2131558623;
+			// aapt resource value: 0x7f0d00b0
+			public const int loginButton = 2131558576;
 			
-			// aapt resource value: 0x7f0d00e3
-			public const int masked = 2131558627;
-			
-			// aapt resource value: 0x7f0d00d0
-			public const int media_actions = 2131558608;
+			// aapt resource value: 0x7f0d00e2
+			public const int main_browse_fragment = 2131558626;
 			
 			// aapt resource value: 0x7f0d00e6
-			public const int media_route_menu_item = 2131558630;
+			public const int masked = 2131558630;
+			
+			// aapt resource value: 0x7f0d00d3
+			public const int media_actions = 2131558611;
+			
+			// aapt resource value: 0x7f0d00e9
+			public const int media_route_menu_item = 2131558633;
 			
 			// aapt resource value: 0x7f0d003c
 			public const int middle = 2131558460;
@@ -3358,80 +3367,80 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0028
 			public const int mini = 2131558440;
 			
-			// aapt resource value: 0x7f0d00bc
-			public const int mr_art = 2131558588;
-			
-			// aapt resource value: 0x7f0d00b1
-			public const int mr_chooser_list = 2131558577;
+			// aapt resource value: 0x7f0d00bf
+			public const int mr_art = 2131558591;
 			
 			// aapt resource value: 0x7f0d00b4
-			public const int mr_chooser_route_desc = 2131558580;
-			
-			// aapt resource value: 0x7f0d00b2
-			public const int mr_chooser_route_icon = 2131558578;
-			
-			// aapt resource value: 0x7f0d00b3
-			public const int mr_chooser_route_name = 2131558579;
-			
-			// aapt resource value: 0x7f0d00b0
-			public const int mr_chooser_title = 2131558576;
-			
-			// aapt resource value: 0x7f0d00b9
-			public const int mr_close = 2131558585;
-			
-			// aapt resource value: 0x7f0d00bf
-			public const int mr_control_divider = 2131558591;
-			
-			// aapt resource value: 0x7f0d00c5
-			public const int mr_control_play_pause = 2131558597;
-			
-			// aapt resource value: 0x7f0d00c8
-			public const int mr_control_subtitle = 2131558600;
-			
-			// aapt resource value: 0x7f0d00c7
-			public const int mr_control_title = 2131558599;
-			
-			// aapt resource value: 0x7f0d00c6
-			public const int mr_control_title_container = 2131558598;
-			
-			// aapt resource value: 0x7f0d00ba
-			public const int mr_custom_control = 2131558586;
-			
-			// aapt resource value: 0x7f0d00bb
-			public const int mr_default_control = 2131558587;
-			
-			// aapt resource value: 0x7f0d00b6
-			public const int mr_dialog_area = 2131558582;
-			
-			// aapt resource value: 0x7f0d00b5
-			public const int mr_expandable_area = 2131558581;
-			
-			// aapt resource value: 0x7f0d00c9
-			public const int mr_group_expand_collapse = 2131558601;
-			
-			// aapt resource value: 0x7f0d00bd
-			public const int mr_media_main_control = 2131558589;
-			
-			// aapt resource value: 0x7f0d00b8
-			public const int mr_name = 2131558584;
-			
-			// aapt resource value: 0x7f0d00be
-			public const int mr_playback_control = 2131558590;
+			public const int mr_chooser_list = 2131558580;
 			
 			// aapt resource value: 0x7f0d00b7
-			public const int mr_title_bar = 2131558583;
+			public const int mr_chooser_route_desc = 2131558583;
+			
+			// aapt resource value: 0x7f0d00b5
+			public const int mr_chooser_route_icon = 2131558581;
+			
+			// aapt resource value: 0x7f0d00b6
+			public const int mr_chooser_route_name = 2131558582;
+			
+			// aapt resource value: 0x7f0d00b3
+			public const int mr_chooser_title = 2131558579;
+			
+			// aapt resource value: 0x7f0d00bc
+			public const int mr_close = 2131558588;
+			
+			// aapt resource value: 0x7f0d00c2
+			public const int mr_control_divider = 2131558594;
+			
+			// aapt resource value: 0x7f0d00c8
+			public const int mr_control_play_pause = 2131558600;
+			
+			// aapt resource value: 0x7f0d00cb
+			public const int mr_control_subtitle = 2131558603;
+			
+			// aapt resource value: 0x7f0d00ca
+			public const int mr_control_title = 2131558602;
+			
+			// aapt resource value: 0x7f0d00c9
+			public const int mr_control_title_container = 2131558601;
+			
+			// aapt resource value: 0x7f0d00bd
+			public const int mr_custom_control = 2131558589;
+			
+			// aapt resource value: 0x7f0d00be
+			public const int mr_default_control = 2131558590;
+			
+			// aapt resource value: 0x7f0d00b9
+			public const int mr_dialog_area = 2131558585;
+			
+			// aapt resource value: 0x7f0d00b8
+			public const int mr_expandable_area = 2131558584;
+			
+			// aapt resource value: 0x7f0d00cc
+			public const int mr_group_expand_collapse = 2131558604;
 			
 			// aapt resource value: 0x7f0d00c0
-			public const int mr_volume_control = 2131558592;
+			public const int mr_media_main_control = 2131558592;
+			
+			// aapt resource value: 0x7f0d00bb
+			public const int mr_name = 2131558587;
 			
 			// aapt resource value: 0x7f0d00c1
-			public const int mr_volume_group_list = 2131558593;
+			public const int mr_playback_control = 2131558593;
+			
+			// aapt resource value: 0x7f0d00ba
+			public const int mr_title_bar = 2131558586;
 			
 			// aapt resource value: 0x7f0d00c3
-			public const int mr_volume_item_icon = 2131558595;
+			public const int mr_volume_control = 2131558595;
 			
 			// aapt resource value: 0x7f0d00c4
-			public const int mr_volume_slider = 2131558596;
+			public const int mr_volume_group_list = 2131558596;
+			
+			// aapt resource value: 0x7f0d00c6
+			public const int mr_volume_item_icon = 2131558598;
+			
+			// aapt resource value: 0x7f0d00c7
+			public const int mr_volume_slider = 2131558599;
 			
 			// aapt resource value: 0x7f0d002c
 			public const int multiply = 2131558444;
@@ -3439,14 +3448,14 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0086
 			public const int nav_view = 2131558534;
 			
-			// aapt resource value: 0x7f0d00e4
-			public const int navigation_allmusic = 2131558628;
+			// aapt resource value: 0x7f0d00e7
+			public const int navigation_allmusic = 2131558631;
 			
 			// aapt resource value: 0x7f0d0094
 			public const int navigation_header_container = 2131558548;
 			
-			// aapt resource value: 0x7f0d00e5
-			public const int navigation_playlists = 2131558629;
+			// aapt resource value: 0x7f0d00e8
+			public const int navigation_playlists = 2131558632;
 			
 			// aapt resource value: 0x7f0d0040
 			public const int never = 2131558464;
@@ -3460,14 +3469,14 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0029
 			public const int normal = 2131558441;
 			
-			// aapt resource value: 0x7f0d00d9
-			public const int notification_background = 2131558617;
+			// aapt resource value: 0x7f0d00dc
+			public const int notification_background = 2131558620;
 			
-			// aapt resource value: 0x7f0d00d3
-			public const int notification_main_column = 2131558611;
+			// aapt resource value: 0x7f0d00d6
+			public const int notification_main_column = 2131558614;
 			
-			// aapt resource value: 0x7f0d00d2
-			public const int notification_main_column_container = 2131558610;
+			// aapt resource value: 0x7f0d00d5
+			public const int notification_main_column_container = 2131558613;
 			
 			// aapt resource value: 0x7f0d0074
 			public const int pageView = 2131558516;
@@ -3478,17 +3487,20 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d004e
 			public const int parentPanel = 2131558478;
 			
+			// aapt resource value: 0x7f0d00af
+			public const int password = 2131558575;
+			
 			// aapt resource value: 0x7f0d0022
 			public const int pin = 2131558434;
 			
-			// aapt resource value: 0x7f0d00ae
-			public const int play_eq = 2131558574;
+			// aapt resource value: 0x7f0d00b1
+			public const int play_eq = 2131558577;
 			
 			// aapt resource value: 0x7f0d007e
 			public const int play_pause = 2131558526;
 			
-			// aapt resource value: 0x7f0d00e0
-			public const int playback_controls_fragment = 2131558624;
+			// aapt resource value: 0x7f0d00e3
+			public const int playback_controls_fragment = 2131558627;
 			
 			// aapt resource value: 0x7f0d00a7
 			public const int playback_error = 2131558567;
@@ -3511,11 +3523,11 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d001d
 			public const int right = 2131558429;
 			
-			// aapt resource value: 0x7f0d00d8
-			public const int right_icon = 2131558616;
+			// aapt resource value: 0x7f0d00db
+			public const int right_icon = 2131558619;
 			
-			// aapt resource value: 0x7f0d00d4
-			public const int right_side = 2131558612;
+			// aapt resource value: 0x7f0d00d7
+			public const int right_side = 2131558615;
 			
 			// aapt resource value: 0x7f0d002d
 			public const int screen = 2131558445;
@@ -3616,8 +3628,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d007a
 			public const int startText = 2131558522;
 			
-			// aapt resource value: 0x7f0d00cf
-			public const int status_bar_latest_event_content = 2131558607;
+			// aapt resource value: 0x7f0d00d2
+			public const int status_bar_latest_event_content = 2131558610;
 			
 			// aapt resource value: 0x7f0d005f
 			public const int submenuarrow = 2131558495;
@@ -3631,11 +3643,11 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d000f
 			public const int tag_mediaitem_state_cache = 2131558415;
 			
-			// aapt resource value: 0x7f0d00dd
-			public const int text = 2131558621;
+			// aapt resource value: 0x7f0d00e0
+			public const int text = 2131558624;
 			
-			// aapt resource value: 0x7f0d00dc
-			public const int text2 = 2131558620;
+			// aapt resource value: 0x7f0d00df
+			public const int text2 = 2131558623;
 			
 			// aapt resource value: 0x7f0d0053
 			public const int textSpacerNoButtons = 2131558483;
@@ -3652,8 +3664,8 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0001
 			public const int textinput_error = 2131558401;
 			
-			// aapt resource value: 0x7f0d00d5
-			public const int time = 2131558613;
+			// aapt resource value: 0x7f0d00d8
+			public const int time = 2131558616;
 			
 			// aapt resource value: 0x7f0d004b
 			public const int title = 2131558475;
@@ -3706,17 +3718,20 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0d0038
 			public const int useLogo = 2131558456;
 			
-			// aapt resource value: 0x7f0d00e1
-			public const int vertical_grid_fragment = 2131558625;
+			// aapt resource value: 0x7f0d00ae
+			public const int username = 2131558574;
+			
+			// aapt resource value: 0x7f0d00e4
+			public const int vertical_grid_fragment = 2131558628;
 			
 			// aapt resource value: 0x7f0d0002
 			public const int view_offset_helper = 2131558402;
 			
-			// aapt resource value: 0x7f0d00e2
-			public const int visible = 2131558626;
+			// aapt resource value: 0x7f0d00e5
+			public const int visible = 2131558629;
 			
-			// aapt resource value: 0x7f0d00c2
-			public const int volume_item_container = 2131558594;
+			// aapt resource value: 0x7f0d00c5
+			public const int volume_item_container = 2131558597;
 			
 			// aapt resource value: 0x7f0d0041
 			public const int withText = 2131558465;
@@ -4007,94 +4022,97 @@ namespace MusicPlayer.Droid
 			public const int include_toolbar = 2130903106;
 			
 			// aapt resource value: 0x7f030043
-			public const int media_list_item = 2130903107;
+			public const int login = 2130903107;
 			
 			// aapt resource value: 0x7f030044
-			public const int mr_chooser_dialog = 2130903108;
+			public const int media_list_item = 2130903108;
 			
 			// aapt resource value: 0x7f030045
-			public const int mr_chooser_list_item = 2130903109;
+			public const int mr_chooser_dialog = 2130903109;
 			
 			// aapt resource value: 0x7f030046
-			public const int mr_controller_material_dialog_b = 2130903110;
+			public const int mr_chooser_list_item = 2130903110;
 			
 			// aapt resource value: 0x7f030047
-			public const int mr_controller_volume_item = 2130903111;
+			public const int mr_controller_material_dialog_b = 2130903111;
 			
 			// aapt resource value: 0x7f030048
-			public const int mr_playback_control = 2130903112;
+			public const int mr_controller_volume_item = 2130903112;
 			
 			// aapt resource value: 0x7f030049
-			public const int mr_volume_control = 2130903113;
+			public const int mr_playback_control = 2130903113;
 			
 			// aapt resource value: 0x7f03004a
-			public const int nav_header = 2130903114;
+			public const int mr_volume_control = 2130903114;
 			
 			// aapt resource value: 0x7f03004b
-			public const int notification_action = 2130903115;
+			public const int nav_header = 2130903115;
 			
 			// aapt resource value: 0x7f03004c
-			public const int notification_action_tombstone = 2130903116;
+			public const int notification_action = 2130903116;
 			
 			// aapt resource value: 0x7f03004d
-			public const int notification_media_action = 2130903117;
+			public const int notification_action_tombstone = 2130903117;
 			
 			// aapt resource value: 0x7f03004e
-			public const int notification_media_cancel_action = 2130903118;
+			public const int notification_media_action = 2130903118;
 			
 			// aapt resource value: 0x7f03004f
-			public const int notification_template_big_media = 2130903119;
+			public const int notification_media_cancel_action = 2130903119;
 			
 			// aapt resource value: 0x7f030050
-			public const int notification_template_big_media_custom = 2130903120;
+			public const int notification_template_big_media = 2130903120;
 			
 			// aapt resource value: 0x7f030051
-			public const int notification_template_big_media_narrow = 2130903121;
+			public const int notification_template_big_media_custom = 2130903121;
 			
 			// aapt resource value: 0x7f030052
-			public const int notification_template_big_media_narrow_custom = 2130903122;
+			public const int notification_template_big_media_narrow = 2130903122;
 			
 			// aapt resource value: 0x7f030053
-			public const int notification_template_custom_big = 2130903123;
+			public const int notification_template_big_media_narrow_custom = 2130903123;
 			
 			// aapt resource value: 0x7f030054
-			public const int notification_template_icon_group = 2130903124;
+			public const int notification_template_custom_big = 2130903124;
 			
 			// aapt resource value: 0x7f030055
-			public const int notification_template_lines_media = 2130903125;
+			public const int notification_template_icon_group = 2130903125;
 			
 			// aapt resource value: 0x7f030056
-			public const int notification_template_media = 2130903126;
+			public const int notification_template_lines_media = 2130903126;
 			
 			// aapt resource value: 0x7f030057
-			public const int notification_template_media_custom = 2130903127;
+			public const int notification_template_media = 2130903127;
 			
 			// aapt resource value: 0x7f030058
-			public const int notification_template_part_chronometer = 2130903128;
+			public const int notification_template_media_custom = 2130903128;
 			
 			// aapt resource value: 0x7f030059
-			public const int notification_template_part_time = 2130903129;
+			public const int notification_template_part_chronometer = 2130903129;
 			
 			// aapt resource value: 0x7f03005a
-			public const int select_dialog_item_material = 2130903130;
+			public const int notification_template_part_time = 2130903130;
 			
 			// aapt resource value: 0x7f03005b
-			public const int select_dialog_multichoice_material = 2130903131;
+			public const int select_dialog_item_material = 2130903131;
 			
 			// aapt resource value: 0x7f03005c
-			public const int select_dialog_singlechoice_material = 2130903132;
+			public const int select_dialog_multichoice_material = 2130903132;
 			
 			// aapt resource value: 0x7f03005d
-			public const int support_simple_spinner_dropdown_item = 2130903133;
+			public const int select_dialog_singlechoice_material = 2130903133;
 			
 			// aapt resource value: 0x7f03005e
-			public const int tv_activity_player = 2130903134;
+			public const int support_simple_spinner_dropdown_item = 2130903134;
 			
 			// aapt resource value: 0x7f03005f
-			public const int tv_playback_controls = 2130903135;
+			public const int tv_activity_player = 2130903135;
 			
 			// aapt resource value: 0x7f030060
-			public const int tv_vertical_grid = 2130903136;
+			public const int tv_playback_controls = 2130903136;
+			
+			// aapt resource value: 0x7f030061
+			public const int tv_vertical_grid = 2130903137;
 			
 			static Layout()
 			{
@@ -4127,6 +4145,12 @@ namespace MusicPlayer.Droid
 		
 		public partial class String
 		{
+			
+			// aapt resource value: 0x7f0b003f
+			public const int ApplicationName = 2131427391;
+			
+			// aapt resource value: 0x7f0b003e
+			public const int Hello = 2131427390;
 			
 			// aapt resource value: 0x7f0b001c
 			public const int abc_action_bar_home_description = 2131427356;
@@ -4221,92 +4245,92 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0b002e
 			public const int abc_toolbar_collapse_description = 2131427374;
 			
-			// aapt resource value: 0x7f0b0053
-			public const int action_listen = 2131427411;
+			// aapt resource value: 0x7f0b0055
+			public const int action_listen = 2131427413;
 			
-			// aapt resource value: 0x7f0b003e
-			public const int app_name = 2131427390;
+			// aapt resource value: 0x7f0b0040
+			public const int app_name = 2131427392;
 			
 			// aapt resource value: 0x7f0b0014
 			public const int appbar_scrolling_view_behavior = 2131427348;
 			
-			// aapt resource value: 0x7f0b005a
-			public const int background_image_str = 2131427418;
+			// aapt resource value: 0x7f0b005c
+			public const int background_image_str = 2131427420;
 			
 			// aapt resource value: 0x7f0b0015
 			public const int bottom_sheet_behavior = 2131427349;
 			
-			// aapt resource value: 0x7f0b0042
-			public const int browse_genre_subtitle = 2131427394;
-			
-			// aapt resource value: 0x7f0b0041
-			public const int browse_genres = 2131427393;
+			// aapt resource value: 0x7f0b0044
+			public const int browse_genre_subtitle = 2131427396;
 			
 			// aapt resource value: 0x7f0b0043
-			public const int browse_musics_by_genre_subtitle = 2131427395;
+			public const int browse_genres = 2131427395;
 			
-			// aapt resource value: 0x7f0b0050
-			public const int cast_application_id = 2131427408;
+			// aapt resource value: 0x7f0b0045
+			public const int browse_musics_by_genre_subtitle = 2131427397;
 			
-			// aapt resource value: 0x7f0b0047
-			public const int casting_to_device = 2131427399;
+			// aapt resource value: 0x7f0b0052
+			public const int cast_application_id = 2131427410;
+			
+			// aapt resource value: 0x7f0b0049
+			public const int casting_to_device = 2131427401;
 			
 			// aapt resource value: 0x7f0b0016
 			public const int character_counter_pattern = 2131427350;
 			
-			// aapt resource value: 0x7f0b0055
-			public const int close_content_drawer = 2131427413;
+			// aapt resource value: 0x7f0b0057
+			public const int close_content_drawer = 2131427415;
 			
-			// aapt resource value: 0x7f0b0049
-			public const int currently_playing_artist = 2131427401;
+			// aapt resource value: 0x7f0b004b
+			public const int currently_playing_artist = 2131427403;
+			
+			// aapt resource value: 0x7f0b004c
+			public const int currently_playing_extra_info = 2131427404;
 			
 			// aapt resource value: 0x7f0b004a
-			public const int currently_playing_extra_info = 2131427402;
+			public const int currently_playing_song = 2131427402;
+			
+			// aapt resource value: 0x7f0b0059
+			public const int drawer_allmusic_title = 2131427417;
+			
+			// aapt resource value: 0x7f0b005a
+			public const int drawer_playlists_title = 2131427418;
 			
 			// aapt resource value: 0x7f0b0048
-			public const int currently_playing_song = 2131427400;
+			public const int error_loading_media = 2131427400;
 			
-			// aapt resource value: 0x7f0b0057
-			public const int drawer_allmusic_title = 2131427415;
+			// aapt resource value: 0x7f0b0047
+			public const int error_no_connection = 2131427399;
 			
-			// aapt resource value: 0x7f0b0058
-			public const int drawer_playlists_title = 2131427416;
+			// aapt resource value: 0x7f0b0042
+			public const int error_no_metadata = 2131427394;
 			
-			// aapt resource value: 0x7f0b0046
-			public const int error_loading_media = 2131427398;
+			// aapt resource value: 0x7f0b0041
+			public const int favorite = 2131427393;
 			
-			// aapt resource value: 0x7f0b0045
-			public const int error_no_connection = 2131427397;
+			// aapt resource value: 0x7f0b0053
+			public const int home_title = 2131427411;
 			
-			// aapt resource value: 0x7f0b0040
-			public const int error_no_metadata = 2131427392;
-			
-			// aapt resource value: 0x7f0b003f
-			public const int favorite = 2131427391;
-			
-			// aapt resource value: 0x7f0b0051
-			public const int home_title = 2131427409;
-			
-			// aapt resource value: 0x7f0b0063
-			public const int label_next = 2131427427;
-			
-			// aapt resource value: 0x7f0b0060
-			public const int label_pause = 2131427424;
-			
-			// aapt resource value: 0x7f0b0061
-			public const int label_play = 2131427425;
+			// aapt resource value: 0x7f0b0065
+			public const int label_next = 2131427429;
 			
 			// aapt resource value: 0x7f0b0062
-			public const int label_previous = 2131427426;
+			public const int label_pause = 2131427426;
+			
+			// aapt resource value: 0x7f0b0063
+			public const int label_play = 2131427427;
+			
+			// aapt resource value: 0x7f0b0064
+			public const int label_previous = 2131427428;
 			
 			// aapt resource value: 0x7f0b003d
 			public const int library_name = 2131427389;
 			
-			// aapt resource value: 0x7f0b005d
-			public const int loading = 2131427421;
+			// aapt resource value: 0x7f0b005f
+			public const int loading = 2131427423;
 			
-			// aapt resource value: 0x7f0b005e
-			public const int media_route_menu_title = 2131427422;
+			// aapt resource value: 0x7f0b0060
+			public const int media_route_menu_title = 2131427424;
 			
 			// aapt resource value: 0x7f0b0000
 			public const int mr_button_content_description = 2131427328;
@@ -4368,14 +4392,14 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0b0013
 			public const int mr_user_route_category_name = 2131427347;
 			
-			// aapt resource value: 0x7f0b005c
-			public const int no_search_results = 2131427420;
+			// aapt resource value: 0x7f0b005e
+			public const int no_search_results = 2131427422;
 			
-			// aapt resource value: 0x7f0b0059
-			public const int now_playing = 2131427417;
+			// aapt resource value: 0x7f0b005b
+			public const int now_playing = 2131427419;
 			
-			// aapt resource value: 0x7f0b0054
-			public const int open_content_drawer = 2131427412;
+			// aapt resource value: 0x7f0b0056
+			public const int open_content_drawer = 2131427414;
 			
 			// aapt resource value: 0x7f0b0017
 			public const int password_toggle_content_description = 2131427351;
@@ -4392,41 +4416,41 @@ namespace MusicPlayer.Droid
 			// aapt resource value: 0x7f0b001b
 			public const int path_password_strike_through = 2131427355;
 			
-			// aapt resource value: 0x7f0b0056
-			public const int placeholder_message = 2131427414;
+			// aapt resource value: 0x7f0b0058
+			public const int placeholder_message = 2131427416;
 			
-			// aapt resource value: 0x7f0b004b
-			public const int play_item = 2131427403;
+			// aapt resource value: 0x7f0b004d
+			public const int play_item = 2131427405;
 			
-			// aapt resource value: 0x7f0b004c
-			public const int play_pause = 2131427404;
+			// aapt resource value: 0x7f0b004e
+			public const int play_pause = 2131427406;
 			
-			// aapt resource value: 0x7f0b0044
-			public const int random_queue_title = 2131427396;
+			// aapt resource value: 0x7f0b0046
+			public const int random_queue_title = 2131427398;
 			
-			// aapt resource value: 0x7f0b0052
-			public const int related_content_header = 2131427410;
+			// aapt resource value: 0x7f0b0054
+			public const int related_content_header = 2131427412;
 			
 			// aapt resource value: 0x7f0b002f
 			public const int search_menu_title = 2131427375;
 			
-			// aapt resource value: 0x7f0b005b
-			public const int search_queue_title = 2131427419;
+			// aapt resource value: 0x7f0b005d
+			public const int search_queue_title = 2131427421;
 			
-			// aapt resource value: 0x7f0b004d
-			public const int skip_next = 2131427405;
+			// aapt resource value: 0x7f0b004f
+			public const int skip_next = 2131427407;
 			
-			// aapt resource value: 0x7f0b004e
-			public const int skip_prev = 2131427406;
+			// aapt resource value: 0x7f0b0050
+			public const int skip_prev = 2131427408;
 			
 			// aapt resource value: 0x7f0b0030
 			public const int status_bar_notification_info_overflow = 2131427376;
 			
-			// aapt resource value: 0x7f0b005f
-			public const int stop_casting = 2131427423;
+			// aapt resource value: 0x7f0b0061
+			public const int stop_casting = 2131427425;
 			
-			// aapt resource value: 0x7f0b004f
-			public const int touch_to_cast = 2131427407;
+			// aapt resource value: 0x7f0b0051
+			public const int touch_to_cast = 2131427409;
 			
 			static String()
 			{

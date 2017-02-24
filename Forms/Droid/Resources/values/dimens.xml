@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="anchor_offset">100dp</dimen>
+    <dimen name="peek_height">50dp</dimen>
+</resources>
