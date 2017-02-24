@@ -682,6 +682,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ApiConstants.targets" />
+  <Import Project="..\Api\GrooveApi\GrooveApi.projitems" Label="Shared" Condition="Exists('..\Api\GrooveApi\GrooveApi.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" />
   <Import Project="..\Api\AmazonApi\AmazonApi.projitems" Label="Shared" />

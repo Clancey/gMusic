@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akavache_Portable", "..\Aka
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDatabase", "..\SimpleDatabase\SimpleDatabase\SimpleDatabase.csproj", "{4FE40048-B716-42ED-9E26-C114689BAAFD}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GrooveApi", "Api\GrooveApi\GrooveApi.shproj", "{0D829CDE-22B7-4EF5-8ED3-645158B73425}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
@@ -803,6 +805,7 @@ Global
 		{241C47DF-CA8E-4296-AA03-2C48BB646ABD} = {50EA9352-CCF6-4A17-8395-416E061EAEDF}
 		{EB73ADDD-2FE9-44C0-A1AB-20709B979B64} = {50EA9352-CCF6-4A17-8395-416E061EAEDF}
 		{4FE40048-B716-42ED-9E26-C114689BAAFD} = {50EA9352-CCF6-4A17-8395-416E061EAEDF}
+		{0D829CDE-22B7-4EF5-8ED3-645158B73425} = {C2182D1F-D0A7-46F2-A56E-59F29F70AE28}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Api\iPodApi\iPodApi.projitems*{dc4dd769-0b5d-4efe-8cd0-5d26c05e7002}*SharedItemsImports = 13

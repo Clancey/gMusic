@@ -794,6 +794,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\ApiConstants.targets" />
+  <Import Project="..\Api\GrooveApi\GrooveApi.projitems" Label="Shared" Condition="Exists('..\Api\GrooveApi\GrooveApi.projitems')" />
   <Import Project="..\..\taglib-sharp\src\taglib-sharp.projitems" Label="Shared" Condition="Exists('..\..\taglib-sharp\src\taglib-sharp.projitems')" />
   <Import Project="..\..\lastfm-sharp\lastfm-sharp\LastFM.projitems" Label="Shared" Condition="Exists('..\..\lastfm-sharp\lastfm-sharp\LastFM.projitems')" />
   <Import Project="..\Api\Api\Api.projitems" Label="Shared" Condition="Exists('..\Api\Api\Api.projitems')" />

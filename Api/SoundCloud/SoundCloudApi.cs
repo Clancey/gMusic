@@ -118,7 +118,7 @@ namespace SoundCloud
 			var resp = await reply.Content.ReadAsStringAsync();
 			var result = Deserialize<OauthResponse>(resp);
 			if (!string.IsNullOrEmpty(result.Error))
-				throw new Exception(result.ErrorDescription);
+				throw new Exception($"{result.Error} : {result.ErrorDescription}");
 
 			var account = new OAuthAccount()
 			{
@@ -130,6 +130,7 @@ namespace SoundCloud
 				Token = result.AccessToken,
 				ClientId = ClientId,
 				Identifier = identifier,
+				IdToken = result.Id
 			};
 			return account;
 		}

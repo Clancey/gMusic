@@ -171,9 +171,10 @@ namespace MusicPlayer.Api
 
 		}
 
-		public override System.Threading.Tasks.Task<bool> Resync ()
+	public override System.Threading.Tasks.Task<bool> Resync ()
 		{
-			throw new NotImplementedException ();
+			return Sync();
+			//throw new NotImplementedException ();
 		}
 
 		public override async System.Threading.Tasks.Task<Uri> GetPlaybackUri (MusicPlayer.Models.Track track)
