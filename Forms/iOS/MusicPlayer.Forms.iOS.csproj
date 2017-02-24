@@ -123,6 +123,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="App.iOS.cs" />
+    <Compile Include="SlideUpPanelRenderer.cs" />
   </ItemGroup>
   <Import Project="..\MusicPlayer.Forms\MusicPlayer.Forms.projitems" Label="Shared" Condition="Exists('..\MusicPlayer.Forms\MusicPlayer.Forms.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

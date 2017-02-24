@@ -8,7 +8,7 @@ namespace MusicPlayer.Forms
 		{
 			InitializeComponent();
 
-			MainPage = new CreateRoot();
+			MainPage = CreateRoot();
 		}
 
 		protected override void OnStart()

@@ -8,5 +8,7 @@ namespace MusicPlayer.Forms
 		{
 
 		}
+
+		public float OverHang { get; set; } = 50;
 	}
 }
