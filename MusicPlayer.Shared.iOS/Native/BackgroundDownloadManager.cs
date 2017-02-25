@@ -11,7 +11,6 @@ using MusicPlayer.Data;
 using MusicPlayer.iOS;
 using MusicPlayer.Models;
 using MusicPlayer.Playback;
-using SimpleTables;
 
 namespace MusicPlayer.Managers
 {

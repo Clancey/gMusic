@@ -13,6 +13,9 @@ using MusicPlayer.Models.Scrobbling;
 using MusicPlayer.ViewModels;
 using SimpleDatabase;
 using MusicPlayer.Playback;
+#if !FORMS
+using SimpleTables;
+#endif
 
 namespace MusicPlayer.Managers
 {
@@ -51,7 +54,7 @@ namespace MusicPlayer.Managers
 			NotificationManager.Shared.FailedDownload += NotificationManager_Shared_FailedDownload;
         }
 
-		void NotificationManager_Shared_FailedDownload (object sender, SimpleTables.EventArgs<string> e)
+		void NotificationManager_Shared_FailedDownload (object sender, EventArgs<string> e)
 		{
 			if(e.Data == Settings.CurrentSong)
 				NextTrack ();

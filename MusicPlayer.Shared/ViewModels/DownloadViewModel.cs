@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !FORMS
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MusicPlayer.Managers;
@@ -33,3 +34,4 @@ namespace MusicPlayer.ViewModels
 		
 	}
 }
+#endif

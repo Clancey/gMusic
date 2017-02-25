@@ -53,11 +53,11 @@ namespace MusicPlayer.ViewModels
 				Title = Playlist.Name ?? "";
 			}
 		}
-		public bool AutoPlayOnSelect {get;set;} = true;
-		public override async void RowSelected(PlaylistSong item)
+		public bool AutoPlayOnSelect { get; set; } = true;
+		public override void RowSelected(PlaylistSong item)
 		{
 			if (AutoPlayOnSelect)
-				PlayItem (item);
+				PlayItem(item);
 		}
 
 		public async void PlayItem(PlaylistSong item)
@@ -67,6 +67,7 @@ namespace MusicPlayer.ViewModels
 
 		async void MoveSong(PlaylistSong song, string prev, string next, int position)
 		{
+#if !FORMS
 			var success = await MusicManager.Shared.MoveSong(song, prev, next, position);
 			if (success)
 			{
@@ -75,6 +76,9 @@ namespace MusicPlayer.ViewModels
 			}
 			//else
 			//	App.ShowMessage("Error moving song.", "Please try again later", "Ok");
+
+
+			#endif
 		}
 
 

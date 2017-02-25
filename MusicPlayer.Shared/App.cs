@@ -5,13 +5,15 @@ using MusicPlayer.Models;
 using System.Threading.Tasks;
 using MusicPlayer.Api;
 using MusicPlayer.Api.GoogleMusic;
-using MusicPlayer.Cells;
 using MusicPlayer.Managers;
 using Xamarin;
 using MusicPlayer.Data;
 using System.Collections.Generic;
 using Localizations;
+#if !FORMS
 using SimpleTables;
+using MusicPlayer.Cells;
+#endif
 
 #if __IOS__
 
@@ -23,7 +25,7 @@ using MusicPlayer.Droid;
 
 namespace MusicPlayer
 {
-	public static partial class App
+	public partial class App
 	{
 		static Thread MainThread;
 		static Task startTask;
@@ -45,7 +47,8 @@ namespace MusicPlayer
 			TempFileManager.Shared.Cleanup();
 			RegisterCells();
 			var userData = Settings.CurrentUserDetails;
-			if (userData != null) {
+			if (userData != null)
+			{
 				LogManager.Shared.Identify(userData.Email);
 			}
 			completed = true;
@@ -56,6 +59,7 @@ namespace MusicPlayer
 
 		static void RegisterCells()
 		{
+#if !FORMS
 			CellRegistrar.Register<Song, SongCell>();
 			CellRegistrar.Register<TempSong, SongCell>();
 			CellRegistrar.Register<Artist, ArtistCell>();
@@ -74,7 +78,8 @@ namespace MusicPlayer
 			CellRegistrar.Register<OnlineArtist, ArtistCell>();
 			CellRegistrar.Register<OnlinePlaylist, PlaylistCell>();
 			CellRegistrar.Register<OnlinePlaylistEntry, PlaylistSongCell>();
-			CellRegistrar.Register<OnlineRadioStation, RadioStationCell> ();
+			CellRegistrar.Register<OnlineRadioStation, RadioStationCell>();
+#endif
 
 		}
 

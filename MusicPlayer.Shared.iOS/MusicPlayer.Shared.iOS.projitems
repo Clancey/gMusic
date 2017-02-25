@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{FC1E5B6F-4279-4146-A3B1-783E47B3AA65}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MusicPlayer.Shared.iOS</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Playback\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Native\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.iOS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiConstants.iOS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\AudioFadePlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\AVPlayerEqualizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\AVPlayerExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\NativeAudioPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\NativeTrackHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\PictureInPictureManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\RemoteControlHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Images.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CGRectHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Device.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Fonts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ImageExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MediaItemImageExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NGraphicsExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ActionSheet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AlertView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Native\BackgroundDownloadManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Native\NativeIndexer.cs" />
+  </ItemGroup>
+</Project>

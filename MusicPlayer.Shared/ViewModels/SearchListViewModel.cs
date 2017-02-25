@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !FORMS
+using System;
 using MusicPlayer.Models;
 using SimpleTables;
 using System.Collections.Generic;
@@ -154,4 +155,4 @@ namespace MusicPlayer
 		#endregion
 	}
 }
-
+#endif

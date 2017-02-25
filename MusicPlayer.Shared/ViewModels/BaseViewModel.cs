@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using MusicPlayer.Data;
 using SimpleDatabase;
+#if !FORMS
 using SimpleTables;
+#endif
 using MusicPlayer;
 
 namespace MusicPlayer.ViewModels
@@ -19,7 +21,7 @@ namespace MusicPlayer.ViewModels
 			set { ProcPropertyChanged(ref title, value); }
 		}
 	}
-
+#if !FORMS
 	public abstract partial class BaseViewModel<T> : TableViewModel<T> where T : new()
 	{
 		public string Title { get; set; }
@@ -155,4 +157,5 @@ namespace MusicPlayer.ViewModels
 			base.Dispose(disposing);
 		}
 	}
+	#endif
 }

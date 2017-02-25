@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+#if !FORMS
+using SimpleTables;
+#endif
 
 namespace MusicPlayer
 {
@@ -16,9 +19,9 @@ namespace MusicPlayer
 			App.RunOnMainThread(() => handler.Invoke(sender, args));
 		}
 
-		public static void InvokeOnMainThread<T>(this EventHandler<SimpleTables.EventArgs<T>> handler, object sender, T args)
+		public static void InvokeOnMainThread<T>(this EventHandler<EventArgs<T>> handler, object sender, T args)
 		{
-			App.RunOnMainThread(() => handler.Invoke(sender, new SimpleTables.EventArgs<T>(args)));
+			App.RunOnMainThread(() => handler.Invoke(sender, new EventArgs<T>(args)));
 		}
 
 		public static void InvokeOnMainThread(this EventHandler handler, object sender)

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;
+#if !FORMS
 using SimpleTables;
+#endif
 
 namespace MusicPlayer.Managers
 {
@@ -202,7 +204,7 @@ namespace MusicPlayer.Managers
 		public event EventHandler StyleChanged;
 		public void ProcStyleChanged()
 		{
-			#if __IOS__
+			#if __IOS__ && !FORMS
 			iOS.Style.SetStyle();
 			#endif
 			StyleChanged?.InvokeOnMainThread(this);

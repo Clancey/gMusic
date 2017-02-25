@@ -15,12 +15,12 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG;ENABLE_TEST_CLOUD;FORMS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchFastDev>false</MtouchFastDev>
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <IOSDebuggerPort>38285</IOSDebuggerPort>
@@ -28,13 +28,15 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
-    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <MtouchExtraArgs>--registrar:dynamic</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;FORMS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -46,12 +48,13 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;FORMS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -61,13 +64,14 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG;ENABLE_TEST_CLOUD;FORMS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -82,6 +86,7 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -102,6 +107,99 @@
     </Reference>
     <Reference Include="Calabash">
       <HintPath>..\..\packages\Xamarin.TestCloud.Agent.0.20.3\lib\Xamarin.iOS10\Calabash.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\..\packages\SQLitePCLRaw.core.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlite3">
+      <HintPath>..\..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="SQLite-net">
+      <HintPath>..\..\packages\sqlite-net-pcl.1.3.1\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleDatabase">
+      <HintPath>..\..\packages\Clancey.SimpleDatabase.1.0.4\lib\Xamarin.iOS10\SimpleDatabase.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAuth">
+      <HintPath>..\..\packages\Clancey.SimpleAuth.1.0.32\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="OnePasswordExtension">
+      <HintPath>..\..\packages\clancey.OnePassword.1.0.3\lib\Xamarin.iOS10\OnePasswordExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAuth.OnePassword.iOS">
+      <HintPath>..\..\packages\Clancey.SimpleAuth.OnePassword.1.0.4\lib\Xamarin.iOS10\SimpleAuth.OnePassword.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphics">
+      <HintPath>..\..\packages\NGraphics.0.4.0\lib\Xamarin.iOS10\NGraphics.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphics.iOS">
+      <HintPath>..\..\packages\NGraphics.0.4.0\lib\Xamarin.iOS10\NGraphics.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.2.5.4\lib\Xamarin.iOS10\Plugin.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.2.5.4\lib\Xamarin.iOS10\Plugin.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity.Abstractions">
+      <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.3.0\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity">
+      <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.3.0\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Punchclock">
+      <HintPath>..\..\packages\Punchclock.2.0.0\lib\netstandard1.0\Punchclock.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="Haneke">
+      <HintPath>..\..\Components\haneke-1.0.1\lib\ios-unified\Haneke.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\..\packages\System.Reactive.Interfaces.3.1.1\lib\netstandard1.0\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\..\packages\System.Reactive.Core.3.1.1\lib\netstandard1.3\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\..\packages\System.Reactive.Linq.3.1.1\lib\netstandard1.3\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\..\packages\System.Reactive.PlatformServices.3.1.1\lib\netstandard1.3\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Mobile">
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.0.6.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.iOS.Bindings">
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.0.6.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.iOS.Bindings.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.Analytics">
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Analytics.0.6.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.Analytics.iOS.Bindings">
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Analytics.0.6.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Analytics.iOS.Bindings.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.Crashes">
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Crashes.0.6.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Crashes.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.Crashes.iOS.Bindings">
+      <HintPath>..\..\packages\Microsoft.Azure.Mobile.Crashes.0.6.0\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Crashes.iOS.Bindings.dll</HintPath>
+    </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\..\packages\BTProgressHUD.1.2.0.3\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +222,69 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="App.iOS.cs" />
     <Compile Include="SlideUpPanelRenderer.cs" />
+    <Compile Include="Helpers\Settings.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Localizations\Localizations.csproj">
+      <Project>{630262F0-FA3F-4DFB-BD64-EFDB89474F49}</Project>
+      <Name>Localizations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Api\Api.iOS\Api.iOS.csproj">
+      <Project>{5914FC5F-C364-4E11-9248-27BA7C8C17D0}</Project>
+      <Name>Api.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="haneke">
+      <Version>1.0.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\accentColor.png">
+      <Link>Resources\accentColor.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\accentColor%402x.png">
+      <Link>Resources\accentColor%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\accentColorHorizontal.png">
+      <Link>Resources\accentColorHorizontal.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\accentColorHorizontal%402x.png">
+      <Link>Resources\accentColorHorizontal%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\empty.mp3">
+      <Link>Resources\empty.mp3</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\headphones.png">
+      <Link>Resources\headphones.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\headphones%402x.png">
+      <Link>Resources\headphones%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\launchBg.png">
+      <Link>Resources\launchBg.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\launchBg%402x.png">
+      <Link>Resources\launchBg%402x.png</Link>
+    </BundleResource>
+  </ItemGroup>
+  <Import Project="..\..\MusicPlayer.Shared.iOS\MusicPlayer.Shared.iOS.projitems" Label="Shared" Condition="Exists('..\..\MusicPlayer.Shared.iOS\MusicPlayer.Shared.iOS.projitems')" />
+  <Import Project="..\..\..\lastfm-sharp\lastfm-sharp\LastFM.projitems" Label="Shared" Condition="Exists('..\..\..\lastfm-sharp\lastfm-sharp\LastFM.projitems')" />
+  <Import Project="..\..\..\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor.projitems" Label="Shared" Condition="Exists('..\..\..\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor.projitems')" />
+  <Import Project="..\..\Api\YoutubeApi\YoutubeApi.projitems" Label="Shared" Condition="Exists('..\..\Api\YoutubeApi\YoutubeApi.projitems')" />
+  <Import Project="..\..\..\taglib-sharp\src\taglib-sharp.projitems" Label="Shared" Condition="Exists('..\..\..\taglib-sharp\src\taglib-sharp.projitems')" />
+  <Import Project="..\..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\..\Api\SoundCloud\SoundCloud.projitems')" />
+  <Import Project="..\..\Api\OneDrive\OneDrive.projitems" Label="Shared" Condition="Exists('..\..\Api\OneDrive\OneDrive.projitems')" />
+  <Import Project="..\..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" Condition="Exists('..\..\Api\gMusicApi\gMusicApi.projitems')" />
+  <Import Project="..\..\Api\GrooveApi\GrooveApi.projitems" Label="Shared" Condition="Exists('..\..\Api\GrooveApi\GrooveApi.projitems')" />
+  <Import Project="..\..\Api\iPodApi\iPodApi.projitems" Label="Shared" Condition="Exists('..\..\Api\iPodApi\iPodApi.projitems')" />
+  <Import Project="..\..\Api\Api\Api.projitems" Label="Shared" Condition="Exists('..\..\Api\Api\Api.projitems')" />
+  <Import Project="..\..\MusicPlayer.Shared\MusicPlayer.Shared.projitems" Label="Shared" Condition="Exists('..\..\MusicPlayer.Shared\MusicPlayer.Shared.projitems')" />
   <Import Project="..\MusicPlayer.Forms\MusicPlayer.Forms.projitems" Label="Shared" Condition="Exists('..\MusicPlayer.Forms\MusicPlayer.Forms.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

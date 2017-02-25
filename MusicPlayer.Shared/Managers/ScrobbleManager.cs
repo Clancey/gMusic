@@ -77,7 +77,7 @@ namespace MusicPlayer.Managers
 				else
 					session = new Session(ApiConstants.LastFmApiKey, ApiConstants.LastFmSecret);
 			}
-			catch (Exception  ex)
+			catch (Exception ex)
 			{
 				LogManager.Shared.Report(ex);
 				session = new Session(ApiConstants.LastFmApiKey, ApiConstants.LastFmSecret);
@@ -100,6 +100,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
+#if !FORMS
 				var credentials = await PopupManager.Shared.GetCredentials("Login to Last.FM", extra, "http://www.last.fm");
 				await session.AuthenticateAsync(credentials.Item1, Utilities.MD5(credentials.Item2));
 				if (session.Authenticated)
@@ -108,6 +109,7 @@ namespace MusicPlayer.Managers
 					Init();
 					return true;
 				}
+				#endif
 				return false;
 			}
 			catch (TaskCanceledException)

@@ -6,7 +6,7 @@ using MusicPlayer.Data;
 using MusicPlayer.Api;
 using MusicPlayer.Api.GoogleMusic;
 using ModernHttpClient;
-using Amazon.CloudDrive;
+//using Amazon.CloudDrive;
 using OneDrive;
 using YoutubeApi;
 using SoundCloud;
@@ -203,8 +203,8 @@ namespace MusicPlayer.Managers
 		{
 			if (api is GoogleMusicApi)
 				return ServiceType.Google;
-			if (api is CloudDriveApi)
-				return ServiceType.Amazon;
+			//if (api is CloudDriveApi)
+			//	return ServiceType.Amazon;
 			if(api is YoutubeOauthApi)
 				return ServiceType.YouTube;
 			if (api is SoundCloudApi)

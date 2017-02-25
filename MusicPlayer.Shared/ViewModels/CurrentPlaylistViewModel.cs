@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !FORMS
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Localizations;
@@ -75,3 +76,4 @@ namespace MusicPlayer.ViewModels
 		#endregion
 	}
 }
+#endif

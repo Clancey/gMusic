@@ -351,31 +351,18 @@
     <Compile Include="Cells\RadioStationCell.cs" />
     <Compile Include="Cells\SongDownloadCell.cs" />
     <Compile Include="Cells\SpinnerCell.cs" />
-    <Compile Include="Controls\ActionSheet.cs" />
-    <Compile Include="Controls\AlertView.cs" />
     <Compile Include="Controls\BlurredImageView.cs" />
     <Compile Include="Controls\LoginEntryAlert.cs" />
     <Compile Include="Controls\OBSlider.cs" />
     <Compile Include="Cells\SettingsBooleanElement.cs" />
     <Compile Include="Cells\SettingsElement.cs" />
     <Compile Include="Cells\SettingsSwitch.cs" />
-    <Compile Include="Helpers\AppStore.cs" />
-    <Compile Include="Helpers\MediaItemImageExtensions.cs" />
     <Compile Include="Helpers\TableViewExtensions.cs" />
     <Compile Include="Native\PopupManager.cs" />
     <Compile Include="Controls\ProgressView.cs" />
     <Compile Include="Controls\TextInputAlert.cs" />
-    <Compile Include="Helpers\CGRectHelpers.cs" />
-    <Compile Include="Helpers\Device.cs" />
-    <Compile Include="Helpers\Fonts.cs" />
-    <Compile Include="Helpers\ImageExtensions.cs" />
-    <Compile Include="Helpers\Images.cs" />
-    <Compile Include="Helpers\NGraphicsExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Native\BackgroundDownloadManager.cs" />
-    <Compile Include="Playback\AVPlayerEqualizer.cs" />
-    <Compile Include="Playback\PictureInPictureManager.cs" />
     <Compile Include="UI\AlbumHeaderView.cs" />
     <Compile Include="UI\DarkBlurView.cs" />
     <Compile Include="UI\VideoView.cs" />
@@ -398,9 +385,6 @@
     <Compile Include="ViewControllers\SettingViewController.cs" />
     <Compile Include="ViewModels\CurrentPlaylistViewModel.cs" />
     <None Include="Info.plist" />
-    <Compile Include="Playback\NativeAudioPlayer.cs" />
-    <Compile Include="Playback\NativeTrackHandler.cs" />
-    <Compile Include="Playback\RemoteControlHandler.cs" />
     <Compile Include="Cells\PlaylistSongCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="packages.config" />
@@ -414,7 +398,6 @@
     <Compile Include="Cells\SongCell.cs" />
     <Compile Include="Cells\BaseCell.cs" />
     <Compile Include="ViewControllers\IntroViewController.cs" />
-    <Compile Include="Playback\AVPlayerExtension.cs" />
     <Compile Include="ViewControllers\PlaylistViewController.cs" />
     <Compile Include="ViewControllers\PlaylistSongsViewController.cs" />
     <Compile Include="Controls\TopTabBarController.cs" />
@@ -452,9 +435,7 @@
     <Compile Include="Controls\UIComboBox.cs" />
     <BundleResource Include="Resources\Fonts\icomoon.ttf" />
     <Compile Include="Helpers\UIViewExtensions.cs" />
-    <Compile Include="Native\NativeIndexer.cs" />
     <Compile Include="Cells\MenuSubtextSwitch.cs" />
-    <Compile Include="Playback\AudioFadePlayer.cs" />
     <BundleResource Include="Resources\accentColorHorizontal.png" />
     <BundleResource Include="Resources\accentColorHorizontal%402x.png" />
     <Compile Include="Native\SongSharingActivityProvider.cs" />
@@ -471,8 +452,6 @@
     <Compile Include="UI\TabButton.cs" />
     <Compile Include="UI\TabBar.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="App.iOS.cs" />
-    <Compile Include="ApiConstants.iOS.cs" />
     <Compile Include="ViewControllers\Car\CarArtistViewController.cs" />
     <Compile Include="ViewControllers\Car\CarGenreViewController.cs" />
     <Compile Include="ViewControllers\Car\CarHeadViewController.cs" />
@@ -682,6 +661,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ApiConstants.targets" />
+  <Import Project="..\MusicPlayer.Shared.iOS\MusicPlayer.Shared.iOS.projitems" Label="Shared" Condition="Exists('..\MusicPlayer.Shared.iOS\MusicPlayer.Shared.iOS.projitems')" />
   <Import Project="..\Api\GrooveApi\GrooveApi.projitems" Label="Shared" Condition="Exists('..\Api\GrooveApi\GrooveApi.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" />

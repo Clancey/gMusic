@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer.Forms.Droid", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer.Forms.UITests", "Forms\UITests\MusicPlayer.Forms.UITests.csproj", "{0464161F-1534-4E29-9E68-F6F1C96D04F1}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MusicPlayer.Shared.iOS", "MusicPlayer.Shared.iOS\MusicPlayer.Shared.iOS.shproj", "{FC1E5B6F-4279-4146-A3B1-783E47B3AA65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

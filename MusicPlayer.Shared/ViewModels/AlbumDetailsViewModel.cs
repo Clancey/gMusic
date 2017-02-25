@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !FORMS
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Localizations;
@@ -111,3 +112,4 @@ namespace MusicPlayer.ViewModels
 		}
 	}
 }
+#endif

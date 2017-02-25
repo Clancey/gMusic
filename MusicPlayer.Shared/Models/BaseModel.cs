@@ -29,7 +29,7 @@ namespace MusicPlayer.Models
 			return PropertyChanged.SetProperty(this, ref currentValue, newValue, propertyName);
 		}
 
-		internal void ProcPropertyChanged(string propertyName)
+		internal void ProcPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			if (PropertyChanged != null)
 			{
@@ -75,7 +75,7 @@ namespace MusicPlayer.Models
 			actions[property] = actionList;
 		}
 
-		public void ClearEvents()
+		public virtual void ClearEvents()
 		{
 			actions.Clear();
 			if (PropertyChanged == null)

@@ -1,6 +1,7 @@
 ﻿using System;
+using MusicPlayer.Forms;
 using Xamarin.Forms;
-namespace MusicPlayer.Forms
+namespace MusicPlayer
 {
 	public partial class App
 	{
