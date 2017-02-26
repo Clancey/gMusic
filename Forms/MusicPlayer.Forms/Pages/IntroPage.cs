@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Localizations;
+using MusicPlayer.Data;
+using MusicPlayer.Managers;
 using Xamarin.Forms;
 
 namespace MusicPlayer.Forms
@@ -19,6 +22,7 @@ namespace MusicPlayer.Forms
 				HorizontalTextAlignment = TextAlignment.Center
 			};
 			var loginButton = new Button { Text = Strings.Login }.StyleAsBorderedButton();
+			loginButton.Clicked += async (sender, e) => await Login();
 			var skipButton = new Button { Text = Strings.Skip }.StyleAsTextButton();
 
 			Func<double> getImageWidth = () => Math.Min(layout.Width / 2 * .6, 512);
@@ -51,6 +55,32 @@ namespace MusicPlayer.Forms
 
 			Content = blurView =new BlurView { Content = layout, BlurStyle = BlurStyle.Light };
 		}
+
+		public async Task Login()
+		{
+			try
+			{
+				var page = new ServicePickerPage();
+				await this.Navigation.PushModalAsync(new NavigationPage(page), true);
+				var service = await page.GetServiceTypeAsync();
+				var s = await ApiManager.Shared.CreateAndLogin(service);
+				if (s)
+				{
+					await this.Navigation.PopModalAsync(true);
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+		}
+
+		public async Task Skip()
+		{
+			Settings.IncludeIpod = Settings.IPodOnly = true;
+			await this.Navigation.PopModalAsync(true);
+		}
+
 	}
 }
 

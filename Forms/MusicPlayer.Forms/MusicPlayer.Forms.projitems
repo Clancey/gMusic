@@ -16,12 +16,17 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SongsListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ServicePickerPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
     <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Cells\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SlideUpPanel.cs" />
@@ -39,5 +44,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\IntroPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Style.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BlurView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ServicePickerPage.xaml.cs">
+      <DependentUpon>ServicePickerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SvgImageSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AccountCellModel.cs" />
   </ItemGroup>
 </Project>

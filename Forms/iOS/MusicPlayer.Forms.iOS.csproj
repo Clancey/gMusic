@@ -251,6 +251,7 @@
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Renderers\SlideUpPanelRenderer.cs" />
     <Compile Include="Renderers\BlurViewRenderer.cs" />
+    <Compile Include="Renderers\SvgImageSourceHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Localizations\Localizations.csproj">
@@ -515,7 +516,6 @@
   <Import Project="..\..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" Condition="Exists('..\..\Api\gMusicApi\gMusicApi.projitems')" />
   <Import Project="..\..\Api\GrooveApi\GrooveApi.projitems" Label="Shared" Condition="Exists('..\..\Api\GrooveApi\GrooveApi.projitems')" />
   <Import Project="..\..\Api\iPodApi\iPodApi.projitems" Label="Shared" Condition="Exists('..\..\Api\iPodApi\iPodApi.projitems')" />
-  <Import Project="..\..\Api\Api\Api.projitems" Label="Shared" Condition="Exists('..\..\Api\Api\Api.projitems')" />
   <Import Project="..\..\MusicPlayer.Shared\MusicPlayer.Shared.projitems" Label="Shared" Condition="Exists('..\..\MusicPlayer.Shared\MusicPlayer.Shared.projitems')" />
   <Import Project="..\MusicPlayer.Forms\MusicPlayer.Forms.projitems" Label="Shared" Condition="Exists('..\MusicPlayer.Forms\MusicPlayer.Forms.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
