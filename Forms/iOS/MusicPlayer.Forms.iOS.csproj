@@ -232,6 +232,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\SVG\" />
+    <Folder Include="Renderers\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="..\..\MusicPlayer.iOS\Resources\LaunchScreen.xib">
@@ -247,8 +248,9 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="App.iOS.cs" />
-    <Compile Include="SlideUpPanelRenderer.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Renderers\SlideUpPanelRenderer.cs" />
+    <Compile Include="Renderers\BlurViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Localizations\Localizations.csproj">

@@ -4,9 +4,16 @@ using System.Linq;
 using MusicPlayer.Data;
 using MusicPlayer.Managers;
 using Xamarin.Forms;
+using MusicPlayer.Forms;
 
 namespace MusicPlayer
 {
+	public enum BlurStyle
+	{
+		ExtraLight,
+		Light,
+		Dark
+	}
 	public class Style
 	{
 
@@ -50,9 +57,9 @@ namespace MusicPlayer
 		}
 		public static bool IsDeviceDark { get; set; }
 		public Color AccentSolidColor { get; set; } = Color.FromRgb(255, 43, 103);
-		public Color AccentColor =>  AccentSolidColor;//IsDeviceDark ? AccentSolidColor : AccentGradientColor;
-													  //public Color AccentGradientColor { get; set; } = Color.FromPatternImage(UIImage.FromBundle("accentColor"));
-													  //public Color AccentColorGradientHorizontal { get; set; } = Color.FromPatternImage(UIImage.FromBundle("accentColor").Rotate());
+		public Color AccentColor => AccentSolidColor;//IsDeviceDark ? AccentSolidColor : AccentGradientColor;
+													 //public Color AccentGradientColor { get; set; } = Color.FromPatternImage(UIImage.FromBundle("accentColor"));
+													 //public Color AccentColorGradientHorizontal { get; set; } = Color.FromPatternImage(UIImage.FromBundle("accentColor").Rotate());
 		public Color AccentColorHorizontal => AccentSolidColor;// IsDeviceDark ? AccentSolidColor : AccentColorGradientHorizontal;
 
 		public float HeaderTextFontSize { get; set; } = 28;
@@ -79,12 +86,12 @@ namespace MusicPlayer
 			(float)UIKit.UIFont.ButtonFontSize;
 #else
 			25;
-			#endif
+#endif
 		public string ButtonTextFont { get; set; } = NormalFontName;
 		public static Color LightGray = Color.FromRgb(2 / 3, 2 / 3, 2 / 3);
 		public static Color DarkGray = Color.FromRgb(1 / 3, 1 / 3, 1 / 3);
 
-		public float SubTextFontSize {get;set;}= 12;
+		public float SubTextFontSize { get; set; } = 12;
 		public string SubTextFont { get; set; } = NormalFontName;
 		public Color SubTextColor { get; set; } = DarkGray;
 
@@ -96,7 +103,7 @@ namespace MusicPlayer
 		public Color BackgroundColor { get; set; } = Color.White;
 		public Color SectionBackgroundColor { get; set; } = Color.White;
 		//public UIBarStyle BarStyle { get; set; } = UIBarStyle.Default;
-		//public UIBlurEffectStyle BlurStyle { get; set; } = UIBlurEffectStyle.ExtraLight;
+		public BlurStyle BlurStyle { get; set; } = BlurStyle.ExtraLight;
 		public Color PlaybackControlTint { get; set; } = Color.Black;
 	}
 
@@ -110,7 +117,7 @@ namespace MusicPlayer
 			this.SubTextColor = LightGray;
 			this.MainTextColor = Color.White;
 			//this.BarStyle = UIBarStyle.BlackTranslucent;
-			//this.BlurStyle = UIBlurEffectStyle.Dark;
+			this.BlurStyle = BlurStyle.Dark;
 			this.PlaybackControlTint = Color.White;
 			//StatusBarColor = UIStatusBarStyle.LightContent;
 		}
@@ -258,7 +265,7 @@ namespace MusicPlayer
 		//	return vc;
 		//}
 
-		//internal static T StyleBlurView<T>(this T blurView) where T : BluredView
+		//internal static T StyleBlurView<T>(this T blurView) where T : BlurView
 		//{
 		//	var style = blurView.GetStyle();
 		//	blurView.UpdateStyle(style.BlurStyle);

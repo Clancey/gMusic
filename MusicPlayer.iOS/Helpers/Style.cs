@@ -212,7 +212,7 @@ namespace MusicPlayer.iOS
 
 			return button;
 		}
-
+		 
 		public static T StyleAsTextButton<T> (this T button) where T : UIButton
 		{
 			//var style = button.GetStyle();

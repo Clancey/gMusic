@@ -38,5 +38,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.Forms.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\IntroPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Style.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BlurView.cs" />
   </ItemGroup>
 </Project>

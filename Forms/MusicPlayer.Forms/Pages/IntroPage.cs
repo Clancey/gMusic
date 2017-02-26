@@ -6,10 +6,9 @@ namespace MusicPlayer.Forms
 {
 	public class IntroPage : ContentPage
 	{
+		BlurView blurView;
 		public IntroPage()
 		{
-
-
 			BackgroundImage = "launchBg";
 			var layout = new RelativeLayout();
 			var topImage = new Image { Source = new FileImageSource { File = "headphones" } };
@@ -50,7 +49,7 @@ namespace MusicPlayer.Forms
 			                    yConstraint: Constraint.RelativeToView(skipButton, (l, v) =>  v.Y - getLoginButtonHeight() - 10),
 								widthConstraint: Constraint.RelativeToParent((arg) => arg.Width / 2));
 
-			Content = layout;
+			Content = blurView =new BlurView { Content = layout, BlurStyle = BlurStyle.Light };
 		}
 	}
 }
