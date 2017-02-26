@@ -203,14 +203,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-120.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-167.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-60%403x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-72.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-72%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-76.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-76%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small-50.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Small%403x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Spotlight-iOS7.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-Spotlight-iOS7%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-iPad-Spotlight-iOS7%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-568h%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Landscape~ipad.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Landscape~ipad%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Portrait~ipad.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default-Portrait~ipad%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Default%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Resources\Fonts\" />
+    <Folder Include="Resources\SVG\" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="..\..\MusicPlayer.iOS\Resources\LaunchScreen.xib">
+      <Link>Resources\LaunchScreen.xib</Link>
+    </InterfaceDefinition>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -271,6 +297,210 @@
     </BundleResource>
     <BundleResource Include="..\..\MusicPlayer.iOS\Resources\launchBg%402x.png">
       <Link>Resources\launchBg%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\icomoon.ttf">
+      <Link>Resources\Fonts\icomoon.ttf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Black.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Black.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Bold.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Bold.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Heavy.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Heavy.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Light.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Light.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Medium.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Medium.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Regular.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Regular.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Semibold.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Semibold.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Thin.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Thin.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Display-Ultralight.otf">
+      <Link>Resources\Fonts\SF-UI-Display-Ultralight.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Bold.otf">
+      <Link>Resources\Fonts\SF-UI-Text-Bold.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-BoldItalic.otf">
+      <Link>Resources\Fonts\SF-UI-Text-BoldItalic.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Heavy.otf">
+      <Link>Resources\Fonts\SF-UI-Text-Heavy.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-HeavyItalic.otf">
+      <Link>Resources\Fonts\SF-UI-Text-HeavyItalic.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Italic.otf">
+      <Link>Resources\Fonts\SF-UI-Text-Italic.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Light.otf">
+      <Link>Resources\Fonts\SF-UI-Text-Light.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-LightItalic.otf">
+      <Link>Resources\Fonts\SF-UI-Text-LightItalic.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Medium.otf">
+      <Link>Resources\Fonts\SF-UI-Text-Medium.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-MediumItalic.otf">
+      <Link>Resources\Fonts\SF-UI-Text-MediumItalic.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Regular.otf">
+      <Link>Resources\Fonts\SF-UI-Text-Regular.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-Semibold.otf">
+      <Link>Resources\Fonts\SF-UI-Text-Semibold.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\Fonts\SF-UI-Text-SemiboldItalic.otf">
+      <Link>Resources\Fonts\SF-UI-Text-SemiboldItalic.otf</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\airplay.svg">
+      <Link>Resources\SVG\airplay.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\album.svg">
+      <Link>Resources\SVG\album.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\amazon.svg">
+      <Link>Resources\SVG\amazon.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\artist.svg">
+      <Link>Resources\SVG\artist.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\close.svg">
+      <Link>Resources\SVG\close.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\copy.svg">
+      <Link>Resources\SVG\copy.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\dropbox-outline.svg">
+      <Link>Resources\SVG\dropbox-outline.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\edit.svg">
+      <Link>Resources\SVG\edit.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\equalizer.svg">
+      <Link>Resources\SVG\equalizer.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\genres.svg">
+      <Link>Resources\SVG\genres.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\google-drive.svg">
+      <Link>Resources\SVG\google-drive.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\googleMusic.svg">
+      <Link>Resources\SVG\googleMusic.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\icon.svg">
+      <Link>Resources\SVG\icon.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\isOffline.svg">
+      <Link>Resources\SVG\isOffline.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\menu.svg">
+      <Link>Resources\SVG\menu.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\more.svg">
+      <Link>Resources\SVG\more.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\moreTall.svg">
+      <Link>Resources\SVG\moreTall.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\musicalNotes.svg">
+      <Link>Resources\SVG\musicalNotes.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\next.svg">
+      <Link>Resources\SVG\next.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\offline.svg">
+      <Link>Resources\SVG\offline.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\onedrive.svg">
+      <Link>Resources\SVG\onedrive.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\pauseButton.svg">
+      <Link>Resources\SVG\pauseButton.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\pauseButtonBordered.svg">
+      <Link>Resources\SVG\pauseButtonBordered.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\playbackSliderThumb.svg">
+      <Link>Resources\SVG\playbackSliderThumb.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\playButton.svg">
+      <Link>Resources\SVG\playButton.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\playButtonBordered.svg">
+      <Link>Resources\SVG\playButtonBordered.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\playlists.svg">
+      <Link>Resources\SVG\playlists.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\previous.svg">
+      <Link>Resources\SVG\previous.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\radio.svg">
+      <Link>Resources\SVG\radio.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\repeat.svg">
+      <Link>Resources\SVG\repeat.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\repeatOne.svg">
+      <Link>Resources\SVG\repeatOne.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\search.svg">
+      <Link>Resources\SVG\search.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\settings.svg">
+      <Link>Resources\SVG\settings.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\share.svg">
+      <Link>Resources\SVG\share.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\shuffle.svg">
+      <Link>Resources\SVG\shuffle.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\sliderTrack.svg">
+      <Link>Resources\SVG\sliderTrack.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\songs.svg">
+      <Link>Resources\SVG\songs.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\songsDefault.svg">
+      <Link>Resources\SVG\songsDefault.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\soundCloudColor.svg">
+      <Link>Resources\SVG\soundCloudColor.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\thumbsDown.svg">
+      <Link>Resources\SVG\thumbsDown.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\thumbsUp.svg">
+      <Link>Resources\SVG\thumbsUp.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\trash.svg">
+      <Link>Resources\SVG\trash.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\trending.svg">
+      <Link>Resources\SVG\trending.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\undo.svg">
+      <Link>Resources\SVG\undo.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\videoIcon.svg">
+      <Link>Resources\SVG\videoIcon.svg</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\MusicPlayer.iOS\Resources\SVG\youtubeLogo.svg">
+      <Link>Resources\SVG\youtubeLogo.svg</Link>
     </BundleResource>
   </ItemGroup>
   <Import Project="..\..\MusicPlayer.Shared.iOS\MusicPlayer.Shared.iOS.projitems" Label="Shared" Condition="Exists('..\..\MusicPlayer.Shared.iOS\MusicPlayer.Shared.iOS.projitems')" />

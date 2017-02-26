@@ -16,14 +16,12 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SongsListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\IntroPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
     <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\SlideUpPanel.cs" />
@@ -38,8 +36,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)EventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.Forms.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\IntroPage.xaml.cs">
-      <DependentUpon>IntroPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\IntroPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Style.cs" />
   </ItemGroup>
 </Project>
