@@ -76,5 +76,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SideNavigationPage.xaml.cs">
       <DependentUpon>SideNavigationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\InternalRegistrar.cs" />
   </ItemGroup>
 </Project>

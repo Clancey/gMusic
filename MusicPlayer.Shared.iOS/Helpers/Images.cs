@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Foundation;
+using MusicPlayer.Data;
 using NGraphics;
 using UIKit;
 
@@ -10,6 +11,16 @@ namespace MusicPlayer
 {
 	public static class Images
 	{
+		public const string MenuIconName = "SVG/menu.svg";
+		public static UIImage GetFileImagByName(string fileName)
+		{
+			switch (fileName)
+			{
+				case MenuIconName:
+					return MenuImage;
+			}
+			return null;
+		}
 		public static float MaxScreenSize;
 		public static float AlbumArtScreenSize => Math.Max(MaxScreenSize, 640);
 
@@ -159,10 +170,9 @@ namespace MusicPlayer
 			return GetGeneratedImage("SVG/undo.svg",size);
 		}
 
-
 		public static UIImage MenuImage => GetMenuImage (15);
 
-		public static UIImage GetMenuImage (double size) => GetGeneratedImage ("SVG/menu.svg", size, size);
+		public static UIImage GetMenuImage (double size) => GetGeneratedImage (MenuIconName, size, size);
 
 		static UIImage GetGeneratedImage(string name, double size)
 		{
@@ -194,6 +204,29 @@ namespace MusicPlayer
 				CachedGeneratedImages[tuple] = image = UIImage.FromBundle(imageName);
 			}
 			return image;
+		}
+
+		public static string GetCachedImagedName(string svg, double size)
+		{
+			var name = System.IO.Path.GetFileNameWithoutExtension(svg);
+			string scaleModifier = NGraphicsExtensions.Scale > 1 ? $"@{NGraphicsExtensions.Scale}x" : "";
+			var cachedName = $"{name}-{size}{scaleModifier}.png";
+			var cachedImage = System.IO.Path.Combine(Locations.ImageCache, cachedName);
+			return cachedImage;
+		}
+
+		public static string GetFileCachedImage(string svg, double size)
+		{
+			var fileName = GetCachedImagedName(svg, size);
+			if (!System.IO.File.Exists(fileName))
+				SaveImage(svg, size, fileName);
+			return fileName;
+		}
+
+		static void SaveImage(string svg, double size, string cachedPath)
+		{
+			var image = GetGeneratedImage(svg, size);
+			image.AsPNG().Save(cachedPath, false);
 		}
 	}
 }

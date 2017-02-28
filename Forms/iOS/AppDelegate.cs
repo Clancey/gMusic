@@ -11,6 +11,7 @@ using Microsoft.Azure.Mobile.Crashes;
 using MusicPlayer.Managers;
 using Localizations;
 using BigTed;
+using MusicPlayer.Forms.iOS;
 
 namespace MusicPlayer.iOS
 {
@@ -47,6 +48,7 @@ namespace MusicPlayer.iOS
 			LoadApplication(new App());
 
 			var s =  base.FinishedLaunching(app, launchOptions);
+			InternalRegistrar.Register<Xamarin.Forms.FileImageSource, SvgFileImageSourceHandler>();
 			return s;
 		}
 

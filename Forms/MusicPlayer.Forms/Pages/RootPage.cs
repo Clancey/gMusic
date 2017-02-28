@@ -18,9 +18,8 @@ namespace MusicPlayer.Forms
 		};
 		public RootPage()
 		{
-			//OnPlatform fires once per platform, even though it is only ran on one platform...
-			///Root = Xamarin.Forms.Device.OnPlatform(CreateIosRoot(), , CreateIosRoot());
 			Root = Xamarin.Forms.Device.OS == TargetPlatform.Android ? CreateAndroidRoot() : CreateIosRoot();
+			MasterDetail.Master.Icon = new SvgImageSource { SvgName = Images.MenuIconName, MaxSize = 15f };
 		}
 
 		Page CreateIosRoot()

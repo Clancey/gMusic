@@ -7,7 +7,7 @@ namespace UIKit
 	public static class NGraphicsExtensions
 	{
 		static readonly IPlatform Platform = new ApplePlatform();
-		static readonly double Scale = (double) UIScreen.MainScreen.Scale;
+		public static readonly double Scale = (double) UIScreen.MainScreen.Scale;
 
 		public static void LoadSvg(this UIImageView imageView, string svg,UIImageRenderingMode renderingMode = UIImageRenderingMode.Automatic)
 		{
