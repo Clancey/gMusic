@@ -16,8 +16,8 @@ namespace MusicPlayer.ViewModels
 			set
 			{
 				var group = Database.Main.GetGroupInfo<Song>().Clone();
-				group.Filter = "ArtistId = ?";
-				group.Params = value.Id;
+				group.Filter = "ArtistId = @ArtistId";
+				group.Params["@ArtistId"] = value.Id;
 				group.From = "Song";
 				Title = value.Name;
 				GroupInfo = group;
