@@ -8,14 +8,19 @@ using MusicPlayer;
 
 namespace MusicPlayer.ViewModels
 {
-
-	public abstract partial class BaseViewModel<T> : BaseModel where T : new()
+	public  partial class BaseViewModel : BaseModel
 	{
-		string title;
-		public string Title { 
-			get { return title; }
-			set { title = value;}
+		public virtual void OnViewAppearing()
+		{
+
 		}
+		public virtual void OnViewDissapearing()
+		{
+
+		}
+	}
+	public abstract partial class BaseViewModel<T> : BaseViewModel where T : new()
+	{
 
 		SimpleDatabaseSource<T> items = new SimpleDatabaseSource<T>(Database.Main);
 		public SimpleDatabaseSource<T> Items
@@ -55,19 +60,7 @@ namespace MusicPlayer.ViewModels
 		public GroupInfo SearchResults = new GroupInfo();
 
 
-		public void PrecachData()
-		{
-			//Database.Main.Precache<T> ();
-		}
 
-		public virtual void OnViewAppearing()
-		{
-
-		}
-		public virtual void OnViewDissapearing()
-		{
-
-		}
 		public void OnRowSelected(object obj)
 		{
 			RowSelected((T)obj);

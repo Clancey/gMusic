@@ -12,7 +12,7 @@ namespace MusicPlayer
 		{
 			InitializeComponent();
 
-			MainPage = CreateRoot();
+			MainPage = new RootPage();
 			if (ApiManager.Shared.Count == 0)
 			{
 				MainPage.Navigation.PushModalAsync(new IntroPage(), false);

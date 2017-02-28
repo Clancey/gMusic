@@ -11,7 +11,7 @@ using MusicPlayer;
 
 namespace MusicPlayer.ViewModels
 {
-	internal partial class BaseViewModel : BaseModel
+	public partial class BaseViewModel : BaseModel
 	{
 		string title;
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" Title="gMusic" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MusicPlayer.Forms.SideNavigationPage">
+	<ListView ItemsSource="{Binding Items}" ItemSelected="Handle_ItemSelected">
+		<ListView.ItemTemplate>
+			<DataTemplate>
+				<ViewCell>
+					<StackLayout Orientation="Horizontal" Padding="5">
+						<Image IsVisible="{Binding HasImage}" Margin="5" WidthRequest="35" HeightRequest="35" Source="{Binding ImageSource}" VerticalOptions="Center" />
+						<Label Text="{Binding Title}" VerticalOptions="Center"/>
+					</StackLayout>
+				</ViewCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
+	</ListView>
+</ContentPage>

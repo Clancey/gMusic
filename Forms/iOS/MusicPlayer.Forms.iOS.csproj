@@ -31,6 +31,7 @@
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <MtouchExtraArgs>--registrar:dynamic</MtouchExtraArgs>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType></DebugType>
@@ -65,6 +66,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -247,7 +249,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="App.iOS.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Renderers\SlideUpPanelRenderer.cs" />
     <Compile Include="Renderers\BlurViewRenderer.cs" />

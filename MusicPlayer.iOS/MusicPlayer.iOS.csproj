@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
@@ -98,7 +98,7 @@
     <MtouchUseRefCounting>True</MtouchUseRefCounting>
     <IpaPackageName>gMusic</IpaPackageName>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
+    <MtouchExtraArgs></MtouchExtraArgs>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <CodesignProvision>

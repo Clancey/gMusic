@@ -114,7 +114,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\AnchorBottomSheetBehavior.cs" />
     <Compile Include="Controls\AnchorBottomSheetBehavior.DragCallback.cs" />
-    <Compile Include="App.Droid.cs" />
     <Compile Include="Renderers\SlideUpPanelRenderer.cs" />
   </ItemGroup>
   <ItemGroup>

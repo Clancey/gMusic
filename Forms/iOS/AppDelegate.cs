@@ -22,7 +22,6 @@ namespace MusicPlayer.iOS
 		public const string AppName = "gMusic";
 		nint playingBackground;
 		public UIApplicationShortcutItem LaunchedShortcutItem { get; set; }
-		UIWindow window;
 		public override bool FinishedLaunching(UIApplication app, NSDictionary launchOptions)
 		{
 			bool handled = true;
@@ -47,9 +46,7 @@ namespace MusicPlayer.iOS
 			app.BeginReceivingRemoteControlEvents();
 			LoadApplication(new App());
 
-			CheckLogin();
 			var s =  base.FinishedLaunching(app, launchOptions);
-			window = app.KeyWindow;
 			return s;
 		}
 
@@ -68,13 +65,7 @@ namespace MusicPlayer.iOS
 //			carTestWindow.Hidden = false;
 //		}
 //#endif
-		void CheckLogin()
-		{
-			if (ApiManager.Shared.Count == 0)
-			{
-				//window.RootViewController.PresentViewController(new IntroViewController(), false, null);
-			}
-		}
+
 
 		public void SetUpApp(UIApplication app)
 		{

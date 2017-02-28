@@ -15,7 +15,7 @@ namespace MusicPlayer.Forms.iOS
 		public Task<UIImage> LoadImageAsync(ImageSource imagesource, CancellationToken cancelationToken = default(CancellationToken), float scale = 1)
 		{
 			var svgSource = imagesource as SvgImageSource;
-			return Task.FromResult(NGraphicsExtensions.LoadImageFromSvg(svgSource.SvgName, new NGraphics.Size(svgSource.Size.Width, svgSource.Size.Height)));
+			return Task.FromResult(svgSource.SvgName.LoadImageFromSvg(new NGraphics.Size(svgSource.Size.Width, svgSource.Size.Height)));
 
 		}
 	}

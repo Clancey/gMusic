@@ -19,6 +19,18 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ServicePickerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SearchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ArtistsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AlbumsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SideNavigationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
@@ -49,5 +61,20 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SvgImageSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccountCellModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\RootPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\NavigationItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\BasePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ArtistsPage.xaml.cs">
+      <DependentUpon>ArtistsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AlbumsPage.xaml.cs">
+      <DependentUpon>AlbumsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SideNavigationPage.xaml.cs">
+      <DependentUpon>SideNavigationPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
