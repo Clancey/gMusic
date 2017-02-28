@@ -53,9 +53,9 @@ namespace MusicPlayer
 			set {
 				artist = value;
 				GroupInfo = new GroupInfo {
-					Filter = "Id in (select distinct AlbumId from song where ArtistId = ?)",
+					Filter = "Id in (select distinct AlbumId from song where ArtistId = @ArtistId)",
 					OrderBy = "Year, NameNorm",
-					Params = artist.Id,
+					Params = { { "@ArtistId", artist.Id } },
 				};
 			}
 		}
