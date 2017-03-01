@@ -205,7 +205,8 @@ namespace MusicPlayer.Managers
 					if (!includeOneStar)
 						info.Filter += (string.IsNullOrEmpty(info.Filter) ? "" : " and ") + "Rating <> 1";
 					string query = $"select Id from Song {info.FilterString(true)} {info.OrderByString(true)} {info.LimitString()}";
-					await SetupCurrentPlaylist(query, song?.Id ?? "", info.Params);
+					var queryInfo = info.ConvertSqlFromNamed(query);
+					await SetupCurrentPlaylist(queryInfo.Item1, song?.Id ?? "", queryInfo.Item2);
 				}));
 			if (song == null)
 			{
@@ -244,7 +245,8 @@ namespace MusicPlayer.Managers
 				{
 					string query =
 						$"select SongId as Id from TempPlaylistSong {info.FilterString(true)} {info.OrderByString(true)} {info.LimitString()}";
-					await SetupCurrentPlaylist(query, song?.Id ?? "", info.Params);
+					var queryInfo = info.ConvertSqlFromNamed(query);
+					await SetupCurrentPlaylist(queryInfo.Item1, song?.Id ?? "", queryInfo.Item2);
 				}));
 			if (song == null)
 			{
@@ -281,7 +283,8 @@ namespace MusicPlayer.Managers
 				{
 					string query =
 						$"select SongId as Id from PlaylistSong {info.FilterString(true)} {info.OrderByString(true)} {info.LimitString()}";
-					await SetupCurrentPlaylist(query, song?.Id ?? "", info.Params);
+					var queryInfo = info.ConvertSqlFromNamed(query);
+					await SetupCurrentPlaylist(queryInfo.Item1, song?.Id ?? "", queryInfo.Item2);
 				}));
 			if (song == null)
 			{
@@ -331,7 +334,7 @@ namespace MusicPlayer.Managers
 			await Task.Run(async () =>
 			{
 				string query = $"select SongId as Id from RadioStationSong where StationId = ? order by SOrder";
-				await SetupCurrentPlaylist(query, "", station.Id);
+				await SetupCurrentPlaylist(query, "", new[] { station.Id });
 			});
 			var song = GetSong(CurrentSongIndex);
 			await NativePlayer.PlaySong(song);
@@ -622,7 +625,7 @@ namespace MusicPlayer.Managers
 						return;
 
 					string query = $"select SongId as Id from RadioStationSong where StationId = ? order by SOrder";
-					await SetupCurrentPlaylist(query, NativePlayer?.CurrentSong?.Id ?? "", station.Id);
+					await SetupCurrentPlaylist(query, NativePlayer?.CurrentSong?.Id ?? "", new object[] { station.Id });
 				}
 				catch (Exception ex)
 				{
@@ -680,10 +683,10 @@ namespace MusicPlayer.Managers
 			public string Id { get; set; }
 		}
 
-		async Task<bool> SetupCurrentPlaylist(string query, string currentId, object param)
+		async Task<bool> SetupCurrentPlaylist(string query, string currentId, object[] parameters)
 		{
 			ClearPlayist();
-			Database.Main.Execute($"create table SongsOrdered as {query}", param);
+			Database.Main.Execute($"create table SongsOrdered as {query}", parameters);
 			await PrepareCurrentPlaylist(currentId);
 
 			NotificationManager.Shared.ProcCurrentPlaylistChanged();

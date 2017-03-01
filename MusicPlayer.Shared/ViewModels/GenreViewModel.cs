@@ -49,8 +49,8 @@ namespace MusicPlayer.ViewModels
 			//			}
 			var groupInfo = new GroupInfo()
 			{
-				Filter = "Id in (select distinct ArtistId from song where Genre = ?)",
-				Params = item.Id,
+				Filter = "Id in (select distinct ArtistId from song where Genre = @Genre)",
+				Params = { { "@Genre", item.Id } },
 				OrderBy = "NameNorm"
 			};
 			var offlineGroupInfo2 = groupInfo.Clone();
@@ -60,7 +60,7 @@ namespace MusicPlayer.ViewModels
 				Database.Main.GetDistinctObjectCount<Artist>(Settings.ShowOfflineOnly ? offlineGroupInfo2 : groupInfo, "Id");
 			if (artistCount == 1)
 			{
-				groupInfo = new GroupInfo() {Filter = "Genre = ?", Params = item.Id};
+				groupInfo = new GroupInfo() { Filter = "Genre = @Genre", Params = { { "@Genre", item.Id } } };
 				offlineGroupInfo2 = groupInfo.Clone();
 				offlineGroupInfo2.Filter = offlineGroupInfo2.Filter + " and IsLocal = 1";
 
@@ -77,8 +77,8 @@ namespace MusicPlayer.ViewModels
 				groupInfo = new GroupInfo()
 				{
 					From = "Artist",
-					Filter = "Id in (select distinct ArtistId from song where genre = ?)",
-					Params = item.Id,
+					Filter = "Id in (select distinct ArtistId from song where genre = @Genre)",
+					Params = { { "@Genre", item.Id } },
 					OrderBy = "NameNorm"
 				};
 				GoToArtistList(item, groupInfo);

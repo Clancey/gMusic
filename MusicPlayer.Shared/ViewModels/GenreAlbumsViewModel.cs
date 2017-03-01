@@ -15,8 +15,8 @@ namespace MusicPlayer
 				var group = new SimpleDatabase.GroupInfo
 				{
 					From = "Album",
-					Params = value.Id,
-					Filter = "Id in (select distinct AlbumId from song where Genre = ?)",
+					Params = { { "@GenreId", value.Id } },
+					Filter = "Id in (select distinct AlbumId from song where Genre = @GenreId )",
 					OrderBy = "Year, NameNorm"
 				};
 				Title = value.Name;

@@ -21,8 +21,8 @@ namespace MusicPlayer.ViewModels
 				var group = new SimpleDatabase.GroupInfo
 				{
 					From = "Song",
-					Params = value.Id,
-					Filter = "AlbumId = ?",
+					Params = { {"@AlbumId", value.Id } },
+					Filter = "AlbumId = @AlbumId",
 					OrderBy = "Disc, Track"
 				};
 				Title = value.Name;
