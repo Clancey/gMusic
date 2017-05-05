@@ -213,7 +213,7 @@ namespace SoundCloud
 			try{
 				var result = new SearchResults();
 				var path = $"tracks.json?client_id={sapiKey}&filter=streamable&limit=200&q={HttpUtility.UrlEncode(query)}";
-				var resp = await Api.Get<   List<STrack>>(path);
+				var resp = await Api.Get<List<STrack>>(path, authenticated: false);
 				var tracks = resp?.Select(x => new FullTrackData(x.Title, x.User?.Username, "", "", x.Genre)
 				{
 					Id = x.Id.ToString(),
