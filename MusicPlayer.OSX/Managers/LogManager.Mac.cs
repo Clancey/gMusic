@@ -121,7 +121,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Console.WriteLine(message);
+				Console.WriteLine($"{message} - {song}");
 				var dictionary = new Dictionary<string, string>() {
 					{"Song ID",song?.Id  ?? "NULL" },
 					{"Song Title",song?.Name  ?? "NULL"},
