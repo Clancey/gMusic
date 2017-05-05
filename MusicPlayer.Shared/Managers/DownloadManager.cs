@@ -30,7 +30,12 @@ namespace MusicPlayer.Managers
 			};
 		}
 
-
+		public void ForceComplete (string trackId)
+		{
+			if(fileInUses == trackId)
+				fileInUses = null;
+			Finish (trackId);
+		}
 		public void Finish(string trackId)
 		{
 			if (string.IsNullOrWhiteSpace(trackId))
@@ -116,6 +121,8 @@ namespace MusicPlayer.Managers
 
 		public void QueueTrack(string trackId)
 		{
+			if (nextId == trackId || currentId == trackId)
+				return;
 			Finish(nextId);
 			nextId = trackId;
 			RunPoller();
@@ -126,7 +133,8 @@ namespace MusicPlayer.Managers
 			fileInUses = trackId;
 			if (nextId == trackId)
 				nextId = null;
-			Finish(currentId);
+			if(currentId != trackId)
+				Finish(currentId);
 			currentId = trackId;
 			DownloadHelper helper;
 			if (!downloads.TryGetValue(trackId, out helper))
