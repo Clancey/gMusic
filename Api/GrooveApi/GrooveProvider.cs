@@ -126,9 +126,12 @@ namespace Groove
 			throw new NotImplementedException();
 		}
 
-		public override Task<DownloadUrlData> GetDownloadUri(Track track)
+		public override async Task<DownloadUrlData> GetDownloadUri(Track track)
 		{
-			throw new NotImplementedException();
+			var resp = await GetPlaybackUri(track);
+			return new DownloadUrlData {
+				Url = resp.AbsoluteUri,
+			};
 		}
 
 		public override async Task<Uri> GetPlaybackUri(Track track)
@@ -164,7 +167,8 @@ namespace Groove
 
 		public override Task<bool> Resync()
 		{
-			throw new NotImplementedException();
+			//TODO: Clear out cached data
+			return SyncDatabase();
 		}
 
 		public override Task<SearchResults> Search(string query)
@@ -177,9 +181,25 @@ namespace Groove
 			throw new NotImplementedException();
 		}
 
-		protected override Task<bool> Sync()
+		protected override async Task<bool> Sync()
 		{
-			throw new NotImplementedException();
+			var s = await Api.Authenticate();
+			return await SyncTracks(DateTime.MinValue);
+		}
+
+		public async Task<bool> SyncTracks(DateTime filterDateTime, int page = 0)
+		{
+			try
+			{
+				var resp = await Api.BrowseUserCollection(GrooveNamespace.Music, GrooveTypes.Tracks, "CollectionDate", page);
+				//CollectionDate
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				return false;
+			}
 		}
 	}
 }

@@ -121,6 +121,7 @@
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.2.0.0\lib\Xamarin.Mac20\Splat.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

@@ -10,6 +10,7 @@ using Amazon.CloudDrive;
 using OneDrive;
 using YoutubeApi;
 using SoundCloud;
+using Groove;
 
 namespace MusicPlayer.Managers
 {
@@ -19,6 +20,7 @@ namespace MusicPlayer.Managers
 		{
 			//{ServiceType.Amazon,typeof(CloudDriveApi)},
 			{ServiceType.Google,typeof(GoogleMusicApi)},
+			{ServiceType.Groove, typeof(GrooveApi)},
 			{ServiceType.OneDrive,typeof(OneDriveApi)},
 			{ServiceType.SoundCloud,typeof(SoundCloudApi)},
 			{ServiceType.YouTube,typeof(YoutubeOauthApi)},
@@ -28,6 +30,7 @@ namespace MusicPlayer.Managers
 			{typeof(GoogleMusicApi),typeof(GoogleMusicProvider) },
 			{typeof(YoutubeOauthApi),typeof(YoutubeProvider) },
 			{typeof(SoundCloudApi),typeof(SoundCloudProvider) },
+			{typeof(GrooveApi),typeof(GrooveProvider)},
 			//{typeof(CloudDriveApi),typeof(AmazonMusicProvider) },
 			{typeof(OneDriveApi),typeof(OneDriveProvider) },
 		};
@@ -211,6 +214,8 @@ namespace MusicPlayer.Managers
 				return ServiceType.SoundCloud;
 			if (api is OneDriveApi)
 				return ServiceType.OneDrive;
+			if (api is GrooveApi)
+				return ServiceType.Groove;
 
 			App.ShowNotImplmented(new Dictionary<string, string> { { "Api type", api.GetType().ToString() } });
 			return ServiceType.FileSystem;
@@ -260,6 +265,8 @@ namespace MusicPlayer.Managers
 					return "YouTube";
 				case ServiceType.OneDrive:
 					return "OneDrive";
+				case ServiceType.Groove:
+					return "Groove";
 			}
 			return service.ToString();
 		}
@@ -270,17 +277,19 @@ namespace MusicPlayer.Managers
 			switch (serviceType)
 			{
 				case ServiceType.Amazon:
-				return "SVG/amazon.svg";
+					return "SVG/amazon.svg";
 				case ServiceType.DropBox:
-				return "SVG/dropbox-outline.svg";
+					return "SVG/dropbox-outline.svg";
 				case ServiceType.Google:
-				return "SVG/googleMusic.svg";
+					return "SVG/googleMusic.svg";
 				case ServiceType.SoundCloud:
-				return "SVG/soundCloudColor.svg";
+					return "SVG/soundCloudColor.svg";
 				case ServiceType.YouTube:
-				return "SVG/youtubeLogo.svg";
+					return "SVG/youtubeLogo.svg";
 				case ServiceType.OneDrive:
-				return "SVG/onedrive.svg";
+					return "SVG/onedrive.svg";
+				case ServiceType.Groove:
+					return "SVG/grooveLogo.svg";
 			}
 			return "";
 		}

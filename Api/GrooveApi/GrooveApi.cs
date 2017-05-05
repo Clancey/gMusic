@@ -26,7 +26,11 @@ namespace Groove
 		public GrooveApi(string identifier, HttpMessageHandler handler = null) : base(identifier,ApiConstants.OneDriveApiKey,ApiConstants.OneDriveSecret,handler:handler)
 		{
 			BaseAddress = new Uri("https://api.media.microsoft.com/1/");
-			Scopes = new [] {"MicrosoftMediaServices.GrooveApiAccess"};
+			Scopes = new [] {
+				"MicrosoftMediaServices.GrooveApiAccess",
+				"wl.offline_access",
+				"wl.basic",
+			};
 		}
 
 		public Task<UserSubsrciption> GetUserSubscription()
@@ -84,6 +88,34 @@ namespace Groove
 				{"clientInstanceId",ExtraData.GeneratedDeviceId}
 			};
 			return Get<StreamResponse>(path, queryParams);
+		}
+
+		public Task<ContentResponse> BrowseUserCollection(GrooveNamespace theNamespace, GrooveTypes type, string orderBy = null, int maxItems = 25,int page = 0, string continuationToken = null,string jsonp = null)
+		{
+			const string path = "/content/{namespace}/collection/{type}/browse";
+			var queryParams = new Dictionary<string, string>
+			{
+				{"namespace", theNamespace.GetEnumMember()},
+				{"type",type.GetEnumMember()}
+			};
+
+			if (!string.IsNullOrEmpty(orderBy))
+				queryParams["orderBy"] = orderBy;
+
+			if (maxItems > 25 || maxItems < 0)
+				throw new ArgumentException("OrderBy must be between 0 and 25");
+
+			if (page > 0)
+				queryParams["page"] = page.ToString();
+
+			if (!string.IsNullOrWhiteSpace(continuationToken))
+				queryParams["continuationToken"] = continuationToken;
+
+			if (!string.IsNullOrWhiteSpace(jsonp))
+				queryParams["jsonp"] = jsonp;
+
+			return Get<ContentResponse>(path, queryParams);
+
 		}
 
 	}

@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)GrooveApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Responses.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GrooveProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
   </ItemGroup>
