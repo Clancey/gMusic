@@ -422,9 +422,9 @@ namespace MusicPlayer.iOS.ViewControllers
 			Settings.IncludeIpod = on;
 			var ipod = ApiManager.Shared.GetMusicProvider<iPodProvider>(ServiceType.iPod);
 			if (on)
-				ipod.SyncDatabase();
+				await ipod.SyncDatabase();
 			else
-				MusicProvider.RemoveApi(ipod.Id);
+				await MusicProvider.RemoveApi(ipod.Id);
 		}
 
 		SettingsElement CreateQualityPicker(string title, StreamQuality quality,Action<StreamQuality> setQuality )

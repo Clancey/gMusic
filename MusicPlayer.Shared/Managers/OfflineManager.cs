@@ -88,7 +88,7 @@ namespace MusicPlayer.Managers
 			LogManager.Shared.Log ("Toggle Offline", item);
 			var shouldBeLocal = !(item.ShouldBeLocal () || item.OfflineCount > 0);
 
-			if (shouldBeLocal && (item is TempSong || item is TempAlbum || item is OnlineSong || item is OnlineAlbum)) {
+			if (shouldBeLocal && (item is TempSong || item is TempAlbum || item is OnlineSong || item is OnlineAlbum || item is OnlinePlaylist)) {
 				await MusicManager.Shared.AddToLibrary (item);
 			}
 
@@ -121,9 +121,11 @@ namespace MusicPlayer.Managers
 		public async Task ToggleOffline (Playlist playlist, bool shouldBeLocal)
 		{
 			Database.Main.InsertOrReplace (new PlaylistOfflineClass { Id = playlist.Id, ShouldBeLocal = shouldBeLocal });
-			var songs = await Database.Main.QueryAsync <Song> ("select s.* from song s inner join PlaylistSong ps on s.Id = ps.SongId where ps.PlaylistId = ?", playlist.Id);
+			var songs = await Database.Main.QueryAsync<Song> (
+				"select s.* from song s inner join PlaylistSong ps on s.Id = ps.SongId where ps.PlaylistId = ? union select ts.ArtistId, ts.Artist, ts.AlbumId, ts.Album, ts.Genre, ts.PlayedCount,ts.LastPlayed,ts.Track,ts.TrackCount,ts.Disc,ts.Rating,ts.year,ts.ExcludedOffline,ts.ServiceTypesString,ts.MediaTypesString,ts.Id,ts.IndexCharacter,ts.name,ts.NameNorm,ts.OfflineCount from TempSong ts inner join PlaylistSong ps on ts.Id = ps.SongId where ps.PlaylistId = ?", playlist.Id, playlist.Id);
 
 			await ToggleOffline (songs, shouldBeLocal);
+			await MusicProvider.FinalizePlaylists (playlist.Id);
 		}
 
 		public async Task ToggleOffline (Genre genre, bool shouldBeLocal)

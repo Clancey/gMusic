@@ -533,7 +533,7 @@ where (select SongId from Track where Id = TrackId) is not null");
 		}
 
 
-		protected static async Task FinalizePlaylists(string  id)
+		internal static async Task FinalizePlaylists(string  id)
 		{
 			await Task.Run(() =>
 			{
