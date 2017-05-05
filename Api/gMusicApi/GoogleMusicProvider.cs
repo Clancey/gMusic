@@ -2182,7 +2182,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			}
 			return null;
 		}
-
+		HttpClient getTrackUrlClient = new HttpClient (new ModernHttpClient.NativeMessageHandler());
 		async Task<Tuple<string, Uri>> GetTrackUri(Track track, string qualityString, int tryCount = 0)
 		{
 			const string key = "34ee7983-5ee6-4147-aa86-443ea062abf774493d6a-2a15-43fe-aace-e78566927585\n";
@@ -2197,17 +2197,16 @@ namespace MusicPlayer.Api.GoogleMusic
 
 				var startUrl = $"https://android.clients.google.com/music/mplay?slt={guid}&sig={sig}{parameter}&pt=e{qualityString}";
 
-				var client = new HttpClient(new ModernHttpClient.NativeMessageHandler());
-				await Api.PrepareClient(client);
+				await Api.PrepareClient(getTrackUrlClient);
 				var devices = await Api.GetDeviceId();
-				client.DefaultRequestHeaders.Add("X-Device-FriendlyName", Api.DeviceName);
-				client.DefaultRequestHeaders.Add("X-Device-ID", devices);
+				getTrackUrlClient.DefaultRequestHeaders.Add("X-Device-FriendlyName", Api.DeviceName);
+				getTrackUrlClient.DefaultRequestHeaders.Add("X-Device-ID", devices);
 				if(devices.StartsWith("ios:"))
-					client.DefaultRequestHeaders.Add("X-Device-ID-IOS-Deprecated", devices);
-				client.DefaultRequestHeaders.UserAgent.ParseAdd("com.google.PlayMusic/2.1.0 iSL/1.0 iPhone/8.2 hw/iPhone7_2 (gzip)");
+					getTrackUrlClient.DefaultRequestHeaders.Add("X-Device-ID-IOS-Deprecated", devices);
+				getTrackUrlClient.DefaultRequestHeaders.UserAgent.ParseAdd("com.google.PlayMusic/2.1.0 iSL/1.0 iPhone/8.2 hw/iPhone7_2 (gzip)");
 
 				var cancelToken = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-				var respTask = client.GetAsync(startUrl, HttpCompletionOption.ResponseHeadersRead,cancelToken.Token);
+				var respTask = getTrackUrlClient.GetAsync(startUrl, HttpCompletionOption.ResponseHeadersRead,cancelToken.Token);
 				if (await Task.WhenAny(respTask, Task.Delay(TimeSpan.FromSeconds(60))) != respTask)
 					throw new TimeoutException();
 				var resp = respTask.Result;
