@@ -6,6 +6,7 @@ using MusicPlayer.Api;
 using MusicPlayer.Models;
 using MusicPlayer.Models.Scrobbling;
 using MusicPlayer.Managers;
+using System.Linq;
 
 namespace Groove
 {
@@ -137,6 +138,7 @@ namespace Groove
 		public override async Task<Uri> GetPlaybackUri(Track track)
 		{
 			var resp = await Api.GetFullTrackStream(track.Id);
+
 			return new Uri(resp.Url);
 		}
 
@@ -191,8 +193,26 @@ namespace Groove
 		{
 			try
 			{
+				//TODO implement paging.
 				var resp = await Api.BrowseUserCollection(GrooveNamespace.Music, GrooveTypes.Tracks, "CollectionDate", page);
-				//CollectionDate
+				var tracks = resp.Tracks.Items.Select (x => new FullTrackData(x.Name, x.Artist?.Name, x.AlbumArtist?.Name, x.Album?.Name, x.Genres?.FirstOrDefault ()) {
+					Duration = x.Duration.TotalSeconds,
+					ArtistServerId = x.Artist?.Id,
+					AlbumServerId = x.Album?.Id,
+					AlbumArtwork = new List<AlbumArtwork> { new AlbumArtwork { Url = x?.Album.ImageUrl ?? x.ImageUrl } },
+					ArtistArtwork = x.Artists?.Select (a => new ArtistArtwork { Url = a.Artist.ImageUrl }).ToList (),
+					MediaType = MediaType.Audio,
+					ServiceId = Api.CurrentAccount.Identifier,
+					Id = x.Id,
+					ServiceType = ServiceType.Groove,
+					FileExtension = "mp4",
+					Track = x.TrackNumber,
+					Year = x.ReleaseDate.Year,
+				}).ToList ();
+				if ((tracks?.Count ?? 0) == 0)
+					return true;
+				await MusicProvider.ProcessTracks (tracks);
+				//TotalSync += tracks?.Count ?? 0;
 				return true;
 			}
 			catch (Exception ex)

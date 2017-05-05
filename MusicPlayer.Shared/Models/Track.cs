@@ -40,6 +40,10 @@ namespace MusicPlayer.Models
 
 		public MediaType MediaType { get; set; }
 
+		/// <summary>
+		/// Gets or sets the duration in Seconds.
+		/// </summary>
+		/// <value>The duration in Seconds.</value>
 		public double Duration { get; set; }
 
 		public int Priority { get; set; }

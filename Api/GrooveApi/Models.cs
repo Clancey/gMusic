@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Groove
 {
@@ -134,23 +135,48 @@ namespace Groove
 		[JsonProperty("ReleaseDate")]
 		public DateTime ReleaseDate { get; set; }
 
-		[JsonProperty("Genres")]
+
+		[JsonProperty ("Duration")]
+		public string Duration { get; set; }
+
+		[JsonProperty ("TrackCount")]
+		public int TrackCount { get; set; }
+
+		[JsonProperty ("IsExplicit")]
+		public bool IsExplicit { get; set; }
+
+		[JsonProperty ("LabelName")]
+		public string LabelName { get; set; }
+
+		[JsonProperty ("Genres")]
 		public IList<string> Genres { get; set; }
 
-		[JsonProperty("Id")]
+		[JsonProperty ("Subgenres")]
+		public IList<string> Subgenres { get; set; }
+
+		[JsonProperty ("AlbumType")]
+		public string AlbumType { get; set; }
+
+		[JsonProperty ("Id")]
 		public string Id { get; set; }
 
-		[JsonProperty("Name")]
+		[JsonProperty ("Name")]
 		public string Name { get; set; }
 
-		[JsonProperty("ImageUrl")]
+		[JsonProperty ("ImageUrl")]
 		public string ImageUrl { get; set; }
 
-		[JsonProperty("Link")]
+		[JsonProperty ("Link")]
 		public string Link { get; set; }
 
-		[JsonProperty("Source")]
+		[JsonProperty ("Source")]
 		public string Source { get; set; }
+
+		[JsonProperty ("CompatibleSources")]
+		public string CompatibleSources { get; set; }
+
+		[JsonProperty ("Artists")]
+		public IList<Contributor> Artists { get; set; }
 	}
 
 	public class ArtistDetails
@@ -185,44 +211,52 @@ namespace Groove
 	public class TrackItem
 	{
 
-		[JsonProperty("ReleaseDate")]
+		[JsonProperty ("ReleaseDate")]
 		public DateTime ReleaseDate { get; set; }
 
-		[JsonProperty("Duration")]
-		public string Duration { get; set; }
+		[JsonProperty ("Duration")]
+		public TimeSpan Duration { get; set; }
 
-		[JsonProperty("TrackNumber")]
+		[JsonProperty ("TrackNumber")]
 		public int TrackNumber { get; set; }
 
-		[JsonProperty("IsExplicit")]
+		[JsonProperty ("IsExplicit")]
 		public bool IsExplicit { get; set; }
 
-		[JsonProperty("Genres")]
+		[JsonProperty ("Genres")]
 		public IList<string> Genres { get; set; }
 
-		[JsonProperty("Album")]
+		[JsonProperty ("Album")]
 		public Album Album { get; set; }
 
-		[JsonProperty("Artists")]
+		[JsonProperty ("Artists")]
 		public IList<Contributor> Artists { get; set; }
 
-		[JsonProperty("Id")]
+		[JsonProperty ("Id")]
 		public string Id { get; set; }
 
-		[JsonProperty("Name")]
+		[JsonProperty ("Name")]
 		public string Name { get; set; }
 
-		[JsonProperty("ImageUrl")]
+		[JsonProperty ("ImageUrl")]
 		public string ImageUrl { get; set; }
 
-		[JsonProperty("Link")]
+		[JsonProperty ("Link")]
 		public string Link { get; set; }
 
-		[JsonProperty("Source")]
+		[JsonProperty ("Source")]
 		public string Source { get; set; }
 
-		[JsonProperty("Rights")]
+		[JsonProperty ("Rights")]
 		public IList<string> Rights { get; set; }
+
+		ArtistDetails artist;
+		[JsonIgnore]
+		public ArtistDetails Artist => artist ?? (artist = Artists?.FirstOrDefault (x => x.Role == "Main" )?.Artist);
+
+		ArtistDetails albumArtist;
+		[JsonIgnore]
+		public ArtistDetails AlbumArtist => albumArtist ?? (albumArtist = Album?.Artists?.FirstOrDefault (x => x.Role == "Main")?.Artist);
 	}
 
 	public class Tracks
