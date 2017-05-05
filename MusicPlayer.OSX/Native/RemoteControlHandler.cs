@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using MusicPlayer.Managers;
 using Foundation;
 using System.Threading.Tasks;
@@ -352,7 +352,7 @@ namespace MusicPlayer
 			anInvocation.Target = obj;
 			invocation = anInvocation;
 			if (BackgroundAfterForward) {
-				Task.Run (RunInBackground);
+				Task.Run (()=> RunInBackground());
 				return;
 			}
 

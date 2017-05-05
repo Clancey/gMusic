@@ -61,30 +61,20 @@ namespace MusicPlayer.Managers
 			}
 		}
 
-		public void Log(string message, [CallerMemberName] string memberName = "",
-							   [CallerFilePath] string sourceFilePath = "",
-							   [CallerLineNumber] int sourceLineNumber = 0)
-		{
-			var dictionary = new Dictionary<string, string>() {
-				{"Method", memberName},
-				{"File",sourceFilePath },
-				{"Line number",sourceLineNumber.ToString() },
-			};
-			Task.Run(()=> Insights.Track(message, dictionary));
-		}
 
-		public void Log(string message, string key, string value, [CallerMemberName] string memberName = "",
+		public void Log(string message, string key = null, string value = null, [CallerMemberName] string memberName = "",
 							   [CallerFilePath] string sourceFilePath = "",
 							   [CallerLineNumber] int sourceLineNumber = 0)
 		{
 			try
 			{
 				var dictionary = new Dictionary<string, string>() {
-					{key, value },
 					{"Method", memberName},
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
+				if (!string.IsNullOrWhiteSpace (key))
+					dictionary [key] = value;
 				Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)

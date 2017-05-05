@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Collections.Generic;
@@ -67,8 +67,8 @@ namespace MusicPlayer.Api
 					await FinalizeProcessing (this.Id);
 					Console.WriteLine ("FinalizeProcessing took : {0}", (DateTime.Now - lastTime).TotalMilliseconds);
 					Console.WriteLine ("Parsing Filesystem took : {0}", (DateTime.Now - start).TotalMilliseconds);
-					var lastUpdate = files.Max(File.GetLastWriteTime);
-					var lastCreate = files.Max(File.GetCreationTime);
+					var lastUpdate = files.Max(x=> File.GetLastWriteTime(x));
+					var lastCreate = files.Max(x=> File.GetCreationTime(x));
 					Settings.LastFilesystemSync = lastUpdate > lastCreate ? lastUpdate: lastCreate;
 					return true;
 				} catch (Exception ex) {
