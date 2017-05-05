@@ -305,6 +305,8 @@ namespace MusicPlayer.Playback
 					if(playbackData.Uri == null)
 						return new Tuple<bool, AVPlayerItem>(false,null);
 					LogManager.Shared.Log("Local track found",song);
+					//Do this to make sure the file isnt open. AVPlayer doesnt like sharing a file.
+					DownloadManager.Shared.ForceComplete (playbackData.CurrentTrack.Id);
 					var url = string.IsNullOrWhiteSpace(playbackData?.CurrentTrack?.FileLocation) ? new NSUrl(playbackData.Uri.AbsoluteUri) : NSUrl.FromFilename(playbackData.CurrentTrack.FileLocation);
 					playerItem = AVPlayerItem.FromUrl(url);
 					await playerItem.WaitStatus();
