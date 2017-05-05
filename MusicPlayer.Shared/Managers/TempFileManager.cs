@@ -15,8 +15,8 @@ namespace MusicPlayer.Managers
 
 		public TempFileManager()
 		{
-			Queue.Removed = (file) => { File.Delete(Path.Combine(Path.GetTempPath(), file)); };
-			var files = Directory.EnumerateFiles(Path.GetTempPath())
+			Queue.Removed = (file) => { File.Delete(Path.Combine (Locations.TmpDir, file)); };
+			var files = Directory.EnumerateFiles(Locations.TmpDir)
 				.Where(x => x.EndsWith("mp3", StringComparison.CurrentCultureIgnoreCase) ||
 							x.EndsWith("mp4", StringComparison.CurrentCultureIgnoreCase))
 				.OrderBy(File.GetCreationTime).Where(x =>
@@ -31,7 +31,7 @@ namespace MusicPlayer.Managers
 
 		public void Cleanup()
 		{
-			Directory.GetFiles(Path.GetTempPath(), "*.tmp").ToList().ForEach(File.Delete);
+			Directory.GetFiles(Locations.TmpDir, "*.tmp").ToList().ForEach(File.Delete);
 		}
 
 		public Tuple<bool, string> GetTempFile(string trackId)
@@ -39,7 +39,7 @@ namespace MusicPlayer.Managers
 			var track = Database.Main.GetObject<Track, TempTrack>(trackId);
 			var newPath = track.FileName;
 			if (Queue.Contains(newPath))
-				return new Tuple<bool, string>(true, Path.Combine(Path.GetTempPath(), newPath));
+				return new Tuple<bool, string>(true, Path.Combine(Locations.TmpDir, newPath));
 			return new Tuple<bool, string>(false, null);
 		}
 
@@ -50,7 +50,7 @@ namespace MusicPlayer.Managers
 			var info = new FileInfo(filePath);
 			if (info.Length == 0)
 				return;
-			File.Copy(filePath, Path.Combine(Path.GetTempPath(), newPath), true);
+			File.Copy(filePath, Path.Combine(Locations.TmpDir, newPath), true);
 			Queue.Add(newPath);
 		}
 	}
