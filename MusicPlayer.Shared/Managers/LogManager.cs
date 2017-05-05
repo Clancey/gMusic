@@ -67,37 +67,24 @@ namespace MusicPlayer.Managers
 			}
 		}
 
-		public void Log(string message, [CallerMemberName] string memberName = "",
+		public void Log (string message, string key = null, string value = null, [CallerMemberName] string memberName = "",
 							   [CallerFilePath] string sourceFilePath = "",
 							   [CallerLineNumber] int sourceLineNumber = 0)
 		{
-			var dictionary = new Dictionary<string, string>() {
-				{"Method", memberName},
-				{"File",sourceFilePath },
-				{"Line number",sourceLineNumber.ToString() },
-			};
-			TrackEvent(message, dictionary);
-		}
-
-		public void Log(string message, string key, string value, [CallerMemberName] string memberName = "",
-							   [CallerFilePath] string sourceFilePath = "",
-							   [CallerLineNumber] int sourceLineNumber = 0)
-		{
-			try
-			{
-				var dictionary = new Dictionary<string, string>() {
-					{key, value },
+			try {
+				var dictionary = new Dictionary<string, string> () {
 					{"Method", memberName},
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
+				if (!string.IsNullOrWhiteSpace (key))
+					dictionary [key] = value;
 				TrackEvent(message, dictionary);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
 			}
 		}
+
 		public void Log(string message, MediaItemBase mediaItem,
 							   [CallerMemberName] string memberName = "",
 							   [CallerFilePath] string sourceFilePath = "",
