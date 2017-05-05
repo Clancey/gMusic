@@ -217,7 +217,7 @@ namespace YoutubeApi
 		string GetAccountParentId(Account account)
 		{
 			string parentID = null;
-			account.UserData?.TryGetValue ("ParentId", out parentID);
+			account?.UserData?.TryGetValue ("ParentId", out parentID);
 			return parentID;
 		}
 

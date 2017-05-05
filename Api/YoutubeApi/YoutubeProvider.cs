@@ -533,7 +533,7 @@ namespace YoutubeApi
 				if (!string.IsNullOrWhiteSpace(playlist.ServiceExtra))
 					headers = new Dictionary<string, string>{{"ETag",playlist.ServiceExtra}};
 				int order = 0;
-				var playlistResponse = await Api.Get<PlaylistItemListResponse>(path,headers:headers);
+				var playlistResponse = await Api.Get<PlaylistItemListResponse>(path, headers: headers, authenticated: false);
 				if (playlistResponse.ETag == playlist.ServiceExtra)
 					return entries;
 				foreach(var item in playlistResponse.Items)
@@ -598,7 +598,7 @@ namespace YoutubeApi
 			var result = new SearchResults();
 			try{
 	            var path = "search?part=snippet&maxResults=50&q=" + HttpUtility.UrlEncode(query);
-				var searchListResponse = await Api.Get<SearchListResponse>(path);
+				var searchListResponse = await Api.Get<SearchListResponse>(path, authenticated: false);
 
 				foreach (var searchResult in searchListResponse.Items)
 				{
