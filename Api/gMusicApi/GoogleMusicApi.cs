@@ -41,9 +41,13 @@ namespace MusicPlayer.Api.GoogleMusic
 
 	internal class GoogleMusicApi : GoogleApi
 	{
+		static GoogleMusicApi()
+		{
+			ForceNativeLogin = false;
+		}
 		public override string ExtraDataString
 		{
-			get { return ExtraData?.ToJson() ?? ""; }
+			get => ExtraData?.ToJson() ?? "";
 			set
 			{
 				extraDataString = value;
