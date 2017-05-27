@@ -24,7 +24,12 @@ namespace MusicPlayer
 			NSUserNotificationCenter.DefaultUserNotificationCenter.DidActivateNotification += (object sender, UNCDidActivateNotificationEventArgs e) => {
 				switch (e.Notification.ActivationType)
 				{
+
         			case NSUserNotificationActivationType.ActionButtonClicked:
+					var frontmost = NSWorkspace.SharedWorkspace.FrontmostApplication.BundleIdentifier == NSBundle.MainBundle.BundleIdentifier;
+					if(frontmost)
+						NSWorkspace.SharedWorkspace.FrontmostApplication.Hide ();
+					Console.WriteLine (frontmost);
 					PlaybackManager.Shared.NextTrack ();
 					break;
 				}
