@@ -107,6 +107,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Managers\ShareManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\InMemoryConsole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\BassPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\PlaybackData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />

@@ -25,11 +25,9 @@
     <MtouchArch>i386</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <MtouchProfiling>true</MtouchProfiling>
     <CustomCommands>
@@ -59,8 +57,6 @@
     <ConsolePause>false</ConsolePause>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchUseThumb>true</MtouchUseThumb>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchI18n>
     </MtouchI18n>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -94,8 +90,6 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <MtouchProfiling>True</MtouchProfiling>
-    <MtouchUseSGen>True</MtouchUseSGen>
-    <MtouchUseRefCounting>True</MtouchUseRefCounting>
     <IpaPackageName>gMusic</IpaPackageName>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
@@ -133,8 +127,6 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchUseThumb>true</MtouchUseThumb>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <CustomCommands>
@@ -188,8 +180,6 @@
     <CodesignKey>iPhone Distribution: INTERACTIVE INNOVATIVE SOLUTIONS LLC</CodesignKey>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchUseThumb>true</MtouchUseThumb>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchI18n>
     </MtouchI18n>
     <IpaPackageName>MediaPlayer</IpaPackageName>
@@ -211,8 +201,6 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchUseLlvm>True</MtouchUseLlvm>
     <MtouchUseThumb>True</MtouchUseThumb>
-    <MtouchUseSGen>True</MtouchUseSGen>
-    <MtouchUseRefCounting>True</MtouchUseRefCounting>
     <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -243,7 +231,6 @@
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;ADHOC</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <MtouchArch>i386</MtouchArch>
     <CustomCommands>
@@ -266,7 +253,6 @@
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
-    <MtouchUseSGen>true</MtouchUseSGen>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <MtouchArch>i386</MtouchArch>
     <IntermediateOutputPath>obj\iPhoneSimulator\AppStore</IntermediateOutputPath>
@@ -325,8 +311,6 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchUseThumb>true</MtouchUseThumb>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchI18n>
     </MtouchI18n>
     <IpaPackageName>MediaPlayer</IpaPackageName>
@@ -483,6 +467,7 @@
     <Compile Include="ViewControllers\Car\CarStyle.cs" />
     <Compile Include="ViewControllers\ServicePickerViewController.cs" />
     <Compile Include="ViewControllers\ConsoleViewController.cs" />
+    <Compile Include="Playback\AVMediaPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Haneke">

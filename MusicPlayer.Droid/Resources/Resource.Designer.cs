@@ -26,9 +26,8 @@ namespace MusicPlayer.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::NGraphics.Android.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
 			global::ModernHttpClient.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
-			global::Splat.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
+			global::NGraphics.Android.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
 			global::SimpleAuth.Resource.Id.loginButton = global::MusicPlayer.Droid.Resource.Id.loginButton;
 			global::SimpleAuth.Resource.Id.password = global::MusicPlayer.Droid.Resource.Id.password;
 			global::SimpleAuth.Resource.Id.username = global::MusicPlayer.Droid.Resource.Id.username;
@@ -82,6 +81,7 @@ namespace MusicPlayer.Droid
 			global::SimpleTables.Resource.Layout.dialog_textfieldbelow = global::MusicPlayer.Droid.Resource.Layout.dialog_textfieldbelow;
 			global::SimpleTables.Resource.Layout.dialog_textfieldright = global::MusicPlayer.Droid.Resource.Layout.dialog_textfieldright;
 			global::SimpleTables.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
+			global::Splat.Resource.String.library_name = global::MusicPlayer.Droid.Resource.String.library_name;
 		}
 		
 		public partial class Animation
