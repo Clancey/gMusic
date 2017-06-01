@@ -18,35 +18,47 @@ namespace MusicPlayer
 	/// </summary>
 	public class BassPlayer : Player
 	{
-		ManagedBass.PlaybackState state;
+		static BassPlayer ()
+		{
+			Bass.Init ();
+		}
 		int streamHandle;
-		SyncProcedure bufferSync;
-		int bufferSyncHandle;
-		SyncProcedure endSync;
-		int endSyncHandle;
+		int bufferSync;
+		int endSync;
 		FileProcedures fileProcs;
 		PlaybackData currentData;
 
-		public override bool IsPlayerItemValid  => StreamIsValid; 
+		public BassPlayer ()
+		{
+			State = Models.PlaybackState.Stopped;
+			fileProcs = new FileProcedures {
+				Close = OnFileClose,
+				Length = OnFileLength,
+				Read = OnFileRead,
+				Seek = OnFileSeek,
+			};
+		}
+
+		public override bool IsPlayerItemValid => StreamIsValid;
 
 		bool StreamIsValid => streamHandle != 0;
 
-		public override float Rate => throw new NotImplementedException ();
+		public override float Rate => IsPlayerItemValid && Bass.ChannelIsActive (streamHandle) == ManagedBass.PlaybackState.Playing ? 1 : 0;
 
-		public override float Volume { get => throw new NotImplementedException (); set => throw new NotImplementedException (); }
+		public override float Volume {
+			get => Bass.GlobalStreamVolume / 1000f;
+			set => Bass.GlobalStreamVolume = (int)(value * 1000);
+		}
 
 		public override double CurrentTimeSeconds () => StreamIsValid ? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetPosition (streamHandle)) : 0;
 
 		public override void Dispose ()
 		{
-			RemoveHandles ();
 			Stop ();
+			RemoveHandles ();
 		}
 
-		public override double Duration ()
-		{
-			throw new NotImplementedException ();
-		}
+		public override double Duration () => StreamIsValid ? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetLength (streamHandle)) : 0;
 
 		public override void Pause ()
 		{
@@ -58,7 +70,6 @@ namespace MusicPlayer
 
 		void Stop ()
 		{
-
 			if (!StreamIsValid)
 				return;
 			Bass.ChannelSlideAttribute (streamHandle, ChannelAttribute.Volume, -1, 20);
@@ -69,35 +80,90 @@ namespace MusicPlayer
 		{
 			if (!StreamIsValid)
 				return;
-			Bass.Start ();
-			Bass.ChannelPlay (streamHandle);
+			
+			Bass.ChannelPlay (streamHandle, false);
 			Bass.ChannelSlideAttribute (streamHandle, ChannelAttribute.Volume, 1, 20);
-			throw new NotImplementedException ();
+			SetState ();
 		}
 
-		public override async Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false)
+		void SetState ()
+		{
+			if (!IsPlayerItemValid) {
+				State = Models.PlaybackState.Stopped;
+				return;
+			}
+			var state = Bass.ChannelIsActive (streamHandle);
+			switch (state) {
+			case ManagedBass.PlaybackState.Paused:
+				State = Models.PlaybackState.Paused;
+				return;
+			case ManagedBass.PlaybackState.Stalled:
+				State = Models.PlaybackState.Buffering;
+				return;
+			case ManagedBass.PlaybackState.Stopped:
+				State = Models.PlaybackState.Stopped;
+				return;
+			case ManagedBass.PlaybackState.Playing:
+				State = Models.PlaybackState.Playing;
+				return;
+			}
+		}
+		public override Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false)
 		{
 			throw new NotImplementedException ();
 		}
 
 		public override async Task<bool> PrepareData (PlaybackData playbackData)
 		{
-			throw new NotImplementedException ();
+			var location = Bass.ChannelGetPosition (streamHandle);
+			if (IsPlayerItemValid) {
+				Stop ();
+				RemoveHandles ();
+			}
+			return await Task.Run (() => {
+				Bass.Start ();
+				var data = playbackData.SongPlaybackData;
+				if (data.IsLocal) {
+					streamHandle = Bass.CreateStream (data.Uri.LocalPath, Flags: BassFlags.AutoFree | BassFlags.Prescan);
+
+				} else {
+					var handle = GCHandle.Alloc (playbackData.DownloadHelper, GCHandleType.Pinned);
+					var downloaderPointer = GCHandle.ToIntPtr (handle);
+					streamHandle = Bass.CreateStream (StreamSystem.Buffer, BassFlags.AutoFree, fileProcs, downloaderPointer);
+				}
+				if (streamHandle == 0) {
+					var error = Bass.LastError;
+					Console.WriteLine (error);
+					return false;
+				}
+
+				endSync = Bass.ChannelSetSync (streamHandle, SyncFlags.End, 0, OnTrackEnd, IntPtr.Zero);
+				bufferSync = Bass.ChannelSetSync (streamHandle, SyncFlags.Stalled, 0, OnBuffering, IntPtr.Zero);
+				if (location > 0) {
+					Bass.ChannelSetPosition (streamHandle, location);
+				}
+				SetState ();
+				return true;
+			});
 		}
 
-		public override void Seek (double time)
+		public override void Seek (double seconds)
 		{
-			throw new NotImplementedException ();
+			if (!IsPlayerItemValid) {
+				return;
+			}
+
+			var location = Bass.ChannelSeconds2Bytes (streamHandle, seconds);
+			Bass.ChannelSetPosition (streamHandle, location);
 		}
 
-		[MonoPInvokeCallback (typeof (FileCloseProcedure))]
-		static void OnFileClose (IntPtr user)
+		void OnFileClose (IntPtr user)
 		{
-
+			Stop ();
+			RemoveHandles ();
 		}
 
-		[MonoPInvokeCallback (typeof (FileLengthProcedure))]
-		static long OnFileLength (IntPtr user)
+		long OnFileLength (IntPtr user)
 		{
 			try {
 				var downloader = GCHandle.FromIntPtr (user).Target as DownloadHelper;
@@ -109,8 +175,7 @@ namespace MusicPlayer
 			return 0;
 		}
 
-		[MonoPInvokeCallback (typeof (FileReadProcedure))]
-		static int OnFileRead (IntPtr buffer, int length, IntPtr user)
+		int OnFileRead (IntPtr buffer, int length, IntPtr user)
 		{
 			var data = new byte [length];
 			var read = 0;
@@ -126,24 +191,27 @@ namespace MusicPlayer
 		}
 
 
-		[MonoPInvokeCallback (typeof (FileSeekProcedure))]
-		static bool OnFileSeek (long offset, IntPtr user)
+		bool OnFileSeek (long offset, IntPtr user)
 		{
 			return true;
 		}
 
 
-		[MonoPInvokeCallback (typeof (SyncProcedure))]
-		static void OnTrackEnd (int handle, int channel, int data, IntPtr user)
+		void OnTrackEnd (int handle, int channel, int data, IntPtr user)
 		{
 
+		}
+
+		void OnBuffering (int handle, int channel, int data, IntPtr user)
+		{
+			State = Models.PlaybackState.Buffering;
 		}
 
 		void RemoveHandles ()
 		{
 			if (StreamIsValid) {
-				Bass.ChannelRemoveSync (streamHandle, bufferSyncHandle);
-				Bass.ChannelRemoveSync (streamHandle, endSyncHandle);
+				Bass.ChannelRemoveSync (streamHandle, bufferSync);
+				Bass.ChannelRemoveSync (streamHandle, endSync);
 			}
 			streamHandle = 0;
 
@@ -162,7 +230,7 @@ namespace MusicPlayer
 
 		public override void ApplyEqualizer ()
 		{
-			throw new NotImplementedException ();
+			//throw new NotImplementedException ();
 		}
 	}
 }

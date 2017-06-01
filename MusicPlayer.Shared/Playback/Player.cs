@@ -8,7 +8,16 @@ namespace MusicPlayer.Playback
 	{
 		public Action<PlaybackState> StateChanged { get; set; }
 
-		public virtual PlaybackState State { get; set; }
+		PlaybackState state;
+		public virtual PlaybackState State {
+			get => state;
+			set {
+				if (value == state)
+					return;
+				state = value;
+				StateChanged?.Invoke (state);
+			}
+		}
 
 		public Action Finished { get; set; }
 
