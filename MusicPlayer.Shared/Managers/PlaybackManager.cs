@@ -518,6 +518,8 @@ namespace MusicPlayer.Managers
 				Pause();
 				return;
 			}
+			if (CurrentSongIndex == nextIndex)
+				return;
 			CurrentSongIndex = nextIndex;
 			var song = GetSong(CurrentSongIndex);
 			if (song == null)
