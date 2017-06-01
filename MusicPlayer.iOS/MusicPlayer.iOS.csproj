@@ -470,12 +470,6 @@
     <Compile Include="Playback\AVMediaPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Haneke">
-      <HintPath>..\Components\haneke-1.0.1\lib\ios-unified\Haneke.dll</HintPath>
-    </Reference>
-    <Reference Include="RadialProgress.iOS">
-      <HintPath>..\Components\radialprogress-1.0.1.3\lib\ios-unified\RadialProgress.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Services" />
@@ -490,12 +484,6 @@
     </Reference>
     <Reference Include="NGraphics.iOS">
       <HintPath>..\packages\NGraphics.0.4.0\lib\Xamarin.iOS10\NGraphics.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="BTProgressHUD">
-      <HintPath>..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
     <Reference Include="PioneerKit">
       <HintPath>..\References\PioneerKit.dll</HintPath>
@@ -569,6 +557,15 @@
     </Reference>
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\System.Reactive.PlatformServices.3.1.1\lib\netstandard1.3\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Haneke">
+      <HintPath>..\packages\Haneke.1.0.2.1\lib\Xamarin.iOS10\Haneke.dll</HintPath>
+    </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\packages\BTProgressHUD.1.2.0.5\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
+    </Reference>
+    <Reference Include="RadialProgress.iOS">
+      <HintPath>..\packages\Xamarin.RadialProgress.1.0.2\lib\Xamarin.iOS10\RadialProgress.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -750,24 +747,6 @@
     </ImageAsset>
     <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\iTunesArtwork%402x.png" />
     <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Icon-167.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="haneke">
-      <Version>1.0.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="radialprogress">
-      <Version>1.0.1.3</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="hockeyappios">
-      <Version>3.8.5.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="btprogresshud">
-      <Version>1.20</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork%402x" />
