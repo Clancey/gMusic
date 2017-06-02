@@ -100,6 +100,12 @@ namespace MusicPlayer.Playback
 				});
 			#endif
 		}
+
+		public void UpdateBand (int band, float gain)
+		{
+			player.UpdateBand (band, gain);
+		}
+
 		double lastDurration;
 		double lastSeconds;
 		Task checkPlaybackTask;

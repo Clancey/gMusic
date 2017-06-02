@@ -11,6 +11,7 @@ using AudioToolbox;
 using ObjCRuntime;
 using System.Runtime.InteropServices;
 using MusicPlayer.Managers;
+using ManagedBass.Fx;
 namespace MusicPlayer
 {
 	/// <summary>
@@ -21,6 +22,7 @@ namespace MusicPlayer
 		static BassPlayer ()
 		{
 			Bass.Init ();
+			var fxv = BassFx.Version;
 		}
 		int streamHandle;
 		int bufferSync;
@@ -217,20 +219,55 @@ namespace MusicPlayer
 
 		}
 
-
+		int fxStream;
+		int fxEq;
 		public override void ApplyEqualizer (Equalizer.Band [] bands)
 		{
-			//foreach (var band in bands) {
-			//	if (Bass.FXGetParameters ().BASS_FXGetParameters (fxEq [slider.Tag], eq)) {
-			//		eq.fGain = slider.Value / 10;
-			//		Bass.BASS_FXSetParameters (fxEq [slider.Tag], eq);
-			//	}
-			//}
-		}
+			if (!IsPlayerItemValid)
+				return;
+			if (fxStream == streamHandle) {
+				for (int i = 0; i < bands.Length; i++) {
+					UpdateBand (i, bands [i].Gain);
+				}
+				return;
+			}
+			fxStream = streamHandle;
 
+			fxEq = Bass.ChannelSetFX (fxStream, EffectType.PeakEQ, 1);
+			if (fxEq == 0) {
+				fxStream = 0;
+				Console.WriteLine (Bass.LastError);
+				return;
+			}
+
+			eq.fQ = 0f;
+			eq.fBandwidth = .6f;
+			eq.lChannel = FXChannelFlags.All;
+
+			for (int i = 0; i < bands.Length; i++) {
+				eq.lBand = i;
+				eq.fCenter = bands [i].Center;
+				eq.fGain = bands [i].Gain;
+				Console.WriteLine (eq.fCenter);
+				Bass.FXSetParameters (fxEq, eq);
+			}
+		}
+		readonly PeakEQParameters eq = new PeakEQParameters ();
 		public override void ApplyEqualizer ()
 		{
-			//throw new NotImplementedException ();
+			ApplyEqualizer (Equalizer.Shared.Bands);
+		}
+
+		public override void UpdateBand (int band, float gain)
+		{
+			if (fxEq == 0)
+				return;
+			// get values of the selected band
+			eq.lBand = band;
+			Bass.FXGetParameters (fxEq,eq);
+			//eq.fGain = gain+( _cmp1.fThreshold * (1 / _cmp1.fRatio - 1));
+			eq.fGain = gain;
+			Bass.FXSetParameters (fxEq, eq);
 		}
 	}
 }

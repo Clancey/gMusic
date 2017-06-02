@@ -56,14 +56,9 @@ namespace MusicPlayer.Playback
 				active = value;
 				StateManager.Shared.EqualizerEnabled = active;
 				if (active)
-					ApplyEqualizer();
+					ApplyEqualizer ();
 				else
-
-#if __IOS__ || __OSX__
-					iOS.Playback.AVPlayerEqualizer.Shared.Clear();
-#else
-					throw new NotImplementedException("Android EQ Apply");
-#endif
+					Clear ();
 
 			}
 		}
@@ -104,6 +99,12 @@ namespace MusicPlayer.Playback
 			set { curEqId = value; }
 		}
 
+		public void Clear ()
+		{
+			for (int i = 0; i < Bands.Length; i++) {
+				UpdateBand (i, 0);
+			}
+		}
 		public async Task ApplyEqualizer()
 		{
 			if (!StateManager.Shared.EqualizerEnabled)
@@ -119,12 +120,7 @@ namespace MusicPlayer.Playback
 #else
 			CurEqId = CurrentPreset.GlobalId;
 #endif
-
-#if __IOS__ || __OSX__
-			iOS.Playback.AVPlayerEqualizer.Shared.ApplyEqualizer(Bands);
-			#else
-			throw new NotImplementedException("Android EQ Apply");
-			#endif
+			PlaybackManager.Shared.NativePlayer.ApplyEqualizer (Bands);
 		}
 
 		public void UpdateBand(int band, float gain, bool slider = false)
@@ -134,12 +130,7 @@ namespace MusicPlayer.Playback
 				ApplyPreset (CurrentPreset);
 #endif
 
-
-#if __IOS__ || __OSX__
-			iOS.Playback.AVPlayerEqualizer.Shared.UpdateBand(band, gain);
-#else
-			throw new NotImplementedException("Android EQ Apply");
-#endif
+			PlaybackManager.Shared.NativePlayer.UpdateBand (band, gain);
 		}
 
 		public void ApplyPreset(EqualizerPreset preset)

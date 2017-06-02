@@ -12,15 +12,15 @@ using MusicPlayer.Data;
 using MusicPlayer.Models.Scrobbling;
 using System.Linq;
 
-namespace  MusicPlayer.iOS.Playback
+namespace MusicPlayer.iOS.Playback
 {
 	class AudioFadePlayer : Player
 	{
 		public NativeAudioPlayer Parent { get; set; }
 
-		Dictionary<string,bool> isVideoDict = new Dictionary<string, bool> ();
-		Dictionary<Player,NSObject> playerTimeObservers = new Dictionary<Player, NSObject> ();
-		Dictionary<Player,IDisposable> playerRateObservers = new Dictionary<Player, IDisposable> ();
+		Dictionary<string, bool> isVideoDict = new Dictionary<string, bool> ();
+		Dictionary<Player, NSObject> playerTimeObservers = new Dictionary<Player, NSObject> ();
+		Dictionary<Player, IDisposable> playerRateObservers = new Dictionary<Player, IDisposable> ();
 		NSObject endTimeObserver;
 
 		Player player1;
@@ -37,27 +37,25 @@ namespace  MusicPlayer.iOS.Playback
 			player1 = CreatePlayer ();
 			player2 = CreatePlayer ();
 
-			NotificationManager.Shared.VolumeChanged += (s, e) =>
-			{
+			NotificationManager.Shared.VolumeChanged += (s, e) => {
 				CurrentPlayer.Volume = Settings.CurrentVolume;
 			};
-			NotificationManager.Shared.EqualizerChanged += (s, e) =>
-			{
+			NotificationManager.Shared.EqualizerChanged += (s, e) => {
 				CurrentPlayer.ApplyEqualizer ();
 			};
 		}
 
 		public Player CurrentPlayer {
-			get{ return isUsingFirst ? player1 : player2; }
+			get { return isUsingFirst ? player1 : player2; }
 		}
 		public Song CurrentSong {
-			get{ return isUsingFirst ? player1Song : player2Song; }
+			get { return isUsingFirst ? player1Song : player2Song; }
 		}
 		public Player SecondaryPlayer {
-			get{ return isUsingFirst ? player2 : player1; }
+			get { return isUsingFirst ? player2 : player1; }
 		}
 		public Song SecondarySong {
-			get{ return isUsingFirst ? player2Song : player1Song; }
+			get { return isUsingFirst ? player2Song : player1Song; }
 		}
 
 		public override void Play ()
@@ -76,14 +74,14 @@ namespace  MusicPlayer.iOS.Playback
 		}
 
 		public override float Rate {
-			get{ return CurrentPlayer.Rate; }
+			get { return CurrentPlayer.Rate; }
 		}
 		public override float [] AudioLevels {
 			get => CurrentPlayer.AudioLevels;
 			set => CurrentPlayer.AudioLevels = value;
 		}
 
-		public async Task<bool> PrepareSong(Song song, bool isVideo)
+		public async Task<bool> PrepareSong (Song song, bool isVideo)
 		{
 			eqApplied = false;
 			if (isSongPlaying (song))
@@ -95,19 +93,18 @@ namespace  MusicPlayer.iOS.Playback
 				player.Volume = Settings.CurrentVolume;
 				return true;
 			}
-			try{
+			try {
 				var player = GetPlayer (song);
 				StopPlayer (player);
-				ResetSecondary();
-				var data = await Parent.PrepareSong(song,isVideo);
-				if(!data.Item1)
+				ResetSecondary ();
+				var data = await Parent.PrepareSong (song, isVideo);
+				if (!data.Item1)
 					return false;
 				//TODO: FIXME:
 				var s = await player.PrepareData (data.Item2);
 				player.ApplyEqualizer ();
 				return s;
-			}
-			catch(Exception ex) {
+			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
 			return false;
@@ -122,32 +119,36 @@ namespace  MusicPlayer.iOS.Playback
 				fadingToSong = null;
 				var player = GetPlayer (song);
 				player.ApplyEqualizer ();
-				player.Play();
+				player.Play ();
 				player.Volume = Settings.CurrentVolume;
 				//TODO: Fade out
 				//ResetSecondary ();
 				return true;
 			}
-			try{
+			try {
 				var player = GetPlayer (song);
 				StopPlayer (player);
 				player.Volume = Settings.CurrentVolume;
-				ResetSecondary();
-				var data = await Parent.PrepareSong(song,isVideo);
-				if(!data.Item1)
+				ResetSecondary ();
+				var data = await Parent.PrepareSong (song, isVideo);
+				if (!data.Item1)
 					return false;
 				//TODO:FIXME:
-				var s = await player.PrepareData(data.Item2);
+				var s = await player.PrepareData (data.Item2);
 				if (!s)
 					return false;
 				player.ApplyEqualizer ();
 				player.Play ();
 				return true;
-			}
-			catch(Exception ex) {
+			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
 			return false;
+		}
+
+		public override void UpdateBand (int band, float gain)
+		{
+			CurrentPlayer.UpdateBand (band, gain);
 		}
 
 		public override Task<bool> PrepareData (PlaybackData playbackData)
@@ -165,7 +166,7 @@ namespace  MusicPlayer.iOS.Playback
 		//		ResetPlayer2 ();
 		//}
 
-		void ResetSecondary()
+		void ResetSecondary ()
 		{
 			if (isUsingFirst) {
 				ResetPlayer2 ();
@@ -174,14 +175,14 @@ namespace  MusicPlayer.iOS.Playback
 			}
 		}
 
-		void ResetPlayer1()
+		void ResetPlayer1 ()
 		{
 			StopPlayer (player1);
 			player1Song = null;
 			player1.Dispose ();
 			player1 = CreatePlayer ();
 		}
-		void ResetPlayer2()
+		void ResetPlayer2 ()
 		{
 			StopPlayer (player2);
 			player2Song = null;
@@ -189,13 +190,13 @@ namespace  MusicPlayer.iOS.Playback
 			player2 = CreatePlayer ();
 		}
 
-		void StopPlayer(Player player)
+		void StopPlayer (Player player)
 		{
 			//TODO: fade
 			player.Pause ();
 		}
 
-		Player GetPlayer(Song song)
+		Player GetPlayer (Song song)
 		{
 			if (song == player1Song) {
 				isUsingFirst = true;
@@ -213,17 +214,16 @@ namespace  MusicPlayer.iOS.Playback
 			if (isUsingFirst) {
 				player1Song = song;
 				//VideoLayer.VideoLayer = player1Layer;
-			}
-			else {
+			} else {
 				player2Song = song;
 				//VideoLayer.VideoLayer = player2Layer;
 			}
-			
+
 			return CurrentPlayer;
 		}
 
 
-		Player GetSecondaryPlayer(Song song)
+		Player GetSecondaryPlayer (Song song)
 		{
 			if (song == player1Song) {
 				return player1;
@@ -262,7 +262,7 @@ namespace  MusicPlayer.iOS.Playback
 
 		public void Queue (Track track)
 		{
-			var song = Database.Main.GetObject<Song,TempSong> (track.SongId);
+			var song = Database.Main.GetObject<Song, TempSong> (track.SongId);
 			nextSong = song;
 		}
 
@@ -273,8 +273,7 @@ namespace  MusicPlayer.iOS.Playback
 		{
 			if (player != CurrentPlayer || State != PlaybackState.Playing)
 				return;
-			if (!eqApplied)
-			{
+			if (!eqApplied) {
 				player.ApplyEqualizer ();
 				eqApplied = true;
 			}
@@ -286,53 +285,53 @@ namespace  MusicPlayer.iOS.Playback
 				return;
 			var remaining = duration - current;
 			//Console.WriteLine ("Time Remaining: {0}",remaining);
-			var avgAudio = AudioLevels?.Max() ?? 1;
+			var avgAudio = AudioLevels?.Max () ?? 1;
 			if (remaining < 3 && avgAudio < .01 && lastAudioCheck < .01) {
 				StartNext (current);
 			} else if (remaining < .75) {
 				StartNext (current);
-			}
-			else if (remaining < 15) {
+			} else if (remaining < 15) {
 				Console.WriteLine (avgAudio);
 				PrepareNextSong ();
 			}
 			lastAudioCheck = avgAudio;
 		}
-		async void PrepareNextSong()
+		async void PrepareNextSong ()
 		{
 			if (nextSong == null || nextSong == SecondarySong)
 				return;
 			var player = GetSecondaryPlayer (nextSong);
 			bool isVideo;
 			isVideoDict.TryGetValue (nextSong.Id, out isVideo);
-			var data = await Parent.PrepareSong(nextSong,isVideo);
+			var data = await Parent.PrepareSong (nextSong, isVideo);
 			if (player == CurrentPlayer)
 				return;
-			if(!data.Item1)
+			if (!data.Item1)
 				return;
 			await player.PrepareData (data.Item2);
 
 		}
-		async void StartNext(double currentPosition){
+		async void StartNext (double currentPosition)
+		{
 			if (nextSong == CurrentSong)
 				return;
 			var playbackEndEvent = new PlaybackEndedEvent (CurrentSong) {
 				TrackId = Settings.CurrentTrackId,
 				Context = Settings.CurrentPlaybackContext,
 				Position = currentPosition,
-				Duration = Duration(),
+				Duration = Duration (),
 				Reason = ScrobbleManager.PlaybackEndedReason.PlaybackEnded,
 			};
 			fadingToSong = SecondarySong;
-			SecondaryPlayer.Play();
+			SecondaryPlayer.Play ();
 			isUsingFirst = !isUsingFirst;
 
-			ScrobbleManager.Shared.PlaybackEnded(playbackEndEvent);
+			ScrobbleManager.Shared.PlaybackEnded (playbackEndEvent);
 
-			#pragma warning disable 4014
+#pragma warning disable 4014
 			eqApplied = false;
-			PlaybackManager.Shared.NextTrackWithoutPause();
-			Parent.CleanupSong(CurrentSong);
+			PlaybackManager.Shared.NextTrackWithoutPause ();
+			Parent.CleanupSong (CurrentSong);
 		}
 
 		public void DisableVideo ()
@@ -348,9 +347,9 @@ namespace  MusicPlayer.iOS.Playback
 			avPlayer?.EnableVideo ();
 		}
 
-		public override  double CurrentTimeSeconds ()
+		public override double CurrentTimeSeconds ()
 		{
-			var pos = CurrentPlayer.CurrentTimeSeconds();
+			var pos = CurrentPlayer.CurrentTimeSeconds ();
 			//Console.WriteLine (pos);
 			return pos;
 		}
@@ -363,13 +362,17 @@ namespace  MusicPlayer.iOS.Playback
 				if (Parent.CurrentData.TryGetValue (CurrentSong?.Id ?? "", out data))
 					return data?.SongPlaybackData?.CurrentTrack?.Duration ?? 0;
 			}
-				
+
 			return dur;
 		}
 
 		Player CreatePlayer ()
 		{
+#if BASS
+			var player = new BassPlayer ();
+#else
 			var player = new AVMediaPlayer ();
+#endif
 
 			player.StateChanged = (state) => {
 				StateChanged?.Invoke (state);

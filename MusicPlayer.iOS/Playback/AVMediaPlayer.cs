@@ -103,9 +103,9 @@ namespace MusicPlayer
 
 		public override bool IsPlayerItemValid => player?.CurrentItem != null && player?.CurrentItem.Tracks.Length > 0;
 
-		public override void ApplyEqualizer (Equalizer.Band [] bands)
+		public override async void ApplyEqualizer (Equalizer.Band [] bands)
 		{
-			throw new NotImplementedException ();
+			await AVPlayerEqualizer.Shared.ApplyEqualizer (bands);
 		}
 
 		public override double CurrentTimeSeconds () => player?.CurrentTimeSeconds() ?? 0;
@@ -148,6 +148,10 @@ namespace MusicPlayer
 				return;
 			AVPlayerEqualizer.Shared.ApplyEqualizer (player.CurrentItem);
 			equalizerApplied = true;
+		}
+		public override void UpdateBand (int band, float gain)
+		{
+			AVPlayerEqualizer.Shared.UpdateBand (band,gain);
 		}
 
 		public void DisableVideo ()
