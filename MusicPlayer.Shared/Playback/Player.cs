@@ -48,6 +48,7 @@ namespace MusicPlayer.Playback
 		public abstract void ApplyEqualizer (Equalizer.Band [] bands);
 
 		public abstract void ApplyEqualizer ();
+
 		public abstract void UpdateBand (int band, float gain);
 
 		public abstract bool IsPlayerItemValid { get; }

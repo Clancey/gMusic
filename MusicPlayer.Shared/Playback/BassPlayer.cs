@@ -5,13 +5,13 @@ using ManagedBass;
 using ManagedBass.DirectX8;
 using MusicPlayer.Models;
 using System.IO;
-using System.Threading;
 using MusicPlayer.Playback;
 using AudioToolbox;
 using ObjCRuntime;
 using System.Runtime.InteropServices;
 using MusicPlayer.Managers;
 using ManagedBass.Fx;
+using System.Timers;
 namespace MusicPlayer
 {
 	/// <summary>
@@ -19,6 +19,7 @@ namespace MusicPlayer
 	/// </summary>
 	public class BassPlayer : Player
 	{
+		Timer progressTimer;
 		static BassPlayer ()
 		{
 			Bass.Init ();
@@ -39,6 +40,16 @@ namespace MusicPlayer
 				Read = OnFileRead,
 				Seek = OnFileSeek,
 			};
+			progressTimer = new Timer (500);
+			progressTimer.Elapsed += ProgressTimerChanged;
+		}
+
+		void ProgressTimerChanged (object o, EventArgs e)
+		{
+			if (State != Models.PlaybackState.Playing)
+				return;
+			var time = CurrentTimeSeconds ();
+			this.PlabackTimeChanged(time);
 		}
 
 		public override bool IsPlayerItemValid => StreamIsValid;
@@ -58,6 +69,20 @@ namespace MusicPlayer
 		{
 			Stop ();
 			RemoveHandles ();
+		}
+
+		public override float [] AudioLevels {
+			get {
+				if (!IsPlayerItemValid)
+					return base.AudioLevels;
+				var left = (float)Bass.ChannelGetLevelLeft (streamHandle);
+				var right = (float)Bass.ChannelGetLevelRight (streamHandle);
+				//Console.WriteLine(left);
+				return new [] { left, right };
+			}
+			set {
+				base.AudioLevels = value;
+			}
 		}
 
 		public override double Duration () => StreamIsValid ? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetLength (streamHandle)) : 0;
@@ -90,24 +115,35 @@ namespace MusicPlayer
 
 		void SetState ()
 		{
-			if (!IsPlayerItemValid) {
-				State = Models.PlaybackState.Stopped;
-				return;
-			}
-			var state = Bass.ChannelIsActive (streamHandle);
-			switch (state) {
-			case ManagedBass.PlaybackState.Paused:
-				State = Models.PlaybackState.Paused;
-				return;
-			case ManagedBass.PlaybackState.Stalled:
-				State = Models.PlaybackState.Buffering;
-				return;
-			case ManagedBass.PlaybackState.Stopped:
-				State = Models.PlaybackState.Stopped;
-				return;
-			case ManagedBass.PlaybackState.Playing:
-				State = Models.PlaybackState.Playing;
-				return;
+			try {
+				if (!IsPlayerItemValid) {
+					State = Models.PlaybackState.Stopped;
+					return;
+				}
+				var state = Bass.ChannelIsActive (streamHandle);
+				switch (state) {
+				case ManagedBass.PlaybackState.Paused:
+					State = Models.PlaybackState.Paused;
+					return;
+				case ManagedBass.PlaybackState.Stalled:
+					State = Models.PlaybackState.Buffering;
+					return;
+				case ManagedBass.PlaybackState.Stopped:
+					State = Models.PlaybackState.Stopped;
+					return;
+				case ManagedBass.PlaybackState.Playing:
+					State = Models.PlaybackState.Playing;
+					return;
+				}
+			} finally {
+				var shouldRun = State == Models.PlaybackState.Playing;
+				if (shouldRun) {
+					if (!progressTimer.Enabled)
+						progressTimer.Start ();
+				} else {
+					progressTimer.Stop ();
+				}
+
 			}
 		}
 		public override Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false)
@@ -117,6 +153,14 @@ namespace MusicPlayer
 
 		public override async Task<bool> PrepareData (PlaybackData playbackData)
 		{
+
+			//Only reprep the same song twice if it changed between local and streamed
+			if (IsPlayerItemValid &&
+			    currentData?.SongPlaybackData?.CurrentTrack?.Id == playbackData.SongPlaybackData.CurrentTrack.Id &&
+			   currentData?.SongPlaybackData?.IsLocal == playbackData.SongPlaybackData.IsLocal) {
+				return true;
+			}
+			currentData = playbackData;
 			var location = Bass.ChannelGetPosition (streamHandle);
 			if (IsPlayerItemValid) {
 				Stop ();
@@ -135,10 +179,9 @@ namespace MusicPlayer
 				}
 				if (streamHandle == 0) {
 					var error = Bass.LastError;
-					Console.WriteLine (error);
+					Console.WriteLine (error); 
 					return false;
 				}
-
 				endSync = Bass.ChannelSetSync (streamHandle, SyncFlags.End, 0, OnTrackEnd, IntPtr.Zero);
 				bufferSync = Bass.ChannelSetSync (streamHandle, SyncFlags.Stalled, 0, OnBuffering, IntPtr.Zero);
 				if (location > 0) {
