@@ -349,7 +349,6 @@
     <Compile Include="Native\PopupManager.cs" />
     <Compile Include="Controls\ProgressView.cs" />
     <Compile Include="Controls\TextInputAlert.cs" />
-    <Compile Include="Helpers\CGRectHelpers.cs" />
     <Compile Include="Helpers\Device.cs" />
     <Compile Include="Helpers\Fonts.cs" />
     <Compile Include="Helpers\ImageExtensions.cs" />
@@ -358,7 +357,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Native\BackgroundDownloadManager.cs" />
-    <Compile Include="Playback\AVPlayerEqualizer.cs" />
     <Compile Include="Playback\PictureInPictureManager.cs" />
     <Compile Include="UI\AlbumHeaderView.cs" />
     <Compile Include="UI\DarkBlurView.cs" />
@@ -382,8 +380,6 @@
     <Compile Include="ViewControllers\SettingViewController.cs" />
     <Compile Include="ViewModels\CurrentPlaylistViewModel.cs" />
     <None Include="Info.plist" />
-    <Compile Include="Playback\NativeAudioPlayer.cs" />
-    <Compile Include="Playback\NativeTrackHandler.cs" />
     <Compile Include="Playback\RemoteControlHandler.cs" />
     <Compile Include="Cells\PlaylistSongCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -398,7 +394,6 @@
     <Compile Include="Cells\SongCell.cs" />
     <Compile Include="Cells\BaseCell.cs" />
     <Compile Include="ViewControllers\IntroViewController.cs" />
-    <Compile Include="Playback\AVPlayerExtension.cs" />
     <Compile Include="ViewControllers\PlaylistViewController.cs" />
     <Compile Include="ViewControllers\PlaylistSongsViewController.cs" />
     <Compile Include="Controls\TopTabBarController.cs" />
@@ -438,7 +433,6 @@
     <Compile Include="Helpers\UIViewExtensions.cs" />
     <Compile Include="Native\NativeIndexer.cs" />
     <Compile Include="Cells\MenuSubtextSwitch.cs" />
-    <Compile Include="Playback\AudioFadePlayer.cs" />
     <BundleResource Include="Resources\accentColorHorizontal.png" />
     <BundleResource Include="Resources\accentColorHorizontal%402x.png" />
     <Compile Include="Native\SongSharingActivityProvider.cs" />
@@ -467,7 +461,7 @@
     <Compile Include="ViewControllers\Car\CarStyle.cs" />
     <Compile Include="ViewControllers\ServicePickerViewController.cs" />
     <Compile Include="ViewControllers\ConsoleViewController.cs" />
-    <Compile Include="Playback\AVMediaPlayer.cs" />
+    <Compile Include="Playback\NativeTrackHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -664,6 +658,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ApiConstants.targets" />
+  <Import Project="..\MusicPlayer.Apple\MusicPlayer.Apple.projitems" Label="Shared" Condition="Exists('..\MusicPlayer.Apple\MusicPlayer.Apple.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" />
   <Import Project="..\Api\AmazonApi\AmazonApi.projitems" Label="Shared" />

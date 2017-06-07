@@ -16,6 +16,7 @@ using Android.Widget;
 using MusicPlayer.Droid.Services;
 using MusicPlayer.Models;
 using MusicPlayer.Managers;
+using MusicPlayer.Playback;
 
 namespace MusicPlayer.Droid.Playback
 {
@@ -257,14 +258,14 @@ namespace MusicPlayer.Droid.Playback
 			try
 			{
 				//TODO:  Get local streaming url
-				var data = await Parent.prepareSong(song);
+				var data = await Parent.PrepareSong(song);
 				if (!data.Item1)
 					return false;
-				var url = data.Item2;
+				var url = data.Item2.SongPlaybackData.Uri;
 				CreateMediaPlayerIfNeeded();
 				State = PlaybackStateCompat.StateBuffering;
 				mediaPlayer.SetAudioStreamType(Stream.Music);
-				mediaPlayer.SetDataSource(url);;
+				mediaPlayer.SetDataSource(url.AbsoluteUri);;
 				mediaPlayer.PrepareAsync();
 				WifiLock.Acquire();
 				return true;

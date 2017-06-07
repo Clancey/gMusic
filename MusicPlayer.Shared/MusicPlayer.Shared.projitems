@@ -110,6 +110,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Playback\BassPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\PlaybackData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\AudioFadePlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\NativeAudioPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\FixedSizedQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\FixedSizeDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />

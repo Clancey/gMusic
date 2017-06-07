@@ -144,18 +144,6 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Helpers\CGRectHelpers.cs">
-      <Link>MusicPlayer.iOS\Helpers\CGRectHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Playback\AVPlayerEqualizer.cs">
-      <Link>MusicPlayer.iOS\Playback\AVPlayerEqualizer.cs</Link>
-    </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Playback\AVPlayerExtension.cs">
-      <Link>MusicPlayer.iOS\Playback\AVPlayerExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Playback\NativeAudioPlayer.cs">
-      <Link>MusicPlayer.iOS\Playback\NativeAudioPlayer.cs</Link>
-    </Compile>
     <Compile Include="Views\Cells\SpinnerCell.cs" />
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Device.cs" />
@@ -237,9 +225,6 @@
     <Compile Include="Views\Cells\AlbumDetailsCell.cs" />
     <Compile Include="Helpers\MediaItemImageExtensions.cs" />
     <Compile Include="Helpers\ImageViewExtensions.cs" />
-    <Compile Include="..\MusicPlayer.iOS\Playback\AudioFadePlayer.cs">
-      <Link>MusicPlayer.iOS\Playback\AudioFadePlayer.cs</Link>
-    </Compile>
     <Compile Include="Views\ILifeCycleView.cs" />
     <Compile Include="Views\BaseSplitView.cs" />
     <Compile Include="Views\GenreDetailsListView.cs" />
@@ -307,9 +292,6 @@
     <Compile Include="ApiConstants.Mac.cs" />
     <Compile Include="Views\ConsoleViewController.cs" />
     <Compile Include="Managers\LogManager.Mac.cs" />
-    <Compile Include="..\MusicPlayer.iOS\Playback\AVMediaPlayer.cs">
-      <Link>MusicPlayer.iOS\Playback\AVMediaPlayer.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\MainMenu.xib" />
@@ -319,6 +301,7 @@
     <InterfaceDefinition Include="VideoPlaybackWindow.xib" />
   </ItemGroup>
   <Import Project="..\ApiConstants.targets" />
+  <Import Project="..\MusicPlayer.Apple\MusicPlayer.Apple.projitems" Label="Shared" Condition="Exists('..\MusicPlayer.Apple\MusicPlayer.Apple.projitems')" />
   <Import Project="..\Api\OneDrive\OneDrive.projitems" Label="Shared" Condition="Exists('..\Api\OneDrive\OneDrive.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\AmazonApi\AmazonApi.projitems" Label="Shared" Condition="Exists('..\Api\AmazonApi\AmazonApi.projitems')" />

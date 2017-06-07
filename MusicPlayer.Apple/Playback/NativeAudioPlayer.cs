@@ -21,7 +21,7 @@ using CoreAnimation;
 
 namespace MusicPlayer.Playback
 {
-	internal class NativeAudioPlayer : BaseModel
+	internal partial class NativeAudioPlayer : BaseModel
 	{
 		public static NativeAudioPlayer Shared {get;set;}
 		public readonly AudioFadePlayer player;
@@ -31,7 +31,8 @@ namespace MusicPlayer.Playback
 		NSTimer timer;
         PlaybackState lastState;
         DateTime lastInterupt;
-		public AudioFadePlayer.CustomVideoLayer VideoLayer { get; }
+
+		public CustomVideoLayer VideoLayer { get; } = new CustomVideoLayer ();
 		public NativeAudioPlayer()
 		{
 			Shared = this;
@@ -43,7 +44,6 @@ namespace MusicPlayer.Playback
 			LoaderDelegate.Parent = this;
 
 			player = new AudioFadePlayer{ Parent = this };
-			VideoLayer = player.VideoLayer;
 
 			#if __IOS__
 			silentPlayer = new AVAudioPlayer(NSBundle.MainBundle.GetUrlForResource("empty","mp3"),"mp3", out error) {
@@ -103,15 +103,14 @@ namespace MusicPlayer.Playback
 
 		public void UpdateBand (int band, float gain)
 		{
-			player.UpdateBand (band, gain);
+			player?.UpdateBand (band, gain);
 		}
 
 		double lastDurration;
-		double lastSeconds;
 		Task checkPlaybackTask;
 	   void CheckPlaybackStatus(NSTimer timer)
 	    {
-	        if (CurrentSong == null || !player.CurrentPlayer.IsPlayerItemValid)
+			if (CurrentSong == null || !(player.CurrentPlayer?.IsPlayerItemValid ?? false))
 	            return;
 			if(Duration > 0 && Math.Abs (lastDurration) < Double.Epsilon)
 			{
@@ -219,23 +218,6 @@ namespace MusicPlayer.Playback
 			set{ player.AudioLevels = value; }
 		}
 
-		public readonly Dictionary<string, PlaybackData> CurrentData = new Dictionary<string, PlaybackData>();
-		public readonly Dictionary<string, string> SongIdTracks = new Dictionary<string, string>();
-
-
-		internal PlaybackData GetPlaybackData(string id, bool create = true)
-		{
-			lock (CurrentData)
-			{
-				PlaybackData data;
-				if (!CurrentData.TryGetValue(id, out data) && create)
-					CurrentData[id] = data = new PlaybackData
-					{
-						SongId = id,
-					};
-				return data;
-			}
-		}
 
 		void finishedPlaying(Song song)
 		{
@@ -278,90 +260,6 @@ namespace MusicPlayer.Playback
 		}
 		AVPlayerItem currentPlayerItem;
         bool isVideo;
-		async Task<Tuple<bool,PlaybackData>> prepareSong(Song song, bool playVideo = false)
-		{
-			try
-			{
-				isVideo = playVideo;
-				LogManager.Shared.Log("Preparing Song", song);
-				var data = GetPlaybackData(song.Id);
-				var playbackData = data.SongPlaybackData = await MusicManager.Shared.GetPlaybackData(song, playVideo);
-				if (playbackData == null)
-					return new Tuple<bool, PlaybackData>(false,data);
-				if (data.CancelTokenSource.IsCancellationRequested)
-					return new Tuple<bool, PlaybackData>(false,data);
-				
-				if (song == CurrentSong)
-				{
-					Settings.CurrentTrackId = playbackData.CurrentTrack.Id;
-					isVideo = playbackData.CurrentTrack.MediaType == MediaType.Video;
-					Settings.CurrentPlaybackIsVideo = isVideo;
-					NotificationManager.Shared.ProcVideoPlaybackChanged(isVideo);
-				}
-
-
-				if (playbackData.IsLocal || playbackData.CurrentTrack.ServiceType == MusicPlayer.Api.ServiceType.iPod)
-				{
-					//if(playbackData.Uri == null)
-					//	return new Tuple<bool, AVPlayerItem>(false,null);
-					//LogManager.Shared.Log("Local track found",song);
-					//var url = string.IsNullOrWhiteSpace(playbackData?.CurrentTrack?.FileLocation) ? new NSUrl(playbackData.Uri.AbsoluteUri) : NSUrl.FromFilename(playbackData.CurrentTrack.FileLocation);
-					//playerItem = AVPlayerItem.FromUrl(url);
-					//await playerItem.WaitStatus();
-					NotificationManager.Shared.ProcSongDownloadPulsed(song.Id, 1f);
-				}
-				else
-				{
-					data.SongPlaybackData = playbackData;
-					data.DownloadHelper = await DownloadManager.Shared.DownloadNow(playbackData.CurrentTrack.Id, playbackData.Uri);
-					if (data.CancelTokenSource.IsCancellationRequested)
-						return new Tuple<bool, PlaybackData>(false,data);
-					LogManager.Shared.Log("Loading online Track", data.SongPlaybackData.CurrentTrack);
-					SongIdTracks[data.SongPlaybackData.CurrentTrack.Id] = song.Id;
-					//NSUrlComponents comp =
-					//	new NSUrlComponents(
-					//		NSUrl.FromString(
-					//			$"http://localhost/{playbackData.CurrentTrack.Id}.{data.SongPlaybackData.CurrentTrack.FileExtension}"), false);
-					//comp.Scheme = "streaming";
-					//if (comp.Url != null)
-					//{
-					//	var asset = new AVUrlAsset(comp.Url, new NSDictionary());
-					//	asset.ResourceLoader.SetDelegate(LoaderDelegate, DispatchQueue.MainQueue);
-					//	playerItem = new AVPlayerItem(asset);
-					//}
-					//if (data.CancelTokenSource.IsCancellationRequested)
-					//	return new Tuple<bool, AVPlayerItem>(false,null);
-
-					//await playerItem.WaitStatus();
-				}
-
-				lastSeconds = -1;
-				var success =  !data.CancelTokenSource.IsCancellationRequested;
-
-				return new Tuple<bool, PlaybackData> (true, data);
-			}
-			catch(Exception ex)
-			{
-				LogManager.Shared.Report(ex);
-				return new Tuple<bool, PlaybackData>(false,null);
-			}
-		}
-
-		Dictionary<Tuple<string,bool>,Task<Tuple<bool,PlaybackData>>> prepareTasks = new Dictionary<Tuple<string, bool>, Task<Tuple<bool,PlaybackData>>>();
-		public async Task<Tuple<bool,PlaybackData>> PrepareSong(Song song, bool playVideo = false)
-		{
-			var tuple = new Tuple<string,bool>(song.Id, playVideo);
-			Task<Tuple<bool,PlaybackData>> task;
-			lock (prepareTasks) {
-				if (!prepareTasks.TryGetValue (tuple, out task) || task.IsCompleted)
-					prepareTasks [tuple] = task = prepareSong (song, playVideo);
-			}
-			var result = await task;
-			lock (prepareTasks) {
-				prepareTasks.Remove (tuple);
-			}
-			return result;
-        }
 
 		public async Task PlaySong(Song song, bool playVideo = false)
 		{

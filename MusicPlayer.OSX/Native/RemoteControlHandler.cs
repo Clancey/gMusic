@@ -8,6 +8,7 @@ using CoreFoundation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using ObjCRuntime;
+using MediaPlayer;
 
 namespace MusicPlayer
 {

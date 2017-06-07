@@ -59,11 +59,18 @@ namespace MusicPlayer
 		public override float Rate => IsPlayerItemValid && Bass.ChannelIsActive (streamHandle) == ManagedBass.PlaybackState.Playing ? 1 : 0;
 
 		public override float Volume {
-			get => Bass.GlobalStreamVolume / 1000f;
-			set => Bass.GlobalStreamVolume = (int)(value * 1000);
+			get => 0;//Bass.GlobalStreamVolume / 1000f;
+			set => Console.WriteLine (value);//Bass.GlobalStreamVolume = (int)(value * 1000);
 		}
 
-		public override double CurrentTimeSeconds () => StreamIsValid ? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetPosition (streamHandle)) : 0;
+		double currentTime;
+		public override double CurrentTimeSeconds ()
+		{
+			var t = StreamIsValid? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetPosition (streamHandle)) : 0;
+			if (t >= 0)
+				currentTime = t;
+			return currentTime;
+		}
 
 		public override void Dispose ()
 		{
@@ -85,13 +92,19 @@ namespace MusicPlayer
 			}
 		}
 
-		public override double Duration () => StreamIsValid ? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetLength (streamHandle)) : 0;
+		double durration;
+		public override double Duration ()
+		{
+			if(durration <= 0)
+				durration = StreamIsValid? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetLength (streamHandle)) : this.currentData?.SongPlaybackData?.CurrentTrack?.Duration ?? 0;
+			return durration;
+		}
 
 		public override void Pause ()
 		{
 			if (!StreamIsValid)
 				return;
-			Bass.ChannelSlideAttribute (streamHandle, ChannelAttribute.Volume, -1, 20);
+			//Bass.ChannelSlideAttribute (streamHandle, ChannelAttribute.Volume, -1, 20);
 			Bass.ChannelPause (streamHandle);
 		}
 
@@ -99,7 +112,6 @@ namespace MusicPlayer
 		{
 			if (!StreamIsValid)
 				return;
-			Bass.ChannelSlideAttribute (streamHandle, ChannelAttribute.Volume, -1, 20);
 			Bass.ChannelStop (streamHandle);
 		}
 
@@ -107,9 +119,9 @@ namespace MusicPlayer
 		{
 			if (!StreamIsValid)
 				return;
-			
-			Bass.ChannelPlay (streamHandle, false);
-			Bass.ChannelSlideAttribute (streamHandle, ChannelAttribute.Volume, 1, 20);
+			var success = Bass.ChannelPlay (streamHandle, false);
+			Console.WriteLine ($"Play Song: {success}");
+			Console.WriteLine (Bass.LastError);
 			SetState ();
 		}
 
@@ -151,13 +163,22 @@ namespace MusicPlayer
 			throw new NotImplementedException ();
 		}
 
-		public override async Task<bool> PrepareData (PlaybackData playbackData)
+		Task<bool> prepareDataTask;
+		public override Task<bool> PrepareData (PlaybackData playbackData)
 		{
+			if (prepareDataTask?.IsCompleted ?? true)
+				prepareDataTask = prepareData (playbackData);
+			return prepareDataTask;
+		}
 
+		async Task<bool> prepareData (PlaybackData playbackData)
+		{
+			CurrentSong = playbackData.SongId;
 			//Only reprep the same song twice if it changed between local and streamed
 			if (IsPlayerItemValid &&
 			    currentData?.SongPlaybackData?.CurrentTrack?.Id == playbackData.SongPlaybackData.CurrentTrack.Id &&
 			   currentData?.SongPlaybackData?.IsLocal == playbackData.SongPlaybackData.IsLocal) {
+				IsPrepared = true;
 				return true;
 			}
 			currentData = playbackData;
@@ -182,12 +203,15 @@ namespace MusicPlayer
 					Console.WriteLine (error); 
 					return false;
 				}
+				Bass.ChannelSetAttribute (streamHandle, ChannelAttribute.Volume, 1f);
+
 				endSync = Bass.ChannelSetSync (streamHandle, SyncFlags.End, 0, OnTrackEnd, IntPtr.Zero);
 				bufferSync = Bass.ChannelSetSync (streamHandle, SyncFlags.Stalled, 0, OnBuffering, IntPtr.Zero);
 				if (location > 0) {
 					Bass.ChannelSetPosition (streamHandle, location);
 				}
 				SetState ();
+				IsPrepared = true;
 				return true;
 			});
 		}
@@ -244,7 +268,7 @@ namespace MusicPlayer
 
 		void OnTrackEnd (int handle, int channel, int data, IntPtr user)
 		{
-
+			Finished?.Invoke (this);
 		}
 
 		void OnBuffering (int handle, int channel, int data, IntPtr user)

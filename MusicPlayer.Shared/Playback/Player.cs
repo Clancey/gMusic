@@ -19,11 +19,13 @@ namespace MusicPlayer.Playback
 			}
 		}
 
-		public Action Finished { get; set; }
+		public Action<Player> Finished { get; set; }
 
 		public Action<double> PlabackTimeChanged { get; set; }
 
 		public abstract float Volume { get; set; }
+
+		public string CurrentSong { get; set; }
 
 		public abstract Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false);
 
@@ -52,5 +54,14 @@ namespace MusicPlayer.Playback
 		public abstract void UpdateBand (int band, float gain);
 
 		public abstract bool IsPlayerItemValid { get; }
+
+		public bool IsPrepared { get; set; }
+
+		public virtual void DisableVideo ()
+		{
+		}
+		public virtual void EnableVideo ()
+		{
+		}
 	}
 }

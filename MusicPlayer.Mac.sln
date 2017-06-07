@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akavache_Portable", "..\Aka
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDatabase", "..\SimpleDatabase\SimpleDatabase\SimpleDatabase.csproj", "{4FE40048-B716-42ED-9E26-C114689BAAFD}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MusicPlayer.Apple", "MusicPlayer.Apple\MusicPlayer.Apple.shproj", "{87EBC71D-6232-4F2D-90F6-57933D92D32C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

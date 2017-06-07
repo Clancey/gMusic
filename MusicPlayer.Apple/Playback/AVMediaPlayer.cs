@@ -52,7 +52,7 @@ namespace MusicPlayer
 		void OnFinished (AVPlayerItem item)
 		{
 			item?.Asset?.CancelLoading ();
-			Finished?.Invoke ();
+			Finished?.Invoke (this);
 		}
 
 		void OnPlabackTimeChanged (AVPlayer player, CMTime time)
@@ -65,6 +65,7 @@ namespace MusicPlayer
 
 		public override async Task<bool> PrepareData (PlaybackData data)
 		{
+			CurrentSong = data.SongId;
 			AVPlayerItem playerItem = null;
 			var playbackData = data.SongPlaybackData;
 			if (playbackData.IsLocal || playbackData.CurrentTrack.ServiceType == MusicPlayer.Api.ServiceType.iPod) {
@@ -91,6 +92,7 @@ namespace MusicPlayer
 				await playerItem.WaitStatus();
 			}
 			player.ReplaceCurrentItemWithPlayerItem (playerItem);
+			IsPrepared = true;
 			return true;
 		}
 
@@ -154,7 +156,7 @@ namespace MusicPlayer
 			AVPlayerEqualizer.Shared.UpdateBand (band,gain);
 		}
 
-		public void DisableVideo ()
+		public override void DisableVideo ()
 		{
 #if __IOS__
 			var tracks = player?.CurrentItem?.Tracks?.Where (x => x.AssetTrack.HasMediaCharacteristic (AVMediaCharacteristic.Visual))?.ToList ();
@@ -169,7 +171,7 @@ namespace MusicPlayer
 #endif
 		}
 
-		public void EnableVideo ()
+		public override void EnableVideo ()
 		{
 #if __IOS__
 			var tracks = player?.CurrentItem?.Tracks?.Where (x => x.AssetTrack.HasMediaCharacteristic (AVMediaCharacteristic.Visual))?.ToList ();
