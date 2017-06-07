@@ -118,10 +118,6 @@ namespace MusicPlayer.iOS.Playback
 				fadingToSong = null;
 				var player = GetPlayer (song);
 				player.ApplyEqualizer ();
-				var seconds = Settings.CurrentPlaybackPercent * player.Duration ();
-				if (double.IsNaN (seconds))
-					seconds = 0;
-				player.Seek (seconds);
 				player.Play ();
 				player.Volume = Settings.CurrentVolume;
 				//TODO: Fade out

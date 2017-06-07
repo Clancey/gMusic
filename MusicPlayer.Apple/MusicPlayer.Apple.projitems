@@ -20,5 +20,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Playback\NativeAudioPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\CustomVideoLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\NativeTrackHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\RemoteControlHandler.cs" />
   </ItemGroup>
 </Project>

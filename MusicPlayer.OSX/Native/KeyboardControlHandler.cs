@@ -12,7 +12,7 @@ using MediaPlayer;
 
 namespace MusicPlayer
 {
-	public static class RemoteControlHandler
+	public static class KeyboardControlHandler
 	{
 		public static void Init ()
 		{

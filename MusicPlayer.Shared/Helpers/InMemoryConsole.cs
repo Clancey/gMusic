@@ -19,7 +19,8 @@ namespace MusicPlayer
 		}
 		public void Activate()
 		{
-			Console.SetOut(this);
+			if(!Debugger.IsAttached)
+				Console.SetOut(this);
 		}
 
 		public override Encoding Encoding => Encoding.UTF8;

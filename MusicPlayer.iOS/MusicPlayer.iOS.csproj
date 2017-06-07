@@ -380,7 +380,6 @@
     <Compile Include="ViewControllers\SettingViewController.cs" />
     <Compile Include="ViewModels\CurrentPlaylistViewModel.cs" />
     <None Include="Info.plist" />
-    <Compile Include="Playback\RemoteControlHandler.cs" />
     <Compile Include="Cells\PlaylistSongCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="packages.config" />

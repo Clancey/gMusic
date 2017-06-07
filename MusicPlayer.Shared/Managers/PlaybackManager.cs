@@ -64,6 +64,9 @@ namespace MusicPlayer.Managers
 
 		public void Init()
 		{
+			#if __MACOS__
+			KeyboardControlHandler.Init();
+			#endif
 			#if !__ANDROID__
 			NativeTrackHandler.Shared.Init();
 			RemoteControlHandler.Init();

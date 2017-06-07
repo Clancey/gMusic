@@ -151,7 +151,7 @@
     <Compile Include="Helpers\HttpUtility.cs" />
     <Compile Include="Native\BackgroundDownloadManager.cs" />
     <Compile Include="Native\NativeTrackHandler.cs" />
-    <Compile Include="Native\RemoteControlHandler.cs" />
+    <Compile Include="Native\KeyboardControlHandler.cs" />
     <Compile Include="Native\PopupManager.cs" />
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>

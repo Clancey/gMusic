@@ -321,7 +321,10 @@ namespace MusicPlayer.Playback
 			}
 			return false;
 		}
-
+		public void SeekTime (double time)
+		{
+			player.Seek (time);
+		}
 		public void Seek(float percent)
 		{
 			var seconds = percent*Duration;
