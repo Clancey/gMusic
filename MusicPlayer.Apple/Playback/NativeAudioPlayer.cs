@@ -250,7 +250,6 @@ namespace MusicPlayer.Playback
 			var data = GetPlaybackData(song.Id, false);
 			if (data == null)
 				return;
-		
 			data.CancelTokenSource.Cancel();
 			data = null;
 			CurrentData.Remove(song.Id);

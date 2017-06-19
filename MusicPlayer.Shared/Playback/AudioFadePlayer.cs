@@ -59,8 +59,10 @@ namespace MusicPlayer.iOS.Playback
 				playerQueue.Remove (first.Key);
 			}
 			foreach (var item in playerQueue) {
-				if (item.Key != song.Id)
+				if (item.Key != song.Id) {
+					item.Value.Seek (0);
 					item.Value.Pause ();
+				}
 			}
 		}
 		public override void Seek (double time)
@@ -112,13 +114,17 @@ namespace MusicPlayer.iOS.Playback
 			StopAllOthers (song);
 			eqApplied = false;
 			currentSong = song;
-			if (!forcePlay && isSongPlaying (song))
+			if (!forcePlay && isSongPlaying (song)) {
+				var player = GetPlayer (song);
+				State = player.State;
 				return true;
+			}
 			else if (isSongPrepared (song)) {
 				fadingToSong = null;
 				var player = GetPlayer (song);
 				player.ApplyEqualizer ();
 				player.Play ();
+				State = player.State;
 				player.Volume = Settings.CurrentVolume;
 				//TODO: Fade out
 				//ResetSecondary ();

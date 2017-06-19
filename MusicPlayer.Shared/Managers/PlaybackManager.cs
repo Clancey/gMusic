@@ -26,10 +26,10 @@ namespace MusicPlayer.Managers
 			killTimer = new Timer(20*1000);
 			killTimer.Elapsed += (sender, args) => StopTimers();
 			NativePlayer = new NativeAudioPlayer();
-			NativePlayer.SubscribeToProperty("State", () =>
+			NativePlayer.SubscribeToProperty(nameof (NativePlayer.State), () =>
 			{
 				NotificationManager.Shared.ProcPlaybackStateChanged(NativePlayer.State);
-				if (NativePlayer.State == PlaybackState.Playing)
+				if (NativePlayer.State == PlaybackState.Playing || NativePlayer.State == PlaybackState.Buffering)
 				{
 					StartTimers();
 					killTimer.Stop();
