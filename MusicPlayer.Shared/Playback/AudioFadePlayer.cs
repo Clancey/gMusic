@@ -260,7 +260,7 @@ namespace MusicPlayer.iOS.Playback
 
 		public override double CurrentTimeSeconds ()
 		{
-			var pos = CurrentPlayer.CurrentTimeSeconds ();
+			var pos = CurrentPlayer?.CurrentTimeSeconds () ?? 0;
 			//Console.WriteLine (pos);
 			return pos;
 		}
