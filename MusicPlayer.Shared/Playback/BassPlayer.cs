@@ -59,8 +59,8 @@ namespace MusicPlayer
 		public override float Rate => IsPlayerItemValid && Bass.ChannelIsActive (streamHandle) == ManagedBass.PlaybackState.Playing ? 1 : 0;
 
 		public override float Volume {
-			get => 0;//Bass.GlobalStreamVolume / 1000f;
-			set => Console.WriteLine (value);//Bass.GlobalStreamVolume = (int)(value * 1000);
+			get => Bass.GlobalStreamVolume / 10000f;
+			set => Bass.GlobalStreamVolume = (int)(value * 10000);
 		}
 
 		double currentTime;
