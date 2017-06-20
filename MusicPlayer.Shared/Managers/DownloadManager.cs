@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using ModernHttpClient;
 using MusicPlayer.Data;
 using Plugin.Connectivity;
 
@@ -145,9 +144,9 @@ namespace MusicPlayer.Managers
 				TrackId = trackId,
 				Uri = uri
 			};
-			helper.StateChanged += (sender, args) =>
+			helper.StateChanged = (state)=>
 			{
-				if (helper.State == DownloadHelper.DownloadState.Completed)
+				if (state == DownloadHelper.DownloadState.Completed)
 				{
 					TempFileManager.Shared.Add(helper.TrackId, helper.FilePath);
 				}
@@ -195,7 +194,7 @@ namespace MusicPlayer.Managers
 				if (State == value)
 					return;
 				state = value;
-				StateChanged?.Invoke(this, EventArgs.Empty);
+				StateChanged?.Invoke(value);
 			}
 		}
 
@@ -222,16 +221,16 @@ namespace MusicPlayer.Managers
 			set { Stream.Position = value; }
 		}
 
-		public event EventHandler StateChanged;
+		public Action<DownloadState> StateChanged;
 
 		protected override void Dispose(bool disposing)
 		{
 			//Kill all events
-			StateChanged?.GetInvocationList().OfType<EventHandler>().ToList().ForEach(x => StateChanged -= x);
+			StateChanged = null;
 
 			if (disposing)
 			{
-				Stream.Dispose();
+				Stream?.Dispose();
 				DownloadStream?.Dispose();
 				response?.Dispose();
 				client?.Dispose();
@@ -296,37 +295,34 @@ namespace MusicPlayer.Managers
 
 		async Task realDownload()
 		{
-			Debug.WriteLine("Starting Download {0}",TrackId);
-			var finished = false;
-			while (TryCount < MaxTryCount && !finished)
-			{
-				try
-				{
-					State = DownloadState.Downloading;
-					await OpenConnection();
-					finished = await ProccessStream();
-					break;
+			try {
+				Console.WriteLine ("Starting Download {0}", TrackId);
+				var finished = false;
+				while (TryCount < MaxTryCount && !finished) {
+					try {
+						State = DownloadState.Downloading;
+						await OpenConnection ();
+						finished = await ProccessStream ();
+						break;
+					} catch (TaskCanceledException) {
+						State = DownloadState.Canceled;
+						break;
+					} catch (Exception ex) {
+						Console.WriteLine ("Error downloading song {0} - {1}", TrackId, ex);
+						Uri = null;
+						TryCount++;
+					}
+					await Task.Delay (1000);
 				}
-				catch (TaskCanceledException)
-				{
-					State = DownloadState.Canceled;
-					break;
+				if (finished)
+					State = DownloadState.Completed;
+				else if (MaxTryCount == TryCount) {
+					State = DownloadState.Error;
 				}
-				catch (Exception ex)
-				{
-					Debug.WriteLine("Error downloading song {0} - {1}",TrackId, ex);
-					Uri = null;
-					TryCount ++;
-				}
-				await Task.Delay(1000);
+				Console.WriteLine ("Finished Downloading: {0} {1}", State, TrackId);
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
 			}
-			if (finished)
-				State = DownloadState.Completed;
-			else if (MaxTryCount == TryCount)
-			{
-				State = DownloadState.Error;
-			}
-			Debug.WriteLine("Finished Downloading: {0} {1}", State, TrackId);
 		}
 
 		async Task<bool> OpenConnection()
@@ -334,14 +330,14 @@ namespace MusicPlayer.Managers
 			Uri url = null;
 			try
 			{
-				Debug.WriteLine($"Opening Connection {TrackId}");
+				Console.WriteLine($"Opening Connection {TrackId}");
 				State = DownloadState.Downloading;
 				cancelSource.Token.ThrowIfCancellationRequested();
 				if (DownloadStream != null && DownloadStream.CanRead)
 					return true;
 				if (response != null && response.IsSuccessStatusCode)
 					return true;
-				Debug.WriteLine($"Requesting Playback Url {TrackId}");
+				Console.WriteLine($"Requesting Playback Url {TrackId}");
 				url = Uri ?? await MusicManager.Shared.GeTrackPlaybackUri(TrackId);
 				if(url == null)
 				{
@@ -387,7 +383,7 @@ namespace MusicPlayer.Managers
 			}
 			catch (OperationCanceledException ex)
 			{
-				Debug.WriteLine(ex);
+				Console.WriteLine(ex);
 			}
 			catch (Exception ex)
 			{
@@ -439,7 +435,7 @@ namespace MusicPlayer.Managers
 			}
 			Console.WriteLine ($"Total length: {Stream.FinalLength}");
 			
-			Debug.WriteLine($"Finished processing stream {TrackId} - {success}");
+			Console.WriteLine($"Finished processing stream {TrackId} - {success}");
 			return success;
 		}
 

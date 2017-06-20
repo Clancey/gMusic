@@ -72,15 +72,20 @@ namespace MusicPlayer.Playback
 		}
 		async Task<UIImage> GetImage (Song song, double width)
 		{
-			var url = await ArtworkManager.Shared.GetArtwork (song);
-			if (string.IsNullOrWhiteSpace (url))
-				return Images.GetDefaultAlbumArt (width) ;
-			TaskCompletionSource<UIImage> tcs = new TaskCompletionSource<UIImage> ();
-			var fether = new HNKNetworkFetcher (new NSUrl (url));
-			fether.FetchImage ((image) => { tcs.TrySetResult (image); },
-				(error) => { tcs.TrySetException (new Exception (error.ToString ())); });
-			var art = await tcs.Task;
-			return art;
+			try {
+				var url = await ArtworkManager.Shared.GetArtwork (song);
+				if (string.IsNullOrWhiteSpace (url))
+					return Images.GetDefaultAlbumArt (width);
+				TaskCompletionSource<UIImage> tcs = new TaskCompletionSource<UIImage> ();
+				var fether = new HNKNetworkFetcher (new NSUrl (url));
+				fether.FetchImage ((image) => { tcs.TrySetResult (image); },
+					(error) => { tcs.TrySetException (new Exception (error.ToString ())); });
+				var art = await tcs.Task;
+				return art;
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
+				return Images.GetDefaultAlbumArt (width);
+			}
 		}
 	}
 }

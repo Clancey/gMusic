@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using MusicPlayer.Models;
 using System.Threading.Tasks;
@@ -44,12 +44,12 @@ namespace MusicPlayer.iOS.Playback
 
 		public override void Play ()
 		{
-			CurrentPlayer.Play ();
+			CurrentPlayer?.Play ();
 		}
 
 		public override void Pause ()
 		{
-			CurrentPlayer.Pause ();
+			CurrentPlayer?.Pause ();
 		}
 
 		public void StopAllOthers (Song song)
@@ -85,7 +85,7 @@ namespace MusicPlayer.iOS.Playback
 					currentSong = song;
 				eqApplied = false;
 				isVideoDict [song.Id] = isVideo;
-				var player = GetPlayer (song);
+				var player = GetPlayer (song,true);
 				if (player.IsPrepared || player.State == PlaybackState.Playing)
 					return true;
 				var data = await Parent.PrepareSong (song, isVideo);
@@ -101,38 +101,44 @@ namespace MusicPlayer.iOS.Playback
 			return false;
 		}
 
-		public Player GetPlayer (Song song)
+		public Player GetPlayer (Song song, bool create = false)
 		{
 			if (string.IsNullOrWhiteSpace (song?.Id))
 				return null;
-			var player = playerQueue [song.Id] ?? (playerQueue [song.Id] = CreatePlayer (song));
+			var player = playerQueue [song.Id] ?? (create  ? (playerQueue [song.Id] = CreatePlayer (song)) : null);
 			return player;
 		}
 
 		public override async Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false)
 		{
+			if (!isVideo && song.MediaTypes.Length == 1 && song.MediaTypes[0] == MediaType.Video)
+				isVideo = true;
+			Settings.CurrentPlaybackIsVideo = isVideo;
+			isVideoDict [song.Id] = isVideo;
 			StopAllOthers (song);
 			eqApplied = false;
 			currentSong = song;
 			if (!forcePlay && isSongPlaying (song)) {
 				var player = GetPlayer (song);
 				State = player.State;
+				SetVideo (player);
 				return true;
 			}
 			else if (isSongPrepared (song)) {
 				fadingToSong = null;
-				var player = GetPlayer (song);
+				var player = GetPlayer (song,true);
 				player.ApplyEqualizer ();
 				player.Play ();
 				State = player.State;
 				player.Volume = Settings.CurrentVolume;
+				SetVideo (player);
 				//TODO: Fade out
 				//ResetSecondary ();
 				return true;
 			}
 			try {
 				StopAllOthers (song);
-				var player = GetPlayer (song);
+				var player = GetPlayer (song,true);
 				player.Volume = Settings.CurrentVolume;
 				if (!player.IsPrepared) {
 					var data = await Parent.PrepareSong (song, isVideo);
@@ -144,11 +150,20 @@ namespace MusicPlayer.iOS.Playback
 				}
 				player.ApplyEqualizer ();
 				player.Play ();
+				SetVideo (player);
 				return true;
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
 			return false;
+		}
+
+		void SetVideo (Player player)
+		{
+			var videoPlayer = player as AVMediaPlayer;
+			if (videoPlayer != null) {
+				Parent.VideoLayer.VideoLayer = videoPlayer.PlayerLayer;
+			}
 		}
 
 		public override void UpdateBand (int band, float gain)
@@ -220,7 +235,7 @@ namespace MusicPlayer.iOS.Playback
 		{
 			if (nextSong == null || isSongPrepared(nextSong))
 				return;
-			var player = SecondaryPlayer;
+			var player = GetPlayer (nextSong,true);
 			bool isVideo;
 			isVideoDict.TryGetValue (nextSong.Id, out isVideo);
 			var data = await Parent.PrepareSong (nextSong, isVideo);
@@ -245,6 +260,10 @@ namespace MusicPlayer.iOS.Playback
 			};
 			fadingToSong = nextSong;
 			SecondaryPlayer.Play ();
+			var videoPlayer = SecondaryPlayer as AVMediaPlayer;
+			if (videoPlayer != null) {
+				Parent.VideoLayer.VideoLayer = videoPlayer.PlayerLayer;
+			}
 			isUsingFirst = !isUsingFirst;
 
 			ScrobbleManager.Shared.PlaybackEnded (playbackEndEvent);
@@ -285,8 +304,9 @@ namespace MusicPlayer.iOS.Playback
 
 		Player CreatePlayer (Song song)
 		{
+			var isVideo = isVideoDict [song.Id];
 #if BASS
-			var player = new BassPlayer ();
+			var player = isVideo ? (Player)new AVMediaPlayer () : new BassPlayer ();
 #else
 			var player = new AVMediaPlayer ();
 #endif
@@ -299,7 +319,7 @@ namespace MusicPlayer.iOS.Playback
 			};
 
 			player.Finished = (p) => {
-				playerQueue.Remove (p.CurrentSong);
+				playerQueue.Remove (p.CurrentSongId);
 				Finished (p);
 			};
 

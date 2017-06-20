@@ -93,6 +93,10 @@ namespace MusicPlayer
 
 		void SetupApp ()
 		{
+			App.AlertFunction = (title,message) =>{
+				//TODO: replace this
+				Console.WriteLine($"ALERT {title} - {message}");
+			};
 			BlobCache.ApplicationName = "gMusic";
 			SimpleAuth.Resolver.Register<SimpleAuth.IAuthStorage,AkavacheAuthStorage> ();
 			ApiManager.Shared.Load ();

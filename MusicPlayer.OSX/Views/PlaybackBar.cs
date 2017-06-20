@@ -99,6 +99,7 @@ namespace MusicPlayer
 			this.Shadow = dropShadow;
 			NotificationManager.Shared.CurrentSongChanged += (sender, e) => Update (e.Data);
 			NotificationManager.Shared.PlaybackStateChanged += (sender, e) => SetState (e.Data);
+			NotificationManager.Shared.VideoPlaybackChanged += (sender, e) => SetVideoState (Settings.CurrentPlaybackIsVideo);
 
 			NotificationManager.Shared.CurrentTrackPositionChanged += (object sender, SimpleTables.EventArgs<TrackPosition> e) => {
 				var data = e.Data;

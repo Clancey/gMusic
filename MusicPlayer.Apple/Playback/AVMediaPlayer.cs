@@ -15,12 +15,11 @@ namespace MusicPlayer
 	public class AVMediaPlayer : Player
 	{
 		AVPlayer player;
-		AVPlayerLayer playerLayer;
+		public AVPlayerLayer PlayerLayer { get; }
 		NSObject endTimeObserver;
 		NSObject timeObserver;
 		IDisposable rateObserver;
 		bool equalizerApplied;
-
 		public AVMediaPlayer ()
 		{
 			player = new AVPlayer {
@@ -36,7 +35,7 @@ namespace MusicPlayer
 			timeObserver = player.AddPeriodicTimeObserver (new CoreMedia.CMTime (5, 30), null, (time) => OnPlabackTimeChanged (player, time));
 			rateObserver = player.AddObserver ("rate", NSKeyValueObservingOptions.New, (change) => OnStateChanged (player));
 
-			playerLayer = AVPlayerLayer.FromPlayer (player);
+			PlayerLayer = AVPlayerLayer.FromPlayer (player);
 			endTimeObserver = NSNotificationCenter.DefaultCenter.AddObserver (AVPlayerItem.DidPlayToEndTimeNotification, (notification) => {
 				var avplayerItem = notification.Object as AVPlayerItem;
 				OnFinished (avplayerItem);
@@ -65,7 +64,7 @@ namespace MusicPlayer
 
 		public override async Task<bool> PrepareData (PlaybackData data)
 		{
-			CurrentSong = data.SongId;
+			CurrentSongId = data.SongId;
 			AVPlayerItem playerItem = null;
 			var playbackData = data.SongPlaybackData;
 			if (playbackData.IsLocal || playbackData.CurrentTrack.ServiceType == MusicPlayer.Api.ServiceType.iPod) {
@@ -114,8 +113,8 @@ namespace MusicPlayer
 
 		public override void Dispose ()
 		{
-			playerLayer?.RemoveFromSuperLayer ();
-			playerLayer?.Dispose ();
+			PlayerLayer?.RemoveFromSuperLayer ();
+			PlayerLayer?.Dispose ();
 			NSNotificationCenter.DefaultCenter.RemoveObserver (endTimeObserver);
 			rateObserver.Dispose ();
 			player.RemoveTimeObserver (timeObserver);

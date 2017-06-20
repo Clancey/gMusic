@@ -270,7 +270,7 @@ namespace MusicPlayer.Playback
 			CleanupSong(CurrentSong);
 			CurrentSong = song;
 			Settings.CurrentTrackId = "";
-			Settings.CurrentPlaybackIsVideo = false;
+			Settings.CurrentPlaybackIsVideo = playVideo;
 			NotificationManager.Shared.ProcCurrentTrackPositionChanged(new TrackPosition
 			{
 				CurrentTime = 0,

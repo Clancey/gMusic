@@ -173,7 +173,7 @@ namespace MusicPlayer
 
 		async Task<bool> prepareData (PlaybackData playbackData)
 		{
-			CurrentSong = playbackData.SongId;
+			CurrentSongId = playbackData.SongId;
 			//Only reprep the same song twice if it changed between local and streamed
 			if (IsPlayerItemValid &&
 			    currentData?.SongPlaybackData?.CurrentTrack?.Id == playbackData.SongPlaybackData.CurrentTrack.Id &&
@@ -195,9 +195,7 @@ namespace MusicPlayer
 					streamHandle = Bass.CreateStream (data.Uri.LocalPath, Flags: BassFlags.AutoFree | BassFlags.Prescan);
 
 				} else {
-					var handle = GCHandle.Alloc (playbackData.DownloadHelper, GCHandleType.Pinned);
-					var downloaderPointer = GCHandle.ToIntPtr (handle);
-					streamHandle = Bass.CreateStream (StreamSystem.Buffer, BassFlags.AutoFree, fileProcs, downloaderPointer);
+					streamHandle = Bass.CreateStream (StreamSystem.Buffer, BassFlags.AutoFree, fileProcs);//, downloaderPointer);
 				}
 				if (streamHandle == 0) {
 					var error = Bass.LastError;
@@ -241,8 +239,7 @@ namespace MusicPlayer
 		long OnFileLength (IntPtr user)
 		{
 			try {
-				var downloader = GCHandle.FromIntPtr (user).Target as DownloadHelper;
-				return downloader?.Length ?? 0;
+				return currentData?.DownloadHelper.Length ?? 0;
 			} catch (Exception ex) {
 				LogManager.Shared.Report (ex);
 			}
@@ -255,8 +252,7 @@ namespace MusicPlayer
 			var data = new byte [length];
 			var read = 0;
 			try {
-				var downloader = GCHandle.FromIntPtr (user).Target as DownloadHelper;
-				read = downloader?.Read (data, 0, length) ?? 0;
+				read = currentData?.DownloadHelper?.Read (data, 0, length) ?? 0;
 			} catch (Exception ex) {
 				LogManager.Shared.Report (ex);
 			}
