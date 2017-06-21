@@ -182,7 +182,6 @@ namespace MusicPlayer
 				return true;
 			}
 			currentData = playbackData;
-			finished = false;
 			var location = Bass.ChannelGetPosition (streamHandle);
 			if (IsPlayerItemValid) {
 				Stop ();
@@ -262,13 +261,9 @@ namespace MusicPlayer
 			return true;
 		}
 
-		bool finished;
 		void OnTrackEnd (int handle, int channel, int data, IntPtr user)
 		{
-			if (finished)
-				return;
 			Finished?.Invoke (this);
-			finished = true;
 		}
 
 		void OnBuffering (int handle, int channel, int data, IntPtr user)
