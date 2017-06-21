@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MusicPlayer.Data;
 using Plugin.Connectivity;
+using ModernHttpClient;
 
 namespace MusicPlayer.Managers
 {

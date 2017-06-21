@@ -16,16 +16,15 @@ namespace MusicPlayer.Playback
 	partial class NativeTrackHandler
 	{
 
-		void OnInit()
+		void OnInit ()
 		{
 			NotificationManager.Shared.PlaybackStateChanged += (sender, e) => PlaybackStateChanged (e.Data);
 			NSUserNotificationCenter.DefaultUserNotificationCenter.DidActivateNotification += (object sender, UNCDidActivateNotificationEventArgs e) => {
-				switch (e.Notification.ActivationType)
-				{
+				switch (e.Notification.ActivationType) {
 
-        			case NSUserNotificationActivationType.ActionButtonClicked:
+				case NSUserNotificationActivationType.ActionButtonClicked:
 					var frontmost = NSWorkspace.SharedWorkspace.FrontmostApplication.BundleIdentifier == NSBundle.MainBundle.BundleIdentifier;
-					if(frontmost)
+					if (frontmost)
 						NSWorkspace.SharedWorkspace.FrontmostApplication.Hide ();
 					Console.WriteLine (frontmost);
 					PlaybackManager.Shared.NextTrack ();
@@ -47,11 +46,11 @@ namespace MusicPlayer.Playback
 			NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification (notification);
 		}
 
-		void SetAdditionInfo (Song song, MPNowPlayingInfo info)
-		{
-			info.MediaType = Settings.CurrentPlaybackIsVideo ? MPNowPlayingInfoMediaType.Video : MPNowPlayingInfoMediaType.Audio;
+		//void SetAdditionInfo (Song song, MPNowPlayingInfo info)
+		//{
+		//	info.MediaType = Settings.CurrentPlaybackIsVideo ? MPNowPlayingInfoMediaType.Video : MPNowPlayingInfoMediaType.Audio;
 
-		}
+		//}
 
 		public void PlaybackStateChanged (PlaybackState state)
 		{
@@ -115,10 +114,10 @@ namespace MusicPlayer.Playback
 				//[notification setValue:notification.contentImage forKey:@"_identityImage"];
 				//notification.contentImage = nil;
 			} catch (Exception ex) {
-				Console.WriteLine (ex);	
+				Console.WriteLine (ex);
 			}
 
-    		return notification;
+			return notification;
 		}
 
 		void SetImage (NSUserNotification notitification, Song song)
@@ -139,13 +138,13 @@ namespace MusicPlayer.Playback
 				}
 
 				artwork = new MPMediaItemArtwork (new CGSize (9999, 9999), (arg) => {
-					var img = GetImage (song,arg.Width).Result;
+					var img = GetImage (song, arg.Width).Result;
 					return img;
 				});
-				if (nowPlayingInfo == null)
-					return;
-				nowPlayingInfo.Artwork = artwork;
-				App.RunOnMainThread (() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
+				//if (nowPlayingInfo == null)
+				//	return;
+				//nowPlayingInfo.Artwork = artwork;
+				//App.RunOnMainThread (() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
 			} catch (Exception ex) {
 				LogManager.Shared.Report (ex);
 			}
@@ -155,7 +154,7 @@ namespace MusicPlayer.Playback
 			try {
 				if (item == null)
 					return defaultImage ?? Images.GetDefaultAlbumArt (imageWidth);
-				
+
 				var image = await item.GetLocalImage (imageWidth);
 				if (image != null) {
 					return image;

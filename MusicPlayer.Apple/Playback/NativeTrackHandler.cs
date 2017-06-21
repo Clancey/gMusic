@@ -15,30 +15,31 @@ namespace MusicPlayer.Playback
 {
 	internal partial class NativeTrackHandler : ManagerBase<NativeTrackHandler>
 	{
-		public NativeTrackHandler()
+		public NativeTrackHandler ()
 		{
-			NotificationManager.Shared.CurrentSongChanged += (sender, args) => UpdateSong(args.Data);
-			NotificationManager.Shared.CurrentTrackPositionChanged += (sender, args) => UpdateProgress(args.Data);
+			NotificationManager.Shared.CurrentSongChanged += (sender, args) => UpdateSong (args.Data);
+			NotificationManager.Shared.CurrentTrackPositionChanged += (sender, args) => UpdateProgress (args.Data);
 		}
 
-		public void Init()
+		public void Init ()
 		{
-			if (string.IsNullOrWhiteSpace(Settings.CurrentSong))
+			if (string.IsNullOrWhiteSpace (Settings.CurrentSong))
 				return;
-			UpdateSong(Database.Main.GetObject<Song, TempSong>(Settings.CurrentSong));
+			UpdateSong (Database.Main.GetObject<Song, TempSong> (Settings.CurrentSong));
 			OnInit ();
 		}
 
-
+#if __IOS__
 		MPNowPlayingInfo nowPlayingInfo;
+#endif
 		MPMediaItemArtwork artwork;
 
-		public void UpdateSong(Song song)
+		public void UpdateSong (Song song)
 		{
 			if (song == null)
 				return;
-			try
-			{
+			try {
+#if __IOS__
 				nowPlayingInfo = new MPNowPlayingInfo
 				{
 					Title = song?.Name ?? "",
@@ -50,13 +51,12 @@ namespace MusicPlayer.Playback
 				SetAdditionInfo (song, nowPlayingInfo);
 
 				artwork = null;
-				FetchArtwork(song);
+				FetchArtwork (song);
 				OnSongChanged (song);
 				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
+#endif
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
 			}
 		}
 		MPMediaItemArtwork defaultResizableArtwork;
@@ -69,10 +69,11 @@ namespace MusicPlayer.Playback
 
 		double lastTime = -1;
 
-		public void UpdateProgress(TrackPosition position)
+		public void UpdateProgress (TrackPosition position)
 		{
-			try
-			{
+			try {
+
+#if __IOS__
 				if (nowPlayingInfo == null)
 					return;
 				if (Math.Abs(position.CurrentTime - lastTime) < 1)
@@ -83,11 +84,10 @@ namespace MusicPlayer.Playback
 				nowPlayingInfo.ElapsedPlaybackTime = position.CurrentTime;
 				nowPlayingInfo.PlaybackDuration = position.Duration;
 				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
+#endif
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
 			}
 		}
 	}
-}
+}	
