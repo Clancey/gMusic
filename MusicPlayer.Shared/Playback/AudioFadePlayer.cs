@@ -320,7 +320,7 @@ namespace MusicPlayer.iOS.Playback
 
 			player.Finished = (p) => {
 				playerQueue.Remove (p.CurrentSongId);
-				Finished (p);
+				Finished?.Invoke (p);
 			};
 
 			player.PlabackTimeChanged = (time) => {

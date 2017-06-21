@@ -43,7 +43,13 @@ namespace MusicPlayer.Playback
 			#endif
 			LoaderDelegate.Parent = this;
 
-			player = new AudioFadePlayer{ Parent = this };
+			player = new AudioFadePlayer
+			{
+				Parent = this,
+				Finished = (obj) => {
+					finishedPlaying(player.CurrentSong);
+				},
+			};
 
 			#if __IOS__
 			silentPlayer = new AVAudioPlayer(NSBundle.MainBundle.GetUrlForResource("empty","mp3"),"mp3", out error) {

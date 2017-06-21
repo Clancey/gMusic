@@ -204,7 +204,7 @@ namespace MusicPlayer
 				}
 				Bass.ChannelSetAttribute (streamHandle, ChannelAttribute.Volume, 1f);
 
-				endSync = Bass.ChannelSetSync (streamHandle, SyncFlags.End, 0, OnTrackEnd, IntPtr.Zero);
+				endSync = Bass.ChannelSetSync (streamHandle, SyncFlags.End | SyncFlags.Mixtime, 0, OnTrackEnd, IntPtr.Zero);
 				bufferSync = Bass.ChannelSetSync (streamHandle, SyncFlags.Stalled, 0, OnBuffering, IntPtr.Zero);
 				if (location > 0) {
 					Bass.ChannelSetPosition (streamHandle, location);
@@ -227,13 +227,8 @@ namespace MusicPlayer
 
 		void OnFileClose (IntPtr user)
 		{
-			Stop ();
-			RemoveHandles ();
-
-			if (!finished) {
-				Finished?.Invoke (this);
-				finished = true;;
-			}
+			//We are done with the downloader. Lets free it's memory
+			currentData?.DownloadHelper?.Dispose();
 		}
 
 		long OnFileLength (IntPtr user)
