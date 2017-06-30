@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
-using Haneke;
+using SDWebImage;
 using MusicPlayer.Data;
 using MusicPlayer.iOS.UI;
 using MusicPlayer.Managers;
@@ -410,14 +410,13 @@ namespace MusicPlayer.iOS.ViewControllers
 							frame.Width = frame.Height = albumArtWidth;
 							albumArtImageView.Frame = frame;
 						}
-						albumArtImageView.SetImage(NSUrl.FromString(artUrl), Images.GetDefaultAlbumArt(albumArtWidth), (i) =>
-						{
+						albumArtImageView.SetImage(NSUrl.FromString(artUrl), Images.GetDefaultAlbumArt(albumArtWidth),(image, error, cacheType, imageUrl) => {
 							if (aUrl != artUrl)
 								return;
-							albumArtImageView.Image = i;
-							backgroundImageView.Image = i;
+							albumArtImageView.Image = image;
+							backgroundImageView.Image = image;
 							smallArtImageView.SetImage(NSUrl.FromString(artUrl));
-						}, (e) => { Console.WriteLine(e); });
+						});
 					}
 				}
 			}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CoreGraphics;
 using Foundation;
-using Haneke;
+using SDWebImage;
 using Localizations;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;

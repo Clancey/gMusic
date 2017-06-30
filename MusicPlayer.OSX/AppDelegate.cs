@@ -7,7 +7,6 @@ using AppKit;
 using System.Collections.Generic;
 using System.Linq;
 using MusicPlayer.Managers;
-using Akavache;
 using System.Reactive.Linq;
 using MusicPlayer.Data;
 
@@ -93,8 +92,6 @@ namespace MusicPlayer
 
 		void SetupApp ()
 		{
-			BlobCache.ApplicationName = "gMusic";
-			SimpleAuth.Resolver.Register<SimpleAuth.IAuthStorage,AkavacheAuthStorage> ();
 			ApiManager.Shared.Load ();
 			//App.AlertFunction = (t, m) => { new UIAlertView(t, m, null, "Ok").Show(); };
 			App.Invoker = this.BeginInvokeOnMainThread;

@@ -6,7 +6,7 @@ using Foundation;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;
 using UIKit;
-using Haneke;
+using SDWebImage;
 using MusicPlayer.iOS;
 
 namespace MusicPlayer.Cells

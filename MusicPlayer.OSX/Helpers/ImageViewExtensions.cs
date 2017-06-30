@@ -3,8 +3,7 @@ using AppKit;
 using System.Threading.Tasks;
 using MusicPlayer.Models;
 using MusicPlayer.Managers;
-using Akavache;
-using Splat;
+using SDWebImage;
 using System.Reactive.Linq;
 using Foundation;
 
@@ -20,7 +19,7 @@ namespace MusicPlayer
 				var width = (float)imageView.Bounds.Width;
 				if (!string.IsNullOrWhiteSpace (url)) {
 					imageView.Identifier = url;
-					imageView.Image = (await BlobCache.LocalMachine.LoadImageFromUrl (url, desiredWidth: width)).ToNative ();
+					imageView.SetImage(new NSUrl(url));
 				}
 			}
 			catch(Exception ex) {
@@ -54,10 +53,7 @@ namespace MusicPlayer
 					
 					if (string.IsNullOrWhiteSpace (artUrl))
 						return;
-					var bitmap = (await BlobCache.LocalMachine.LoadImageFromUrl (artUrl, desiredWidth: imageWidth));
-					if (imageView.Identifier != item.Id)
-						return;
-					imageView.Image = bitmap.ToNative ();
+					imageView.SetImage(new NSUrl(artUrl));
 				}
 			}
 			catch(Exception ex) {

@@ -5,7 +5,7 @@ using UIKit;
 using System.Linq;
 using CoreGraphics;
 using Foundation;
-using Haneke;
+using SDWebImage;
 using Xamarin;
 using MusicPlayer.Managers;
 

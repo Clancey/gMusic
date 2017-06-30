@@ -3,7 +3,7 @@ using CoreGraphics;
 using UIKit;
 using MusicPlayer.Models;
 using Foundation;
-using Haneke;
+using SDWebImage;
 using MusicPlayer.Cells;
 using MusicPlayer.Managers;
 

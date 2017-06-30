@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AVFoundation;
 using Foundation;
-using Haneke;
+using SDWebImage;
 using MediaPlayer;
 using MusicPlayer.Data;
 using MusicPlayer.iOS;
@@ -69,10 +69,17 @@ namespace MusicPlayer.Playback
 					var url = await ArtworkManager.Shared.GetArtwork(song);
 					if (string.IsNullOrWhiteSpace(url))
 						return;
-					TaskCompletionSource<UIImage> tcs = new TaskCompletionSource<UIImage>();
-					var fether = new HNKNetworkFetcher(new NSUrl(url));
-					fether.FetchImage((image) => { tcs.TrySetResult(image); },
-						(error) => { tcs.TrySetException(new Exception(error.ToString())); });
+					var tcs = new TaskCompletionSource<UIImage>();
+					var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(url), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
+					{
+
+					}, (image, data, error, finished) =>
+					{
+						if(error != null)
+							tcs.TrySetException(new Exception(error.ToString()));
+						else
+							tcs.TrySetResult(image);
+					});
 					art = await tcs.Task;
 					if (art == null || song.Id != Settings.CurrentSong)
 						return;
