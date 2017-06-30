@@ -112,6 +112,9 @@
     <Reference Include="SDWebImage">
       <HintPath>..\packages\Xamarin.SDWebImage.4.0.0-beta1\lib\Xamarin.Mac20\SDWebImage.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleAuth">
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.41\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -312,10 +315,6 @@
   <Import Project="..\packages\SQLitePCL.raw.0.8.6\build\Xamarin.Mac20\SQLitePCL.raw.targets" Condition="Exists('..\packages\SQLitePCL.raw.0.8.6\build\Xamarin.Mac20\SQLitePCL.raw.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.11.4\build\Xamarin.Mac20\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.4\build\Xamarin.Mac20\Xamarin.Insights.targets')" />
   <ItemGroup>
-    <ProjectReference Include="..\..\SimpleAuth\src\SimpleAuth.Mac\SimpleAuth.Mac.csproj">
-      <Project>{6457641D-D20D-479B-AA3B-30A9C88B96DE}</Project>
-      <Name>SimpleAuth.Mac</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Localizations\Localizations.csproj">
       <Project>{630262F0-FA3F-4DFB-BD64-EFDB89474F49}</Project>
       <Name>Localizations</Name>

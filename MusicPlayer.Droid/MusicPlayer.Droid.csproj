@@ -196,6 +196,9 @@
     <Reference Include="Akavache.Sqlite3">
       <HintPath>..\packages\akavache.sqlite3.5.0.0\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleAuth">
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.41\lib\MonoAndroid\SimpleAuth.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Playback\IPlayer.cs" />
@@ -778,10 +781,6 @@
     <ProjectReference Include="..\Localizations\Localizations.csproj">
       <Project>{630262F0-FA3F-4DFB-BD64-EFDB89474F49}</Project>
       <Name>Localizations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SimpleAuth\src\SimpleAuth.Droid\SimpleAuth.Droid.csproj">
-      <Project>{5B44ED27-DAD7-43FA-8A06-BA2469A1AF9E}</Project>
-      <Name>SimpleAuth.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SimpleTables\src\SimpleTables.Droid\SimpleTables.Droid.csproj">
       <Project>{040CA4CF-74E9-419B-A534-EE761D24C8FA}</Project>
