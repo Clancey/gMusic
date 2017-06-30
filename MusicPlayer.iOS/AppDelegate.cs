@@ -143,25 +143,6 @@ namespace MusicPlayer.iOS
 #pragma warning disable 4014
 			App.Start();
 #pragma warning restore 4014
-			SetupHockeyApp ();
-		}
-
-		public void SetupHockeyApp()
-		{
-			#if ADHOC || TEST
-			var manager = HockeyApp.BITHockeyManager.SharedHockeyManager;
-
-			const string hockeyAppId = "b8de54f74719b27a8204863bcb44d4b4";
-			//Configure it to use our APP_ID
-			manager.DisableCrashManager = true;
-			manager.Configure (hockeyAppId);
-			manager.DisableCrashManager = true;
-			//Start the manager
-			manager.StartManager ();
-
-			//Authenticate (there are other authentication options)
-			manager.Authenticator.AuthenticateInstallation ();
-			#endif
 		}
 
 		public override void HandleEventsForBackgroundUrl (UIApplication application, string sessionIdentifier, Action completionHandler)
