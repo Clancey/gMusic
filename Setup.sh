@@ -12,7 +12,6 @@ remoteRepos=(
  "https://github.com/Clancey/SimpleDatabase.git" 
  "https://github.com/Clancey/FlyoutNavigation.git"
  "https://github.com/Clancey/MonoTouch.Dialog.git"
- "https://github.com/Clancey/Akavache.git"
  "https://github.com/paulcbetts/ModernHttpClient.git"
  "https://github.com/Clancey/YoutubeExtractor.git"
  "https://github.com/Clancey/taglib-sharp.git"
@@ -43,7 +42,3 @@ cd ..
 
 cd SimpleAuth
 mono --runtime=v4.0 $SCRIPT_PATH/tools/NuGet/nuget.exe restore src/SimpleAuth.sln
-cd ..
-
-cd Akavache
-mono --runtime=v4.0 $SCRIPT_PATH/tools/NuGet/nuget.exe restore Akavache.sln
