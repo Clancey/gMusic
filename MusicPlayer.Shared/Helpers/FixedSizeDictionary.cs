@@ -72,7 +72,10 @@ namespace MusicPlayer
 
 		public void CopyTo (KeyValuePair<T, T1> [] array, int arrayIndex)
 		{
-			throw new NotImplementedException ();
+			for (int i = 0; i < dictionary.Count; i++)
+			{
+				array[arrayIndex + i] = dictionary.ElementAt(i);
+			}
 		}
 
 		public IEnumerator<KeyValuePair<T, T1>> GetEnumerator () => dictionary.GetEnumerator ();

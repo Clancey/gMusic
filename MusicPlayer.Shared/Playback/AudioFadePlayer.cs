@@ -58,7 +58,8 @@ namespace MusicPlayer.iOS.Playback
 			if (first.Key != song.Id && !string.IsNullOrWhiteSpace (first.Key)) {
 				playerQueue.Remove (first.Key);
 			}
-			foreach (var item in playerQueue) {
+			var items = playerQueue.ToList();
+			foreach (var item in items) {
 				if (item.Key != song.Id) {
 					item.Value.Seek (0);
 					item.Value.Pause ();

@@ -22,14 +22,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
-    <MtouchProfiling>true</MtouchProfiling>
+    <MtouchProfiling>false</MtouchProfiling>
     <CustomCommands>
       <CustomCommands>
         <Command>
