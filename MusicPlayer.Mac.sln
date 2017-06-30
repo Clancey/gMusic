@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localizations", "Localizati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer.Droid", "MusicPlayer.Droid\MusicPlayer.Droid.csproj", "{BB963D3E-D9C9-43B4-A4FB-A57B6C847AA5}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MusicPlayer.Apple", "MusicPlayer.Apple\MusicPlayer.Apple.shproj", "{87EBC71D-6232-4F2D-90F6-57933D92D32C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

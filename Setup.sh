@@ -37,6 +37,3 @@ done
 cd FlyoutNavigation
 git checkout dialog
 cd ..
-
-cd SimpleAuth
-mono --runtime=v4.0 $SCRIPT_PATH/tools/NuGet/nuget.exe restore src/SimpleAuth.sln
