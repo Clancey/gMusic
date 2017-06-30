@@ -7,9 +7,7 @@ SCRIPT_PATH=`pwd`
 popd > /dev/null
 
 remoteRepos=(
- "https://github.com/Clancey/SimpleAuth.git"
  "https://github.com/Clancey/SimpleTables.git"
- "https://github.com/Clancey/SimpleDatabase.git" 
  "https://github.com/Clancey/FlyoutNavigation.git"
  "https://github.com/Clancey/MonoTouch.Dialog.git"
  "https://github.com/paulcbetts/ModernHttpClient.git"
