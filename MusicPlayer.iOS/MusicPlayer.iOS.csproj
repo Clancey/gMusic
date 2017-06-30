@@ -551,14 +551,20 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\System.Reactive.PlatformServices.3.1.1\lib\netstandard1.3\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="Haneke">
-      <HintPath>..\packages\Haneke.1.0.2.1\lib\Xamarin.iOS10\Haneke.dll</HintPath>
-    </Reference>
     <Reference Include="BTProgressHUD">
       <HintPath>..\packages\BTProgressHUD.1.2.0.5\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
     </Reference>
     <Reference Include="RadialProgress.iOS">
       <HintPath>..\packages\Xamarin.RadialProgress.1.0.2\lib\Xamarin.iOS10\RadialProgress.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="SDWebImage">
+      <HintPath>..\packages\Xamarin.SDWebImage.4.0.0-beta1\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAuth">
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.41\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAuth.OnePassword.iOS">
+      <HintPath>..\packages\Clancey.SimpleAuth.OnePassword.1.0.4\lib\Xamarin.iOS10\SimpleAuth.OnePassword.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -634,14 +640,6 @@
       <Name>Api.iOS</Name>
       <IsAppExtension>False</IsAppExtension>
       <IsWatchApp>False</IsWatchApp>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SimpleAuth\src\SimpleAuth.iOS\SimpleAuth.iOS.csproj">
-      <Project>{2C2264A6-2534-485E-8772-623D1ABEEFFF}</Project>
-      <Name>SimpleAuth.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SimpleAuth\src\SimpleAuth.OnePassword.iOS\SimpleAuth.OnePassword.iOS.csproj">
-      <Project>{3978F9A7-1AD2-4550-A0FE-86793CA912CD}</Project>
-      <Name>SimpleAuth.OnePassword.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Localizations\Localizations.csproj">
       <Project>{630262F0-FA3F-4DFB-BD64-EFDB89474F49}</Project>

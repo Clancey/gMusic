@@ -6,8 +6,7 @@ using CoreGraphics;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;
 using MusicPlayer.Data;
-using Akavache;
-using Splat;
+using SDWebImage;
 
 namespace MusicPlayer
 {

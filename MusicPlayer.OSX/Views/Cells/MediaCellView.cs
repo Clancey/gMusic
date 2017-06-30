@@ -3,9 +3,8 @@ using MusicPlayer.Models;
 using AppKit;
 using CoreGraphics;
 using MusicPlayer.Managers;
-using Akavache;
 using System.Reactive.Linq;
-using Splat;
+using SDWebImage;
 
 namespace MusicPlayer
 {
@@ -40,8 +39,8 @@ namespace MusicPlayer
 					ImageView.Image = image;
 				} else {
 					var artUrl = await ArtworkManager.Shared.GetArtwork (item);
-					if (!string.IsNullOrWhiteSpace (artUrl))
-						ImageView.Image = (await BlobCache.LocalMachine.LoadImageFromUrl (artUrl, desiredWidth: width)).ToNative ();
+					if (!string.IsNullOrWhiteSpace(artUrl))
+						ImageView.SetImage(new Foundation.NSUrl(artUrl));
 					else
 						ImageView.Image = Images.GetDefaultAlbumArt (width);
 				}

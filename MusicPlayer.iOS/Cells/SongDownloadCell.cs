@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Foundation;
-using Haneke;
+using SDWebImage;
 using MusicPlayer.iOS.Controls;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;

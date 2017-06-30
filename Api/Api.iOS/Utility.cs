@@ -10,10 +10,6 @@ namespace MusicPlayer.Api
 
 		static public void SetSecured(string key,string value,string service)
 		{
-			#if __OSX__
-			AkavacheAuthStorage.Shared.SetSecured(key,value,"MusicApps",service,"");
-			return;
-			#endif
 			var s = new SecRecord (SecKind.GenericPassword) {
 				Service = $"MusicApps-{key}-{service}",
 			};
@@ -29,9 +25,6 @@ namespace MusicPlayer.Api
 		}
 		static public string GetSecured(string id,string service)
 		{
-			#if __OSX__
-			return AkavacheAuthStorage.Shared.GetSecured(id,"MusicApps",service,"");
-			#endif
 			var rec = new SecRecord (SecKind.GenericPassword)
 			{
 				Service = $"MusicApps-{id}-{service}",

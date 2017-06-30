@@ -4,12 +4,11 @@ using Foundation;
 using MusicPlayer.Models;
 using AppKit;
 using System.Threading.Tasks;
-using Akavache;
 using System.Reactive.Linq;
-using Splat;
 using MediaPlayer;
 using MusicPlayer.Data;
 using CoreGraphics;
+using SDWebImage;
 
 namespace MusicPlayer.Playback
 {
@@ -163,8 +162,20 @@ namespace MusicPlayer.Playback
 
 					if (string.IsNullOrWhiteSpace (artUrl))
 						return defaultImage;
-					var bitmap = (await BlobCache.LocalMachine.LoadImageFromUrl (artUrl, desiredWidth: (float)imageWidth));
-					return bitmap.ToNative ();
+
+					var tcs = new TaskCompletionSource<NSImage>();
+					var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(artUrl), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
+					{
+
+					}, (i, data, error, finished) =>
+					{
+						if (error != null)
+							tcs.TrySetException(new Exception(error.ToString()));
+						else
+							tcs.TrySetResult(i);
+					});
+					return await tcs.Task;
+
 				}
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
