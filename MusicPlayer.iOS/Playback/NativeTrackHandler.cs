@@ -1,6 +1,11 @@
 ﻿using System;
-using Haneke;
-using MusicPlayer.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using AVFoundation;
+using Foundation;
 using SDWebImage;
 using MediaPlayer;
 using MusicPlayer.Data;
