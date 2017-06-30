@@ -15,6 +15,7 @@ using Foundation;
 using UIKit;
 using MusicPlayer.iOS;
 using CoreGraphics;
+using MusicPlayer.Models;
 
 namespace MusicPlayer.Playback
 {
@@ -89,9 +90,16 @@ namespace MusicPlayer.Playback
 				if (string.IsNullOrWhiteSpace (url))
 					return Images.GetDefaultAlbumArt (width);
 				TaskCompletionSource<UIImage> tcs = new TaskCompletionSource<UIImage> ();
-				var fether = new HNKNetworkFetcher (new NSUrl (url));
-				fether.FetchImage ((image) => { tcs.TrySetResult (image); },
-					(error) => { tcs.TrySetException (new Exception (error.ToString ())); });
+				var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(url), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
+				{
+
+				}, (image, data, error, finished) =>
+				{
+					if (error != null)
+						tcs.TrySetException(new Exception(error.ToString()));
+					else
+						tcs.TrySetResult(image);
+				});
 				var art = await tcs.Task;
 				return art;
 			} catch (Exception ex) {
