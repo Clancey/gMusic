@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;__OSX__;UNIFIED;</DefineConstants>
+    <DefineConstants>__UNIFIED__;DEBUG;__OSX__;UNIFIED;BASS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -98,11 +98,22 @@
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.Mac20\Xamarin.Insights.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.core">
-      <HintPath>..\packages\SQLitePCLRaw.core.1.1.2\lib\Xamarin.Mac20\SQLitePCLRaw.core.dll</HintPath>
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.5\lib\Xamarin.Mac20\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3">
+      <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.macos.1.1.5\lib\Xamarin.Mac20\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlite3">
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.macos.1.1.5\lib\Xamarin.Mac20\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedBass">
+      <HintPath>..\packages\ManagedBass.2.0.1\lib\netstandard1.4\ManagedBass.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.provider.e_sqlite3">
       <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.macos.1.1.2\lib\Xamarin.Mac20\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
@@ -112,6 +123,9 @@
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_v2">
       <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\Xamarin.Mac20\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>    
+    <Reference Include="ManagedBass.Fx">
+      <HintPath>..\packages\ManagedBass.Fx.2.0.0\lib\netstandard1.4\ManagedBass.Fx.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.provider.sqlite3">
       <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.macos.1.1.2\lib\Xamarin.Mac20\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
@@ -135,18 +149,6 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Helpers\CGRectHelpers.cs">
-      <Link>MusicPlayer.iOS\Helpers\CGRectHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Playback\AVPlayerEqualizer.cs">
-      <Link>MusicPlayer.iOS\Playback\AVPlayerEqualizer.cs</Link>
-    </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Playback\AVPlayerExtension.cs">
-      <Link>MusicPlayer.iOS\Playback\AVPlayerExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\MusicPlayer.iOS\Playback\NativeAudioPlayer.cs">
-      <Link>MusicPlayer.iOS\Playback\NativeAudioPlayer.cs</Link>
-    </Compile>
     <Compile Include="Views\Cells\SpinnerCell.cs" />
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Device.cs" />
@@ -154,7 +156,7 @@
     <Compile Include="Helpers\HttpUtility.cs" />
     <Compile Include="Native\BackgroundDownloadManager.cs" />
     <Compile Include="Native\NativeTrackHandler.cs" />
-    <Compile Include="Native\RemoteControlHandler.cs" />
+    <Compile Include="Native\KeyboardControlHandler.cs" />
     <Compile Include="Native\PopupManager.cs" />
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
@@ -228,9 +230,6 @@
     <Compile Include="Views\Cells\AlbumDetailsCell.cs" />
     <Compile Include="Helpers\MediaItemImageExtensions.cs" />
     <Compile Include="Helpers\ImageViewExtensions.cs" />
-    <Compile Include="..\MusicPlayer.iOS\Playback\AudioFadePlayer.cs">
-      <Link>MusicPlayer.iOS\Playback\AudioFadePlayer.cs</Link>
-    </Compile>
     <Compile Include="Views\ILifeCycleView.cs" />
     <Compile Include="Views\BaseSplitView.cs" />
     <Compile Include="Views\GenreDetailsListView.cs" />
@@ -306,6 +305,7 @@
     <InterfaceDefinition Include="VideoPlaybackWindow.xib" />
   </ItemGroup>
   <Import Project="..\ApiConstants.targets" />
+  <Import Project="..\MusicPlayer.Apple\MusicPlayer.Apple.projitems" Label="Shared" Condition="Exists('..\MusicPlayer.Apple\MusicPlayer.Apple.projitems')" />
   <Import Project="..\Api\OneDrive\OneDrive.projitems" Label="Shared" Condition="Exists('..\Api\OneDrive\OneDrive.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\AmazonApi\AmazonApi.projitems" Label="Shared" Condition="Exists('..\Api\AmazonApi\AmazonApi.projitems')" />
@@ -579,6 +579,11 @@
       <SmartLink>False</SmartLink>
     </NativeReference>
   </ItemGroup>
-  <Import Project="..\packages\Xamarin.Insights.1.11.4\build\Xamarin.Mac20\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.4\build\Xamarin.Mac20\Xamarin.Insights.targets')" />
+  <ItemGroup>
+    <Content Include="libbass.dylib" />
+    <Content Include="libbass_fx.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
 </Project>

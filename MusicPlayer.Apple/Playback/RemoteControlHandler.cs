@@ -13,9 +13,11 @@ namespace MusicPlayer.Playback
 {
 	internal static class RemoteControlHandler
 	{
-		public static void Init()
+		public static void Init ()
 		{
+#if __IOS__
 			if (Device.IsIos7_1)
+#endif
 			{
 				InitCommandCenter();
 			}
@@ -36,6 +38,7 @@ namespace MusicPlayer.Playback
 			center.TogglePlayPauseCommand.Enabled = true;
 			center.PauseCommand.Enabled = true;
 			center.ChangePlaybackRateCommand.Enabled = true;
+			center.ChangePlaybackPositionCommand.Enabled = true;
 			//center.DislikeCommand.Enabled = true;
 			center.SkipBackwardCommand.Enabled = true;
 			center.SkipForwardCommand.Enabled = true;
@@ -48,7 +51,13 @@ namespace MusicPlayer.Playback
 				PlaybackManager.Shared.Play();
 				return MPRemoteCommandHandlerStatus.Success;
 			});
-			
+
+			center.ChangePlaybackPositionCommand.AddTarget ((evt) => {
+				var cmd = evt as MPChangePlaybackPositionCommandEvent;
+				Console.WriteLine (cmd.PositionTime);
+				PlaybackManager.Shared.NativePlayer.SeekTime (cmd.PositionTime);
+				return MPRemoteCommandHandlerStatus.Success;
+			});
 			center.ChangePlaybackRateCommand.AddTarget((evt) =>
 			{
 				var change = evt.Command as MPChangePlaybackRateCommand;
@@ -82,14 +91,14 @@ namespace MusicPlayer.Playback
 			//	evt.
 			//	return MPRemoteCommandHandlerStatus.Success;
 			//});
-			//center.SeekBackwardCommand.AddTarget((evt) =>
-			//{
-			//	return MPRemoteCommandHandlerStatus.Success;
-			//});
-			//center.SeekForwardCommand.AddTarget((evt) =>
-			//{
-			//	return MPRemoteCommandHandlerStatus.Success;
-			//});
+			center.SeekBackwardCommand.AddTarget((evt) =>
+			{
+				return MPRemoteCommandHandlerStatus.Success;
+			});
+			center.SeekForwardCommand.AddTarget((evt) =>
+			{
+				return MPRemoteCommandHandlerStatus.Success;
+			});
 			//center.SkipBackwardCommand.AddTarget((evt) =>
 			//{
 			//	return MPRemoteCommandHandlerStatus.Success;

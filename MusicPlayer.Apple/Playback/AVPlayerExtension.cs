@@ -38,7 +38,7 @@ namespace MusicPlayer.iOS.Playback
 		{
 			if (player?.CurrentTime == null)
 				return 0;
-			var seconds = player.CurrentTime.IsInvalid ? 0 : player.CurrentTime.Seconds;
+			var seconds = player?.CurrentTime.IsInvalid ?? false ? 0 : player.CurrentTime.Seconds;
 			return double.IsNaN(seconds) ? 0 : seconds;
 		}
 

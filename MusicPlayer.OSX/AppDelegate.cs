@@ -92,6 +92,10 @@ namespace MusicPlayer
 
 		void SetupApp ()
 		{
+			App.AlertFunction = (title,message) =>{
+				//TODO: replace this
+				Console.WriteLine($"ALERT {title} - {message}");
+			};
 			ApiManager.Shared.Load ();
 			//App.AlertFunction = (t, m) => { new UIAlertView(t, m, null, "Ok").Show(); };
 			App.Invoker = this.BeginInvokeOnMainThread;

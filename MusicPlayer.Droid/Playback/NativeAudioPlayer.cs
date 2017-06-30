@@ -12,10 +12,11 @@ using NotificationManager = MusicPlayer.Managers.NotificationManager;
 using DownloadManager = MusicPlayer.Managers.DownloadManager;
 using System.Threading;
 using MusicPlayer.Droid.Services;
+using MusicPlayer.Playback;
 
-namespace MusicPlayer
+namespace MusicPlayer.Playback
 {
-	public class NativeAudioPlayer : BaseModel
+	public partial class NativeAudioPlayer : BaseModel
 	{
 		public static MusicService Context { get; set; }
 		public PlaybackState State { get; set; }
@@ -72,6 +73,20 @@ namespace MusicPlayer
 			//return await player.Play(song);
 
 		}
+		public void UpdateBand (int band, float gain)
+		{
+
+		}
+
+		public void ApplyEqualizer (Equalizer.Band [] bands)
+		{
+
+		}
+
+		public void ApplyEqualizer ()
+		{
+
+		}
 
 		internal void QueueTrack(Track currentTrack)
 		{
@@ -95,97 +110,10 @@ namespace MusicPlayer
 			App.Context.SupportMediaController.GetTransportControls().PlayFromMediaId(song.Id, null);
 			return await player.Play(song);
 		}
+
+
 		bool isVideo;
-		public async Task<Tuple<bool, string>> prepareSong(Song song, bool playVideo = false)
-		{
-			try
-			{
-				isVideo = playVideo;
-				LogManager.Shared.Log("Preparing Song", song);
-				var data = GetPlaybackData(song.Id);
-				var playbackData = await MusicManager.Shared.GetPlaybackData(song, playVideo);
-				if (playbackData == null)
-					return new Tuple<bool, string>(false, null);
-				if (data.CancelTokenSource.IsCancellationRequested)
-					return new Tuple<bool, string>(false, null);
 
-				var playerItem = "";
-
-				if (song == CurrentSong)
-				{
-					Settings.CurrentTrackId = playbackData.CurrentTrack.Id;
-					isVideo = playbackData.CurrentTrack.MediaType == MediaType.Video;
-					Settings.CurrentPlaybackIsVideo = isVideo;
-					NotificationManager.Shared.ProcVideoPlaybackChanged(isVideo);
-				}
-				if (playbackData.IsLocal || playbackData.CurrentTrack.ServiceType == MusicPlayer.Api.ServiceType.iPod)
-				{
-					if (playbackData.Uri == null)
-						return new Tuple<bool, string>(false, null);
-					LogManager.Shared.Log("Local track found", song);
-					var url = string.IsNullOrWhiteSpace(playbackData?.CurrentTrack?.FileLocation) ? playbackData.Uri.AbsoluteUri : playbackData.CurrentTrack.FileLocation;
-					playerItem = url;
-					NotificationManager.Shared.ProcSongDownloadPulsed(song.Id, 1f);
-				}
-				else
-				{
-					data.SongPlaybackData = playbackData;
-					data.DownloadHelper = await DownloadManager.Shared.DownloadNow(playbackData.CurrentTrack.Id, playbackData.Uri);
-					if (data.CancelTokenSource.IsCancellationRequested)
-						return new Tuple<bool, string>(false, null);
-					LogManager.Shared.Log("Loading online Track", data.SongPlaybackData.CurrentTrack);
-					//SongIdTracks[data.SongPlaybackData.CurrentTrack.Id] = song.Id;
-					//NSUrlComponents comp =
-					//	new NSUrlComponents(
-					//		NSUrl.FromString(
-					//			$"http://localhost/{playbackData.CurrentTrack.Id}.{data.SongPlaybackData.CurrentTrack.FileExtension}"), false);
-					//comp.Scheme = "streaming";
-					//if (comp.Url != null)
-					//{
-					//	var asset = new AVUrlAsset(comp.Url, new NSDictionary());
-					//	asset.ResourceLoader.SetDelegate(LoaderDelegate, DispatchQueue.MainQueue);
-					//	playerItem = new AVPlayerItem(asset);
-					//}
-					//if (data.CancelTokenSource.IsCancellationRequested)
-					//	return new Tuple<bool, AVPlayerItem>(false, null);
-
-					//await playerItem.WaitStatus();
-				}
-				//lastSeconds = -1;
-				var success = !data.CancelTokenSource.IsCancellationRequested;
-
-				return new Tuple<bool, string>(success, playbackData.Uri.AbsoluteUri);
-			}
-			catch (Exception ex)
-			{
-				LogManager.Shared.Report(ex);
-				return new Tuple<bool, string>(false, null);
-			}
-		}
-
-
-		public readonly Dictionary<string, PlaybackData> CurrentData = new Dictionary<string, PlaybackData>();
-		public readonly Dictionary<string, string> SongIdTracks = new Dictionary<string, string>();
-		public class PlaybackData
-		{
-			public string SongId { get; set; }
-			public SongPlaybackData SongPlaybackData { get; set; }
-			public DownloadHelper DownloadHelper { get; set; }
-			public CancellationTokenSource CancelTokenSource { get; set; } = new CancellationTokenSource();
-		}
-		internal PlaybackData GetPlaybackData(string id, bool create = true)
-		{
-			lock (CurrentData)
-			{
-				PlaybackData data;
-				if (!CurrentData.TryGetValue(id, out data) && create)
-					CurrentData[id] = data = new PlaybackData
-					{
-						SongId = id,
-					};
-				return data;
-			}
-		}
 		public static bool VerifyVideo(string file)
 		{
 			return VerifyIsMovie(file);
@@ -230,6 +158,10 @@ namespace MusicPlayer
 			return false;
 		}
 
+		internal void CleanupSong (Song currentSong)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
 

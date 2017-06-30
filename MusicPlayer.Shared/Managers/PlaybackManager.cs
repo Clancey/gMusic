@@ -26,10 +26,10 @@ namespace MusicPlayer.Managers
 			killTimer = new Timer(20*1000);
 			killTimer.Elapsed += (sender, args) => StopTimers();
 			NativePlayer = new NativeAudioPlayer();
-			NativePlayer.SubscribeToProperty("State", () =>
+			NativePlayer.SubscribeToProperty(nameof (NativePlayer.State), () =>
 			{
 				NotificationManager.Shared.ProcPlaybackStateChanged(NativePlayer.State);
-				if (NativePlayer.State == PlaybackState.Playing)
+				if (NativePlayer.State == PlaybackState.Playing || NativePlayer.State == PlaybackState.Buffering)
 				{
 					StartTimers();
 					killTimer.Stop();
@@ -64,6 +64,9 @@ namespace MusicPlayer.Managers
 
 		public void Init()
 		{
+			#if __MACOS__
+			KeyboardControlHandler.Init();
+			#endif
 			#if !__ANDROID__
 			NativeTrackHandler.Shared.Init();
 			RemoteControlHandler.Init();
@@ -518,6 +521,8 @@ namespace MusicPlayer.Managers
 				Pause();
 				return;
 			}
+			if (CurrentSongIndex == nextIndex)
+				return;
 			CurrentSongIndex = nextIndex;
 			var song = GetSong(CurrentSongIndex);
 			if (song == null)

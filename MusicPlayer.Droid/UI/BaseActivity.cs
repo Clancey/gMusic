@@ -15,6 +15,7 @@ using Android.Widget;
 using MusicPlayer.Droid.Services;
 using MusicPlayer.Managers;
 using SimpleTables;
+using MusicPlayer.Playback;
 
 namespace MusicPlayer.Droid.UI
 {

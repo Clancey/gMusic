@@ -9,65 +9,55 @@ using Foundation;
 using SDWebImage;
 using MediaPlayer;
 using MusicPlayer.Data;
-using MusicPlayer.iOS;
 using MusicPlayer.Managers;
-using MusicPlayer.Models;
+using System.Threading.Tasks;
+using Foundation;
 using UIKit;
+using MusicPlayer.iOS;
+using CoreGraphics;
+using MusicPlayer.Models;
 
 namespace MusicPlayer.Playback
 {
-	internal class NativeTrackHandler : ManagerBase<NativeTrackHandler>
+	partial class NativeTrackHandler
 	{
-		public NativeTrackHandler()
+		void OnInit ()
 		{
-			NotificationManager.Shared.CurrentSongChanged += (sender, args) => UpdateSong(args.Data);
-			NotificationManager.Shared.CurrentTrackPositionChanged += (sender, args) => UpdateProgress(args.Data);
+
 		}
-
-		public void Init()
+		MPMediaItemArtwork CreateDefaultArtwork ()
 		{
-			if (string.IsNullOrWhiteSpace(Settings.CurrentSong))
-				return;
-			UpdateSong(Database.Main.GetObject<Song, TempSong>(Settings.CurrentSong));
-		}
-
-		MPNowPlayingInfo nowPlayingInfo;
-		MPMediaItemArtwork artwork;
-
-		public void UpdateSong(Song song)
-		{
-			if (song == null)
-				return;
-			try
-			{
-				nowPlayingInfo = new MPNowPlayingInfo
-				{
-					Title = song?.Name ?? "",
-					Artist = song?.Artist ?? "",
-					AlbumTitle = song?.Album ?? "",
-					Genre = song?.Genre ?? "",
-					Artwork = (new MPMediaItemArtwork(Images.GetDefaultAlbumArt(Images.AlbumArtScreenSize))),
-				};
-				artwork = null;
-				FetchArtwork(song);
-				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
+			if (Device.IsIos10) {
+				return DefaultResizableArtwork;
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
+			return new MPMediaItemArtwork (Images.GetDefaultAlbumArt (Images.AlbumArtScreenSize));
+		}
+
+		void SetAdditionInfo (Song song, MPNowPlayingInfo info)
+		{
+			if (Device.IsIos10) {
+				nowPlayingInfo.MediaType = Settings.CurrentPlaybackIsVideo ? MPNowPlayingInfoMediaType.Video : MPNowPlayingInfoMediaType.Audio;
 			}
 		}
-
-		async void FetchArtwork(Song song)
+		void OnSongChanged (Song song)
 		{
-			try
-			{
-				var art = await song.GetLocalImage(Images.MaxScreenSize);
 
-				if (art == null)
-				{
-					var url = await ArtworkManager.Shared.GetArtwork(song);
-					if (string.IsNullOrWhiteSpace(url))
+		}
+
+		async void FetchArtwork (Song song)
+		{
+			try {
+				if (Device.IsIos10) {
+					artwork = new MPMediaItemArtwork (new CGSize (Images.MaxScreenSize, Images.MaxScreenSize), (arg) => {
+					var img = GetImage (song,arg.Width).Result;
+					return img;
+				});
+				}
+				var art = await song.GetLocalImage (Images.MaxScreenSize);
+
+				if (art == null) {
+					var url = await ArtworkManager.Shared.GetArtwork (song);
+					if (string.IsNullOrWhiteSpace (url))
 						return;
 					var tcs = new TaskCompletionSource<UIImage>();
 					var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(url), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
@@ -84,38 +74,37 @@ namespace MusicPlayer.Playback
 					if (art == null || song.Id != Settings.CurrentSong)
 						return;
 				}
-				artwork = new MPMediaItemArtwork(art);
+				artwork = new MPMediaItemArtwork (art);
 				if (nowPlayingInfo == null)
 					return;
 				nowPlayingInfo.Artwork = artwork;
-				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
-			}
-			catch (Exception ex)
-			{
-				LogManager.Shared.Report(ex);
+				App.RunOnMainThread (() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
+			} catch (Exception ex) {
+				LogManager.Shared.Report (ex);
 			}
 		}
-
-		double lastTime = -1;
-
-		public void UpdateProgress(TrackPosition position)
+		async Task<UIImage> GetImage (Song song, double width)
 		{
-			try
-			{
-				if (nowPlayingInfo == null)
-					return;
-				if (Math.Abs(position.CurrentTime - lastTime) < 1)
-					return;
-				lastTime = position.CurrentTime;
-				if (artwork != null && (int) lastTime%10 == 0)
-					nowPlayingInfo.Artwork = artwork;
-				nowPlayingInfo.ElapsedPlaybackTime = position.CurrentTime;
-				nowPlayingInfo.PlaybackDuration = position.Duration;
-				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
+			try {
+				var url = await ArtworkManager.Shared.GetArtwork (song);
+				if (string.IsNullOrWhiteSpace (url))
+					return Images.GetDefaultAlbumArt (width);
+				TaskCompletionSource<UIImage> tcs = new TaskCompletionSource<UIImage> ();
+				var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(url), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
+				{
+
+				}, (image, data, error, finished) =>
+				{
+					if (error != null)
+						tcs.TrySetException(new Exception(error.ToString()));
+					else
+						tcs.TrySetResult(image);
+				});
+				var art = await tcs.Task;
+				return art;
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
+				return Images.GetDefaultAlbumArt (width);
 			}
 		}
 	}

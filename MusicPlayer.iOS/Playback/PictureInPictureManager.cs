@@ -14,7 +14,7 @@ namespace MusicPlayer.iOS.Playback
 
 		bool IsSetep;
 		AVPictureInPictureController controller;
-		public void Setup(AudioFadePlayer.CustomVideoLayer layer)
+		public void Setup(CustomVideoLayer layer)
 		{
 			if(!IsSupported() || IsSetep)
 				return;

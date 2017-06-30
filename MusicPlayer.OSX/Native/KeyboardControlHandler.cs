@@ -8,10 +8,11 @@ using CoreFoundation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using ObjCRuntime;
+using MediaPlayer;
 
 namespace MusicPlayer
 {
-	public static class RemoteControlHandler
+	public static class KeyboardControlHandler
 	{
 		public static void Init ()
 		{

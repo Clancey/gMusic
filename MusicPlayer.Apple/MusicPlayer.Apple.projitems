@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{87EBC71D-6232-4F2D-90F6-57933D92D32C}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MusicPlayer.Apple</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Playback\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CGRectHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\AVMediaPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\AVPlayerEqualizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\AVPlayerExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\NativeAudioPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\CustomVideoLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\NativeTrackHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\RemoteControlHandler.cs" />
+  </ItemGroup>
+</Project>

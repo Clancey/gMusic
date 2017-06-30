@@ -34,10 +34,10 @@ namespace AppKit
 			return combinedImage;
 		}
 
-		static NSBitmapImageRep ToImageRep (this NSImage image)
+		static NSImageRep ToImageRep (this NSImage image)
 		{
 			var imageData = image.AsTiff ();
-			var imageRep = (NSBitmapImageRep)NSBitmapImageRep.ImageRepFromData (imageData);
+			var imageRep = NSBitmapImageRep.ImageRepFromData (imageData);
 			return imageRep;
 		}
 

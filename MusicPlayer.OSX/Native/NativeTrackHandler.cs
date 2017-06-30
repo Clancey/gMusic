@@ -5,28 +5,25 @@ using MusicPlayer.Models;
 using AppKit;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
+using MediaPlayer;
+using MusicPlayer.Data;
+using CoreGraphics;
 using SDWebImage;
 
-namespace MusicPlayer
+namespace MusicPlayer.Playback
 {
-	public class NativeTrackHandler : ManagerBase<NativeTrackHandler>
+	partial class NativeTrackHandler
 	{
-		public NativeTrackHandler ()
-		{
-		}
 
-		public void Init()
+		void OnInit ()
 		{
-
-			NotificationManager.Shared.CurrentSongChanged += (sender, args) => UpdateSong(args.Data);
 			NotificationManager.Shared.PlaybackStateChanged += (sender, e) => PlaybackStateChanged (e.Data);
 			NSUserNotificationCenter.DefaultUserNotificationCenter.DidActivateNotification += (object sender, UNCDidActivateNotificationEventArgs e) => {
-				switch (e.Notification.ActivationType)
-				{
+				switch (e.Notification.ActivationType) {
 
-        			case NSUserNotificationActivationType.ActionButtonClicked:
+				case NSUserNotificationActivationType.ActionButtonClicked:
 					var frontmost = NSWorkspace.SharedWorkspace.FrontmostApplication.BundleIdentifier == NSBundle.MainBundle.BundleIdentifier;
-					if(frontmost)
+					if (frontmost)
 						NSWorkspace.SharedWorkspace.FrontmostApplication.Hide ();
 					Console.WriteLine (frontmost);
 					PlaybackManager.Shared.NextTrack ();
@@ -37,7 +34,8 @@ namespace MusicPlayer
 			//NotificationManager.Shared.CurrentTrackPositionChanged += (sender, args) => UpdateProgress(args.Data);
 		}
 
-		public void UpdateSong (Song song)
+		MPMediaItemArtwork CreateDefaultArtwork () => DefaultResizableArtwork;
+		void OnSongChanged (Song song)
 		{
 			var frontmost = NSWorkspace.SharedWorkspace.FrontmostApplication.BundleIdentifier == NSBundle.MainBundle.BundleIdentifier;
 			if (frontmost || PlaybackManager.Shared.NativePlayer.State != PlaybackState.Playing)
@@ -47,13 +45,49 @@ namespace MusicPlayer
 			NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification (notification);
 		}
 
-		public void PlaybackStateChanged (PlaybackState state )
+		//void SetAdditionInfo (Song song, MPNowPlayingInfo info)
+		//{
+		//	info.MediaType = Settings.CurrentPlaybackIsVideo ? MPNowPlayingInfoMediaType.Video : MPNowPlayingInfoMediaType.Audio;
+
+		//}
+
+		public void PlaybackStateChanged (PlaybackState state)
 		{
 			if (state == PlaybackState.Paused || state == PlaybackState.Stopped)
 				NSUserNotificationCenter.DefaultUserNotificationCenter.RemoveAllDeliveredNotifications ();
 			if (state == PlaybackState.Playing)
 				UpdateSong (PlaybackManager.Shared.NativePlayer.CurrentSong);
+			setMpMediaCenterState (state);
 		}
+		void setMpMediaCenterState (PlaybackState state)
+		{
+			try {
+				if (!HasMPMediaCenter)
+					return;
+				MPNowPlayingPlaybackState mpState;
+				switch (state) {
+				case PlaybackState.Playing:
+				case PlaybackState.Buffering:
+					mpState = MPNowPlayingPlaybackState.Playing;
+					break;
+				case PlaybackState.Paused:
+					mpState = MPNowPlayingPlaybackState.Paused;
+					break;
+				case PlaybackState.Stopped:
+					mpState = MPNowPlayingPlaybackState.Stopped;
+					break;
+				default:
+					mpState = MPNowPlayingPlaybackState.Unknown;
+					break;
+				}
+				MPNowPlayingInfoCenter.DefaultCenter.PlaybackState = mpState;
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
+			}
+
+		}
+		bool? hasMPMediaCenter;
+		bool HasMPMediaCenter => (bool)(hasMPMediaCenter ?? (hasMPMediaCenter = System.Environment.OSVersion.Version > new Version (10, 12, 1)));
 
 		public NSUserNotification CreateNotification (Song song)
 		{
@@ -79,24 +113,47 @@ namespace MusicPlayer
 				//[notification setValue:notification.contentImage forKey:@"_identityImage"];
 				//notification.contentImage = nil;
 			} catch (Exception ex) {
-				Console.WriteLine (ex);	
+				Console.WriteLine (ex);
 			}
 
-    		return notification;
+			return notification;
 		}
-		async void SetImage (NSUserNotification notification, Song song)
+
+		void SetImage (NSUserNotification notitification, Song song)
 		{
 
 		}
-		async Task<NSImage> GetImage (MediaItemBase item, NSImage defaultImage = null)
+		async void FetchArtwork (Song song)
 		{
-			float imageWidth = 60f;
 			try {
-				if (defaultImage == null)
-					defaultImage = Images.GetDefaultAlbumArt (imageWidth);
+				var art = await song.GetLocalImage (Images.MaxScreenSize);
+
+				if (art == null) {
+					var url = await ArtworkManager.Shared.GetArtwork (song);
+					if (string.IsNullOrWhiteSpace (url))
+						return;
+					if (art == null || song.Id != Settings.CurrentSong)
+						return;
+				}
+
+				artwork = new MPMediaItemArtwork (new CGSize (9999, 9999), (arg) => {
+					var img = GetImage (song, arg.Width).Result;
+					return img;
+				});
+				//if (nowPlayingInfo == null)
+				//	return;
+				//nowPlayingInfo.Artwork = artwork;
+				//App.RunOnMainThread (() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
+			} catch (Exception ex) {
+				LogManager.Shared.Report (ex);
+			}
+		}
+		async Task<NSImage> GetImage (MediaItemBase item, double imageWidth, NSImage defaultImage = null)
+		{
+			try {
 				if (item == null)
-					return defaultImage;
-				
+					return defaultImage ?? Images.GetDefaultAlbumArt (imageWidth);
+
 				var image = await item.GetLocalImage (imageWidth);
 				if (image != null) {
 					return image;

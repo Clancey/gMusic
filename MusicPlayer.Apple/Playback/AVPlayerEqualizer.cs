@@ -28,7 +28,8 @@ namespace MusicPlayer.iOS.Playback
 
 		public async System.Threading.Tasks.Task ApplyEqualizer(Equalizer.Band[] bands)
 		{
-			await ApplyEqualizer(bands, PlaybackManager.Shared.NativePlayer.CurrentItem);
+			//TODO: FIXME: Equalizer isnt setup right
+			PlaybackManager.Shared.NativePlayer.ApplyEqualizer (bands);
 		}
 
 		public async System.Threading.Tasks.Task ApplyEqualizer(Equalizer.Band[] bands, AVPlayerItem item)

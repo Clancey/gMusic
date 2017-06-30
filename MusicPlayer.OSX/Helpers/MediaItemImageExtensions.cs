@@ -14,7 +14,7 @@ namespace MusicPlayer
 {
 	public static class MediaItemImageExtensions
 	{
-		public static async Task<NSImage> GetLocalImage(this MediaItemBase item, float width)
+		public static async Task<NSImage> GetLocalImage(this MediaItemBase item, double width)
 		{
 			try
 			{
@@ -52,7 +52,7 @@ namespace MusicPlayer
 			return null;
 		}
 
-		static async Task<NSImage> GetImage(this Track track,float width)
+		static async Task<NSImage> GetImage(this Track track,double width)
 		{
 			return await Task.Factory.StartNew (() => {
 				try {

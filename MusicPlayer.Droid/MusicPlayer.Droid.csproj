@@ -206,6 +206,9 @@
     <Reference Include="Punchclock">
       <HintPath>..\packages\Punchclock.2.0.0\lib\netstandard1.0\Punchclock.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleAuth">
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.41\lib\MonoAndroid\SimpleAuth.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Playback\IPlayer.cs" />
