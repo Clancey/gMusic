@@ -45,6 +45,7 @@ namespace MusicPlayer
 		void OnStateChanged (AVPlayer player)
 		{
 			State = (Math.Abs (player.Rate) < float.Epsilon) ? PlaybackState.Paused : PlaybackState.Playing;
+			Console.WriteLine($"State Changed {CurrentSongId} - {State}");
 			StateChanged?.Invoke (State);
 		}
 

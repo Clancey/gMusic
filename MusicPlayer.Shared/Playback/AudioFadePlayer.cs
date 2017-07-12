@@ -122,6 +122,7 @@ namespace MusicPlayer.iOS.Playback
 			if (!forcePlay && isSongPlaying (song)) {
 				var player = GetPlayer (song);
 				State = player.State;
+				Parent.State = State;
 				SetVideo (player);
 				return true;
 			}
@@ -200,6 +201,15 @@ namespace MusicPlayer.iOS.Playback
 		{
 			var song = Database.Main.GetObject<Song, TempSong> (track.SongId);
 			nextSong = song;
+		}
+
+		public override string CurrentSongId
+		{
+			get => CurrentSong?.Id;
+			set
+			{
+				base.CurrentSongId = value;
+			}
 		}
 
 
@@ -313,10 +323,11 @@ namespace MusicPlayer.iOS.Playback
 #endif
 
 			player.StateChanged = (state) => {
-				StateChanged?.Invoke (state);
-				if (player == CurrentPlayer)
+				if (player.CurrentSongId == CurrentSongId)
+				{
 					State = state;
-				Parent.State = state;
+					Parent.State = state;
+				}
 			};
 
 			player.Finished = (p) => {

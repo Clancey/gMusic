@@ -25,7 +25,7 @@ namespace MusicPlayer.Playback
 
 		public abstract float Volume { get; set; }
 
-		public string CurrentSongId { get; set; }
+		public virtual string CurrentSongId { get; set; }
 
 		public abstract Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false);
 
