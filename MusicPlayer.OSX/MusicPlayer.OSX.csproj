@@ -69,9 +69,6 @@
     <Reference Include="Xamarin.Mac" />
     <Reference Include="System.Core" />
     <Reference Include="System" />
-    <Reference Include="ITSwitch">
-      <HintPath>..\Components\itswitch-1.0\lib\mac-unified\ITSwitch.dll</HintPath>
-    </Reference>
     <Reference Include="NGraphics">
       <HintPath>..\packages\NGraphics.0.4.0\lib\Xamarin.Mac20\NGraphics.dll</HintPath>
     </Reference>
@@ -135,6 +132,9 @@
     </Reference>
     <Reference Include="SimpleDatabase">
       <HintPath>..\packages\Clancey.SimpleDatabase.1.1.3\lib\netstandard1.1\SimpleDatabase.dll</HintPath>
+    </Reference>
+    <Reference Include="ITSwitch">
+      <HintPath>..\packages\Xamarin.Mac.ITSwitch.1.0.1\lib\Xamarin.Mac20\ITSwitch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -566,12 +566,6 @@
     <BundleResource Include="..\MusicPlayer.iOS\Resources\accentColorHorizontal%402x.png">
       <Link>Resources\accentColorHorizontal%402x.png</Link>
     </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="itswitch">
-      <Version>1.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <NativeReference Include="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\runtimes\osx-x64\native\libe_sqlite3.dylib">
