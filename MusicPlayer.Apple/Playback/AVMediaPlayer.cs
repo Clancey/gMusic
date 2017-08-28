@@ -46,7 +46,6 @@ namespace MusicPlayer
 		{
 			State = (Math.Abs (player.Rate) < float.Epsilon) ? PlaybackState.Paused : PlaybackState.Playing;
 			Console.WriteLine($"State Changed {CurrentSongId} - {State}");
-			StateChanged?.Invoke (State);
 		}
 
 		void OnFinished (AVPlayerItem item)
@@ -107,7 +106,8 @@ namespace MusicPlayer
 
 		public override async void ApplyEqualizer (Equalizer.Band [] bands)
 		{
-			await AVPlayerEqualizer.Shared.ApplyEqualizer (bands);
+			if(IsPlayerItemValid)
+				await AVPlayerEqualizer.Shared.ApplyEqualizer (bands,player?.CurrentItem);
 		}
 
 		public override double CurrentTimeSeconds () => player?.CurrentTimeSeconds() ?? 0;
