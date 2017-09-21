@@ -183,6 +183,16 @@ namespace MusicPlayer.iOS.ViewControllers
 				}
 			}
 
+			public override void SafeAreaInsetsDidChange()
+			{
+				base.SafeAreaInsetsDidChange();
+				if (Device.IsIos11)
+				{
+					NowPlaying.BottomInset = this.SafeAreaInsets.Bottom;
+					Console.WriteLine(NowPlaying.BottomInset);
+				}
+			}
+
 			public NowPlayingViewController NowPlaying
 			{
 				get { return nowPlaying; }
@@ -235,9 +245,9 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				base.LayoutSubviews();
 				CGRect bounds = Bounds;
-
+				var bottom = SafeAreaInsets.Bottom;
+				var b = this.LayoutMargins.Bottom;
 				Menu.View.Frame = bounds;
-
 				if (isPanning)
 					return;
 				if (isHidden)

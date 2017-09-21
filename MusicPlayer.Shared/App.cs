@@ -104,6 +104,8 @@ namespace MusicPlayer
 				Invoker(action);
 		}
 
+		public static bool IsMainThread => Thread.CurrentThread == MainThread;
+
 		public static Action OnPlaying;
 
 		public static void Playing()

@@ -49,9 +49,10 @@ namespace MusicPlayer.Playback
 			try {
 				if (Device.IsIos10) {
 					artwork = new MPMediaItemArtwork (new CGSize (Images.MaxScreenSize, Images.MaxScreenSize), (arg) => {
-					var img = GetImage (song,arg.Width).Result;
-					return img;
-				});
+						var isMainThread = App.IsMainThread;
+						var img = GetImage (song,arg.Width).Result;
+						return img;
+					});
 				}
 				var art = await song.GetLocalImage (Images.MaxScreenSize);
 

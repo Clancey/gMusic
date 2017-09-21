@@ -12,11 +12,14 @@ using Lastfm.Scrobbling;
 using Lastfm;
 using MusicPlayer.Api;
 using SimpleAuth;
+using SimpleAuth.Providers;
 #if __IOS__
+using Accounts;
 using MusicPlayer.iOS;
 using Accounts;
 using Foundation;
 using Twitter;
+using Localizations;
 #endif
 
 namespace MusicPlayer.Managers
@@ -38,11 +41,13 @@ namespace MusicPlayer.Managers
 		Lastfm.Session session;
 		Connection connection;
 		Lastfm.Scrobbling.ScrobbleManager manager;
-
+		TwitterApi twitter = new TwitterApi("Twitter", ApiConstants.TwitterClientId, ApiConstants.TwitterSecret, new ModernHttpClient.NativeMessageHandler());
 		public async void Init()
 		{
 			if (Settings.LastFmEnabled)
 				await LoginToLastFm();
+			if (Settings.TwitterEnabled)
+				await LoginToTwitter();
 			if (session?.Authenticated == true)
 			{
 				connection = new Connection(session);
@@ -77,7 +82,7 @@ namespace MusicPlayer.Managers
 				else
 					session = new Session(ApiConstants.LastFmApiKey, ApiConstants.LastFmSecret);
 			}
-			catch (Exception  ex)
+			catch (Exception ex)
 			{
 				LogManager.Shared.Report(ex);
 				session = new Session(ApiConstants.LastFmApiKey, ApiConstants.LastFmSecret);
@@ -144,7 +149,7 @@ namespace MusicPlayer.Managers
 		{
 			var track = Database.Main.GetObject<Track, TempTrack>(trackId);
 			var noPlayingTrack = new NowplayingTrack(song.Artist, song.Name,
-				TimeSpan.FromSeconds ((int) (track?.Duration ?? 0)));
+				TimeSpan.FromSeconds((int)(track?.Duration ?? 0)));
 			try
 			{
 				lock (locker)
@@ -178,12 +183,12 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				if(data.Position < 3)
+				if (data.Position < 3)
 					return;
 				var song = Database.Main.GetObject<Song>(data.SongId);
 				if (!string.IsNullOrWhiteSpace(song?.Id))
 				{
-					song.LastPlayed = (long) (DateTime.Now - new System.DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
+					song.LastPlayed = (long)(DateTime.Now - new System.DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
 					Database.Main.Update(song);
 				}
 				var track = Database.Main.GetObject<Track, TempTrack>(data.TrackId);
@@ -208,7 +213,7 @@ namespace MusicPlayer.Managers
 				Task<bool> recordPlayTask;
 				List<Task<bool>> tasks = new List<Task<bool>>();
 				if (Settings.LastFmEnabled)
-					tasks.Add(lastFmTask = SubmitScrobbleToLastFm(song,data.Position,data.Duration));
+					tasks.Add(lastFmTask = SubmitScrobbleToLastFm(song, data.Position, data.Duration));
 				if (Settings.TwitterEnabled)
 				{
 					SubmitScrobbleToTwitter(song);
@@ -229,7 +234,7 @@ namespace MusicPlayer.Managers
 			}
 		}
 
-		async Task<bool> SubmitScrobbleToLastFm(Song song,double position,double duration)
+		async Task<bool> SubmitScrobbleToLastFm(Song song, double position, double duration)
 		{
 			try
 			{
@@ -238,32 +243,116 @@ namespace MusicPlayer.Managers
 					return true;
 				}
 				manager.Queue(new Entry(song.Artist, song.Name, song.Album, DateTime.UtcNow, PlaybackSource.User,
-				                        TimeSpan.FromSeconds (duration), ScrobbleMode.Played));
+										TimeSpan.FromSeconds(duration), ScrobbleMode.Played));
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine (ex);
+				Console.WriteLine(ex);
 				return false;
 			}
 		}
 
-		async Task<bool> SubmitScrobbleToTwitter(Song song)
+		public async Task<bool> LoginToTwitter()
 		{
 			try
 			{
-				#if __IOS__
-				var store = new ACAccountStore();
-				//var accountType = store.FindAccountType(ACAccountType.Twitter);
-				var account = store.FindAccount(Settings.TwitterAccount);
+#if __IOS__
+				if (Device.HasIntegratedTwitter)
+				{
+					return await LoginTwitterOld();
+				}
+#endif
+				var account = await twitter.Authenticate();
+				var user = await twitter.Get<Dictionary<string, string>>("account/verify_credentials.json");
+				Settings.TwitterDisplay = user["name"];
+				Settings.TwitterAccount = user["id"];
+				return true;
+			}
+			catch (Exception x)
+			{
 
-				var message = $"#NowPlaying {song.ToString(114)} on @gMusicApp";
+			}
+			return false;
+		}
 
-				var request = new TWRequest(new NSUrl("https://api.twitter.com/1.1/statuses/update.json"), NSDictionary.FromObjectAndKey((NSString)message, (NSString)"status"), TWRequestMethod.Post);
-				request.Account = account;
-				var result = await request.PerformRequestAsync();
+		async Task<bool> LoginTwitterOld()
+		{
+#if __IOS__
+			var store = new ACAccountStore();
+			var accountType = store.FindAccountType(ACAccountType.Twitter);
 
-				#endif
+			var success = false;
+			var result = await store.RequestAccessAsync(accountType);
+			success = result.Item1;
+			if (!success)
+			{
+				Settings.TwitterEnabled = false;
+				return false;
+			}
+
+			var accounts = store.FindAccounts(accountType);
+			if ((accounts?.Length ?? 0) == 0)
+			{
+				Settings.TwitterEnabled = false;
+				return false;
+			}
+
+			if (accounts?.Length == 1)
+			{
+				Settings.TwitterEnabled = true;
+				var a = accounts[0];
+				Settings.TwitterAccount = a.Identifier;
+				Settings.TwitterDisplay = a.UserFullName;
+				return true;
+			}
+
+			var sheet = new MusicPlayer.iOS.Controls.ActionSheet("Twitter");
+			var sheetTask = new TaskCompletionSource<bool>();
+			foreach (var a in accounts)
+			{
+				sheet.Add(a.Identifier, () =>
+				{
+
+					Settings.TwitterEnabled = true;
+					Settings.TwitterAccount = a.Identifier;
+					Settings.TwitterDisplay = a.UserFullName;
+					sheetTask.TrySetResult(true);
+				});
+			}
+			sheet.Add(Strings.Nevermind, null, true);
+			sheet.Show(AppDelegate.window.RootViewController, AppDelegate.window.RootViewController.View);
+#endif
+			return false;
+		}
+		async Task<bool> SubmitScrobbleToTwitter(Song song)
+		{
+
+			var message = $"#NowPlaying {song.ToString(114)} on @gMusicApp";
+			try
+			{
+				if (!Device.HasIntegratedTwitter)
+				{
+					var resp = await twitter.Post(null, "statuses/update.json", new Dictionary<string, string>()
+					{
+						{"status",message}
+					});
+					Console.WriteLine(resp);
+				}
+				else
+				{
+#if __IOS__
+					var store = new ACAccountStore();
+					//var accountType = store.FindAccountType(ACAccountType.Twitter);
+					var account = store.FindAccount(Settings.TwitterAccount);
+
+
+					var request = new TWRequest(new NSUrl("https://api.twitter.com/1.1/statuses/update.json"), NSDictionary.FromObjectAndKey((NSString)message, (NSString)"status"), TWRequestMethod.Post);
+					request.Account = account;
+					var result = await request.PerformRequestAsync();
+
+#endif
+				}
 				return true;
 			}
 			catch (Exception ex)

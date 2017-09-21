@@ -29,17 +29,19 @@ namespace MusicPlayer.iOS.ViewControllers
 		public NowPlayingViewController()
 		{
 			Current = this;
+			this.View.InsetsLayoutMarginsFromSafeArea = true;
 		}
 		public nfloat GetHeight()
 		{
 			return GetCurrentTopHeight();
 		}
+		public nfloat BottomInset { get; set; }
 		
 		public nfloat GetCurrentTopHeight()
 		{
-			if (this.IsLandscape ())
-				return Settings.CurrentPlaybackIsVideo ? TopBarHeight : LandscapeTopBarHeight;
-			return Settings.CurrentPlaybackIsVideo ? MinVideoHeight : TopBarHeight;
+			if (this.IsLandscape())
+				return (Settings.CurrentPlaybackIsVideo ? TopBarHeight : LandscapeTopBarHeight) + BottomInset;
+			return Settings.CurrentPlaybackIsVideo ? MinVideoHeight : TopBarHeight + BottomInset;
 		}
 		public nfloat GetVisibleHeight()
 		{
@@ -218,6 +220,15 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				base.LayoutSubviews();
 				var bounds = Bounds;
+				nfloat bottomOffset = 0;
+				if (Device.IsIos11)
+				{
+					bottomOffset = this.SafeAreaInsets.Bottom;
+				}
+				else
+				{
+					bottomOffset = this.LayoutMargins.Bottom;
+				}
 				var frame = bounds;
 				var frameH = bounds.Height;
 				var topHeight = Parent.GetCurrentTopHeight();
@@ -273,7 +284,8 @@ namespace MusicPlayer.iOS.ViewControllers
 					footer.MaxHeight = frame.Height;
 					frame.Height = NMath.Min (frame.Height, frameH - screenY - topHeight);
 					frame.Height = NMath.Max (frame.Height, PlaybackBarHeight);
-					frame.Y = top;
+					frame.Height += bottomOffset;
+					frame.Y = top- bottomOffset;;
 					footer.IsLandscape = false;
 					footer.Frame = frame;
 				} else {

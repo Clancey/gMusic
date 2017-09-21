@@ -29,7 +29,7 @@ namespace MusicPlayer.iOS
 		public const int AppId  = 708727021;
 		public const string AppName = "gMusic";
 		// class-level declarations
-		UIWindow window;
+		public static UIWindow window;
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
 		// method you should instantiate the window, load the UI into it and then make the window
@@ -61,8 +61,8 @@ namespace MusicPlayer.iOS
 			app.BeginReceivingRemoteControlEvents();
 			// create a new window instance based on the screen size
 			window = new UIWindow(screenBounds);
-			window.TintColor = Style.DefaultStyle.AccentGradientColor;
-			Style.IsDeviceDark = window.TintColor != Style.DefaultStyle.AccentGradientColor;
+			window.TintColor = Style.DefaultStyle.AccentColor;
+			Style.IsDeviceDark = window.TintColor != Style.DefaultStyle.AccentColor;
 			window.TintColor = Style.DefaultStyle.AccentColor;
 			// If you have defined a view, add it here:
 			// window.RootViewController  = navigationController;
