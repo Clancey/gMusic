@@ -61,8 +61,6 @@ namespace MusicPlayer.iOS
 			app.BeginReceivingRemoteControlEvents();
 			// create a new window instance based on the screen size
 			window = new UIWindow(screenBounds);
-			window.TintColor = Style.DefaultStyle.AccentGradientColor;
-			Style.IsDeviceDark = window.TintColor != Style.DefaultStyle.AccentGradientColor;
 			window.TintColor = Style.DefaultStyle.AccentColor;
 			// If you have defined a view, add it here:
 			// window.RootViewController  = navigationController;

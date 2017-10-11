@@ -46,10 +46,8 @@ namespace MusicPlayer.iOS
 		}
 		public static bool IsDeviceDark { get; set; }
 		public UIColor AccentSolidColor { get; set; } = UIColor.FromRGB(255, 43, 103);
-		public UIColor AccentColor => IsDeviceDark ? AccentSolidColor : AccentGradientColor;
-		public UIColor AccentGradientColor { get; set; } = UIColor.FromPatternImage(UIImage.FromBundle("accentColor"));
-		public UIColor AccentColorGradientHorizontal { get; set; } = UIColor.FromPatternImage(UIImage.FromBundle("accentColor").Rotate());
-		public UIColor AccentColorHorizontal => IsDeviceDark ? AccentSolidColor : AccentColorGradientHorizontal;
+		public UIColor AccentColor => AccentSolidColor;
+		public UIColor AccentColorHorizontal => AccentSolidColor;
 
 		public UIFont HeaderTextFont { get; set; } = Fonts.NormalFont(28);
 		public UIFont HeaderTextThinFont { get; set; } = Fonts.ThinFont(28);
