@@ -67,6 +67,8 @@ namespace MusicPlayer.iOS.ViewControllers
 			Menu.NavigationRoot.TableView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("launchBg"));
 			Menu.NavigationRoot.TableView.BackgroundView = new BluredView(UIBlurEffectStyle.Light);
 			Menu.NavigationRoot.TableView.SeparatorColor = UIColor.Clear;
+			Menu.NavigationRoot.TableView.EstimatedSectionHeaderHeight = 0;
+			Menu.NavigationRoot.TableView.EstimatedSectionFooterHeight = 0;
 			Menu.ViewControllers = menuItems.Select(x => x.Item2 == null ? null : new UINavigationController(x.Item2)).ToArray();
 			Menu.HideShadow = false;
 			Menu.ShadowViewColor = UIColor.Gray.ColorWithAlpha(.25f);

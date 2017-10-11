@@ -181,7 +181,12 @@ namespace MusicPlayer.iOS
 				PlaybackManager.Shared.Play(item);
 			});
 		}
-
+		static ServiceType[] AllowedOffLineTypes = {
+			ServiceType.Amazon,
+			ServiceType.DropBox,
+			ServiceType.Google,
+			ServiceType.YouTube
+		};
 		static void AddOfflineButtons(ActionSheet controller, MediaItemBase item)
 		{
 			if (item is RadioStation)
@@ -189,19 +194,8 @@ namespace MusicPlayer.iOS
 			var song = item as Song;
 			if(song != null)
 			{
-				bool canOffline = false;
-				foreach (var serviceType in song.ServiceTypes) {
-					switch (serviceType) {
-					case ServiceType.iPod:
-					case ServiceType.FileSystem:
-						return;
-					case ServiceType.Amazon:
-					case ServiceType.DropBox:
-					case ServiceType.Google:
-						canOffline = true;
-						break;
-					}
-				}
+				
+				bool canOffline = song.ServiceTypes.Any(x => AllowedOffLineTypes.Contains(x));
 				if (!canOffline)
 					return;
 			}

@@ -18,7 +18,7 @@ Features
 
 * Bring over SmartEq, equalizer code
 
-iOS
+iOS [![Build status](https://build.mobile.azure.com/v0.1/apps/e571c6a1-1adb-48d5-8461-e5133ca39dc6/branches/master/badge)](https://mobile.azure.com)
 ===
 
 * Add multiple Logins for differnt API's

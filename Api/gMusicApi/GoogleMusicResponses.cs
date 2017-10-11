@@ -345,7 +345,7 @@ namespace MusicPlayer.Api.GoogleMusic
 		{
 			public string responseCode { get; set; }
 			public string shareToken { get; set; }
-			public List<Item> playlistEntry { get; set; }
+			public List<Item> playlistEntry { get; set; } = new List<Item>();
 		}
 
 		public class ResultClass
