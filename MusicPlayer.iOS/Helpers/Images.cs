@@ -75,6 +75,11 @@ namespace MusicPlayer
 			return GetGeneratedImage("SVG/previous.svg", size).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate) 	;
 		}
 
+		public static UIImage GetAirplayButton(double size)
+		{
+			return GetGeneratedImage("SVG/airplay.svg", size).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+		}
+
 		public static UIImage GetShuffleImage(double size)
 		{
 			return GetGeneratedImage("SVG/shuffle.svg", size);

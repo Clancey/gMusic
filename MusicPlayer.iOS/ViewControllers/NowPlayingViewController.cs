@@ -455,6 +455,8 @@ namespace MusicPlayer.iOS.ViewControllers
 						Tapped = (button) => PlaybackManager.Shared.NextTrack()
 					});
 					Add(volumeView = new MPVolumeView());
+					volumeView.SetRouteButtonImage(Images.GetAirplayButton(20), UIControlState.Normal);
+					volumeView.TintColor = Style.DefaultStyle.AccentColor;
 					Add(shareButton = new SimpleButton
 					{
 						Image = Images.GetShareIcon(18).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
@@ -499,6 +501,9 @@ namespace MusicPlayer.iOS.ViewControllers
 					menuButton.StyleNowPlayingButtons();
 					shareButton.StyleNowPlayingButtons();
 					playButton.StyleNowPlayingButtons();
+					SetShuffleState(Settings.ShuffleSongs);
+					SetRepeatState(Settings.RepeatMode);
+					SetThumbsState(PlaybackManager.Shared.NativePlayer.CurrentSong);
 				}
 				UIActivityViewController shareController;
 				bool isSharing;
