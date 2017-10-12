@@ -116,7 +116,11 @@ namespace MusicPlayer.Cells
 
 				var frame = bounds;
 				frame.Width = !ForceImage ? 0 : ImageWidth + TwicePadding;
-				ImageView.Center = frame.GetCenter();
+				var leftPadding = this.GetSafeArea().Left;
+				var center = frame.GetCenter();
+				frame.Width += leftPadding;
+				center.X += leftPadding;
+				ImageView.Center = center;
 
 				var x = frame.Right;
 				frame = bounds;

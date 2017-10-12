@@ -117,10 +117,11 @@ namespace MusicPlayer
 				bounds.Width = aLeft;
 			}
 
+			var leftPadding = this.GetSafeArea().Left;
 			var frame = bounds;
 			frame.Width = frame.Height = frameHeight;
 			frame.Y = (bounds.Height - frame.Height) / 2;
-			frame.X = padding;
+			frame.X = padding + leftPadding;
 			ImageView.Frame = frame;
 
 			var x = frame.Right + padding + TextOffset;

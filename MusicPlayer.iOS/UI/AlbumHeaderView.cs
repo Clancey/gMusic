@@ -101,7 +101,8 @@ namespace MusicPlayer.iOS.UI
 		public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
-			const float HeaderSidePadding = 15f;
+			var safeInset = this.GetSafeArea();
+			var HeaderSidePadding = NMath.Max(15f, safeInset.Left);
 			const float SongIconWidth = 20f;
 			const float BottomOffset = 20f;
 			const float Padding = 5f;
@@ -134,7 +135,7 @@ namespace MusicPlayer.iOS.UI
 			Overlay.Frame = new CGRect(0, bounds.Height - overlayHeight, bounds.Width, overlayHeight);
 			frame = Overlay.Frame;
 			frame.Width = moreButton.Frame.Width ;
-			frame.X = bounds.Width - frame.Width;
+			frame.X = bounds.Width - frame.Width - safeInset.Right;
 			moreButton.Center = frame.GetCenter();
 
 		}

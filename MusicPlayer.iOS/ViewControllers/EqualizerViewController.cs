@@ -308,17 +308,17 @@ namespace MusicPlayer.iOS
 
 			public override void LayoutSubviews()
 			{
-				var xOffset = sidePadding;
 				var width = this.Bounds.Width/(Sliders.Count + 1);
 				var padding = width/2;
 				var right = Bounds.Width - sidePadding;
 
+				var leftPadding = this.GetSafeArea().Left;
 				var frame = onSwitch.Frame;
 				frame.X = right - frame.Width;
 				frame.Y = this.Parent.NavigationController.NavigationBar.Frame.Bottom + topItemsPadding;
 				onSwitch.Frame = frame;
 
-				active.Center = new CGPoint(active.Frame.Width/2 + sidePadding/2, onSwitch.Center.Y);
+				active.Center = new CGPoint(active.Frame.Width/2 + sidePadding/2 + leftPadding, onSwitch.Center.Y);
 
 				var fullwidth = Bounds.Width;
 				line1.Frame = new CGRect(0, frame.Bottom + topItemsPadding/2, fullwidth, 1);
@@ -328,7 +328,7 @@ namespace MusicPlayer.iOS
 				frame.Y = onSwitch.Frame.Bottom + topItemsPadding;
 				combobox.Frame = frame;
 
-				preset.Center = new CGPoint(preset.Frame.Width/2 + sidePadding/2, combobox.Center.Y);
+				preset.Center = new CGPoint(preset.Frame.Width/2 + sidePadding/2 + leftPadding, combobox.Center.Y);
 
 				line2.Frame = new CGRect(0, frame.Bottom + topItemsPadding/2, fullwidth, 1);
 
