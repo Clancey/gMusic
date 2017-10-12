@@ -232,6 +232,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					bottomOffset = this.LayoutMargins.Bottom;
 					topOffset = this.LayoutMargins.Top;
 				}
+				footer.BottomOffset = bottomOffset;
 				var frame = bounds;
 				var frameH = bounds.Height;
 				var topHeight = Parent.GetCurrentTopHeight() ;
@@ -286,7 +287,7 @@ namespace MusicPlayer.iOS.ViewControllers
                                   					//Bar stays below top content
 					footer.MaxHeight = frame.Height;
 					frame.Height = NMath.Min (frame.Height, frameH - screenY - topHeight);
-					frame.Height = NMath.Min(200, NMath.Max (frame.Height, PlaybackBarHeight));
+					frame.Height = NMath.Max (frame.Height, PlaybackBarHeight + bottomOffset);
 					frame.Height += bottomOffset;
 					frame.Y = top- bottomOffset;;
 					footer.IsLandscape = false;
@@ -680,9 +681,12 @@ namespace MusicPlayer.iOS.ViewControllers
 					menuButton.Center = center;
 				}
 				public nfloat ContentStart { get; set; }
+				public nfloat BottomOffset { get; set; }
+
 				void LayoutLandscape ()
 				{
 					var bounds = Bounds;
+					bounds.Height -= BottomOffset;
 					slider.SizeToFit();
 					var frame = slider.Frame;
 					frame.X = frame.Y = 0;
