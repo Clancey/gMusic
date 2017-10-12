@@ -27,7 +27,7 @@ namespace MusicPlayer.iOS
 
 		void init()
 		{
-			Add(blur = new BluredView(UIBlurEffectStyle.Dark) { UserInteractionEnabled = false, Layer = {MasksToBounds = true } });
+			Add(blur = new BluredView(UIBlurEffectStyle.ExtraLight) { UserInteractionEnabled = false, Layer = {MasksToBounds = true } });
 			Add(imageView = new UIImageView
 			{
 				Layer =

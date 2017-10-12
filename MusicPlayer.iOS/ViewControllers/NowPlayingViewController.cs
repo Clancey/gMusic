@@ -176,14 +176,14 @@ namespace MusicPlayer.iOS.ViewControllers
 				Add(closeButton = new SimpleShadowButton()
 				{
 					Image = Images.GetCloseImage(15).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
-					TintColor = UIColor.White,
+					TintColor = Style.DefaultStyle.AccentColor,
 					Tapped = (b) => Parent?.Close?.Invoke(),
 					Frame = buttonFrame,
 				});
 				Add(showCurrentPlaylist = new SimpleShadowButton
 				{
 					Image = Images.GetPlaylistIcon(20).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
-					TintColor = UIColor.White,
+					TintColor = Style.DefaultStyle.AccentColor,
 					Tapped = (b) => Parent?.ShowCurrentPlaylist(),
 					Frame = buttonFrame,
 				});
@@ -286,7 +286,7 @@ namespace MusicPlayer.iOS.ViewControllers
                                   					//Bar stays below top content
 					footer.MaxHeight = frame.Height;
 					frame.Height = NMath.Min (frame.Height, frameH - screenY - topHeight);
-					frame.Height = NMath.Min(320, NMath.Max (frame.Height, PlaybackBarHeight));
+					frame.Height = NMath.Min(200, NMath.Max (frame.Height, PlaybackBarHeight));
 					frame.Height += bottomOffset;
 					frame.Y = top- bottomOffset;;
 					footer.IsLandscape = false;
