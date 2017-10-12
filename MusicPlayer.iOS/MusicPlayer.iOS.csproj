@@ -87,16 +87,15 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements></CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
-    <MtouchProfiling>True</MtouchProfiling>
+    <MtouchProfiling>false</MtouchProfiling>
     <IpaPackageName>gMusic</IpaPackageName>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
-    <CodesignProvision>
-    </CodesignProvision>
+    <CodesignProvision>IIS Beta</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>MediaPlayer</IpaMetadata>
     <CustomCommands>

@@ -29,17 +29,19 @@ namespace MusicPlayer.iOS.ViewControllers
 		public NowPlayingViewController()
 		{
 			Current = this;
+			this.View.InsetsLayoutMarginsFromSafeArea = true;
 		}
 		public nfloat GetHeight()
 		{
 			return GetCurrentTopHeight();
 		}
+		public nfloat BottomInset { get; set; }
 		
 		public nfloat GetCurrentTopHeight()
 		{
-			if (this.IsLandscape ())
-				return Settings.CurrentPlaybackIsVideo ? TopBarHeight : LandscapeTopBarHeight;
-			return Settings.CurrentPlaybackIsVideo ? MinVideoHeight : TopBarHeight;
+			if (this.IsLandscape())
+				return (Settings.CurrentPlaybackIsVideo ? TopBarHeight : LandscapeTopBarHeight) + BottomInset;
+			return Settings.CurrentPlaybackIsVideo ? MinVideoHeight : TopBarHeight + BottomInset;
 		}
 		public nfloat GetVisibleHeight()
 		{
@@ -174,14 +176,14 @@ namespace MusicPlayer.iOS.ViewControllers
 				Add(closeButton = new SimpleShadowButton()
 				{
 					Image = Images.GetCloseImage(15).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
-					TintColor = UIColor.White,
+					TintColor = Style.DefaultStyle.AccentColor,
 					Tapped = (b) => Parent?.Close?.Invoke(),
 					Frame = buttonFrame,
 				});
 				Add(showCurrentPlaylist = new SimpleShadowButton
 				{
 					Image = Images.GetPlaylistIcon(20).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
-					TintColor = UIColor.White,
+					TintColor = Style.DefaultStyle.AccentColor,
 					Tapped = (b) => Parent?.ShowCurrentPlaylist(),
 					Frame = buttonFrame,
 				});
@@ -218,9 +220,22 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				base.LayoutSubviews();
 				var bounds = Bounds;
+				nfloat bottomOffset = 0;
+				nfloat topOffset = 0;
+				if (Device.IsIos11)
+				{
+					bottomOffset = this.SafeAreaInsets.Bottom;
+					topOffset = this.SafeAreaInsets.Top;
+				}
+				else
+				{
+					bottomOffset = this.LayoutMargins.Bottom;
+					topOffset = this.LayoutMargins.Top;
+				}
+				footer.BottomOffset = bottomOffset;
 				var frame = bounds;
 				var frameH = bounds.Height;
-				var topHeight = Parent.GetCurrentTopHeight();
+				var topHeight = Parent.GetCurrentTopHeight() ;
 				frame.Height = topHeight;
 				var screenY = Frame.Y;
 				var topBarBottom = frame.Bottom;
@@ -239,7 +254,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 				frame = closeButton.Frame;
 				frame.X = padding;
-				frame.Y = topHeight + 20f;
+				frame.Y = topHeight + topOffset;
 				closeButton.Frame = frame;
 
 				frame.X = bounds.Width - frame.Width - padding;
@@ -272,8 +287,9 @@ namespace MusicPlayer.iOS.ViewControllers
                                   					//Bar stays below top content
 					footer.MaxHeight = frame.Height;
 					frame.Height = NMath.Min (frame.Height, frameH - screenY - topHeight);
-					frame.Height = NMath.Max (frame.Height, PlaybackBarHeight);
-					frame.Y = top;
+					frame.Height = NMath.Max (frame.Height, PlaybackBarHeight + bottomOffset);
+					frame.Height += bottomOffset;
+					frame.Y = top- bottomOffset;;
 					footer.IsLandscape = false;
 					footer.Frame = frame;
 				} else {
@@ -439,6 +455,8 @@ namespace MusicPlayer.iOS.ViewControllers
 						Tapped = (button) => PlaybackManager.Shared.NextTrack()
 					});
 					Add(volumeView = new MPVolumeView());
+					volumeView.SetRouteButtonImage(Images.GetAirplayButton(20), UIControlState.Normal);
+					volumeView.TintColor = Style.DefaultStyle.AccentColor;
 					Add(shareButton = new SimpleButton
 					{
 						Image = Images.GetShareIcon(18).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
@@ -483,6 +501,9 @@ namespace MusicPlayer.iOS.ViewControllers
 					menuButton.StyleNowPlayingButtons();
 					shareButton.StyleNowPlayingButtons();
 					playButton.StyleNowPlayingButtons();
+					SetShuffleState(Settings.ShuffleSongs);
+					SetRepeatState(Settings.RepeatMode);
+					SetThumbsState(PlaybackManager.Shared.NativePlayer.CurrentSong);
 				}
 				UIActivityViewController shareController;
 				bool isSharing;
@@ -665,9 +686,12 @@ namespace MusicPlayer.iOS.ViewControllers
 					menuButton.Center = center;
 				}
 				public nfloat ContentStart { get; set; }
+				public nfloat BottomOffset { get; set; }
+
 				void LayoutLandscape ()
 				{
 					var bounds = Bounds;
+					bounds.Height -= BottomOffset;
 					slider.SizeToFit();
 					var frame = slider.Frame;
 					frame.X = frame.Y = 0;

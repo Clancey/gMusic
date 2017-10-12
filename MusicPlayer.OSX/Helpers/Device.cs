@@ -18,7 +18,9 @@ namespace MusicPlayer
 
 		public static string Name {get;}// = NSHost.Current.Name;
 
-		public static bool IsIos9 {get;} = SystemVersion > new Version(10,11);
+		public static bool IsIos9 { get; } = SystemVersion > new Version(10, 11);
+		public static bool IsIos11 { get; } = SystemVersion > new Version(10, 11);
+		public static bool HasIntegratedTwitter => false;
 	}
 }
 

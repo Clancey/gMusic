@@ -9,6 +9,7 @@ namespace MusicPlayer.iOS
 	{
 
 		UIImageView imageView;
+		BluredView blur;
 		public SimpleShadowButton(IntPtr handle) : base(handle)
 		{
 			init();
@@ -26,6 +27,7 @@ namespace MusicPlayer.iOS
 
 		void init()
 		{
+			Add(blur = new BluredView(UIBlurEffectStyle.ExtraLight) { UserInteractionEnabled = false, Layer = {MasksToBounds = true } });
 			Add(imageView = new UIImageView
 			{
 				Layer =
@@ -52,11 +54,14 @@ namespace MusicPlayer.iOS
 		{
 			base.LayoutSubviews();
 			imageView.Frame = Bounds;
+			blur.Frame = Bounds.Inset(6,6);
+			var corner = NMath.Min(blur.Frame.Width, blur.Frame.Height) / 2;
+			blur.Layer.CornerRadius = corner;
 		}
 	}
 
 
-public class SimpleButton : UIButton
+	public class SimpleButton : UIButton
 	{
 		public SimpleButton(IntPtr handle) : base(handle)
 		{

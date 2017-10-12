@@ -29,7 +29,7 @@ namespace MusicPlayer.iOS
 		public const int AppId  = 708727021;
 		public const string AppName = "gMusic";
 		// class-level declarations
-		UIWindow window;
+		public static UIWindow window;
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
 		// method you should instantiate the window, load the UI into it and then make the window

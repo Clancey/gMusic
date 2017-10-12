@@ -25,6 +25,8 @@ namespace MusicPlayer.iOS.ViewControllers
 			View.TintColor = style.AccentColor;
 			TableView.TableFooterView = new UIView(new CGRect(0, 0, 320, NowPlayingViewController.MinVideoHeight));
 			TableView.SectionIndexMinimumDisplayRowCount = 30;
+			TableView.EstimatedSectionFooterHeight = 0;
+			TableView.EstimatedSectionHeaderHeight = 0;
 			TableView.SectionIndexBackgroundColor = UIColor.Clear;
 			if (Device.IsIos9)
 				TableView.CellLayoutMarginsFollowReadableWidth = false;
