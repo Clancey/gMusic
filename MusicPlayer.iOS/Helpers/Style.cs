@@ -78,6 +78,7 @@ namespace MusicPlayer.iOS
 		public UIColor SectionBackgroundColor { get; set; } = UIColor.White;
 		public UIBarStyle BarStyle { get; set; } = UIBarStyle.Default;
 		public UIBlurEffectStyle BlurStyle { get; set; } = UIBlurEffectStyle.ExtraLight;
+		public UIBlurEffectStyle NavigationBlurStyle { get; set; } = UIBlurEffectStyle.Light;
 		public UIColor PlaybackControlTint { get; set; } = UIColor.Black;
 	}
 
@@ -92,6 +93,7 @@ namespace MusicPlayer.iOS
 			this.MainTextColor = UIColor.White;
 			this.BarStyle = UIBarStyle.BlackTranslucent;
 			this.BlurStyle = UIBlurEffectStyle.Dark;
+			this.NavigationBlurStyle = UIBlurEffectStyle.Dark;
 			this.PlaybackControlTint = UIColor.White;
 			StatusBarColor = UIStatusBarStyle.LightContent;
 		}

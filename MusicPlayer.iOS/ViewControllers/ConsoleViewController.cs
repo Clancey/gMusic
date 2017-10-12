@@ -7,6 +7,7 @@ namespace MusicPlayer.iOS
 	public class ConsoleViewController : BaseViewController
 	{
 		UITextView TextView => (UITextView)View;
+		UIBarButtonItem menuButton;
 		public ConsoleViewController()
 		{
 			Title = "Console";
@@ -14,6 +15,12 @@ namespace MusicPlayer.iOS
 		public override void LoadView()
 		{
 			View = new UITextView() { Editable = false };
+			menuButton = new UIBarButtonItem(Images.MenuImage, UIBarButtonItemStyle.Plain,
+					(s, e) => { NotificationManager.Shared.ProcToggleMenu(); })
+			{
+				AccessibilityIdentifier = "menu"
+			};
+			NavigationItem.LeftBarButtonItem = BaseViewController.ShouldShowMenuButton(this) ? menuButton : null;
 		}
 
 		public override void ViewWillAppear(bool animated)

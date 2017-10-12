@@ -65,7 +65,7 @@ namespace MusicPlayer.iOS.ViewControllers
 			Menu.NavigationRoot.TableView.TableFooterView =
 				new UIView(new CGRect(0, 0, 320, NowPlayingViewController.MinVideoHeight));
 			Menu.NavigationRoot.TableView.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("launchBg"));
-			Menu.NavigationRoot.TableView.BackgroundView = new BluredView(UIBlurEffectStyle.Light);
+			Menu.NavigationRoot.TableView.BackgroundView = new BluredView(Style.DefaultStyle.NavigationBlurStyle);
 			Menu.NavigationRoot.TableView.SeparatorColor = UIColor.Clear;
 			Menu.NavigationRoot.TableView.EstimatedSectionHeaderHeight = 0;
 			Menu.NavigationRoot.TableView.EstimatedSectionFooterHeight = 0;
