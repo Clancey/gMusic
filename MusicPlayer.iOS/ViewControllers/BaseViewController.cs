@@ -32,6 +32,9 @@ namespace MusicPlayer.iOS.ViewControllers
 				};
 				NavigationItem.LeftBarButtonItem = BaseViewController.ShouldShowMenuButton(this) ? menuButton : null;
 			}
+
+			TableView.EstimatedSectionFooterHeight = 0;
+			TableView.EstimatedSectionHeaderHeight = 0;
 		}
 
 		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)

@@ -234,7 +234,8 @@ namespace MusicPlayer.iOS.ViewControllers
 			TableView.RowHeight = 20;
 			TableView.TableFooterView = new UIView(new CGRect(0, 0, 320, NowPlayingViewController.TopBarHeight));
 			TableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
-
+			TableView.EstimatedSectionFooterHeight = 0;
+			TableView.EstimatedSectionHeaderHeight = 0;
 			if (NavigationController == null)
 				return;
 			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes
