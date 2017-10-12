@@ -120,12 +120,10 @@ namespace MusicPlayer.iOS.ViewControllers
 
 				var frame = searchBar.Frame;
 				frame.Width = bounds.Width;
-				frame.Y = 64;
+				frame.Y = this.GetSafeArea().Top;
 				searchBar.Frame = frame;
 				PanaramBarController.TopOffset = frame.Bottom;
 				PanaramBarController.View.Frame = bounds;
-
-
 			}
 		}
 	}

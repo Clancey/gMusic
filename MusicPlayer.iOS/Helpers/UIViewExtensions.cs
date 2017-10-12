@@ -13,6 +13,8 @@ namespace MusicPlayer.iOS
 		{
 			return vc.View.IsLandscape ();
 		}
+
+		public static UIEdgeInsets GetSafeArea(this UIView view) => Device.IsIos11 ? view.SafeAreaInsets : view.LayoutMargins;
 	}
 }
 

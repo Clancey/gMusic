@@ -220,18 +220,8 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				base.LayoutSubviews();
 				var bounds = Bounds;
-				nfloat bottomOffset = 0;
-				nfloat topOffset = 0;
-				if (Device.IsIos11)
-				{
-					bottomOffset = this.SafeAreaInsets.Bottom;
-					topOffset = this.SafeAreaInsets.Top;
-				}
-				else
-				{
-					bottomOffset = this.LayoutMargins.Bottom;
-					topOffset = this.LayoutMargins.Top;
-				}
+				nfloat bottomOffset = this.GetSafeArea().Bottom;
+				nfloat topOffset = this.GetSafeArea().Top;
 				footer.BottomOffset = bottomOffset;
 				var frame = bounds;
 				var frameH = bounds.Height;

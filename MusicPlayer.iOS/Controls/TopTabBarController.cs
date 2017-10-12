@@ -45,6 +45,12 @@ namespace MusicPlayer.iOS
 			}
 		}
 
+		public override void ViewSafeAreaInsetsDidChange()
+		{
+			base.ViewSafeAreaInsetsDidChange();
+			TopOffset = View.SafeAreaInsets.Top;
+		}
+
 		nfloat headerHeight = 44;
 
 		public nfloat HeaderHeight
@@ -129,6 +135,7 @@ namespace MusicPlayer.iOS
 			{
 				view.SetContent();
 			}
+			TopOffset = View.GetSafeArea().Top;
 		}
 		public override void ViewWillAppear(bool animated)
 		{

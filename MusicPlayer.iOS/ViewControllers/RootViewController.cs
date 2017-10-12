@@ -247,8 +247,6 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				base.LayoutSubviews();
 				CGRect bounds = Bounds;
-				var bottom = SafeAreaInsets.Bottom;
-				var b = this.LayoutMargins.Bottom;
 				Menu.View.Frame = bounds;
 				if (isPanning)
 					return;
