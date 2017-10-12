@@ -97,9 +97,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedBass">
-      <HintPath>..\packages\ManagedBass.2.0.1\lib\netstandard1.4\ManagedBass.dll</HintPath>
-    </Reference>
     <Reference Include="ManagedBass.Fx">
       <HintPath>..\packages\ManagedBass.Fx.2.0.0\lib\netstandard1.4\ManagedBass.Fx.dll</HintPath>
     </Reference>
@@ -135,6 +132,9 @@
     </Reference>
     <Reference Include="SimpleAuth">
       <HintPath>..\packages\Clancey.SimpleAuth.1.0.42\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedBass">
+      <HintPath>..\packages\ManagedBass.2.0.2\lib\netstandard1.4\ManagedBass.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -579,5 +579,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>

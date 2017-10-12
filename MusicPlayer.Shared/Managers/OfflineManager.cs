@@ -8,6 +8,8 @@ using MusicPlayer.Api;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
 using SimpleAuth;
+//using Foundation;
+//using SDWebImage;
 
 namespace MusicPlayer.Managers
 {
@@ -226,7 +228,12 @@ namespace MusicPlayer.Managers
 					file.Tag.TrackCount = (uint)song.TrackCount;
 					file.Tag.Year = (uint)song.Year;
 					file.Tag.Genres = new string[]{ song.Genre };
+					//var artwork = await getARtwork(song);
+					//if (!string.IsNullOrWhiteSpace(artwork))
+						//file.Tag.Pictures = new TagLib.IPicture[] {new TagLib.Picture(artwork) };
 					file.Save ();
+					//if (File.Exists(artwork))
+						//File.Delete(artwork);
 				}
 			} catch (Exception ex) {
 
@@ -246,8 +253,37 @@ namespace MusicPlayer.Managers
 				MediaType = track.MediaType,
 				FileExtension = track.FileExtension,
 			};
+
+			//File.Move(filePath, Path.Combine(Locations.MusicDir, CleanFileName($"{song.Artist} - {song.Name}.mp3")));
 			Database.Main.InsertOrReplace (newTrack);
 			await MusicProvider.SetOffline (newTrack);
 		}
+
+		//static string CleanFileName(string fileName)
+		//{
+		//	return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), " "));
+		//}
+
+		//async Task<string> getARtwork(Song song)
+		//{
+		//	var url = await ArtworkManager.Shared.GetArtwork(song);
+		//	if (string.IsNullOrWhiteSpace(url))
+		//		return null;
+		//	var tcs = new TaskCompletionSource<UIKit.UIImage>();
+		//	var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(url), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
+		//	{
+
+		//	}, (image, data, error, finished) =>
+		//	{
+		//		if (error != null)
+		//			tcs.TrySetException(new Exception(error.ToString()));
+		//		else
+		//			tcs.TrySetResult(image);
+		//	});
+		//	var art = await tcs.Task;
+		//	var fileName = Path.Combine(Locations.MusicDir, CleanFileName($"{song.Artist} - {song.Name}.jpg"));
+		//	art.AsJPEG().Save(fileName, false, out var e);
+		//	return fileName;
+		//}
 	}
 }

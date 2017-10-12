@@ -19,58 +19,6 @@ namespace MusicPlayer.Data
 	{
 		static ISettings AppSettings { get; } = CrossSettings.Current;
 
-		static string GetString(string defaultValue = "",[CallerMemberName] string memberName = "")
-		{
-			return AppSettings.GetValueOrDefault(memberName,defaultValue);
-		}
-
-		static void SetString (string value,[CallerMemberName] string memberName = "")
-		{
-			AppSettings.AddOrUpdateValue<string>(memberName, value);
-		}
-		static int GetInt(int defaultValue = 0, [CallerMemberName] string memberName = "")
-		{
-			return AppSettings.GetValueOrDefault(memberName, defaultValue);
-		}
-
-		static void SetInt(int value, [CallerMemberName] string memberName = "")
-		{
-			AppSettings.AddOrUpdateValue<int>(memberName, value);
-		}
-
-		static long GetLong(long defaultValue = 0, [CallerMemberName] string memberName = "")
-		{
-			return AppSettings.GetValueOrDefault(memberName, defaultValue);
-		}
-
-		static void SetLong(long value, [CallerMemberName] string memberName = "")
-		{
-			AppSettings.AddOrUpdateValue<long>(memberName, value);
-		}
-
-		static bool GetBool(bool defaultValue = false, [CallerMemberName] string memberName = "")
-		{
-			return AppSettings.GetValueOrDefault(memberName, defaultValue);
-		}
-
-		static void SetBool(bool value, [CallerMemberName] string memberName = "")
-		{
-			AppSettings.AddOrUpdateValue<bool>(memberName, value);
-		}
-
-
-		static T Get<T>(T defaultValue, [CallerMemberName] string memberName = "")
-		{
-			return AppSettings.GetValueOrDefault(memberName, defaultValue);
-		}
-
-		static void Set<T>(T value, [CallerMemberName] string memberName = "")
-		{
-			AppSettings.AddOrUpdateValue<T>(memberName, value);
-		}
-
-
-
 		const string shuffle = "Shuffle";
 
 		public static bool ShuffleSongs
@@ -97,44 +45,44 @@ namespace MusicPlayer.Data
 
 		public static bool IncludeIpod
 		{
-            get{ return GetBool(true); }
-			set{ SetBool(value); }
+			get{ return AppSettings.GetBool(true); }
+			set{ AppSettings.Set(value); }
 		}
 
 		public static bool IPodOnly {
-			get { return GetBool (false); }
-			set { SetBool (value); }
+			get { return AppSettings.GetBool (false); }
+			set { AppSettings.Set (value); }
 		}
 
 		public static bool ExcludeFileSystem
 		{
-			get{ return GetBool(); }
-			set{ SetBool(value); }
+			get{ return AppSettings.GetBool(); }
+			set{ AppSettings.Set(value); }
 		}
 
 		public static DateTime? LastFilesystemSync
 		{
 			get { 
-				var x = GetLong ();
+				var x = AppSettings.GetLong ();
 				if (x <= 0)
 					return null;
 				return new DateTime (x);
 			}
 			set{
-				SetLong (value.HasValue ? value.Value.Ticks : 0);
+				AppSettings.Set (value.HasValue ? value.Value.Ticks : 0);
 			}
 		}
 
 		public static bool ThubsUpOnLockScreen
 		{
-			get{ return GetBool(true); }
-			set{ SetBool(value); }
+			get{ return AppSettings.GetBool(true); }
+			set{ AppSettings.Set(value); }
 		}
 
 		public static int CurrentMenuIndex
 		{
-			get { return GetInt(2); }
-			set { SetInt(value); }
+			get { return AppSettings.GetInt(2); }
+			set { AppSettings.Set(value); }
 		}
 
 		const string currentSongId = "CurrentSong";
@@ -153,12 +101,10 @@ namespace MusicPlayer.Data
 			set { AppSettings.AddOrUpdateValue(currentTrackId, value); }
 		}
 
-		const string currentPlaybackPercent = "CurrentPlaybackPercent";
-
 		public static float CurrentPlaybackPercent
 		{
 			get {
-				var val = AppSettings.GetValueOrDefault<float>(currentPlaybackPercent); 
+				var val = AppSettings.GetFloat(); 
 				if (float.IsInfinity (val) || float.IsNaN (val))
 					return 0;
 				return val;
@@ -166,29 +112,26 @@ namespace MusicPlayer.Data
 			set { 
 				if (float.IsInfinity (value) || float.IsNaN(value))
 					value = 0;
-				AppSettings.AddOrUpdateValue(currentPlaybackPercent, value);
+				AppSettings.Set(value);
 			}
 		}
-
-		const string currentPlaybackContext = "CurrentPlaybackContext";
 
 		public static PlaybackContext CurrentPlaybackContext
 		{
 			get
 			{
-				var json = AppSettings.GetValueOrDefault(currentPlaybackContext, "");
+				var json = AppSettings.GetString();
 				if (string.IsNullOrWhiteSpace(json))
 					return new PlaybackContext();
 				return json.ToObject<PlaybackContext>();
 			}
-			set { AppSettings.AddOrUpdateValue(currentPlaybackContext, value.ToJson()); }
+			set { AppSettings.Set(value.ToJson()); }
 		}
 
-		const string currentPlaybackIsVideo = "CurrentPlaybackIsVideo";
 		public static bool CurrentPlaybackIsVideo
 		{
-			get { return AppSettings.GetValueOrDefault(currentPlaybackIsVideo, false); }
-			set { AppSettings.AddOrUpdateValue(currentPlaybackIsVideo, value); }
+			get { return AppSettings.GetBool(false); }
+			set { AppSettings.Set(value); }
 		}
 
 		const string lastFmEnabled = "LastFmEnabled";
@@ -201,19 +144,19 @@ namespace MusicPlayer.Data
 
 		public static bool TwitterEnabled
 		{
-			get { return GetBool();}
-			set { SetBool(value); }
+			get { return AppSettings.GetBool();}
+			set { AppSettings.Set(value); }
 		}
 
 		public static string TwitterAccount
 		{
-			get { return GetString();}
-			set { SetString(value);}
+			get { return AppSettings.GetString();}
+			set { AppSettings.Set(value);}
 		}
 		public static string TwitterDisplay
 		{
-			get { return GetString();}
-			set { SetString(value);}
+			get { return AppSettings.GetString();}
+			set { AppSettings.Set(value);}
 		}
 
 		const string filterExplicit = "FilterExplicit";
@@ -250,8 +193,8 @@ namespace MusicPlayer.Data
 
 		public static StreamQuality VideoStreamQuality
 		{
-			get { return (StreamQuality)GetInt((int)StreamQuality.High); }
-			set { SetInt((int)value); }
+			get { return (StreamQuality)AppSettings.GetInt((int)StreamQuality.High); }
+			set { AppSettings.Set((int)value); }
 		}
 
 		const string equalizerPreset = "EqualizerPreset";
@@ -395,45 +338,45 @@ namespace MusicPlayer.Data
 		public static UserDetails CurrentUserDetails
 		{
 			get { 
-				var val = GetString();
+				var val = AppSettings.GetString();
 				return string.IsNullOrWhiteSpace (val) ? null : val.ToObject<UserDetails> ();
 			}
-			set { SetString(value.ToJson()); }
+			set { AppSettings.Set(value.ToJson()); }
 		}
 
 		public static bool EnableGaplessPlayback
 		{
-			get { return GetBool(true);}
-			set { SetBool(value); }
+			get { return AppSettings.GetBool(true);}
+			set { AppSettings.Set(value); }
 		}
 
 		public static float CurrentVolume
 		{
-			get { return Get<float>(1); }
+			get { return AppSettings.GetFloat(1); }
 			set { 
-				Set<float>(value);
+				AppSettings.Set(value);
 				NotificationManager.Shared.ProcVolumeChanged();
 			}
 		}
 
 		public static bool DisableAllAccess
 		{
-			get{ return GetBool (); }
-			set { SetBool(value); }
+			get{ return AppSettings.GetBool (); }
+			set { AppSettings.Set(value); }
 		}
 
 		public static string CurrentStyle
 		{
-			get{ return GetString (defaultValue:"Default"); }
+			get{ return AppSettings.GetString (defaultValue:"Default"); }
 			set { 
-				SetString(value);
+				AppSettings.Set(value);
 				NotificationManager.Shared.ProcStyleChanged();
 			}
 		}
 
 		public static bool AutoAddYoutube {
-			get { return GetBool (true); }
-			set { SetBool (value); }
+			get { return AppSettings.GetBool (true); }
+			set { AppSettings.Set (value); }
 		}
 	}
 }
