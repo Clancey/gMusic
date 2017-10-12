@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-$(Agent.HomeDirectory)/scripts/select-xamarin-sdk.sh Stable
+/Users/vsts/agent/2.123.0/scripts/select-xamarin-sdk.sh Stable
