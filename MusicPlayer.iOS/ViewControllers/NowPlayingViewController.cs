@@ -29,7 +29,6 @@ namespace MusicPlayer.iOS.ViewControllers
 		public NowPlayingViewController()
 		{
 			Current = this;
-			this.View.InsetsLayoutMarginsFromSafeArea = true;
 		}
 		public nfloat GetHeight()
 		{
@@ -262,7 +261,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 				frame = bounds;
 				frame.Height -= y;
-				Console.WriteLine(frame.Height);
+				//Console.WriteLine(frame.Height);
 				var top = NMath.Max(topBarBottom, playbackTop - frame.Height);
 
 				var contentHeight = bounds.Height - frame.Height - topHeight;
@@ -618,7 +617,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 					var height = bounds.Height - y;
 					var fourth = height/4 - padding;
-					y -= smallPadding;
+					y -= padding;
 
 					var offset = MaxHeight - Frame.Height ;
 
@@ -628,7 +627,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					y = frame.Bottom;
 					var frameTop = frame.Top;
 
-					frame.Y = y - offset - frame.Height + padding*2 ;
+					frame.Y = y - offset - frame.Height  ;
 					if (frame.Bottom > frameTop) {
 						frame.Y += frame.Bottom - frameTop;
 					}
@@ -663,7 +662,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					volumeView.Center = center;
 
 					frame.Height = fourth;
-					frame.Y = y;
+					frame.Y = y + padding*2+ smallPadding;
 
 
 
