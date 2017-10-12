@@ -27,7 +27,7 @@ namespace MusicPlayer.iOS.ViewControllers
 		{
 			Init();
 		}
-
+		public nfloat TopHeight { get; set; }
 		static bool isVisible;
 		public override async void ViewDidAppear(bool animated)
 		{
@@ -115,6 +115,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				(CurrentSongCollectionViewCell) collectionView.DequeueReusableCell(CurrentSongCollectionViewCell.Key, indexPath);
 			var song = PlaybackManager.Shared.GetSong(indexPath.Row);
 			cell.SetSong(song);
+			cell.TopHeight = TopHeight;
 			return cell;
 		}
 
@@ -223,6 +224,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 			const float albumArtWidth = 512;
 
+			public nfloat TopHeight { get; set; }
 			[Export("initWithFrame:")]
 			public CurrentSongCollectionViewCell(CGRect frame) : base(frame)
 			{
@@ -304,7 +306,11 @@ namespace MusicPlayer.iOS.ViewControllers
 				var topHeight = NowPlayingViewController.Current.GetCurrentTopHeight ();
 				var frame = new CGRect((bounds.Width - maxWidth) / 2, topHeight + NowPlayingViewController.StatusBarHeight, maxWidth, maxWidth);
 				albumArtImageView.Frame = frame;
-
+				if (TopHeight > 0)
+				{
+					var top = topHeight + NowPlayingViewController.StatusBarHeight;
+					albumArtImageView.Center = new CGPoint(bounds.Width / 2,top + (TopHeight - top  ) / 2);
+				}
 				albumArtImageView.Alpha = showVideo ? Math.Max(0, 1 - (float)currentPercent) : 1;
 				frame = bounds;
 				var size = (float)Math.Max(frame.Height, frame.Width);

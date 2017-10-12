@@ -220,8 +220,8 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				base.LayoutSubviews();
 				var bounds = Bounds;
-				nfloat bottomOffset = this.GetSafeArea().Bottom;
-				nfloat topOffset = this.GetSafeArea().Top;
+				nfloat bottomOffset = this.Superview.GetSafeArea().Bottom;
+				nfloat topOffset = this.Superview.GetSafeArea().Top;
 				footer.BottomOffset = bottomOffset;
 				var frame = bounds;
 				var frameH = bounds.Height;
@@ -235,12 +235,18 @@ namespace MusicPlayer.iOS.ViewControllers
 
 				playButton.Center = frame.GetCenter();
 				
-				
+
+
 				var maxWidth = NMath.Min(bounds.Width, 512);
 				if (bounds.Width > bounds.Height)
 					maxWidth = NMath.Min (bounds.Height - topHeight, 512);
 				frame = new CGRect((bounds.Width - maxWidth)/2, topHeight, maxWidth, maxWidth);
+
+				nfloat maxBottomHeight = 260 + bottomOffset;
+				var topArea = bounds.Height - maxBottomHeight;
 				var y = frame.Bottom;
+				if (topArea > y)
+					y = topArea;
 
 				frame = closeButton.Frame;
 				frame.X = padding;
@@ -252,11 +258,11 @@ namespace MusicPlayer.iOS.ViewControllers
 
 
 				collectionView.View.Frame = new CGRect(0, 0, bounds.Width, bounds.Height);
-
+				collectionView.TopHeight = y;
 
 				frame = bounds;
-				frame.Height -= y + StatusBarHeight;
-
+				frame.Height -= y;
+				Console.WriteLine(frame.Height);
 				var top = NMath.Max(topBarBottom, playbackTop - frame.Height);
 
 				var contentHeight = bounds.Height - frame.Height - topHeight;
@@ -274,12 +280,13 @@ namespace MusicPlayer.iOS.ViewControllers
 				footer.SetSliderAlpha (alpha);
 				if (bounds.Width < bounds.Height) {
 					//portrait layout
-                                  					//Bar stays below top content
-					footer.MaxHeight = frame.Height;
+					//Bar stays below top content
+					//Max out height at 250f
+					footer.MaxHeight = NMath.Min(frame.Height, maxBottomHeight);
 					frame.Height = NMath.Min (frame.Height, frameH - screenY - topHeight);
-					frame.Height = NMath.Max (frame.Height, PlaybackBarHeight + bottomOffset);
-					frame.Height += bottomOffset;
-					frame.Y = top- bottomOffset;;
+					frame.Height = NMath.Max (frame.Height, PlaybackBarHeight);
+			
+					frame.Y = top;;
 					footer.IsLandscape = false;
 					footer.Frame = frame;
 				} else {
@@ -589,6 +596,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				public void LayoutPortrait()
 				{
 					var bounds = Bounds;
+					bounds.Height -= BottomOffset;
 					backgroundBluredView.Frame = bounds.WithHeight(bounds.Height*2);
 					slider.SizeToFit();
 					var frame = slider.Frame;
@@ -608,11 +616,11 @@ namespace MusicPlayer.iOS.ViewControllers
 
 					y = frame.Bottom;
 
-					var height = Bounds.Height - y;
+					var height = bounds.Height - y;
 					var fourth = height/4 - padding;
 					y -= smallPadding;
 
-					var offset = MaxHeight - Frame.Height;
+					var offset = MaxHeight - Frame.Height ;
 
 					frame = new CGRect(padding, y + offset, bounds.Width - 2*padding, fourth);
 					labelView.Frame = frame;
@@ -700,7 +708,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 					y = frame.Bottom;
 
-					var height = Bounds.Height - y;
+					var height = bounds.Height - y;
 					var fourth = height/4 - padding;
 					y -= smallPadding;
 					var contentWidth = bounds.Width - ContentStart;
