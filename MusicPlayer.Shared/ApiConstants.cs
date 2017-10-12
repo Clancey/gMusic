@@ -27,9 +27,7 @@ namespace MusicPlayer
 		internal const string SoundCloudClientId= "";
 		internal const string SoundCloudSecret = "";
 
-
-
-		//TODO: Sign up for a Sound Cloud api key
+		//TODO: Sign up for a Twitter api key
 		internal const string TwitterClientId = "";
 		internal const string TwitterSecret = "";
 

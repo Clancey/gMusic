@@ -221,17 +221,20 @@ namespace MusicPlayer.iOS.ViewControllers
 				base.LayoutSubviews();
 				var bounds = Bounds;
 				nfloat bottomOffset = 0;
+				nfloat topOffset = 0;
 				if (Device.IsIos11)
 				{
 					bottomOffset = this.SafeAreaInsets.Bottom;
+					topOffset = this.SafeAreaInsets.Top;
 				}
 				else
 				{
 					bottomOffset = this.LayoutMargins.Bottom;
+					topOffset = this.LayoutMargins.Top;
 				}
 				var frame = bounds;
 				var frameH = bounds.Height;
-				var topHeight = Parent.GetCurrentTopHeight();
+				var topHeight = Parent.GetCurrentTopHeight() ;
 				frame.Height = topHeight;
 				var screenY = Frame.Y;
 				var topBarBottom = frame.Bottom;
@@ -250,7 +253,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 				frame = closeButton.Frame;
 				frame.X = padding;
-				frame.Y = topHeight + 20f;
+				frame.Y = topHeight + topOffset;
 				closeButton.Frame = frame;
 
 				frame.X = bounds.Width - frame.Width - padding;
@@ -283,7 +286,7 @@ namespace MusicPlayer.iOS.ViewControllers
                                   					//Bar stays below top content
 					footer.MaxHeight = frame.Height;
 					frame.Height = NMath.Min (frame.Height, frameH - screenY - topHeight);
-					frame.Height = NMath.Max (frame.Height, PlaybackBarHeight);
+					frame.Height = NMath.Min(320, NMath.Max (frame.Height, PlaybackBarHeight));
 					frame.Height += bottomOffset;
 					frame.Y = top- bottomOffset;;
 					footer.IsLandscape = false;
