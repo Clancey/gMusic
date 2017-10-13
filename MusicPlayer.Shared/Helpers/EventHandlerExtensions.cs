@@ -80,12 +80,14 @@ namespace MusicPlayer
 			public EventLogger(string name)
 			{
 				this.name = name;
-				//if(name != "ProcCurrentTrackPositionChanged")
+				if(name != "ProcCurrentTrackPositionChanged")
+					Console.WriteLine($"Started Event: {name}");
 				//LogManager.Shared.Log($"Started Event: {name}");
 			}
 			public void Dispose()
 			{
-				//if (name != "ProcCurrentTrackPositionChanged")
+				if (name != "ProcCurrentTrackPositionChanged")
+					Console.WriteLine($"Finished Event: {name}");
 					//LogManager.Shared.Log($"Finished Event: {name}");
 			}
 		}

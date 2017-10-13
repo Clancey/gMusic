@@ -213,34 +213,47 @@ namespace MusicPlayer.iOS.Playback
 		}
 
 
-		float lastAudioCheck = 0;
+		float lastAudioCheck = -1;
 		bool eqApplied;
 		void OnPlabackTimeChanged (Player player)
 		{
-			if (player != CurrentPlayer || State != PlaybackState.Playing)
-				return;
-			if (!eqApplied) {
-				player.ApplyEqualizer ();
-				eqApplied = true;
+			try
+			{
+				if (player != CurrentPlayer || State != PlaybackState.Playing)
+					return;
+				if (!eqApplied)
+				{
+					player.ApplyEqualizer();
+					eqApplied = true;
+				}
+				if (!Settings.EnableGaplessPlayback || nextSong == null)
+					return;
+				var current = player.CurrentTimeSeconds();
+				var duration = player.Duration();
+				if (current < 1 || duration < 1)
+					return;
+				var remaining = duration - current;
+				//Console.WriteLine ("Time Remaining: {0}",remaining);
+				var avgAudio = AudioLevels?.Max() ?? 1;
+				if (remaining < 3 && avgAudio < .01 && lastAudioCheck < .01 && lastAudioCheck > 0)
+				{
+					StartNext(current);
+				}
+				else if (remaining < .75)
+				{
+					StartNext(current);
+				}
+				else if (remaining < 15)
+				{
+					Console.WriteLine(avgAudio);
+					PrepareNextSong();
+				}
+				lastAudioCheck = avgAudio;
 			}
-			if (!Settings.EnableGaplessPlayback)
-				return;
-			var current = player.CurrentTimeSeconds ();
-			var duration = player.Duration ();
-			if (current < 1 || duration < 1)
-				return;
-			var remaining = duration - current;
-			//Console.WriteLine ("Time Remaining: {0}",remaining);
-			var avgAudio = AudioLevels?.Max () ?? 1;
-			if (remaining < 3 && avgAudio < .01 && lastAudioCheck < .01) {
-				StartNext (current);
-			} else if (remaining < .75) {
-				StartNext (current);
-			} else if (remaining < 15) {
-				Console.WriteLine (avgAudio);
-				PrepareNextSong ();
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
 			}
-			lastAudioCheck = avgAudio;
 		}
 		async void PrepareNextSong ()
 		{

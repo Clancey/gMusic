@@ -116,33 +116,43 @@ namespace MusicPlayer.Playback
 		Task checkPlaybackTask;
 	   void CheckPlaybackStatus(NSTimer timer)
 	    {
-			if (CurrentSong == null || !(player.CurrentPlayer?.IsPlayerItemValid ?? false))
-	            return;
-			if(Duration > 0 && Math.Abs (lastDurration) < Double.Epsilon)
+			try
 			{
-				Seek(Settings.CurrentPlaybackPercent);
-				lastDurration = Duration;
-			}
-			if(State == PlaybackState.Paused || State == PlaybackState.Stopped)
-				return;
-			var time = player.CurrentTimeSeconds();
-			if (player.Rate > 0 && Math.Abs (time - lastSeconds) > Double.Epsilon) {
-				lastSeconds = time;
-				return;
-			}
-			if(checkPlaybackTask != null && !checkPlaybackTask.IsCompleted)
-				return;
-			checkPlaybackTask = Task.Run(async ()=> {
-				if (player.Rate > 0) {
-					await PrepareSong(CurrentSong, isVideo);
-					await player.PlaySong(CurrentSong, isVideo,true);
-					if(time > 0)
-						player.Seek(time);
-
+				if (CurrentSong == null || !(player.CurrentPlayer?.IsPlayerItemValid ?? false))
+					return;
+				if (Duration > 0 && Math.Abs(lastDurration) < Double.Epsilon)
+				{
+					Seek(Settings.CurrentPlaybackPercent);
+					lastDurration = Duration;
 				}
-				else
-					Play();
-			});
+				if (State == PlaybackState.Paused || State == PlaybackState.Stopped)
+					return;
+				var time = player.CurrentTimeSeconds();
+				if (player.Rate > 0 && Math.Abs(time - lastSeconds) > Double.Epsilon)
+				{
+					lastSeconds = time;
+					return;
+				}
+				if (checkPlaybackTask != null && !checkPlaybackTask.IsCompleted)
+					return;
+				checkPlaybackTask = Task.Run(async () =>
+				{
+					if (player.Rate > 0)
+					{
+						await PrepareSong(CurrentSong, isVideo);
+						await player.PlaySong(CurrentSong, isVideo, true);
+						if (time > 0)
+							player.Seek(time);
+
+					}
+					else
+						Play();
+				});
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
 	    }
 		public async Task PrepareFirstTrack(Song song, bool isVideo)
 		{
