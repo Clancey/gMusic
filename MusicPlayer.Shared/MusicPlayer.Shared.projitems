@@ -115,6 +115,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FixedSizedQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FixedSizeDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppSettingsExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\LocalWebServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\PathAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\Router.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\WebServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\Routes\Route.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\Routes\RouteT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\Routes\MediaStreamingRoute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebServer\RequestExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />

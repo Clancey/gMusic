@@ -74,21 +74,22 @@ namespace MusicPlayer
 				playerItem = AVPlayerItem.FromUrl(url);
 				await playerItem.WaitStatus();
 			} else {
-				NSUrlComponents comp =
-					new NSUrlComponents(
-						NSUrl.FromString(
-							$"http://localhost/{playbackData.CurrentTrack.Id}.{data.SongPlaybackData.CurrentTrack.FileExtension}"), false);
-				comp.Scheme = "streaming";
-				if (comp.Url != null)
-				{
-					var asset = new AVUrlAsset(comp.Url, new NSDictionary());
-					asset.ResourceLoader.SetDelegate(NativeAudioPlayer.LoaderDelegate, DispatchQueue.MainQueue);
-					playerItem = new AVPlayerItem(asset);
-				}
-				if (data.CancelTokenSource.IsCancellationRequested)
-					return false;
-
-				await playerItem.WaitStatus();
+				//NSUrlComponents comp =
+				//	new NSUrlComponents(
+				//		NSUrl.FromString(
+				//			$"http://localhost/{playbackData.CurrentTrack.Id}.{data.SongPlaybackData.CurrentTrack.FileExtension}"), false);
+				//comp.Scheme = "streaming";
+				//if (comp.Url != null)
+				//{
+				//	var asset = new AVUrlAsset(comp.Url, new NSDictionary());
+				//	asset.ResourceLoader.SetDelegate(NativeAudioPlayer.LoaderDelegate, DispatchQueue.MainQueue);
+				//	playerItem = new AVPlayerItem(asset);
+				//}
+				//if (data.CancelTokenSource.IsCancellationRequested)
+				//return false;
+				var url = $"http://localhost:{LocalWebServer.Shared.Port}/api/GetMediaStream/{playbackData.CurrentTrack.Id}";
+				playerItem = AVPlayerItem.FromUrl(new NSUrl(url));
+				//await playerItem.WaitStatus();
 			}
 			player.ReplaceCurrentItemWithPlayerItem (playerItem);
 			IsPrepared = true;
