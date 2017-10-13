@@ -9,6 +9,7 @@ using CoreMedia;
 using MusicPlayer.iOS.Playback;
 using System.Linq;
 using CoreFoundation;
+using System.Web;
 
 namespace MusicPlayer
 {
@@ -87,7 +88,7 @@ namespace MusicPlayer
 				//}
 				//if (data.CancelTokenSource.IsCancellationRequested)
 				//return false;
-				var url = $"http://localhost:{LocalWebServer.Shared.Port}/api/GetMediaStream/{playbackData.CurrentTrack.Id}";
+				var url = $"http://localhost:{LocalWebServer.Shared.Port}/api/GetMediaStream/{HttpUtility.UrlEncode(data.SongId)}?Test={HttpUtility.UrlEncode(data.SongId)}";
 				playerItem = AVPlayerItem.FromUrl(new NSUrl(url));
 				//await playerItem.WaitStatus();
 			}

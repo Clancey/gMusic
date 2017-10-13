@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Linq;
 namespace MusicPlayer.Server
 {
 	public static class RequestExtensions
@@ -20,5 +21,7 @@ namespace MusicPlayer.Server
 				return (0, 0);
 			}
 		}
+
+		public static bool HasRange(this HttpListenerRequest request) => request.Headers.AllKeys.Any(x => x == "Range");
 	}
 }

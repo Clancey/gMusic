@@ -71,8 +71,14 @@ namespace MusicPlayer.Server
 								return;
 							ctx.Response.StatusCode = 500;
 						} finally {
-							//if(!ctx.Request.KeepAlive)
-								ctx?.Response.OutputStream.Close ();
+							try
+							{
+								ctx?.Response.OutputStream.Close();
+							}
+							catch (Exception)
+							{
+
+							}
 						}
 					});
 				}

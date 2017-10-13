@@ -358,7 +358,7 @@ namespace MusicPlayer.Managers
 			await PlaySongs(songs,song);
 		}
 
-		public async void PlaySong(string id)
+		public void PlaySong(string id)
 		{
 			var song = Database.Main.GetObject<Song>(id);
 			Play(song);

@@ -75,6 +75,7 @@ namespace MusicPlayer.Managers
 				};
 				if (!string.IsNullOrWhiteSpace (key))
 					dictionary [key] = value;
+				Console.WriteLine(message);
 				Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
@@ -139,7 +140,7 @@ namespace MusicPlayer.Managers
 				var dictionary = new Dictionary<string, string>() {
 					{"Track Id",track?.Id ?? "NULL" },
 					{"Song ID",track?.SongId ?? "NULL" },
-					{"Song type", track.ServiceExtra2 },
+					{"Song type", track?.ServiceExtra2 },
 					{"File Extension",track?.FileExtension ?? "NULL" },
 					{"Media Type",track?.MediaType.ToString() ?? "NULL" },
 					{"Service Type",track?.ServiceType.ToString() ?? "NULL" },
@@ -147,7 +148,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				Task.Run(()=> Insights.Track(message, dictionary));
+				Insights.Track(message, dictionary);
 			}
 			catch (Exception ex)
 			{

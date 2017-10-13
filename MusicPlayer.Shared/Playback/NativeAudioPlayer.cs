@@ -12,6 +12,18 @@ namespace MusicPlayer.Playback
 		public readonly Dictionary<string, PlaybackData> CurrentData = new Dictionary<string, PlaybackData> ();
 		public readonly Dictionary<string, string> SongIdTracks = new Dictionary<string, string> ();
 
+		internal async Task<PlaybackData> GetPlaybackDataForWebServer(string id)
+		{
+			var data = GetPlaybackData(id);
+			if (data != null && data.DownloadHelper != null)
+				return data;
+			var video = id == currentSong?.Id ? isVideo : false;
+			var song = Database.Main.GetObject<Song>(id);
+			var result = await PrepareSong(song, video);
+			return result.Item2;
+
+				
+		}
 
 		internal PlaybackData GetPlaybackData (string id, bool create = true)
 		{
@@ -77,6 +89,7 @@ namespace MusicPlayer.Playback
 				lastSeconds = -1;
 				var success = !data.CancelTokenSource.IsCancellationRequested;
 
+				LogManager.Shared.Log("Finished Preparing Song", song);
 				return new Tuple<bool, PlaybackData> (true, data);
 			} catch (Exception ex) {
 				LogManager.Shared.Report (ex);

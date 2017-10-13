@@ -3,10 +3,11 @@ using MusicPlayer.Managers;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Web;
 namespace MusicPlayer.Server
 {
 
-	[Path("api/GetMediaStream/{TrackId}")]
+	[Path("api/GetMediaStream/{SongId}")]
 	public class MediaStreamingRoute : Route
 	{
 		string contentType = "audio/mpeg";
@@ -40,17 +41,12 @@ namespace MusicPlayer.Server
 			try
 			{
 				var request = context.Request;
-				Console.WriteLine(request.Url);
-				Console.WriteLine("Request Headers");
-				bool hasRange = false;
-				foreach (var hk in request.Headers.AllKeys)
-				{
-					if (hk == RangeKey)
-					{
-						hasRange = true;
-					}
-					Console.WriteLine($"{hk} - {request.Headers[hk]}");
-				}
+				//Console.WriteLine(request.Url);
+				//Console.WriteLine("Request Headers");
+				//foreach (var hk in request.Headers.AllKeys)
+				//{
+				//	Console.WriteLine($"{hk} - {request.Headers[hk]}");
+				//}
 
 				var method = request.HttpMethod;
 				string data;
@@ -65,32 +61,34 @@ namespace MusicPlayer.Server
 					foreach (var val in valuesFromPath)
 					{
 						if (val.Key != null)
-							queryParams.Add(val.Key, val.Value);
+							queryParams.Add(val.Key,val.Value);
 					}
 				}
 
 
-				var id = queryParams["TrackId"];
-				var songId = PlaybackManager.Shared.NativePlayer.SongIdTracks[id];
-				var playbackData = PlaybackManager.Shared.NativePlayer.GetPlaybackData(songId, false);
+				var resp = context.Response;
+				resp.Headers.Add("Accept-Ranges", "bytes");
+
+				var songId = queryParams["SongId"];
+				var playbackData =  await PlaybackManager.Shared.NativePlayer.GetPlaybackDataForWebServer(songId);
 				var currentDownloadHelper = playbackData.DownloadHelper;
 				if (string.IsNullOrWhiteSpace(currentDownloadHelper.MimeType))
 				{
 					var success = await currentDownloadHelper.WaitForMimeType();
 				}
-				var resp = context.Response;
-				resp.Headers.Add("Accept-Ranges", "bytes");
-				resp.ContentType = ContentType;
+				resp.ContentType = currentDownloadHelper.MimeType;
 
-				if (hasRange)
+				if (request.HasRange())
 				{
-					var range = context.Request.GetRange();
+					var range = request.GetRange();
 
 					var length = range.End - range.Start + 1;
+
+					resp.StatusCode = 206;
+					resp.StatusDescription = "Partial Content";
+
 					resp.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", range.Start, range.End, currentDownloadHelper.TotalLength));
 
-        			resp.StatusCode = 206;
-					resp.StatusDescription = "Partial Content";
 					Console.WriteLine($"Range : {range.Start} - {range.End}");
 
 					currentDownloadHelper.Seek(range.Start, SeekOrigin.Begin);
@@ -98,23 +96,31 @@ namespace MusicPlayer.Server
 					var bytes = new byte[length];
 					var readBytes = await currentDownloadHelper.ReadAsync(bytes, 0, (int)length);
 					resp.ContentLength64 = readBytes;
-					await context.Response.OutputStream.WriteAsync(bytes, 0, readBytes);
+					if (resp.OutputStream.CanWrite)
+						await resp.OutputStream.WriteAsync(bytes, 0, readBytes);
 					//resp.StatusCode = 200;
 
 				}
 				else
 				{
-					resp.ContentLength64 = currentDownloadHelper.TotalLength;
-					if (context.Response.OutputStream.CanWrite)
-						currentDownloadHelper.CopyTo(context.Response.OutputStream);
 					resp.StatusCode = 200;
+					resp.ContentLength64 = currentDownloadHelper.TotalLength;
+					if (resp.OutputStream.CanWrite)
+						currentDownloadHelper.CopyTo(context.Response.OutputStream);
 				}
 
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine(e);
-				context.Response.StatusCode = 500;
+				try
+				{
+					context.Response.StatusCode = 500;
+				}
+				catch(Exception)
+				{
+
+				}
 			} // suppress any exceptions
 
 			//return base.ProcessReponse(context);

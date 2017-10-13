@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MusicPlayer.Server
 {
@@ -103,7 +104,7 @@ namespace MusicPlayer.Server
 			foreach (var i in indecies) {
 				var key = parts [i].Trim ('{', '}');
 				var value = valueParts [i];
-				returnDictionary [key] = value;
+				returnDictionary [key] = HttpUtility.UrlDecode(value);
 			}
 			return returnDictionary;
 
