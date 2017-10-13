@@ -38,14 +38,14 @@ namespace MusicPlayer
 
 			PlayerLayer = AVPlayerLayer.FromPlayer (player);
 			endTimeObserver = NSNotificationCenter.DefaultCenter.AddObserver (AVPlayerItem.DidPlayToEndTimeNotification, (notification) => {
-				var avplayerItem = notification.Object as AVPlayerItem;
+				var avplayerItem = notification?.Object as AVPlayerItem;
 				OnFinished (avplayerItem);
 			});
 		}
 
 		void OnStateChanged (AVPlayer player)
 		{
-			State = (Math.Abs (player.Rate) < float.Epsilon) ? PlaybackState.Paused : PlaybackState.Playing;
+			State = (Math.Abs (player?.Rate ?? 0) < float.Epsilon) ? PlaybackState.Paused : PlaybackState.Playing;
 			Console.WriteLine($"State Changed {CurrentSongId} - {State}");
 		}
 

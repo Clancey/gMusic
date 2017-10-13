@@ -18,7 +18,7 @@ namespace MusicPlayer.Playback
 			if (data != null && data.DownloadHelper != null)
 				return data;
 			var video = id == currentSong?.Id ? isVideo : false;
-			var song = Database.Main.GetObject<Song>(id);
+			var song = Database.Main.GetObject<Song, TempSong>(id);
 			var result = await PrepareSong(song, video);
 			return result.Item2;
 
