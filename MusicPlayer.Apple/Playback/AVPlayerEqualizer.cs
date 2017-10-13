@@ -181,7 +181,7 @@ namespace MusicPlayer.iOS.Playback
 				if (context.AudioUnit == null)
 					return;
 
-				var bypass = context.AudioUnit.SetParameter(AudioUnitParameterType.AUNBandEQGain + index, gain * 1.5f,
+				var bypass = context.AudioUnit.SetParameter(AudioUnitParameterType.AUNBandEQGain + index, gain,
 					AudioUnitScopeType.Global);
 				//Console.WriteLine(bypass);
 			}
