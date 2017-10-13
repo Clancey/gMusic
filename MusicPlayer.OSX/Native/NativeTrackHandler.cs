@@ -31,7 +31,7 @@ namespace MusicPlayer.Playback
 				}
 			};
 
-			//NotificationManager.Shared.CurrentTrackPositionChanged += (sender, args) => UpdateProgress(args.Data);
+			NotificationManager.Shared.CurrentTrackPositionChanged += (sender, args) => UpdateProgress(args.Data);
 		}
 
 		MPMediaItemArtwork CreateDefaultArtwork () => DefaultResizableArtwork;
@@ -45,11 +45,11 @@ namespace MusicPlayer.Playback
 			NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification (notification);
 		}
 
-		//void SetAdditionInfo (Song song, MPNowPlayingInfo info)
-		//{
-		//	info.MediaType = Settings.CurrentPlaybackIsVideo ? MPNowPlayingInfoMediaType.Video : MPNowPlayingInfoMediaType.Audio;
+		void SetAdditionInfo (Song song, MPNowPlayingInfo info)
+		{
+			info.MediaType = Settings.CurrentPlaybackIsVideo ? MPNowPlayingInfoMediaType.Video : MPNowPlayingInfoMediaType.Audio;
 
-		//}
+		}
 
 		public void PlaybackStateChanged (PlaybackState state)
 		{
@@ -140,10 +140,10 @@ namespace MusicPlayer.Playback
 					var img = GetImage (song, arg.Width).Result;
 					return img;
 				});
-				//if (nowPlayingInfo == null)
-				//	return;
-				//nowPlayingInfo.Artwork = artwork;
-				//App.RunOnMainThread (() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
+				if (nowPlayingInfo == null)
+					return;
+				nowPlayingInfo.Artwork = artwork;
+				App.RunOnMainThread (() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
 			} catch (Exception ex) {
 				LogManager.Shared.Report (ex);
 			}

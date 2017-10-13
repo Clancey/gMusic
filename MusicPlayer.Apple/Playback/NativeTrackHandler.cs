@@ -29,9 +29,7 @@ namespace MusicPlayer.Playback
 			OnInit ();
 		}
 
-#if __IOS__
 		MPNowPlayingInfo nowPlayingInfo;
-#endif
 		MPMediaItemArtwork artwork;
 
 		public void UpdateSong (Song song)
@@ -39,7 +37,6 @@ namespace MusicPlayer.Playback
 			if (song == null)
 				return;
 			try {
-#if __IOS__
 				nowPlayingInfo = new MPNowPlayingInfo
 				{
 					Title = song?.Name ?? "",
@@ -54,7 +51,7 @@ namespace MusicPlayer.Playback
 				FetchArtwork (song);
 				OnSongChanged (song);
 				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
-#endif
+
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
@@ -73,7 +70,6 @@ namespace MusicPlayer.Playback
 		{
 			try {
 
-#if __IOS__
 				if (nowPlayingInfo == null)
 					return;
 				if (Math.Abs(position.CurrentTime - lastTime) < 1)
@@ -84,7 +80,6 @@ namespace MusicPlayer.Playback
 				nowPlayingInfo.ElapsedPlaybackTime = position.CurrentTime;
 				nowPlayingInfo.PlaybackDuration = position.Duration;
 				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
-#endif
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
