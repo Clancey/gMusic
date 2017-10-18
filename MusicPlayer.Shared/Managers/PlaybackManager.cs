@@ -480,7 +480,7 @@ namespace MusicPlayer.Managers
 			NativePlayer.QueueTrack (playbackData.CurrentTrack);
 			if (playbackData?.IsLocal == true)
 				return;
-			DownloadManager.Shared.QueueTrack(playbackData.CurrentTrack.Id);
+			await DownloadManager.Shared.QueueTrack(playbackData.CurrentTrack.Id);
 		}
 
 		public Song GetSong(int index)

@@ -15,14 +15,26 @@ namespace MusicPlayer.Managers
 {
 	internal class DownloadManager : ManagerBase<DownloadManager>
 	{
-		readonly Dictionary<string, DownloadHelper> downloads = new Dictionary<string, DownloadHelper>();
+		readonly FixedSizeDictionary<string, DownloadHelper> downloads = new FixedSizeDictionary<string, DownloadHelper>(2);
 		string currentId;
 		Task downloadPollerTask;
 		string fileInUses = "";
-		string nextId;
 
 		public DownloadManager()
 		{
+			downloads.OnDequeue = (KeyValuePair<string, DownloadHelper> obj) =>
+			{
+				var helper = obj.Value;
+				if (helper == null)
+					return;
+				var helperState = helper.State;
+				var fileName = helper.FilePath;
+				helper.Cancel();
+				helper.Dispose();
+				if(File.Exists(fileName))
+					File.Delete(fileName);
+				RunPoller();
+			};
 			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
 			{
 				if (CrossConnectivity.Current.IsConnected)
@@ -37,16 +49,7 @@ namespace MusicPlayer.Managers
 				return;
 			if (trackId == fileInUses)
 				return;
-			DownloadHelper helper;
-			if (!downloads.TryGetValue(trackId, out helper))
-				return;
-			var helperState = helper.State;
-			var fileName = helper.FilePath;
-			helper.Cancel();
-			helper.Dispose();
-			File.Delete(fileName);
 			downloads.Remove(trackId);
-			RunPoller();
 		}
 
 		public void RunPoller()
@@ -72,11 +75,10 @@ namespace MusicPlayer.Managers
 									continue;
 								}
 							}
-
-							if (string.IsNullOrWhiteSpace(nextId))
+							var next = downloads.FirstOrDefault();
+							if (string.IsNullOrWhiteSpace(next.Key))
 								continue;
-							if (!downloads.TryGetValue(nextId, out helper))
-								downloads[nextId] = helper = CreateHelper(nextId);
+							helper = next.Value;
 							if (helper.State == DownloadHelper.DownloadState.Downloading)
 								continue;
 							if (helper.State != DownloadHelper.DownloadState.Completed)
@@ -97,35 +99,22 @@ namespace MusicPlayer.Managers
 		{
 			if (!CrossConnectivity.Current.IsConnected)
 				return false;
-			if (string.IsNullOrWhiteSpace(currentId) && string.IsNullOrWhiteSpace(nextId))
-				return false;
-			DownloadHelper helper;
-			if (!string.IsNullOrWhiteSpace(currentId) && downloads.TryGetValue(currentId, out helper))
-			{
-				if (helper.State != DownloadHelper.DownloadState.Completed)
-					return true;
-			}
-
-			if (string.IsNullOrWhiteSpace(nextId))
-				return false;
-
-			if (!downloads.TryGetValue(nextId, out helper))
-				return true;
-			return helper.State != DownloadHelper.DownloadState.Completed;
+			return downloads.Any(x => x.Value?.State != DownloadHelper.DownloadState.Completed);
 		}
 
-		public void QueueTrack(string trackId)
+		public async Task QueueTrack(string trackId)
 		{
-			Finish(nextId);
-			nextId = trackId;
+			if (downloads.ContainsKey(trackId))
+				return;
+			var helper = downloads[trackId] = CreateHelper(trackId);
 			RunPoller();
+
+			await helper.StartDownload();
 		}
 
 		public async Task<DownloadHelper> DownloadNow(string trackId, Uri uri = null)
 		{
 			fileInUses = trackId;
-			if (nextId == trackId)
-				nextId = null;
 			Finish(currentId);
 			currentId = trackId;
 			DownloadHelper helper;
