@@ -88,7 +88,8 @@ namespace MusicPlayer
 				//}
 				//if (data.CancelTokenSource.IsCancellationRequested)
 				//return false;
-				var url = $"http://localhost:{LocalWebServer.Shared.Port}/api/GetMediaStream/{HttpUtility.UrlEncode(data.SongId)}?Test={HttpUtility.UrlEncode(data.SongId)}";
+				var urlEndodedSongId = HttpUtility.UrlEncode(data.SongId);
+				var url = $"http://localhost:{LocalWebServer.Shared.Port}/api/GetMediaStream/Playback?SongId={urlEndodedSongId}";
 				playerItem = AVPlayerItem.FromUrl(new NSUrl(url));
 				//await playerItem.WaitStatus();
 			}

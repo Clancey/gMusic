@@ -7,7 +7,7 @@ using System.Web;
 namespace MusicPlayer.Server
 {
 
-	[Path("api/GetMediaStream/{SongId}")]
+	[Path("api/GetMediaStream/Playback")]
 	public class MediaStreamingRoute : Route
 	{
 		string contentType = "audio/mpeg";
@@ -15,25 +15,7 @@ namespace MusicPlayer.Server
 
 		public override bool SupportsMethod(string method) => method == "GET";
 
-		public override async System.Threading.Tasks.Task<byte[]> GetResponseBytes(string method, System.Net.HttpListenerRequest request, System.Collections.Specialized.NameValueCollection queryString, string data)
-		{
-			Console.WriteLine(request.Url);
-			Console.WriteLine("Request Headers");
-			foreach (var hk in request.Headers.AllKeys)
-			{
-				if(hk != null)
-					Console.WriteLine($"{request.Headers[hk]}");
-			}
-			var SongId = queryString["SongId"];
-			var playbackData = PlaybackManager.Shared.NativePlayer.GetPlaybackData(SongId, false);
-			var currentDownloadHelper = playbackData.DownloadHelper;
-			if (string.IsNullOrWhiteSpace(currentDownloadHelper.MimeType))
-			{
-				var success = await currentDownloadHelper.WaitForMimeType();
-			}
-			contentType = currentDownloadHelper.MimeType;
-			return new byte[0];
-		}
+	
 		const string RangeKey = "Range";
 		public override async Task ProcessReponse(System.Net.HttpListenerContext context)
 		{
