@@ -119,9 +119,24 @@ namespace MusicPlayer.Playback
 			return notification;
 		}
 
-		void SetImage (NSUserNotification notitification, Song song)
+		async void SetImage (NSUserNotification notification, Song song)
 		{
-
+			try
+			{
+				var imageTask = GetImage(song, 50);
+				if (imageTask.IsCompleted)
+					notification.ContentImage = imageTask.Result;
+				else
+					notification.ContentImage = await imageTask;
+				if (notification.ContentImage == null)
+					return;
+				notification.SetValueForKey(notification.ContentImage, (NSString)"_identityImage");
+				notification.ContentImage = null;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
 		}
 		async void FetchArtwork (Song song)
 		{

@@ -59,7 +59,7 @@ namespace MusicPlayer
 					using (var file = TagLib.File.Create (track.FileLocation)) {
 						if (file.Tag.Pictures.Any ()) {
 							var bytes = file.Tag.Pictures [0].Data.Data;
-							if (bytes == null)
+							if (bytes == null || bytes.Length == 0)
 								return null;
 
 							using (var data = NSData.FromArray (bytes)) {
