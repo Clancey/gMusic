@@ -242,8 +242,14 @@ namespace MusicPlayer.iOS.Playback
 						return;
 					}
 				}
+				try
+				{
+					UpdateVolumes(bufferList, numberFrames);
+				}
+				catch (Exception ex)
+				{
 
-				UpdateVolumes(bufferList, numberFrames);
+				}
 			}
 
 			unsafe void TapInitialization(MTAudioProcessingTap tap, out void* tapStorage)

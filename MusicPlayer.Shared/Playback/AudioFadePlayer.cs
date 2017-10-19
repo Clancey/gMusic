@@ -74,9 +74,15 @@ namespace MusicPlayer.iOS.Playback
 		public override float Rate {
 			get { return CurrentPlayer?.Rate ?? 0; }
 		}
-		public override float [] AudioLevels {
-			get => CurrentPlayer?.AudioLevels ?? new float[] { 0,0};
-			set => CurrentPlayer.AudioLevels = value;
+		public override float[] AudioLevels
+		{
+			get => CurrentPlayer?.AudioLevels ?? new float[] { 0, 0 };
+			set
+			{
+				if (CurrentPlayer == null)
+					return;
+				CurrentPlayer.AudioLevels = value;
+			}
 		}
 
 		public async Task<bool> PrepareSong (Song song, bool isVideo)
