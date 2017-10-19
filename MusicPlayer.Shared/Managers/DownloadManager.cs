@@ -15,7 +15,7 @@ namespace MusicPlayer.Managers
 {
 	internal class DownloadManager : ManagerBase<DownloadManager>
 	{
-		readonly FixedSizeDictionary<string, DownloadHelper> downloads = new FixedSizeDictionary<string, DownloadHelper>(2);
+		readonly FixedSizeDictionary<string, DownloadHelper> downloads = new FixedSizeDictionary<string, DownloadHelper>(3);
 		string currentId;
 		Task downloadPollerTask;
 		string fileInUses = "";
