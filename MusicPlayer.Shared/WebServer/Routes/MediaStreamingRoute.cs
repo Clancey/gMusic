@@ -54,11 +54,15 @@ namespace MusicPlayer.Server
 				var songId = queryParams["SongId"];
 				var playbackData =  await PlaybackManager.Shared.NativePlayer.GetPlaybackDataForWebServer(songId);
 				var currentDownloadHelper = playbackData.DownloadHelper;
-				if (string.IsNullOrWhiteSpace(currentDownloadHelper.MimeType))
+				var dataStream = playbackData.DataStream;
+				var totalLength = currentDownloadHelper?.TotalLength ?? data.Length;
+				if (currentDownloadHelper == null)
+					Console.WriteLine("Found an error");
+				if (currentDownloadHelper != null && string.IsNullOrWhiteSpace(currentDownloadHelper.MimeType))
 				{
 					var success = await currentDownloadHelper.WaitForMimeType();
 				}
-				resp.ContentType = currentDownloadHelper.MimeType;
+				resp.ContentType = playbackData.MimeType;
 
 				if (request.HasRange())
 				{
@@ -69,14 +73,14 @@ namespace MusicPlayer.Server
 					resp.StatusCode = 206;
 					resp.StatusDescription = "Partial Content";
 
-					resp.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", range.Start, range.End, currentDownloadHelper.TotalLength));
+					resp.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", range.Start, range.End, totalLength));
 
 					Console.WriteLine($"Range : {range.Start} - {range.End}");
 
-					currentDownloadHelper.Seek(range.Start, SeekOrigin.Begin);
+					dataStream.Seek(range.Start, SeekOrigin.Begin);
 
 					var bytes = new byte[length];
-					var readBytes = await currentDownloadHelper.ReadAsync(bytes, 0, (int)length);
+					var readBytes = await dataStream.ReadAsync(bytes, 0, (int)length);
 					resp.ContentLength64 = readBytes;
 					if (resp.OutputStream.CanWrite)
 						await resp.OutputStream.WriteAsync(bytes, 0, readBytes);
@@ -86,9 +90,9 @@ namespace MusicPlayer.Server
 				else
 				{
 					resp.StatusCode = 200;
-					resp.ContentLength64 = currentDownloadHelper.TotalLength;
+					resp.ContentLength64 = totalLength;
 					if (resp.OutputStream.CanWrite)
-						currentDownloadHelper.CopyTo(context.Response.OutputStream);
+						dataStream.CopyTo(context.Response.OutputStream);
 				}
 
 			}

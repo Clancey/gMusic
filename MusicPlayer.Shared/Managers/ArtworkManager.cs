@@ -68,7 +68,7 @@ namespace MusicPlayer.Managers
 
 		public async Task<string> GetArtwork(Album album)
 		{
-			var artowrk = await album.GetAllArtwork();
+			var artowrk = await album?.GetAllArtwork();
 			return GetUrl(artowrk?.LastOrDefault());
 		}
 
