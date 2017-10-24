@@ -62,6 +62,19 @@ namespace MusicPlayer
 			if (!Settings.EnableGaplessPlayback)
 				return;
 		}
+		public override bool IsPrepared
+		{
+			get
+			{
+				if(IsPlayerItemValid)
+					return base.IsPrepared;
+				return false;
+			}
+			set
+			{
+				base.IsPrepared = value;
+			}
+		}
 
 		public override async Task<bool> PrepareData (PlaybackData data)
 		{

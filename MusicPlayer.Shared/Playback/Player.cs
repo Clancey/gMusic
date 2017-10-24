@@ -55,7 +55,7 @@ namespace MusicPlayer.Playback
 
 		public abstract bool IsPlayerItemValid { get; }
 
-		public bool IsPrepared { get; set; }
+		public virtual bool IsPrepared { get; set; }
 
 		public virtual void DisableVideo ()
 		{

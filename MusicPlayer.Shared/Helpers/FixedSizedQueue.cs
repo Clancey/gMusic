@@ -36,13 +36,22 @@ namespace MusicPlayer
 		}
 		public bool Remove (T obj) 
 		{
-			lock(privateLockObject)
-			return queue.Remove (obj);
+			bool removed;
+			lock (privateLockObject)
+			{
+				removed = queue.Remove(obj);
+			}
+			OnDequeue?.Invoke(obj);
+			return removed;
 		}
 		public void Clear ()
 		{
-			lock(privateLockObject)
-			queue.Clear ();
+			List<T> items;
+			lock (privateLockObject)
+			{
+				items = queue.ToList();
+			}
+			items.ForEach((i)=>Remove(i));
 		}
 		public override string ToString ()
 		{

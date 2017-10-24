@@ -63,7 +63,8 @@ namespace MusicPlayer.Server
 					var success = await currentDownloadHelper.WaitForMimeType();
 				}
 				resp.ContentType = playbackData.MimeType;
-
+				if (request.KeepAlive)
+					resp.KeepAlive = true;
 				if (request.HasRange())
 				{
 					var range = request.GetRange();

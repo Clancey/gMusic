@@ -17,8 +17,15 @@ namespace MusicPlayer.iOS.Playback
 		FixedSizeDictionary<string, bool> isVideoDict = new FixedSizeDictionary<string, bool> (4);
 		FixedSizeDictionary<string, Player> playerQueue = new FixedSizeDictionary<string, Player> (2) {
 			OnDequeue = (item) => {
-				item.Value?.Pause ();
-				item.Value?.Dispose ();
+				try
+				{
+					item.Value?.Pause();
+					item.Value?.Dispose();
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex);
+				}
 			}
 		};
 
@@ -108,10 +115,12 @@ namespace MusicPlayer.iOS.Playback
 			return false;
 		}
 
-		public Player GetPlayer (Song song, bool create = false)
+		public Player GetPlayer (Song song, bool create = false, bool forceNew = false)
 		{
 			if (string.IsNullOrWhiteSpace (song?.Id))
 				return null;
+			if (forceNew)
+				playerQueue.Remove(song.Id);
 			var player = playerQueue [song.Id] ?? (create  ? (playerQueue [song.Id] = CreatePlayer (song)) : null);
 			return player;
 		}
@@ -125,7 +134,30 @@ namespace MusicPlayer.iOS.Playback
 			StopAllOthers (song);
 			eqApplied = false;
 			currentSong = song;
-			if (!forcePlay && isSongPlaying (song)) {
+			if (forcePlay)
+			{
+				try
+				{
+					StopAllOthers(song);
+					var player = GetPlayer(song, true,true);
+					player.Volume = Settings.CurrentVolume;
+					var data = await Parent.PrepareSong(song, isVideo);
+					if (!data.Item1)
+						return false;
+					var s = await player.PrepareData(data.Item2);
+					if (!s)
+						return false;
+					player.ApplyEqualizer();
+					player.Play();
+					SetVideo(player);
+					return true;
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex);
+				}
+			}
+			else if (isSongPlaying (song)) {
 				var player = GetPlayer (song);
 				State = player.State;
 				Parent.State = State;

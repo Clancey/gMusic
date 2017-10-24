@@ -113,12 +113,13 @@ namespace MusicPlayer.Playback
 		}
 
 		double lastDurration;
+		DateTime playbackStarted = DateTime.Now;
 		Task checkPlaybackTask;
 	   void CheckPlaybackStatus(NSTimer timer)
 	    {
 			try
 			{
-				if (CurrentSong == null || !(player.CurrentPlayer?.IsPlayerItemValid ?? false))
+				if (CurrentSong == null || (!(player.CurrentPlayer?.IsPlayerItemValid ?? false) && (DateTime.Now - playbackStarted).TotalSeconds < 10))
 					return;
 				if (Duration > 0 && Math.Abs(lastDurration) < Double.Epsilon)
 				{
@@ -278,6 +279,7 @@ namespace MusicPlayer.Playback
 
 		public async Task PlaySong(Song song, bool playVideo = false)
 		{
+			playbackStarted = DateTime.Now;
 			#if __IOS__
 			if(!playVideo)
 				PictureInPictureManager.Shared.StopPictureInPicture();
