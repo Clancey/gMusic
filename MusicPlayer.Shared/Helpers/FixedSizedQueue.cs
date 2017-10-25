@@ -36,14 +36,17 @@ namespace MusicPlayer
 		}
 		public bool Remove (T obj) 
 		{
-			bool removed;
+			bool removed = true;
 			lock (privateLockObject)
 			{
-				removed = queue.Remove(obj);
+				if(queue.Contains(obj))
+					removed = queue.Remove(obj);
 			}
+
 			OnDequeue?.Invoke(obj);
 			return removed;
 		}
+
 		public void Clear ()
 		{
 			List<T> items;
