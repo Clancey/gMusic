@@ -13,6 +13,7 @@ using MusicPlayer.Managers;
 using UIKit;
 using SimpleTables;
 using Section = MonoTouch.Dialog.Section;
+using Localizations;
 
 namespace MusicPlayer.iOS.ViewControllers
 {
@@ -32,23 +33,23 @@ namespace MusicPlayer.iOS.ViewControllers
 			View = view = new RootView();
 			menuItems = new Tuple<Element, UIViewController>[]
 			{
-				new Tuple<Element, UIViewController>(new MenuElement("Search","SVG/search.svg",20) {SaveIndex = false }, new SearchViewController()),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Search,"SVG/search.svg",20) {SaveIndex = false }, new SearchViewController()),
 				new Tuple<Element, UIViewController>(new MenuHeaderElement("my music"), null),
-				new Tuple<Element, UIViewController>(new MenuElement("Artists", "SVG/artist.svg"), new ArtistViewController()),
-				new Tuple<Element, UIViewController>(new MenuElement("Albums", "SVG/album.svg"), new AlbumViewController()),
-				new Tuple<Element, UIViewController>(new MenuElement("Genres", "SVG/genres.svg"), new GenreViewController()),
-				new Tuple<Element, UIViewController>(new MenuElement("Songs", "SVG/songs.svg"), new SongViewController()),
-				new Tuple<Element, UIViewController>(new MenuElement("Playlists", "SVG/playlists.svg"), new PlaylistViewController()),
-				new Tuple<Element, UIViewController>(new MenuHeaderElement("online"), null),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Artists, "SVG/artist.svg"), new ArtistViewController()),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Albums, "SVG/album.svg"), new AlbumViewController()),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Genres, "SVG/genres.svg"), new GenreViewController()),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Songs, "SVG/songs.svg"), new SongViewController()),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Playlists, "SVG/playlists.svg"), new PlaylistViewController()),
+				new Tuple<Element, UIViewController>(new MenuHeaderElement(Strings.Online), null),
 				//new Tuple<Element, UIViewController>(new MenuElement("trending", "SVG/trending.svg"),
 				//	new BaseViewController {Title = "Trending", View = {BackgroundColor = UIColor.White}}),
-				new Tuple<Element, UIViewController>(new MenuElement("Radio", "SVG/radio.svg"), new RadioStationViewController()),
-				new Tuple<Element, UIViewController>(new MenuHeaderElement("settings"), null),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Radio, "SVG/radio.svg"), new RadioStationViewController()),
+				new Tuple<Element, UIViewController>(new MenuHeaderElement(Strings.Settings), null),
 				new Tuple<Element, UIViewController>(new MenuSwitch("Offline Only", "SVG/offline.svg", Settings.ShowOfflineOnly) {ValueUpdated = (b)=> Settings.ShowOfflineOnly = b}, null),
-				new Tuple<Element, UIViewController>(new MenuSubtextSwitch("Equalizer"
+				new Tuple<Element, UIViewController>(new MenuSubtextSwitch(Strings.Equalizer
 					, MusicPlayer.Playback.Equalizer.Shared.CurrentPreset?.Name , "SVG/equalizer.svg", Settings.EqualizerEnabled){ValueUpdated = (b) => MusicPlayer.Playback.Equalizer.Shared.Active = b},
 					new EqualizerViewController()),
-				new Tuple<Element, UIViewController>(new MenuElement("Settings", "SVG/settings.svg"){SaveIndex = false }, new SettingViewController()),
+				new Tuple<Element, UIViewController>(new MenuElement(Strings.Settings, "SVG/settings.svg"){SaveIndex = false }, new SettingViewController()),
 				#if DEBUG || ADHOC
 
 				new Tuple<Element, UIViewController>(new MenuElement("Console", "SVG/settings.svg"){SaveIndex = false }, new ConsoleViewController()),
