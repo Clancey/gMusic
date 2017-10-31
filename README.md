@@ -1,7 +1,7 @@
 # gMusic
 This is gMusic. Its my personal project that is available on the [AppStore](http://apple.co/24CYMvK)
 
-<a href="http://apple.co/24CYMvK" rel="some text">![Foo](https://devimages.apple.com.edgekey.net/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg)</a>
+<a href="http://apple.co/24CYMvK" rel="some text">![iOS AppStore](http://devimages.apple.com.edgekey.net/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg)</a>
 
 
 # State
