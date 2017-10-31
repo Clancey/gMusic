@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using MusicPlayer.Managers;
+using System.Threading.Tasks;
 
 namespace MusicPlayer
 {
@@ -17,14 +18,31 @@ namespace MusicPlayer
 		{
 			
 		}
+		Task NotifierTask;
 		public void Activate()
 		{
-			if(!Debugger.IsAttached)
+			//if(!Debugger.IsAttached)
 				Console.SetOut(this);
+			if (NotifierTask?.IsCompleted ?? true)
+			{
+				NotifierTask = Task.Run(async () =>
+				{
+					while (true)
+					{
+						if (hasMessages)
+						{
+							NotificationManager.Shared.ProcConsoleChanged();
+							hasMessages = false;
+						}
+						await Task.Delay(1000);
+					}
+				});
+			}
+
 		}
 
 		public override Encoding Encoding => Encoding.UTF8;
-
+		bool hasMessages = false;
 		public override void WriteLine(string value)
 		{
 			if (!string.IsNullOrWhiteSpace(currentLine))
@@ -36,7 +54,7 @@ namespace MusicPlayer
 			if (!string.IsNullOrWhiteSpace(value))
 			{
 				ConsoleOutput.Enqueue(new Tuple<DateTime, string>(DateTime.Now, value));
-				NotificationManager.Shared.ProcConsoleChangedd();
+				hasMessages = true;
 			}
 			Debug.WriteLine(value);
 		}

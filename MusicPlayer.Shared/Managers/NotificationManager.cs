@@ -208,7 +208,7 @@ namespace MusicPlayer.Managers
 			StyleChanged?.InvokeOnMainThread(this);
 		}
 		public event EventHandler ConsoleChanged;
-		public void ProcConsoleChangedd()
+		public void ProcConsoleChanged()
 		{
 			ConsoleChanged?.InvokeOnMainThread(this);
 		}

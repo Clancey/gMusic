@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.CompilerServices;
 using MusicPlayer.Managers;
+using System.Linq;
 
 namespace MusicPlayer
 {
@@ -77,17 +78,23 @@ namespace MusicPlayer
 		class EventLogger : IDisposable
 		{
 			string name;
+			static string[] IgnoredMessages = {
+				"ProcCurrentTrackPositionChanged",
+				"ProcConsoleChanged"
+			};
 			public EventLogger(string name)
 			{
 				this.name = name;
-				if(name != "ProcCurrentTrackPositionChanged")
-					Console.WriteLine($"Started Event: {name}");
+				if (IgnoredMessages.Contains(name))
+					return;
+				Console.WriteLine($"Started Event: {name}");
 				//LogManager.Shared.Log($"Started Event: {name}");
 			}
 			public void Dispose()
 			{
-				if (name != "ProcCurrentTrackPositionChanged")
-					Console.WriteLine($"Finished Event: {name}");
+				if (IgnoredMessages.Contains(name))
+					return;
+				Console.WriteLine($"Finished Event: {name}");
 					//LogManager.Shared.Log($"Finished Event: {name}");
 			}
 		}
