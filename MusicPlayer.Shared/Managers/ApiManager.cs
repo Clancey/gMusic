@@ -19,17 +19,22 @@ namespace MusicPlayer.Managers
 		{
 			//{ServiceType.Amazon,typeof(CloudDriveApi)},
 			{ServiceType.Google,typeof(GoogleMusicApi)},
+			#if DEBUG
 			{ServiceType.OneDrive,typeof(OneDriveApi)},
 			{ServiceType.SoundCloud,typeof(SoundCloudApi)},
+			#endif
 			{ServiceType.YouTube,typeof(YoutubeOauthApi)},
 		};
 		Dictionary<Type, Type> ApiProviderTypes = new Dictionary<Type, Type>
 		{
 			{typeof(GoogleMusicApi),typeof(GoogleMusicProvider) },
 			{typeof(YoutubeOauthApi),typeof(YoutubeProvider) },
+
+			#if DEBUG
 			{typeof(SoundCloudApi),typeof(SoundCloudProvider) },
 			//{typeof(CloudDriveApi),typeof(AmazonMusicProvider) },
 			{typeof(OneDriveApi),typeof(OneDriveProvider) },
+			#endif
 		};
 
 		public ApiManager()
