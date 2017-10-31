@@ -21,9 +21,10 @@ namespace MusicPlayer
 		NSObject timeObserver;
 		IDisposable rateObserver;
 		bool equalizerApplied;
-		public AVMediaPlayer ()
+		public AVMediaPlayer()
 		{
-			player = new AVPlayer {
+			player = new AVPlayer
+			{
 				ActionAtItemEnd = AVPlayerActionAtItemEnd.Pause,
 #if __IOS__
 				AllowsAirPlayVideo = true,
@@ -33,31 +34,32 @@ namespace MusicPlayer
 
 			};
 
-			timeObserver = player.AddPeriodicTimeObserver (new CoreMedia.CMTime (5, 30), null, (time) => OnPlabackTimeChanged (player, time));
-			rateObserver = player.AddObserver ("rate", NSKeyValueObservingOptions.New, (change) => OnStateChanged (player));
+			timeObserver = player.AddPeriodicTimeObserver(new CoreMedia.CMTime(5, 30), null, (time) => OnPlabackTimeChanged(player, time));
+			rateObserver = player.AddObserver("rate", NSKeyValueObservingOptions.New, (change) => OnStateChanged(player));
 
-			PlayerLayer = AVPlayerLayer.FromPlayer (player);
-			endTimeObserver = NSNotificationCenter.DefaultCenter.AddObserver (AVPlayerItem.DidPlayToEndTimeNotification, (notification) => {
+			PlayerLayer = AVPlayerLayer.FromPlayer(player);
+			endTimeObserver = NSNotificationCenter.DefaultCenter.AddObserver(AVPlayerItem.DidPlayToEndTimeNotification, (notification) =>
+			{
 				var avplayerItem = notification?.Object as AVPlayerItem;
-				OnFinished (avplayerItem);
+				OnFinished(avplayerItem);
 			});
 		}
 
-		void OnStateChanged (AVPlayer player)
+		void OnStateChanged(AVPlayer player)
 		{
-			State = (Math.Abs (player?.Rate ?? 0) < float.Epsilon) ? PlaybackState.Paused : PlaybackState.Playing;
+			State = (Math.Abs(player?.Rate ?? 0) < float.Epsilon) ? PlaybackState.Paused : PlaybackState.Playing;
 			Console.WriteLine($"State Changed {CurrentSongId} - {State}");
 		}
 
-		void OnFinished (AVPlayerItem item)
+		void OnFinished(AVPlayerItem item)
 		{
-			item?.Asset?.CancelLoading ();
-			Finished?.Invoke (this);
+			item?.Asset?.CancelLoading();
+			Finished?.Invoke(this);
 		}
 
-		void OnPlabackTimeChanged (AVPlayer player, CMTime time)
+		void OnPlabackTimeChanged(AVPlayer player, CMTime time)
 		{
-			PlabackTimeChanged?.Invoke (CurrentTimeSeconds ());
+			PlabackTimeChanged?.Invoke(CurrentTimeSeconds());
 			//Make sure the equalizer is set
 			if (!Settings.EnableGaplessPlayback)
 				return;
@@ -66,7 +68,7 @@ namespace MusicPlayer
 		{
 			get
 			{
-				if(IsPlayerItemValid)
+				if (IsPlayerItemValid)
 					return base.IsPrepared;
 				return false;
 			}
@@ -76,35 +78,41 @@ namespace MusicPlayer
 			}
 		}
 
-		public override async Task<bool> PrepareData (PlaybackData data)
+		public override async Task<bool> PrepareData(PlaybackData data)
 		{
 			CurrentSongId = data.SongId;
 			AVPlayerItem playerItem = null;
 			var playbackData = data.SongPlaybackData;
-			if (playbackData.IsLocal || playbackData.CurrentTrack.ServiceType == MusicPlayer.Api.ServiceType.iPod) {
+			if (playbackData.IsLocal || playbackData.CurrentTrack.ServiceType == MusicPlayer.Api.ServiceType.iPod)
+			{
 				if (playbackData.Uri == null)
 					return false;
 				var url = string.IsNullOrWhiteSpace(playbackData?.CurrentTrack?.FileLocation) ? new NSUrl(playbackData.Uri.AbsoluteUri) : NSUrl.FromFilename(playbackData.CurrentTrack.FileLocation);
 				playerItem = AVPlayerItem.FromUrl(url);
 				await playerItem.WaitStatus();
-			} else {
-				//NSUrlComponents comp =
-				//	new NSUrlComponents(
-				//		NSUrl.FromString(
-				//			$"http://localhost/{playbackData.CurrentTrack.Id}.{data.SongPlaybackData.CurrentTrack.FileExtension}"), false);
-				//comp.Scheme = "streaming";
-				//if (comp.Url != null)
-				//{
-				//	var asset = new AVUrlAsset(comp.Url, new NSDictionary());
-				//	asset.ResourceLoader.SetDelegate(NativeAudioPlayer.LoaderDelegate, DispatchQueue.MainQueue);
-				//	playerItem = new AVPlayerItem(asset);
-				//}
-				//if (data.CancelTokenSource.IsCancellationRequested)
-				//return false;
+			}
+			else
+			{
+#if HttpPlayback
+
 				var urlEndodedSongId = HttpUtility.UrlEncode(data.SongId);
 				var url = $"http://localhost:{LocalWebServer.Shared.Port}/api/GetMediaStream/Playback?SongId={urlEndodedSongId}";
 				playerItem = AVPlayerItem.FromUrl(new NSUrl(url));
-				//await playerItem.WaitStatus();
+
+#else
+				NSUrlComponents comp =
+					new NSUrlComponents(
+						NSUrl.FromString(
+							$"http://localhost/{playbackData.CurrentTrack.Id}.{data.SongPlaybackData.CurrentTrack.FileExtension}"), false);
+				comp.Scheme = "streaming";
+				if (comp.Url != null)
+				{
+					var asset = new AVUrlAsset(comp.Url, new NSDictionary());
+					asset.ResourceLoader.SetDelegate(NativeAudioPlayer.LoaderDelegate, DispatchQueue.MainQueue);
+					playerItem = new AVPlayerItem(asset);
+				}
+#endif
+
 			}
 			player.ReplaceCurrentItemWithPlayerItem (playerItem);
 			IsPrepared = true;
