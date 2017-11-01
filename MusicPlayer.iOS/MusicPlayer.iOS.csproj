@@ -179,7 +179,7 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>BeforeBuild</type>
+          <type>Build</type>
           <command>SetupAppStore.sh</command>
         </Command>
       </CustomCommands>
