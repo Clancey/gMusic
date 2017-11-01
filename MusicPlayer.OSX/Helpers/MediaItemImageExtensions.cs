@@ -56,6 +56,8 @@ namespace MusicPlayer
 		{
 			return await Task.Factory.StartNew (() => {
 				try {
+					if (!System.IO.File.Exists(track.FileLocation))
+						return null;
 					using (var file = TagLib.File.Create (track.FileLocation)) {
 						if (file.Tag.Pictures.Any ()) {
 							var bytes = file.Tag.Pictures [0].Data.Data;
