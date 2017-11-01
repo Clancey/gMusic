@@ -179,18 +179,8 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>Clean</type>
+          <type>BeforeBuild</type>
           <command>SetupAppStore.sh</command>
-        </Command>
-        <Command>
-          <type>AfterBuild</type>
-          <command>zip -r MusicPlayeriOS.app.dSYM.zip MusicPlayeriOS.app.dSYM</command>
-          <workingdir>${TargetDir}</workingdir>
-        </Command>
-        <Command>
-          <type>AfterBuild</type>
-          <command>curl -F "dsym=@MusicPlayeriOS.app.dSYM.zip;type=application/zip" https://xaapi.xamarin.com/api/dsym?apikey=4da241d5460e5658993bb9ec95c7a09ceba4246d</command>
-          <workingdir>${TargetDir}</workingdir>
         </Command>
       </CustomCommands>
     </CustomCommands>
