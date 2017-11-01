@@ -43,6 +43,7 @@ namespace MusicPlayer.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary launchOptions)
 		{
 			bool handled = true;
+			SimpleAuth.Providers.Twitter.Init();
 			MobileCenter.Start(ApiConstants.MobileCenterApiKey,
 					typeof(Analytics), typeof(Crashes));
 
@@ -206,6 +207,13 @@ namespace MusicPlayer.iOS
 		public override void DidEnterBackground(UIApplication application)
 		{
 			ScreenManager.Shared.DidEnterBackground();
+		}
+
+		public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+		{
+			if (SimpleAuth.Native.OpenUrl(app, url, options))
+				return true;
+			return base.OpenUrl(app, url, options);
 		}
 	}
 }

@@ -9,28 +9,32 @@ namespace MusicPlayer.iOS
 	{
 		public ScreenManager()
 		{
-			UIScreen.Notifications.ObserveDidConnect((object sender, Foundation.NSNotificationEventArgs e)  => {
+			UIScreen.Notifications.ObserveDidConnect((object sender, Foundation.NSNotificationEventArgs e) =>
+			{
 				StartWindow();
 			});
-			UIScreen.Notifications.ObserveDidDisconnect ((object sender, Foundation.NSNotificationEventArgs e) => {
+			UIScreen.Notifications.ObserveDidDisconnect((object sender, Foundation.NSNotificationEventArgs e) =>
+			{
 				StopWindow();
 			});
-			UIScreen.Notifications.ObserveModeDidChange ((object sender, Foundation.NSNotificationEventArgs e) => {
+			UIScreen.Notifications.ObserveModeDidChange((object sender, Foundation.NSNotificationEventArgs e) =>
+			{
 				StartWindow();
 			});
 
 		}
 		public void Init()
 		{
-			StartWindow ();
+			StartWindow();
 		}
 
 		UIWindow Window;
 		public virtual async Task StartWindow()
 		{
-			await Task.Delay (500);
+			await Task.Delay(500);
 			if (UIScreen.Screens.Length < 2)
 				return;
+#if Pioneer
 			var screen = UIScreen.Screens.Last ();
 			if (Window == null)
 				Window = new UIWindow (screen.Bounds);
@@ -41,8 +45,9 @@ namespace MusicPlayer.iOS
 			Window.Screen = screen;
 			Window.TintColor = style.AccentColor;
 			if (Window.RootViewController == null)
-				Window.RootViewController = new Car.CarHeadViewController ();
+				Window.RootViewController = new  Car.CarHeadViewController ();
 			Window.Hidden = false;
+#endif
 			UIApplication.SharedApplication.IdleTimerDisabled = true;
 		}
 

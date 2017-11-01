@@ -28,8 +28,10 @@ namespace MusicPlayer
 		int streamHandle;
 		int bufferSync;
 		int endSync;
+		int positionSync;
 		FileProcedures fileProcs;
 		PlaybackData currentData;
+
 
 		public BassPlayer ()
 		{
@@ -71,7 +73,6 @@ namespace MusicPlayer
 				currentTime = t;
 			return currentTime;
 		}
-
 		public override void Dispose ()
 		{
 			Stop ();
@@ -95,9 +96,10 @@ namespace MusicPlayer
 		double durration;
 		public override double Duration ()
 		{
-			if(durration <= 0)
-				durration = StreamIsValid? Bass.ChannelBytes2Seconds (streamHandle, Bass.ChannelGetLength (streamHandle)) : this.currentData?.SongPlaybackData?.CurrentTrack?.Duration ?? 0;
-			return durration;
+			if (!StreamIsValid)
+				return this.currentData?.SongPlaybackData?.CurrentTrack?.Duration ?? 0;
+			var legnth = Bass.ChannelGetLength(streamHandle);
+			return Bass.ChannelBytes2Seconds(streamHandle, legnth);
 		}
 
 		public override void Pause ()
@@ -113,6 +115,7 @@ namespace MusicPlayer
 			if (!StreamIsValid)
 				return;
 			Bass.ChannelStop (streamHandle);
+
 		}
 
 		public override void Play ()
@@ -204,6 +207,7 @@ namespace MusicPlayer
 				Bass.ChannelSetAttribute (streamHandle, ChannelAttribute.Volume, 1f);
 
 				endSync = Bass.ChannelSetSync (streamHandle, SyncFlags.End | SyncFlags.Mixtime, 0, OnTrackEnd, IntPtr.Zero);
+				positionSync = Bass.ChannelSetSync(streamHandle, SyncFlags.MusicPosition , 10, ChannelSync, IntPtr.Zero);
 				bufferSync = Bass.ChannelSetSync (streamHandle, SyncFlags.Stalled, 0, OnBuffering, IntPtr.Zero);
 				if (location > 0) {
 					Bass.ChannelSetPosition (streamHandle, location);
@@ -233,6 +237,8 @@ namespace MusicPlayer
 		long OnFileLength (IntPtr user)
 		{
 			try {
+				while ((currentData?.DownloadHelper.Length ?? 0) == 0)
+					Task.Delay(500).Wait();
 				return currentData?.DownloadHelper.Length ?? 0;
 			} catch (Exception ex) {
 				LogManager.Shared.Report (ex);
@@ -256,6 +262,11 @@ namespace MusicPlayer
 		}
 
 
+		void ChannelSync(int Handle, int Channel, int Data, IntPtr User)
+		{
+			Console.WriteLine("Position Proc");
+		}
+
 		bool OnFileSeek (long offset, IntPtr user)
 		{
 			return true;
@@ -276,6 +287,7 @@ namespace MusicPlayer
 			if (StreamIsValid) {
 				Bass.ChannelRemoveSync (streamHandle, bufferSync);
 				Bass.ChannelRemoveSync (streamHandle, endSync);
+				Bass.ChannelRemoveSync(streamHandle, positionSync);
 			}
 			streamHandle = 0;
 
