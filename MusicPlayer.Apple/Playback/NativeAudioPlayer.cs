@@ -195,7 +195,7 @@ namespace MusicPlayer.Playback
 			{
 				return;
 			}
-			if (!player.IsPlayerItemValid )
+			if (player.IsPlayerItemValid )
 			{
 				ScrobbleManager.Shared.SetNowPlaying(CurrentSong, Settings.CurrentTrackId);
 				player.Play();
