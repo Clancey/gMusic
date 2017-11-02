@@ -124,6 +124,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)WebServer\Routes\MediaStreamingRoute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebServer\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebServer\RequestExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Playback\BassFileProceduresManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 #if BASS
 using ManagedBass;
-using ManagedBass.DirectX8;
 using MusicPlayer.Models;
 using System.IO;
 using MusicPlayer.Playback;
@@ -28,10 +27,11 @@ namespace MusicPlayer
 		int streamHandle;
 		int bufferSync;
 		int endSync;
-		int positionSync;
 		FileProcedures fileProcs;
 		PlaybackData currentData;
-
+		IntPtr fileProcUser;
+		IntPtr endSyncUser;
+		IntPtr bufferSyncUser;
 
 		public BassPlayer ()
 		{
@@ -77,6 +77,10 @@ namespace MusicPlayer
 		{
 			Stop ();
 			RemoveHandles ();
+			BassFileProceduresManager.ClearProcedure(fileProcUser);
+			BassFileProceduresManager.ClearProcedure(endSyncUser);
+			BassFileProceduresManager.ClearProcedure(bufferSyncUser);
+
 		}
 
 		public override float [] AudioLevels {
@@ -93,7 +97,6 @@ namespace MusicPlayer
 			}
 		}
 
-		double durration;
 		public override double Duration ()
 		{
 			if (!StreamIsValid)
@@ -190,25 +193,36 @@ namespace MusicPlayer
 				Stop ();
 				RemoveHandles ();
 			}
-			return await Task.Run (() => {
-				Bass.Start ();
+			return await Task.Run (() =>
+			{
+				Bass.Start();
 				var data = playbackData.SongPlaybackData;
-				if (data.IsLocal) {
-					streamHandle = Bass.CreateStream (data.Uri.LocalPath, Flags: BassFlags.AutoFree | BassFlags.Prescan);
+				if (data.IsLocal)
+				{
+					streamHandle = Bass.CreateStream(data.Uri.LocalPath, Flags: BassFlags.AutoFree | BassFlags.Prescan);
 
-				} else {
-					streamHandle = Bass.CreateStream (StreamSystem.Buffer, BassFlags.AutoFree, fileProcs);//, downloaderPointer);
 				}
-				if (streamHandle == 0) {
+				else
+				{
+					var fileProcData = BassFileProceduresManager.CreateProcedure(fileProcs);
+					fileProcUser = fileProcData.user;
+					streamHandle = Bass.CreateStream(StreamSystem.Buffer, BassFlags.AutoFree, fileProcData.proc, fileProcData.user);//, downloaderPointer);
+				}
+				if (streamHandle == 0)
+				{
 					var error = Bass.LastError;
-					Console.WriteLine (error); 
+					Console.WriteLine(error);
 					return false;
 				}
-				Bass.ChannelSetAttribute (streamHandle, ChannelAttribute.Volume, 1f);
+				Bass.ChannelSetAttribute(streamHandle, ChannelAttribute.Volume, 1f);
 
-				endSync = Bass.ChannelSetSync (streamHandle, SyncFlags.End | SyncFlags.Mixtime, 0, OnTrackEnd, IntPtr.Zero);
-				positionSync = Bass.ChannelSetSync(streamHandle, SyncFlags.MusicPosition , 10, ChannelSync, IntPtr.Zero);
-				bufferSync = Bass.ChannelSetSync (streamHandle, SyncFlags.Stalled, 0, OnBuffering, IntPtr.Zero);
+				var endSyncData = BassFileProceduresManager.CreateProcedure(OnTrackEnd);
+				endSyncUser = endSyncData.user;
+				endSync = Bass.ChannelSetSync(streamHandle, SyncFlags.End | SyncFlags.Mixtime, 0, endSyncData.proc, endSyncUser);
+
+				var bufferSyncData = BassFileProceduresManager.CreateProcedure(OnBuffering);;
+				bufferSyncUser = bufferSyncData.user;
+				bufferSync = Bass.ChannelSetSync (streamHandle, SyncFlags.Stalled, 0,  bufferSyncData.proc, bufferSyncUser);
 				if (location > 0) {
 					Bass.ChannelSetPosition (streamHandle, location);
 				}
@@ -262,11 +276,6 @@ namespace MusicPlayer
 		}
 
 
-		void ChannelSync(int Handle, int Channel, int Data, IntPtr User)
-		{
-			Console.WriteLine("Position Proc");
-		}
-
 		bool OnFileSeek (long offset, IntPtr user)
 		{
 			return true;
@@ -287,7 +296,9 @@ namespace MusicPlayer
 			if (StreamIsValid) {
 				Bass.ChannelRemoveSync (streamHandle, bufferSync);
 				Bass.ChannelRemoveSync (streamHandle, endSync);
-				Bass.ChannelRemoveSync(streamHandle, positionSync);
+				BassFileProceduresManager.ClearProcedure(fileProcUser);
+				BassFileProceduresManager.ClearProcedure(endSyncUser);
+				BassFileProceduresManager.ClearProcedure(bufferSyncUser);
 			}
 			streamHandle = 0;
 
