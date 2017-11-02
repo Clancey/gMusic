@@ -10,8 +10,6 @@ using SDWebImage;
 using MediaPlayer;
 using MusicPlayer.Data;
 using MusicPlayer.Managers;
-using System.Threading.Tasks;
-using Foundation;
 using UIKit;
 using MusicPlayer.iOS;
 using CoreGraphics;

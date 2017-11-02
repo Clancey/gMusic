@@ -78,7 +78,7 @@
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG;BASS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements></CodesignEntitlements>
@@ -161,6 +161,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -lbass_fx -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a"</MtouchExtraArgs>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -189,6 +191,8 @@
     </CustomCommands>
     <BuildIpa>true</BuildIpa>
     <IpaPackageName>MusicPlayer</IpaPackageName>
+    <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhoneSimulator'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -532,11 +536,11 @@
     <Reference Include="SimpleAuth">
       <HintPath>..\packages\Clancey.SimpleAuth.1.0.43\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedBass">
-      <HintPath>..\packages\ManagedBass.2.0.3\lib\Xamarin.iOS\ManagedBass.dll</HintPath>
-    </Reference>
     <Reference Include="ManagedBass.Fx">
       <HintPath>..\packages\ManagedBass.Fx.2.0.0\lib\Xamarin.iOS\ManagedBass.Fx.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedBass">
+      <HintPath>..\packages\ManagedBass.2.0.0\lib\Xamarin.iOS\ManagedBass.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
