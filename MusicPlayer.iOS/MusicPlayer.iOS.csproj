@@ -132,7 +132,7 @@
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
     <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
-    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;ADHOC;BASS;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;ADHOC;</DefineConstants>
     <CustomCommands>
       <CustomCommands>
         <Command>
