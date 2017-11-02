@@ -25,7 +25,10 @@ namespace MusicPlayer
 		static BassPlayer()
 		{
 			Bass.Init();
-			//var fxv = BassFx.Version;
+
+#if __MACOS__
+			var fxv = BassFx.Version;
+#endif
 		}
 		int streamHandle;
 		int bufferSync;
@@ -363,9 +366,8 @@ namespace MusicPlayer
 				}
 				return;
 			}
-			fxStream = streamHandle;
 
-			fxEq = Bass.ChannelSetFX(fxStream, EffectType.PeakEQ, 1);
+			fxEq = Bass.ChannelSetFX(streamHandle, EffectType.PeakEQ, 1);
 			if (fxEq == 0)
 			{
 				fxStream = 0;
@@ -373,6 +375,7 @@ namespace MusicPlayer
 				return;
 			}
 
+			fxStream = streamHandle;
 			eq.fQ = 0f;
 			eq.fBandwidth = .6f;
 			eq.lChannel = FXChannelFlags.All;
@@ -399,7 +402,11 @@ namespace MusicPlayer
 		{
 #if __MACOS__
 			if (fxEq == 0)
-				return;
+			{
+				ApplyEqualizer();
+				if(fxEq == 0)
+					return;
+			}
 			// get values of the selected band
 			eq.lBand = band;
 			Bass.FXGetParameters (fxEq,eq);
