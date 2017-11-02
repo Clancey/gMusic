@@ -179,7 +179,7 @@ namespace MusicPlayer.Managers
 
 		async Task ProcessTempFile (string fileName)
 		{
-			var dest = Path.Combine (Locations.MusicDir, Path.GetFileName (fileName));
+			var dest = Path.Combine (Locations.TmpDownloadDir, Path.GetFileName (fileName));
 			if (File.Exists (dest)) {
 				File.Delete (dest);
 				return;
