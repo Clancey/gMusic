@@ -306,7 +306,7 @@ namespace MusicPlayer.iOS.Playback
 				return;
 			if (!data.Item1)
 				return;
-			await player.PrepareData (data.Item2,true);
+			await player.PrepareData (data.Item2, false);
 
 		}
 
