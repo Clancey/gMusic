@@ -39,7 +39,7 @@
       </CustomCommands>
     </CustomCommands>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchExtraArgs>-gcc_flags "-ObjC -L${ProjectDir} -lbass -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a""</MtouchExtraArgs>
+    <MtouchExtraArgs></MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -78,6 +78,7 @@
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG;BASS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements></CodesignEntitlements>
@@ -86,7 +87,7 @@
     <MtouchProfiling>false</MtouchProfiling>
     <IpaPackageName>gMusic</IpaPackageName>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <MtouchExtraArgs>-gcc_flags "-ObjC -L${ProjectDir} -lbass -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a""</MtouchExtraArgs>
+    <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -lbass_fx -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a"</MtouchExtraArgs>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <CodesignProvision>IIS Beta</CodesignProvision>
@@ -125,6 +126,7 @@
         </Command>
       </CustomCommands>
     </CustomCommands>
+    <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -lbass_fx -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a"</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -157,7 +159,7 @@
     </MtouchI18n>
     <IpaPackageName>MediaPlayer</IpaPackageName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a""</MtouchExtraArgs>
+    <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -lbass_fx -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a"</MtouchExtraArgs>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
@@ -174,7 +176,7 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchUseLlvm>True</MtouchUseLlvm>
     <MtouchUseThumb>True</MtouchUseThumb>
-    <MtouchExtraArgs>-gcc_flags "-ObjC -L${ProjectDir} -lbass -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a""</MtouchExtraArgs>
+    <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -lbass_fx -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a"</MtouchExtraArgs>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CustomCommands>
@@ -204,7 +206,7 @@
         </Command>
       </CustomCommands>
     </CustomCommands>
-    <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a""</MtouchExtraArgs>
+    <MtouchExtraArgs></MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppStore|iPhoneSimulator'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -269,7 +271,7 @@
     </MtouchI18n>
     <IpaPackageName>MediaPlayer</IpaPackageName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <MtouchExtraArgs>-gcc_flags "-ObjC"</MtouchExtraArgs>
+    <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -lbass_fx -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a"</MtouchExtraArgs>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <CodesignProvision>5148054d-8ee9-499a-a06b-1848ed058136</CodesignProvision>
   </PropertyGroup>
@@ -712,16 +714,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewControllers\Car\" />
-  </ItemGroup>
-  <ItemGroup>
-    <NativeReference Include="libbass_fx.a">
-      <Kind>Static</Kind>
-      <SmartLink>False</SmartLink>
-    </NativeReference>
-    <NativeReference Include="libbass.a">
-      <Kind>Static</Kind>
-      <SmartLink>False</SmartLink>
-    </NativeReference>
   </ItemGroup>
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>
