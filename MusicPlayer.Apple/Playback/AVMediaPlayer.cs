@@ -78,7 +78,7 @@ namespace MusicPlayer
 			}
 		}
 
-		public override async Task<bool> PrepareData(PlaybackData data)
+		public override async Task<bool> PrepareData(PlaybackData data, bool isPlaying)
 		{
 			CurrentSongId = data.SongId;
 			AVPlayerItem playerItem = null;

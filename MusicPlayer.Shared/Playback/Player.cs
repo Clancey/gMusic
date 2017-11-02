@@ -29,7 +29,7 @@ namespace MusicPlayer.Playback
 
 		public abstract Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false);
 
-		public abstract Task<bool> PrepareData (PlaybackData playbackData);
+		public abstract Task<bool> PrepareData (PlaybackData playbackData, bool isPlaying);
 
 		public abstract void Play ();
 

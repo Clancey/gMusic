@@ -102,10 +102,11 @@ namespace MusicPlayer.iOS.Playback
 				var player = GetPlayer (song,true);
 				if (player.IsPrepared || player.State == PlaybackState.Playing)
 					return true;
+				player.State = PlaybackState.Buffering;
 				var data = await Parent.PrepareSong (song, isVideo);
 				if (!data.Item1)
 					return false;
-				var s = await player.PrepareData (data.Item2);
+				var s = await player.PrepareData (data.Item2, false);
 				player.ApplyEqualizer ();
 				return s;
 
@@ -144,7 +145,7 @@ namespace MusicPlayer.iOS.Playback
 					var data = await Parent.PrepareSong(song, isVideo);
 					if (!data.Item1)
 						return false;
-					var s = await player.PrepareData(data.Item2);
+					var s = await player.PrepareData(data.Item2,true);
 					if (!s)
 						return false;
 					player.ApplyEqualizer();
@@ -184,7 +185,7 @@ namespace MusicPlayer.iOS.Playback
 					var data = await Parent.PrepareSong (song, isVideo);
 					if (!data.Item1)
 						return false;
-					var s = await player.PrepareData (data.Item2);
+					var s = await player.PrepareData (data.Item2,true);
 					if (!s)
 						return false;
 				}
@@ -211,9 +212,9 @@ namespace MusicPlayer.iOS.Playback
 			CurrentPlayer?.UpdateBand (band, gain);
 		}
 
-		public override Task<bool> PrepareData (PlaybackData playbackData)
+		public override Task<bool> PrepareData (PlaybackData playbackData, bool isPlaying)
 		{
-			return CurrentPlayer.PrepareData (playbackData);
+			return CurrentPlayer.PrepareData (playbackData,isPlaying);
 		}
 
 		void StopPlayer (Player player)
@@ -305,7 +306,7 @@ namespace MusicPlayer.iOS.Playback
 				return;
 			if (!data.Item1)
 				return;
-			await player.PrepareData (data.Item2);
+			await player.PrepareData (data.Item2,true);
 
 		}
 

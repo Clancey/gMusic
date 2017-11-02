@@ -539,9 +539,6 @@
     <Reference Include="ManagedBass">
       <HintPath>..\packages\ManagedBass.2.0.4\lib\Xamarin.iOS\ManagedBass.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedBass.Fx">
-      <HintPath>..\packages\ManagedBass.Fx.2.0.0\lib\Xamarin.iOS\ManagedBass.Fx.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
