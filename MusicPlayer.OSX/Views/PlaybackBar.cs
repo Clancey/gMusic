@@ -146,6 +146,7 @@ namespace MusicPlayer
 			textView.TopLabel.StringValue = song?.Name ?? "";
 			textView.BottomLabel.StringValue = song?.DetailText ?? "";
 			textView.ResizeSubviewsWithOldSize (CGSize.Empty);
+			progress.DownloadProgress = 1f;
 			SetThumbsState(song);
 			//TODO: default album art;
 			await AlbumArt.LoadFromItem (song);

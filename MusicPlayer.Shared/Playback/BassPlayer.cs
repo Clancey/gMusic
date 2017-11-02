@@ -236,7 +236,6 @@ namespace MusicPlayer
 			   if (data.IsLocal)
 			   {
 				   streamHandle = Bass.CreateStream(data.Uri.LocalPath, Flags: BassFlags.AutoFree | BassFlags.Prescan);
-
 			   }
 			   else
 			   {

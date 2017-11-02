@@ -534,7 +534,7 @@ namespace MusicPlayer.iOS.ViewControllers
 						: $"{artist} - {album}";
 					labelView.BottomLabel.Text = text;
 					labelView.SetNeedsLayout();
-					UpdateDownloadProgress(0);
+					UpdateDownloadProgress(1);
 					SetThumbsState(song);
 				}
 

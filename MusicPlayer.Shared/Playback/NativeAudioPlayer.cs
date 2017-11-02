@@ -78,6 +78,7 @@ namespace MusicPlayer.Playback
 				if (playbackData.IsLocal || playbackData.CurrentTrack.ServiceType == MusicPlayer.Api.ServiceType.iPod) {
 					NotificationManager.Shared.ProcSongDownloadPulsed (song.Id, 1f);
 				} else {
+					NotificationManager.Shared.ProcSongDownloadPulsed(song.Id, 0f);
 					data.SongPlaybackData = playbackData;
 					data.DownloadHelper = await DownloadManager.Shared.DownloadNow (playbackData.CurrentTrack.Id, playbackData.Uri);
 					if (data.CancelTokenSource.IsCancellationRequested)
