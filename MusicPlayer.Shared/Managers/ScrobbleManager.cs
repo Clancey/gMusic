@@ -45,9 +45,27 @@ namespace MusicPlayer.Managers
 		public async void Init()
 		{
 			if (Settings.LastFmEnabled)
-				await LoginToLastFm();
+			{
+				try
+				{
+					await LoginToLastFm();
+				}
+				catch (TaskCanceledException)
+				{
+					Settings.LastFmEnabled = false;
+				}
+			}
 			if (Settings.TwitterEnabled)
-				await LoginToTwitter();
+			{
+				try
+				{
+					await LoginToTwitter();
+				}
+				catch (TaskCanceledException)
+				{
+					Settings.TwitterEnabled = false;
+				}
+			}
 			if (session?.Authenticated == true)
 			{
 				connection = new Connection(session);
