@@ -127,6 +127,7 @@ namespace MusicPlayer
 			}
 			//Bass.ChannelSlideAttribute (streamHandle, ChannelAttribute.Volume, -1, 20);
 			Bass.ChannelPause(streamHandle);
+			SetState();
 		}
 
 		void Stop()
@@ -140,7 +141,9 @@ namespace MusicPlayer
 			Task.Run(() =>
 			{
 				Bass.ChannelStop(streamHandle);
+				SetState();
 			});
+
 
 		}
 
@@ -196,7 +199,6 @@ namespace MusicPlayer
 				{
 					progressTimer.Stop();
 				}
-
 			}
 		}
 		public override Task<bool> PlaySong(Song song, bool isVideo, bool forcePlay = false)
@@ -336,7 +338,7 @@ namespace MusicPlayer
 
 		void OnBuffering(int handle, int channel, int data, IntPtr user)
 		{
-			State = Models.PlaybackState.Buffering;
+			SetState();
 		}
 
 		void RemoveHandles()

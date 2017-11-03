@@ -219,9 +219,9 @@ namespace MusicPlayer.Playback
 		public PlaybackState State
 		{
 			get { return state;	}
-			set { 
-				ProcPropertyChanged(ref state, value);
-					//NotificationManager.Shared.ProcPlaybackStateChanged(state);
+			set {
+				if(ProcPropertyChanged(ref state, value))
+					NotificationManager.Shared.ProcPlaybackStateChanged(state);
 			}
 		}
 
