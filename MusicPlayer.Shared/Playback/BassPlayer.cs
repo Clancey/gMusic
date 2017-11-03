@@ -24,6 +24,9 @@ namespace MusicPlayer
 		Timer progressTimer;
 		static BassPlayer()
 		{
+#if __IOS__
+			Bass.Configure(Configuration.IOSMixAudio, 0);
+#endif
 			Bass.Init();
 
 #if __MACOS__
