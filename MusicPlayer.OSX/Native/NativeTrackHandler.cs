@@ -32,6 +32,27 @@ namespace MusicPlayer.Playback
 			};
 
 			NotificationManager.Shared.CurrentTrackPositionChanged += (sender, args) => UpdateProgress(args.Data);
+
+			NotificationManager.Shared.PlaybackStateChanged += Shared_PlaybackStateChanged;
+		}
+
+		void Shared_PlaybackStateChanged(object sender, SimpleTables.EventArgs<Models.PlaybackState> e)
+		{
+			MPNowPlayingPlaybackState state;
+			switch (e.Data)
+			{
+				case PlaybackState.Playing:
+				case PlaybackState.Buffering:
+					state = MPNowPlayingPlaybackState.Playing;
+					break;
+				case PlaybackState.Paused:
+					state = MPNowPlayingPlaybackState.Paused;
+					break;
+				default:
+					state = MPNowPlayingPlaybackState.Stopped;
+					break;
+			}
+			MPNowPlayingInfoCenter.DefaultCenter.PlaybackState = state;
 		}
 
 		MPMediaItemArtwork CreateDefaultArtwork () => DefaultResizableArtwork;
