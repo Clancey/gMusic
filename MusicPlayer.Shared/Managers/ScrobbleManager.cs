@@ -271,7 +271,7 @@ namespace MusicPlayer.Managers
 			}
 			catch (Exception x)
 			{
-
+				Console.WriteLine(x);
 			}
 			return false;
 		}

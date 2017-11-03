@@ -58,7 +58,10 @@ namespace MusicPlayer.iOS.ViewControllers
 					}
 				})),
 				(lastFmElement = string.IsNullOrEmpty (ApiConstants.LastFmApiKey) ? null : new SettingsSwitch("Last.FM", Settings.LastFmEnabled)),
-					(twitterScrobbleElement = new SettingsSwitch("Auto Tweet", Settings.TwitterEnabled){Detail = Settings.TwitterDisplay}),
+					(twitterScrobbleElement = new SettingsSwitch("Auto Tweet", Settings.TwitterEnabled)
+					{
+					Detail = Settings.TwitterDisplay
+				}),
 					new SettingsSwitch("Import iPod Music", Settings.IncludeIpod)
 					{
 						ValueUpdated = ToggleIPod
@@ -175,13 +178,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					twitterScrobbleElement.Detail = "";
 					return;
 				}
-
-				var store = new ACAccountStore();
-				var accountType = store.FindAccountType(ACAccountType.Twitter);
-
-				var success = false;
-				var result = await store.RequestAccessAsync(accountType);
-				success = result.Item1;
+				var success = await ScrobbleManager.Shared.LoginToTwitter();
 				if (!success)
 				{
 					Settings.TwitterEnabled = false;
@@ -190,39 +187,11 @@ namespace MusicPlayer.iOS.ViewControllers
 					return;
 				}
 
-				var accounts = store.FindAccounts(accountType);
-				if ((accounts?.Length ?? 0) == 0)
-				{
-					Settings.TwitterEnabled = false;
-					twitterScrobbleElement.Value = false;
-					ReloadData();
-					return;
-				}
 
-				if (accounts?.Length == 1)
-				{
-					Settings.TwitterEnabled = true;
-					var a = accounts[0];
-					Settings.TwitterAccount = a.Identifier;
-					twitterScrobbleElement.Detail = Settings.TwitterDisplay = a.UserFullName;
-					ReloadData();
-					return;
-				}
+				twitterScrobbleElement.Detail = Settings.TwitterDisplay;
 
-				var sheet = new ActionSheet("Twitter");
-				foreach (var a in accounts)
-				{
-					sheet.Add(a.Identifier, () =>
-					{
+				ReloadData();
 
-						Settings.TwitterEnabled = true;
-						Settings.TwitterAccount = a.Identifier;
-						twitterScrobbleElement.Detail = Settings.TwitterDisplay = a.UserFullName;
-						ReloadData();
-					});
-				}
-				sheet.Add(Strings.Nevermind, null, true);
-				sheet.Show(this, TableView);
 			};
 		}
 		UIBarButtonItem menuButton;
