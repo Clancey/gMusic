@@ -12,6 +12,7 @@ namespace MusicPlayer.Data
 			Directory.CreateDirectory(Locations.TmpDownloadDir);
 			Directory.CreateDirectory(Locations.MusicDir);
 			Directory.CreateDirectory(Locations.LibDir);
+			Directory.CreateDirectory(Locations.TmpMusicCacheDir);
 #if __IOS__
 			try
 			{
@@ -46,8 +47,9 @@ namespace MusicPlayer.Data
 		
 
 		public static readonly string LibDir = Path.Combine(BaseDir, "Library/");
-		public static readonly string TmpDownloadDir = Path.Combine(BaseDir, "tmp/Music");
-		public static readonly string TempRelative = "tmp/Music";
+		public static readonly string TmpMusicCacheDir = Path.Combine(BaseDir, "tmp/Music");
+		public static readonly string TmpDownloadDir = Path.Combine(BaseDir, "tmp/Download");
+		public static readonly string TempRelative = "tmp/Download";
 		public static readonly string DocumentsDir = Path.Combine(BaseDir, "Documents/");
 		public static readonly string MusicDir = Path.Combine(DocumentsDir, "Music");
 	}

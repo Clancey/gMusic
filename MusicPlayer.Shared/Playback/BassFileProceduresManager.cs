@@ -109,14 +109,14 @@ namespace MusicPlayer.Playback
 			try
 			{
 				if (!FileProcs.TryGetValue(user, out var proc))
-					return false;
+					return true;
 				return proc.Seek(offset, user);
 			}
 			catch (Exception ex)
 			{
 				LogManager.Shared.Report(ex);
 			}
-			return false;
+			return true;
 		}
 
 		[MonoPInvokeCallback(typeof(SyncProcedure))]
