@@ -9,9 +9,7 @@ using AudioToolbox;
 using ObjCRuntime;
 using System.Runtime.InteropServices;
 using MusicPlayer.Managers;
-#if __MACOS__
 using ManagedBass.Fx;
-#endif
 using System.Timers;
 using MusicPlayer.Data;
 namespace MusicPlayer
@@ -29,9 +27,7 @@ namespace MusicPlayer
 #endif
 			Bass.Init();
 
-#if __MACOS__
 			var fxv = BassFx.Version;
-#endif
 		}
 		int streamHandle;
 		int bufferSync;

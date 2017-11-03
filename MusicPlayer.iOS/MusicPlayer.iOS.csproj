@@ -421,6 +421,9 @@
     <Compile Include="ViewControllers\ServicePickerViewController.cs" />
     <Compile Include="ViewControllers\ConsoleViewController.cs" />
     <Compile Include="Playback\NativeTrackHandler.cs" />
+    <None Include="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -537,7 +540,10 @@
       <HintPath>..\packages\Clancey.SimpleAuth.1.0.43\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
     </Reference>
     <Reference Include="ManagedBass">
-      <HintPath>..\packages\ManagedBass.2.0.4\lib\Xamarin.iOS\ManagedBass.dll</HintPath>
+      <HintPath>ManagedBass.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedBass.Fx">
+      <HintPath>ManagedBass.Fx.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
