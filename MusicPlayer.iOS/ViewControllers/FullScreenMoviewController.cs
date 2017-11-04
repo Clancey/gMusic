@@ -12,12 +12,12 @@ using System.Timers;
 namespace MusicPlayer.iOS
 {
 	[Register("FullScreenMovieController")]
-	public class FullScreenMovieController : UIViewController
+	public class FullScreenMovieController : UIViewController, IUIViewControllerTransitioningDelegate
 	{
+		DragDismissInteractor interactor = new DragDismissInteractor();
 		//UIButton button;
 		public FullScreenMovieController()
 		{
-			ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
 		}
 
 		public FullScreenMovieController(IntPtr handle)
@@ -30,9 +30,14 @@ namespace MusicPlayer.iOS
 
 		public override void LoadView()
 		{
-			View = view = new FullScreenVideoView {
+			View = view = new FullScreenVideoView
+			{
 				Parent = this,
 			};
+			View.AddGestureRecognizer(new UIPanGestureRecognizer(HandleDragGesture));
+			ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
+			this.TransitioningDelegate = this;
+
 			//View.AddSubview(button = new UIButton());
 			//button.BackgroundColor = UIColor.Black.ColorWithAlpha(0);
 			//button.SetTitleColor(UIColor.White.ColorWithAlpha(.25f), UIControlState.Normal);
@@ -55,13 +60,54 @@ namespace MusicPlayer.iOS
 
 		}
 
-		void PlaybackStateChanged (object sender, EventArgs<PlaybackState> e)
+		[Export("animationControllerForDismissedController:")]
+		public IUIViewControllerAnimatedTransitioning GetAnimationControllerForDismissedController(UIViewController dismissed) => new DragDismissAnimator();
+		[Export("interactionControllerForDismissal:")]
+		public IUIViewControllerInteractiveTransitioning GetInteractionControllerForDismissal(IUIViewControllerAnimatedTransitioning animator) => interactor.HasStarted ? interactor : null;
+		void HandleDragGesture(UIPanGestureRecognizer sender)
+		{
+			const float percentThreshold = .3f;
+
+			// convert y-position to downward pull progress (percentage)
+			var translation = sender.TranslationInView(View);
+			var verticalMovement = translation.Y / view.Bounds.Height;
+			var downwardMovement = NMath.Max(verticalMovement, 0);
+			var progress = NMath.Min(downwardMovement, 1);
+			Console.WriteLine(progress);
+			switch (sender.State)
+			{
+				case UIGestureRecognizerState.Began:
+					interactor.HasStarted = true;
+					this.DismissViewController(true, null);
+					break;
+				case UIGestureRecognizerState.Changed:
+					interactor.ShouldFinish = progress > percentThreshold;
+					interactor.UpdateInteractiveTransition(progress);
+					break;
+				case UIGestureRecognizerState.Cancelled:
+					interactor.ShouldFinish = false;
+					interactor.CancelInteractiveTransition();
+					break;
+				case UIGestureRecognizerState.Ended:
+					interactor.HasStarted = false;
+					if (interactor.ShouldFinish)
+						interactor.FinishInteractiveTransition();
+					else
+						interactor.CancelInteractiveTransition();
+					break;
+				default:
+					break;
+			}
+		}
+
+
+		void PlaybackStateChanged(object sender, EventArgs<PlaybackState> e)
 		{
 			view.SetPlaybackState(e.Data == PlaybackState.Playing);
 		}
 
 
-		void PlaybackTimeChanged (object sender, EventArgs<TrackPosition> e)
+		void PlaybackTimeChanged(object sender, EventArgs<TrackPosition> e)
 		{
 			view.SetPlaybackPosition(e.Data);
 		}
@@ -89,7 +135,8 @@ namespace MusicPlayer.iOS
 		{
 			WeakReference parent;
 
-			public FullScreenMovieController Parent {
+			public FullScreenMovieController Parent
+			{
 				get { return parent?.Target as FullScreenMovieController; }
 				set { parent = new WeakReference(value); }
 			}
@@ -107,13 +154,15 @@ namespace MusicPlayer.iOS
 			{
 
 				TintColor = UIColor.White;
-				Add(videoView = new VideoView {
+				Add(videoView = new VideoView
+				{
 					Tapped = Toggle
 				});
 
-				Add(topToolbar = new UIToolbar {
+				Add(topToolbar = new UIToolbar
+				{
 					BackgroundColor = UIColor.Clear,
-					Items = new UIBarButtonItem [] {
+					Items = new UIBarButtonItem[] {
 						new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace),
 						new UIBarButtonItem(UIBarButtonSystemItem.Done, (s, e) => {
 							Parent.DismissViewControllerAsync(true);
@@ -124,25 +173,27 @@ namespace MusicPlayer.iOS
 				topToolbar.SetBackgroundImage(new UIImage(), UIToolbarPosition.Any, UIBarMetrics.Default);
 				topToolbar.SetShadowImage(new UIImage(), UIToolbarPosition.Any);
 				topToolbar.SizeToFit();
-				Add(playPauseButton = new SimpleButton{
+				Add(playPauseButton = new SimpleButton
+				{
 					BackgroundColor = UIColor.Black.ColorWithAlpha(.5f),
-					Frame = new CoreGraphics.CGRect(0,0,50,50),
+					Frame = new CoreGraphics.CGRect(0, 0, 50, 50),
 					Layer = {
 						CornerRadius = 25,
 					},
-					Tapped = (b)=> PlaybackManager.Shared.PlayPause(),
+					Tapped = (b) => PlaybackManager.Shared.PlayPause(),
 
 				});
-				timeLabel = new UILabel{Text = "0000:00"}.StyleAsSubText();
+				timeLabel = new UILabel { Text = "0000:00" }.StyleAsSubText();
 				timeLabel.TextColor = UIColor.White;
 				timeLabel.SizeToFit();
-				timeRemaingLabel = new UILabel {Text = "0000:00", TextAlignment = UITextAlignment.Right}.StyleAsSubText();
+				timeRemaingLabel = new UILabel { Text = "0000:00", TextAlignment = UITextAlignment.Right }.StyleAsSubText();
 				timeRemaingLabel.TextColor = UIColor.White;
 				timeRemaingLabel.SizeToFit();
 				slider = new ProgressView();
 				slider.EditingStarted = () => timer.Stop();
 				slider.EditingEnded = () => ResetTimer();
-				Add(bottomToolbar = new UIToolbar {
+				Add(bottomToolbar = new UIToolbar
+				{
 
 					BackgroundColor = UIColor.Clear,
 					Items = new UIBarButtonItem[] {
@@ -179,10 +230,12 @@ namespace MusicPlayer.iOS
 			public void SetPlaybackState(bool playing)
 			{
 				playPauseButton.Image = playing ? Images.GetPauseButton(25) : Images.GetPlaybackButton(25);
-				if (!playing) {
+				if (!playing)
+				{
 					showOverlay(false);
 					timer.Stop();
-				} else
+				}
+				else
 					ResetTimer();
 			}
 
@@ -199,7 +252,8 @@ namespace MusicPlayer.iOS
 					return;
 
 				visible = true;
-				await AnimateAsync(.2, () => {
+				await AnimateAsync(.2, () =>
+				{
 					var bounds = Bounds;
 					var frame = topToolbar.Frame;
 					frame.Y = 0;
@@ -222,7 +276,8 @@ namespace MusicPlayer.iOS
 				if (!visible)
 					return;
 				visible = false;
-				AnimateAsync(.2, () => {
+				AnimateAsync(.2, () =>
+				{
 					var bounds = Bounds;
 					var frame = topToolbar.Frame;
 					frame.Y = -frame.Height;
@@ -265,9 +320,9 @@ namespace MusicPlayer.iOS
 
 				frame = slider.Frame;
 				//Custom views have a padding of 12, we have 3 custom views (labels, slider);
-				frame.Width = bounds.Width - 20  - (timeLabel.Frame.Width * 2)- (12 * bottomToolbar.Items.Length);
+				frame.Width = bounds.Width - 20 - (timeLabel.Frame.Width * 2) - (12 * bottomToolbar.Items.Length);
 				slider.Frame = frame;
-				
+
 				frame = bottomToolbar.Frame;
 				frame.Width = bounds.Width;
 				frame.Y = visible ? bounds.Height - frame.Height : bounds.Height;
@@ -276,7 +331,7 @@ namespace MusicPlayer.iOS
 				ResetTimer();
 			}
 		}
-		
+
 	}
 }
 
