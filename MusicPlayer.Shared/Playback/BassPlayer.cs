@@ -9,9 +9,7 @@ using AudioToolbox;
 using ObjCRuntime;
 using System.Runtime.InteropServices;
 using MusicPlayer.Managers;
-#if __MACOS__
 using ManagedBass.Fx;
-#endif
 using System.Timers;
 using MusicPlayer.Data;
 namespace MusicPlayer
@@ -28,10 +26,7 @@ namespace MusicPlayer
 			Bass.Configure(Configuration.IOSMixAudio, 0);
 #endif
 			Bass.Init();
-
-#if __MACOS__
 			var fxv = BassFx.Version;
-#endif
 		}
 		int streamHandle;
 		int bufferSync;
@@ -359,7 +354,6 @@ namespace MusicPlayer
 		int fxEq;
 		public override void ApplyEqualizer(Equalizer.Band[] bands)
 		{
-#if __MACOS__
 			if (!IsPlayerItemValid)
 				return;
 			if (fxStream == streamHandle)
@@ -392,11 +386,8 @@ namespace MusicPlayer
 				Console.WriteLine(eq.fCenter);
 				Bass.FXSetParameters(fxEq, eq);
 			}
-#endif
 		}
-#if __MACOS__
 		readonly PeakEQParameters eq = new PeakEQParameters ();
-#endif
 		public override void ApplyEqualizer()
 		{
 			ApplyEqualizer(Equalizer.Shared.Bands);
@@ -404,7 +395,6 @@ namespace MusicPlayer
 
 		public override void UpdateBand(int band, float gain)
 		{
-#if __MACOS__
 			if (fxEq == 0)
 			{
 				ApplyEqualizer();
@@ -417,7 +407,6 @@ namespace MusicPlayer
 			//eq.fGain = gain+( _cmp1.fThreshold * (1 / _cmp1.fRatio - 1));
 			eq.fGain = gain;
 			Bass.FXSetParameters (fxEq, eq);
-#endif
 		}
 	}
 }
