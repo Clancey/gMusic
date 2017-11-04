@@ -218,11 +218,8 @@ namespace MusicPlayer.Playback
 
 		public PlaybackState State
 		{
-			get { return state;	}
-			set {
-				if(ProcPropertyChanged(ref state, value))
-					NotificationManager.Shared.ProcPlaybackStateChanged(state);
-			}
+			get => state;
+			set => ProcPropertyChanged(ref state, value);
 		}
 
 		public void ApplyEqualizer (Equalizer.Band [] bands)
