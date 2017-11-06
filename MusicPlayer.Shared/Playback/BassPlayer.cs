@@ -32,6 +32,7 @@ namespace MusicPlayer
 
 		static int bassPlayers = 0;
 		static object bassPlayerLocker = new object();
+		static object bassStateLocker = new object();
 		public static void StartBass()
 		{
 			lock (bassPlayerLocker)
@@ -43,7 +44,7 @@ namespace MusicPlayer
 			lock (bassPlayerLocker)
 				bassPlayers--;
 			UpdateStaticBass();
-		
+
 		}
 		static void UpdateStaticBass()
 		{
@@ -52,13 +53,19 @@ namespace MusicPlayer
 				Console.WriteLine($"Bass Players {bassPlayers}");
 				if (bassPlayers == 0)
 				{
-					Bass.Stop();
-					Console.WriteLine("Starting Bass");
+					Task.Run(() =>
+					{
+						Console.WriteLine("Stopping Bass");
+						lock (bassStateLocker)
+							Bass.Stop();
+						Console.WriteLine("Stopped Bass");
+					});
 				}
 				else if (bassPlayers > 0)
 				{
-					Bass.Start();
-					Console.WriteLine("Stopping Bass");
+					lock (bassStateLocker)
+						Bass.Start();
+					Console.WriteLine("Starting Bass");
 				}
 			}
 		}
@@ -152,7 +159,8 @@ namespace MusicPlayer
 
 		public override void Pause()
 		{
-			Bass.Pause();
+			lock (bassStateLocker)
+				Bass.Pause();
 			shouldBePlaying = false;
 			if (!IsPlayerItemValid)
 			{
@@ -188,7 +196,8 @@ namespace MusicPlayer
 
 		public override bool Play()
 		{
-			Bass.Start();
+			lock (bassStateLocker)
+				Bass.Start();
 			shouldBePlaying = true;
 			if (!IsPlayerItemValid)
 			{
@@ -293,7 +302,8 @@ namespace MusicPlayer
 			}
 			return await Task.Run(() =>
 		   {
-			   Bass.Start();
+			   lock (bassStateLocker)
+				   Bass.Start();
 			   var data = playbackData.SongPlaybackData;
 			   if (data.IsLocal)
 			   {
@@ -319,7 +329,7 @@ namespace MusicPlayer
 
 			   var bufferSyncData = BassFileProceduresManager.CreateProcedure(OnBuffering); ;
 			   bufferSyncUser = bufferSyncData.user;
-			   bufferSync = Bass.ChannelSetSync(streamHandle, SyncFlags.Stalled, 0, bufferSyncData.proc, bufferSyncUser);
+			   bufferSync = Bass.ChannelSetSync(streamHandle, SyncFlags.Stalled | SyncFlags.Mixtime, 0, bufferSyncData.proc, bufferSyncUser);
 			   if (location > 0)
 			   {
 				   Bass.ChannelSetPosition(streamHandle, location);
