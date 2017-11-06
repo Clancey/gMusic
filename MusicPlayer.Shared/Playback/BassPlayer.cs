@@ -24,10 +24,45 @@ namespace MusicPlayer
 		{
 #if __IOS__
 			Bass.Configure(Configuration.IOSMixAudio, 0);
+			Bass.IOSNoCategory = true;
 #endif
 			Bass.Init();
 			var fxv = BassFx.Version;
 		}
+
+		static int bassPlayers = 0;
+		static object bassPlayerLocker = new object();
+		public static void StartBass()
+		{
+			lock (bassPlayerLocker)
+				bassPlayers++;
+			UpdateStaticBass();
+		}
+		public static void StopBass()
+		{
+			lock (bassPlayerLocker)
+				bassPlayers--;
+			UpdateStaticBass();
+		
+		}
+		static void UpdateStaticBass()
+		{
+			lock (bassPlayerLocker)
+			{
+				Console.WriteLine($"Bass Players {bassPlayers}");
+				if (bassPlayers == 0)
+				{
+					Bass.Stop();
+					Console.WriteLine("Starting Bass");
+				}
+				else if (bassPlayers > 0)
+				{
+					Bass.Start();
+					Console.WriteLine("Stopping Bass");
+				}
+			}
+		}
+
 		int streamHandle;
 		int bufferSync;
 		int endSync;
@@ -37,6 +72,8 @@ namespace MusicPlayer
 		IntPtr endSyncUser;
 		IntPtr bufferSyncUser;
 		bool shouldBePlaying = false;
+		bool isDisposed = false;
+		bool hasBassStarted = false;
 		public BassPlayer()
 		{
 			State = Models.PlaybackState.Stopped;
@@ -79,6 +116,7 @@ namespace MusicPlayer
 		}
 		public override void Dispose()
 		{
+			isDisposed = true;
 			Stop();
 			RemoveHandles();
 			BassFileProceduresManager.ClearProcedure(fileProcUser);
@@ -114,6 +152,7 @@ namespace MusicPlayer
 
 		public override void Pause()
 		{
+			Bass.Pause();
 			shouldBePlaying = false;
 			if (!IsPlayerItemValid)
 			{
@@ -127,6 +166,11 @@ namespace MusicPlayer
 
 		void Stop()
 		{
+			if (hasBassStarted)
+			{
+				hasBassStarted = false;
+				StopBass();
+			}
 			shouldBePlaying = false;
 			if (!IsPlayerItemValid)
 			{
@@ -144,11 +188,17 @@ namespace MusicPlayer
 
 		public override void Play()
 		{
+			Bass.Start();
 			shouldBePlaying = true;
 			if (!IsPlayerItemValid)
 			{
 				SetState();
 				return;
+			}
+			if (!hasBassStarted)
+			{
+				hasBassStarted = true;
+				StartBass();
 			}
 			var success = Bass.ChannelPlay(streamHandle, false);
 			Console.WriteLine($"Play Song: {success}");
@@ -242,7 +292,7 @@ namespace MusicPlayer
 				   var fileProcData = BassFileProceduresManager.CreateProcedure(fileProcs);
 				   fileProcUser = fileProcData.user;
 				   streamHandle = Bass.CreateStream(StreamSystem.Buffer, BassFlags.AutoFree, fileProcData.proc, fileProcData.user);//, downloaderPointer);
-				}
+			   }
 			   if (streamHandle == 0)
 			   {
 				   var error = Bass.LastError;
@@ -266,6 +316,8 @@ namespace MusicPlayer
 			   IsPrepared = true;
 			   if (shouldBePlaying)
 				   Play();
+			   if (isDisposed)
+				   Dispose();
 			   return true;
 		   });
 		}
@@ -387,7 +439,7 @@ namespace MusicPlayer
 				Bass.FXSetParameters(fxEq, eq);
 			}
 		}
-		readonly PeakEQParameters eq = new PeakEQParameters ();
+		readonly PeakEQParameters eq = new PeakEQParameters();
 		public override void ApplyEqualizer()
 		{
 			ApplyEqualizer(Equalizer.Shared.Bands);
@@ -398,15 +450,15 @@ namespace MusicPlayer
 			if (fxEq == 0)
 			{
 				ApplyEqualizer();
-				if(fxEq == 0)
+				if (fxEq == 0)
 					return;
 			}
 			// get values of the selected band
 			eq.lBand = band;
-			Bass.FXGetParameters (fxEq,eq);
+			Bass.FXGetParameters(fxEq, eq);
 			//eq.fGain = gain+( _cmp1.fThreshold * (1 / _cmp1.fRatio - 1));
 			eq.fGain = gain;
-			Bass.FXSetParameters (fxEq, eq);
+			Bass.FXSetParameters(fxEq, eq);
 		}
 	}
 }
