@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using UIKit;
+using Foundation;
 
 namespace MusicPlayer.iOS.Controls
 {
@@ -37,11 +38,15 @@ namespace MusicPlayer.iOS.Controls
 			alertController.AddTextField(field =>
 			{
 				field.Placeholder = "Username";
+				if (Device.IsIos10)
+					field.TextContentType = UITextContentType.Username;
 				usernameField = field;
 			});
 			alertController.AddTextField(field =>
 			{
 				field.Placeholder = "Password";
+				if(Device.IsIos10)
+					field.TextContentType = UITextContentType.Password;
 				field.SecureTextEntry = true;
 				passwordField = field;
 			});
