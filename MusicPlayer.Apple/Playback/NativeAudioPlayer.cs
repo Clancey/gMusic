@@ -138,16 +138,16 @@ namespace MusicPlayer.Playback
 					return;
 				checkPlaybackTask = Task.Run(async () =>
 				{
-					if (player.Rate > 0)
-					{
+					//if (player.Rate > 0)
+					//{
 						await PrepareSong(CurrentSong, isVideo);
 						await player.PlaySong(CurrentSong, isVideo, true);
 						if (time > 0)
 							player.Seek(time);
 
-					}
-					else
-						Play();
+					//}
+					//else
+						//Play();
 				});
 			}
 			catch (Exception e)

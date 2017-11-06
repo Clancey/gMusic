@@ -32,7 +32,6 @@ namespace MusicPlayer
 
 		static int bassPlayers = 0;
 		static object bassPlayerLocker = new object();
-		static object bassStateLocker = new object();
 		public static void StartBass()
 		{
 			lock (bassPlayerLocker)
@@ -56,15 +55,13 @@ namespace MusicPlayer
 					Task.Run(() =>
 					{
 						Console.WriteLine("Stopping Bass");
-						lock (bassStateLocker)
-							Bass.Stop();
+						Bass.Stop();
 						Console.WriteLine("Stopped Bass");
 					});
 				}
 				else if (bassPlayers > 0)
 				{
-					lock (bassStateLocker)
-						Bass.Start();
+					Bass.Start();
 					Console.WriteLine("Starting Bass");
 				}
 			}
@@ -159,8 +156,7 @@ namespace MusicPlayer
 
 		public override void Pause()
 		{
-			lock (bassStateLocker)
-				Bass.Pause();
+			Bass.Pause();
 			shouldBePlaying = false;
 			if (!IsPlayerItemValid)
 			{
@@ -196,8 +192,7 @@ namespace MusicPlayer
 
 		public override bool Play()
 		{
-			lock (bassStateLocker)
-				Bass.Start();
+			Bass.Start();
 			shouldBePlaying = true;
 			if (!IsPlayerItemValid)
 			{
@@ -302,8 +297,7 @@ namespace MusicPlayer
 			}
 			return await Task.Run(() =>
 		   {
-			   lock (bassStateLocker)
-				   Bass.Start();
+			   Bass.Start();
 			   var data = playbackData.SongPlaybackData;
 			   if (data.IsLocal)
 			   {
