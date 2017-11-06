@@ -5,7 +5,6 @@ using Amazon.CloudDrive;
 using BigTed;
 using Foundation;
 using Localizations;
-using ModernHttpClient;
 using UIKit;
 using MusicPlayer.Api;
 using MusicPlayer.Api.GoogleMusic;

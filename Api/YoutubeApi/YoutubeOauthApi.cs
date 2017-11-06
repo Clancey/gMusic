@@ -260,7 +260,7 @@ namespace YoutubeApi
 					},
 				};
 				//var client = Handler == null ? new HttpClient() : new HttpClient(Handler);
-				var client = new HttpClient (new ModernHttpClient.NativeMessageHandler ());
+				var client = new HttpClient ();
 				client.DefaultRequestHeaders.Authorization =
 					new System.Net.Http.Headers.AuthenticationHeaderValue (account.TokenType,
 						account.UserData ["MasterToken"]);

@@ -14,7 +14,7 @@ namespace MusicPlayer.iOS.Helpers
 		{
 			try
 			{
-				using (var client = new HttpClient(new ModernHttpClient.NativeMessageHandler()))
+				using (var client = new HttpClient())
 				{
 					var url = "https://itunes.apple.com/lookup?id=" + AppDelegate.AppId;
 					var json = await client.GetStringAsync(url);

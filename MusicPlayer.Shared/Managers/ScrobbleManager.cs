@@ -41,7 +41,7 @@ namespace MusicPlayer.Managers
 		Lastfm.Session session;
 		Connection connection;
 		Lastfm.Scrobbling.ScrobbleManager manager;
-		TwitterApi twitter = new TwitterApi("Twitter", ApiConstants.TwitterClientId, ApiConstants.TwitterSecret, new ModernHttpClient.NativeMessageHandler());
+		TwitterApi twitter = new TwitterApi("Twitter", ApiConstants.TwitterClientId, ApiConstants.TwitterSecret);
 		public async void Init()
 		{
 			if (Settings.LastFmEnabled)

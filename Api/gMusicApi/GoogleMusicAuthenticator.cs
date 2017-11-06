@@ -23,7 +23,7 @@ namespace MusicPlayer.Api
 		public override async Task<Uri> GetInitialUrl()
 		{
 			string json = "";
-			var client = new HttpClient(new ModernHttpClient.NativeMessageHandler());
+			var client = new HttpClient();
 			try
 			{
 				var form = new Dictionary<string, string>

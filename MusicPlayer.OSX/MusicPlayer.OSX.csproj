@@ -258,21 +258,6 @@
     <Compile Include="Controls\TwoLabelView.cs" />
     <Compile Include="Controls\NSNavigationController.cs" />
     <Compile Include="Controls\INavigationItem.cs" />
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\CaptiveNetworkException.cs">
-      <Link>ModernHttpClient\CaptiveNetworkException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\ProgressStreamContent.cs">
-      <Link>ModernHttpClient\ProgressStreamContent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\Utility.cs">
-      <Link>ModernHttpClient\Utility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\iOS\AsyncLock.cs">
-      <Link>ModernHttpClient\iOS\AsyncLock.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\iOS\NSUrlSessionHandler.cs">
-      <Link>ModernHttpClient\iOS\NSUrlSessionHandler.cs</Link>
-    </Compile>
     <Compile Include="Views\VideoView.cs" />
     <Compile Include="VideoPlaybackWindow.cs" />
     <Compile Include="VideoPlaybackWindow.designer.cs">
@@ -284,15 +269,6 @@
     </Compile>
     <Compile Include="Plugins\Connectivity\CrossConnectivity.cs" />
     <Compile Include="App.OSX.cs" />
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\iOS\CFNetworkErrors.cs">
-      <Link>ModernHttpClient\iOS\CFNetworkErrors.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\iOS\NativeCookieHandler.cs">
-      <Link>ModernHttpClient\iOS\NativeCookieHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ModernHttpClient\src\ModernHttpClient\iOS\NSErrorExtended.cs">
-      <Link>ModernHttpClient\iOS\NSErrorExtended.cs</Link>
-    </Compile>
     <Compile Include="ApiConstants.Mac.cs" />
     <Compile Include="Views\ConsoleViewController.cs" />
     <Compile Include="Managers\LogManager.Mac.cs" />

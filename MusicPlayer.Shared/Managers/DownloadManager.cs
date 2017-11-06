@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MusicPlayer.Data;
 using Plugin.Connectivity;
-using ModernHttpClient;
 
 namespace MusicPlayer.Managers
 {
@@ -160,7 +159,7 @@ namespace MusicPlayer.Managers
 
 		public string MimeType { get; set; }
 		const int MaxTryCount = 5;
-		readonly HttpClient client = new HttpClient(new NativeMessageHandler());
+		readonly HttpClient client = new HttpClient();
 		CancellationTokenSource cancelSource;
 		Stream DownloadStream;
 		Task downloadTask;

@@ -10,7 +10,6 @@ remoteRepos=(
  "https://github.com/Clancey/SimpleTables.git"
  "https://github.com/Clancey/FlyoutNavigation.git"
  "https://github.com/Clancey/MonoTouch.Dialog.git"
- "https://github.com/paulcbetts/ModernHttpClient.git"
  "https://github.com/Clancey/YoutubeExtractor.git"
  "https://github.com/Clancey/taglib-sharp.git"
  "https://github.com/Clancey/lastfm-sharp.git")

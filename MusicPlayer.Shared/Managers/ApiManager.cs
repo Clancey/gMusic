@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using MusicPlayer.Data;
 using MusicPlayer.Api;
 using MusicPlayer.Api.GoogleMusic;
-using ModernHttpClient;
 using Amazon.CloudDrive;
 using OneDrive;
 using YoutubeApi;
@@ -70,7 +69,7 @@ namespace MusicPlayer.Managers
 				if (model.Service == ServiceType.FileSystem)
 					model.Service = ServiceType.OneDrive;
 				var apiType = ApiServiceTypes[model.Service];
-				var api = Activator.CreateInstance(apiType, model.Id.ToString(), new NativeMessageHandler()) as SimpleAuth.Api;
+				var api = Activator.CreateInstance(apiType, model.Id.ToString(), null) as SimpleAuth.Api;
 				api.DeviceId = model.DeviceId;
 				api.ExtraDataString = model.ExtraData;
 
@@ -120,7 +119,7 @@ namespace MusicPlayer.Managers
 				var api = ApiManager.Shared.CreateApi (MusicPlayer.Api.ServiceType.YouTube);
 				var account = await api.Authenticate ();
 				if (account == null) {
-					var youTube = new YoutubeProvider (new NativeMessageHandler ());
+					var youTube = new YoutubeProvider ();
 					Collection.Add (youTube.Id, youTube);
 					return;
 				}
@@ -129,7 +128,7 @@ namespace MusicPlayer.Managers
 			}
 //			// else just add a normal one too the collection
 			else if(youtubsApis.Count == 0) {
-				var youTube = new YoutubeProvider (new NativeMessageHandler ());
+				var youTube = new YoutubeProvider ();
 				Collection.Add (youTube.Id, youTube);
 			}
 		}
@@ -164,7 +163,7 @@ namespace MusicPlayer.Managers
 			var id = Settings.GetNextApiId().ToString();
 
 			var apiType = ApiServiceTypes[type];
-			var api = Activator.CreateInstance(apiType, id, new NativeMessageHandler()) as SimpleAuth.AuthenticatedApi;
+			var api = Activator.CreateInstance(apiType, id, null) as SimpleAuth.AuthenticatedApi;
 			if (api != null)
 				return api;
 			App.ShowNotImplmented(new Dictionary<string, string> { { "Service Type", type.ToString() } });

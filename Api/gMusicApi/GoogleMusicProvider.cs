@@ -2197,7 +2197,7 @@ namespace MusicPlayer.Api.GoogleMusic
 
 				var startUrl = $"https://android.clients.google.com/music/mplay?slt={guid}&sig={sig}{parameter}&pt=e{qualityString}";
 
-				var client = new HttpClient(new ModernHttpClient.NativeMessageHandler());
+				var client = new HttpClient();
 				await Api.PrepareClient(client);
 				var devices = await Api.GetDeviceId();
 				client.DefaultRequestHeaders.Add("X-Device-FriendlyName", Api.DeviceName);
