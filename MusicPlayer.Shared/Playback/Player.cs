@@ -31,7 +31,7 @@ namespace MusicPlayer.Playback
 
 		public abstract Task<bool> PrepareData (PlaybackData playbackData, bool isPlaying);
 
-		public abstract void Play ();
+		public abstract bool Play ();
 
 		public abstract void Pause ();
 

@@ -49,9 +49,16 @@ namespace MusicPlayer.iOS.Playback
 		public Song CurrentSong => currentSong;
 		public Player SecondaryPlayer => GetPlayer (nextSong);
 
-		public override void Play ()
+		public override bool Play ()
 		{
-			CurrentPlayer?.Play ();
+		 	var success = CurrentPlayer?.Play() ?? false;
+			if (!success && CurrentSong != null)
+			{
+				isVideoDict.TryGetValue(CurrentSongId, out var isVideo);
+				PlaySong(currentSong, isVideo);
+				return true;
+			}
+			return success;
 		}
 
 		public override void Pause ()

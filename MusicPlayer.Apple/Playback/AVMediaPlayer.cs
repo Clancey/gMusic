@@ -154,9 +154,10 @@ namespace MusicPlayer
 			player.Pause ();
 		}
 
-		public override void Play ()
+		public override bool Play ()
 		{
 			player.Play ();
+			return true;
 		}
 
 		public override async Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false)

@@ -203,6 +203,7 @@ namespace MusicPlayer.Playback
 			}
 			else
 				await PlaySong(CurrentSong, isVideo);
+			return;
 		}
 
 		public void QueueTrack(Track track)

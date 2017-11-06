@@ -186,14 +186,14 @@ namespace MusicPlayer
 
 		}
 
-		public override void Play()
+		public override bool Play()
 		{
 			Bass.Start();
 			shouldBePlaying = true;
 			if (!IsPlayerItemValid)
 			{
 				SetState();
-				return;
+				return false;
 			}
 			if (!hasBassStarted)
 			{
@@ -202,8 +202,20 @@ namespace MusicPlayer
 			}
 			var success = Bass.ChannelPlay(streamHandle, false);
 			Console.WriteLine($"Play Song: {success}");
-			Console.WriteLine(Bass.LastError);
+			if (!success)
+			{
+				var error = Bass.LastError;
+				if (error == Errors.Handle)
+				{
+					RemoveHandles();
+					Stop();
+					streamHandle = 0;
+					IsPrepared = false;
+				}
+				Console.WriteLine(error);
+			}
 			SetState();
+			return success;
 		}
 
 		void SetState()
