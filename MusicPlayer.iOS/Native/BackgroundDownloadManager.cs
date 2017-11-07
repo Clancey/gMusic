@@ -224,16 +224,13 @@ namespace MusicPlayer.Managers
 		NSUrlSessionConfiguration configuration;
 		NSUrlSession InitBackgroundSession(string identifier)
 		{
-			LogManager.Shared.Log("Background Session Init");
 			Console.WriteLine("InitBackgroundSession");
 			configuration = Device.IsIos8
 					? NSUrlSessionConfiguration.CreateBackgroundSessionConfiguration(identifier)
 				: NSUrlSessionConfiguration.BackgroundSessionConfiguration(identifier);
 			configuration.AllowsCellularAccess = true;
-			LogManager.Shared.Log(configuration != null ? "Background configuration is null" : "Background configuration created");
 			var ses = NSUrlSession.FromConfiguration(configuration, new UrlSessionDelegate(), null);
 			ses.GetTasks2((data, upload, downloads) => { restoreTasks(ses, data, upload, downloads); });
-			LogManager.Shared.Log("Session created");
 			return ses;
 
 		}
@@ -352,7 +349,6 @@ namespace MusicPlayer.Managers
 			NSError removeCopy;
 
 			fileManager.Remove(destinationURL, out removeCopy);
-			LogManager.Shared.Log("Copying Downloaded File", value:"Destination",key: dest);
 			var success = fileManager.Copy(location, destinationURL, out errorCopy);
 			if (success)
 				file.Status = BackgroundDownloadFile.FileStatus.Completed;
@@ -363,7 +359,6 @@ namespace MusicPlayer.Managers
 			file.Destination = dest;
 			await ProcessFile(file);
 			FileCompleted?.InvokeOnMainThread(downloadTask, new CompletedArgs {File = file});
-			LogManager.Shared.Log ("Download Completed", key: "Data", value: downloadTask.TaskDescription);
 		}
 
 		NSObject invoker = new NSObject();
@@ -429,7 +424,6 @@ namespace MusicPlayer.Managers
 
 			public override void DidFinishDownloading(NSUrlSession session, NSUrlSessionDownloadTask downloadTask, NSUrl location)
 			{
-				LogManager.Shared.Log($"File downloaded",key:"File path",value:location.ToString());
 				if (downloadTask.Error == null)
 					Shared.Completed(downloadTask, location);
 				else
