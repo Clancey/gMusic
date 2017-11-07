@@ -65,7 +65,14 @@ namespace MusicPlayer.iOS.Playback
 		{
 			CurrentPlayer?.Pause ();
 		}
-
+		public override void Stop()
+		{
+			var items = playerQueue.ToList();
+			foreach (var item in items)
+			{
+				item.Value.Stop();
+			}
+		}
 		public void StopAllOthers (Song song)
 		{
 			var first = playerQueue.FirstOrDefault ();
@@ -75,8 +82,7 @@ namespace MusicPlayer.iOS.Playback
 			var items = playerQueue.ToList();
 			foreach (var item in items) {
 				if (item.Key != song.Id) {
-					item.Value.Seek (0);
-					item.Value.Pause ();
+					item.Value.Stop ();
 				}
 			}
 		}
@@ -139,14 +145,14 @@ namespace MusicPlayer.iOS.Playback
 				isVideo = true;
 			Settings.CurrentPlaybackIsVideo = isVideo;
 			isVideoDict [song.Id] = isVideo;
-			StopAllOthers (song);
+			if(fadingToSong != song)
+				StopAllOthers (song);
 			eqApplied = false;
 			currentSong = song;
 			if (forcePlay)
 			{
 				try
 				{
-					StopAllOthers(song);
 					var player = GetPlayer(song, true,true);
 					player.Volume = Settings.CurrentVolume;
 					var data = await Parent.PrepareSong(song, isVideo);
@@ -185,7 +191,6 @@ namespace MusicPlayer.iOS.Playback
 				return true;
 			}
 			try {
-				StopAllOthers (song);
 				var player = GetPlayer (song,true);
 				player.Volume = Settings.CurrentVolume;
 				if (!player.IsPrepared) {
@@ -391,7 +396,8 @@ namespace MusicPlayer.iOS.Playback
 
 			player.Finished = (p) => {
 				playerQueue.Remove (p.CurrentSongId);
-				Finished?.Invoke (p);
+				if(p.CurrentSongId == CurrentSongId)
+					Finished?.Invoke (p);
 			};
 
 			player.PlabackTimeChanged = (time) => {

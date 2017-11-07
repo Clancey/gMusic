@@ -168,7 +168,7 @@ namespace MusicPlayer
 			SetState();
 		}
 
-		void Stop()
+		public override void Stop()
 		{
 			if (hasBassStarted)
 			{
@@ -319,7 +319,7 @@ namespace MusicPlayer
 
 			   var endSyncData = BassFileProceduresManager.CreateProcedure(OnTrackEnd);
 			   endSyncUser = endSyncData.user;
-			   endSync = Bass.ChannelSetSync(streamHandle, SyncFlags.End | SyncFlags.Mixtime, 0, endSyncData.proc, endSyncUser);
+			   endSync = Bass.ChannelSetSync(streamHandle, SyncFlags.End, 0, endSyncData.proc, endSyncUser);
 
 			   var bufferSyncData = BassFileProceduresManager.CreateProcedure(OnBuffering); ;
 			   bufferSyncUser = bufferSyncData.user;
@@ -397,6 +397,7 @@ namespace MusicPlayer
 		void OnTrackEnd(int handle, int channel, int data, IntPtr user)
 		{
 			Finished?.Invoke(this);
+			Stop();
 		}
 
 		void OnBuffering(int handle, int channel, int data, IntPtr user)

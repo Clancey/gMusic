@@ -160,6 +160,12 @@ namespace MusicPlayer
 			return true;
 		}
 
+
+		public override void Stop()
+		{
+			player.Pause();
+			player.ReplaceCurrentItemWithPlayerItem(null);
+		}
 		public override async Task<bool> PlaySong (Song song, bool isVideo, bool forcePlay = false)
 		{
 			throw new NotImplementedException ();

@@ -35,6 +35,8 @@ namespace MusicPlayer.Playback
 
 		public abstract void Pause ();
 
+		public abstract void Stop();
+
 		public abstract void Seek (double time);
 
 		public abstract float Rate { get; }
