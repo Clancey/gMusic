@@ -25,7 +25,7 @@ namespace MusicPlayer.iOS
 	[Register("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{
-		public const int AppId  = 708727021;
+		public const int AppId = 708727021;
 		public const string AppName = "gMusic";
 		// class-level declarations
 		public static UIWindow window;
@@ -51,8 +51,9 @@ namespace MusicPlayer.iOS
 							   typeof(Crashes));
 
 			// Get possible shortcut item
-			if (launchOptions != null && UIApplication.LaunchOptionsShortcutItemKey != null) {
-				LaunchedShortcutItem = launchOptions [UIApplication.LaunchOptionsShortcutItemKey] as UIApplicationShortcutItem;
+			if (launchOptions != null && UIApplication.LaunchOptionsShortcutItemKey != null)
+			{
+				LaunchedShortcutItem = launchOptions[UIApplication.LaunchOptionsShortcutItemKey] as UIApplicationShortcutItem;
 				handled = (LaunchedShortcutItem == null);
 			}
 #if TESTCLOUD
@@ -60,7 +61,7 @@ namespace MusicPlayer.iOS
 #endif
 			var screenBounds = UIScreen.MainScreen.Bounds;
 
-			Images.MaxScreenSize = (float) NMath.Max(screenBounds.Width, screenBounds.Height);
+			Images.MaxScreenSize = (float)NMath.Max(screenBounds.Width, screenBounds.Height);
 			SetUpApp(app);
 			app.BeginReceivingRemoteControlEvents();
 			// create a new window instance based on the screen size
@@ -79,30 +80,30 @@ namespace MusicPlayer.iOS
 			return handled;
 		}
 
-		public override void PerformActionForShortcutItem (UIApplication application, UIApplicationShortcutItem shortcutItem, UIOperationHandler completionHandler)
+		public override void PerformActionForShortcutItem(UIApplication application, UIApplicationShortcutItem shortcutItem, UIOperationHandler completionHandler)
 		{
 			completionHandler(HandleShortcut(shortcutItem));
 		}
-		#if DEBUG
+#if DEBUG
 		UIWindow carTestWindow;
-		public void TestCarInterface ()
+		public void TestCarInterface()
 		{
 
-			carTestWindow = new UIWindow (UIScreen.MainScreen.Bounds);
+			carTestWindow = new UIWindow(UIScreen.MainScreen.Bounds);
 			carTestWindow.Tag = 1;
-			var style = carTestWindow.GetStyle ();
+			var style = carTestWindow.GetStyle();
 			carTestWindow.TintColor = style.AccentColor;
 			if (carTestWindow.RootViewController == null)
-				carTestWindow.RootViewController = new Car.CarHeadViewController ();
+				carTestWindow.RootViewController = new Car.CarHeadViewController();
 
 			carTestWindow.Hidden = false;
 		}
-		#endif
+#endif
 		void CheckLogin()
 		{
 			if (ApiManager.Shared.Count == 0)
 			{
-				window.RootViewController.PresentViewController(new IntroViewController(), false,null);
+				window.RootViewController.PresentViewController(new IntroViewController(), false, null);
 			}
 		}
 
@@ -133,10 +134,11 @@ namespace MusicPlayer.iOS
 			App.OnShowSpinner = (title) => { BTProgressHUD.ShowContinuousProgress(title, ProgressHUD.MaskType.Clear); };
 
 			App.OnDismissSpinner = BTProgressHUD.Dismiss;
-			App.OnCheckForOffline = (message) => {
+			App.OnCheckForOffline = (message) =>
+			{
 
-				var tcs = new System.Threading.Tasks.TaskCompletionSource<bool> ();
-				new AlertView(Strings.DoYouWantToContinue,message){
+				var tcs = new System.Threading.Tasks.TaskCompletionSource<bool>();
+				new AlertView(Strings.DoYouWantToContinue, message){
 					{Strings.Continue,() => tcs.TrySetResult (true)},
 					{Strings.Nevermind,() => tcs.TrySetResult (false),true},
 				}.Show(window.RootViewController);
@@ -147,10 +149,10 @@ namespace MusicPlayer.iOS
 #pragma warning restore 4014
 		}
 
-		public override void HandleEventsForBackgroundUrl (UIApplication application, string sessionIdentifier, Action completionHandler)
+		public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)
 		{
-			BackgroundDownloadManager.Shared.Init ();
-			BackgroundDownloadManager.Shared.RepairFromBackground (sessionIdentifier, completionHandler);
+			BackgroundDownloadManager.Shared.Init();
+			BackgroundDownloadManager.Shared.RepairFromBackground(sessionIdentifier, completionHandler);
 		}
 		public override void OnResignActivation(UIApplication application)
 		{
@@ -159,7 +161,7 @@ namespace MusicPlayer.iOS
 		public override void OnActivated(UIApplication application)
 		{
 			PlaybackManager.Shared.NativePlayer.EnableVideo();
-			HandleShortcut (LaunchedShortcutItem);
+			HandleShortcut(LaunchedShortcutItem);
 			LaunchedShortcutItem = null;
 			ScreenManager.Shared.OnActivated();
 		}
@@ -173,7 +175,8 @@ namespace MusicPlayer.iOS
 		public override bool ContinueUserActivity(UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
 		{
 			NSObject idObj;
-			if (!userActivity.UserInfo.TryGetValue(new NSString("kCSSearchableItemActivityIdentifier"), out idObj)) {
+			if (!userActivity.UserInfo.TryGetValue(new NSString("kCSSearchableItemActivityIdentifier"), out idObj))
+			{
 				return false;
 			}
 			var id = idObj.ToString();
@@ -187,21 +190,22 @@ namespace MusicPlayer.iOS
 			if (shortcutItem == null)
 				return false;
 
-			switch (shortcutItem.Type) {
-			//play
-			case "com.IIS.MusicPlayer.iOS.000":
-				PlaybackManager.Shared.Play ();
-				return true;
-			case "com.IIS.MusicPlayer.iOS.001":
-
-				var vm = new MusicPlayer.ViewModels.RadioStationViewModel { IsIncluded = false };
-				var items = vm.RowsInSection (0);
-				if (items == 0)
+			switch (shortcutItem.Type)
+			{
+				//play
+				case "com.IIS.MusicPlayer.iOS.000":
+					PlaybackManager.Shared.Play();
 					return true;
-				var radio = vm.ItemFor (0, 0);
-				Settings.ShowOfflineOnly = false;
-				PlaybackManager.Shared.Play (radio);
-				return true;
+				case "com.IIS.MusicPlayer.iOS.001":
+
+					var vm = new MusicPlayer.ViewModels.RadioStationViewModel { IsIncluded = false };
+					var items = vm.RowsInSection(0);
+					if (items == 0)
+						return true;
+					var radio = vm.ItemFor(0, 0);
+					Settings.ShowOfflineOnly = false;
+					PlaybackManager.Shared.Play(radio);
+					return true;
 			}
 
 			return false;
