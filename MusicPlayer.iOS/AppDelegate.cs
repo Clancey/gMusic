@@ -44,7 +44,11 @@ namespace MusicPlayer.iOS
 			bool handled = true;
 			SimpleAuth.Providers.Twitter.Init();
 			MobileCenter.Start(ApiConstants.MobileCenterApiKey,
-					typeof(Analytics), typeof(Crashes));
+			                   #if !APPSTORE
+							   typeof(Microsoft.Azure.Mobile.Distribute.Distribute),
+								#endif
+							   typeof(Analytics),
+							   typeof(Crashes));
 
 			// Get possible shortcut item
 			if (launchOptions != null && UIApplication.LaunchOptionsShortcutItemKey != null) {

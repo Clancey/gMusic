@@ -552,6 +552,12 @@
     <Reference Include="SimpleAuth">
       <HintPath>..\packages\Clancey.SimpleAuth.1.0.44\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.Distribute">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Distribute.0.17.1\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Distribute.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Mobile.Distribute.iOS.Bindings">
+      <HintPath>..\packages\Microsoft.Azure.Mobile.Distribute.0.17.1\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Distribute.iOS.Bindings.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />

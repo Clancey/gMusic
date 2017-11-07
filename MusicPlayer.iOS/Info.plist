@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>gMusic</string>
+	<string>gMusic Beta</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.youriisolutions.gMusic2</string>
+	<string>com.IIS.MusicPlayer.iOS</string>
 	<key>CFBundleName</key>
 	<string>gMusic Beta</string>
 	<key>CFBundleShortVersionString</key>
@@ -25,6 +25,14 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>twitterkit-x2XWTmyT3DRfN68E3lX8Ew</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>MobileCenter</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mobilecenter-e1552973-f10e-43a7-8529-fa1cf8082bd8</string>
 			</array>
 		</dict>
 	</array>
