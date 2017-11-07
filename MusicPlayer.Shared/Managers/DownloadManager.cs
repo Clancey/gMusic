@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MusicPlayer.Data;
 using Plugin.Connectivity;
+using System.Net;
 
 namespace MusicPlayer.Managers
 {
@@ -288,14 +289,24 @@ namespace MusicPlayer.Managers
 				Console.WriteLine ("Starting Download {0}", TrackId);
 				var finished = false;
 				while (TryCount < MaxTryCount && !finished) {
-					try {
+					try
+					{
 						State = DownloadState.Downloading;
-						await OpenConnection ();
-						finished = await ProccessStream ();
+						await OpenConnection();
+						finished = await ProccessStream();
 						break;
-					} catch (TaskCanceledException) {
+					}
+					catch (TaskCanceledException)
+					{
 						State = DownloadState.Canceled;
 						break;
+					}
+					catch (WebException webEx)
+					{
+						Console.WriteLine("Error downloading song {0} - {1}", TrackId, webEx);
+						response = null;
+						DownloadStream = null;
+						TryCount++;
 					} catch (Exception ex) {
 						Console.WriteLine ("Error downloading song {0} - {1}", TrackId, ex);
 						Uri = null;
@@ -322,9 +333,9 @@ namespace MusicPlayer.Managers
 				Console.WriteLine($"Opening Connection {TrackId}");
 				State = DownloadState.Downloading;
 				cancelSource.Token.ThrowIfCancellationRequested();
-				if (DownloadStream != null && DownloadStream.CanRead)
+				if (DownloadStream?.CanRead ?? false)
 					return true;
-				if (response != null && response.IsSuccessStatusCode)
+				if (response?.IsSuccessStatusCode ?? false)
 					return true;
 				Console.WriteLine($"Requesting Playback Url {TrackId}");
 				url = Uri ?? await MusicManager.Shared.GeTrackPlaybackUri(TrackId);
