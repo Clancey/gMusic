@@ -102,6 +102,18 @@ namespace MusicPlayer
 
 		public override bool IsPlayerItemValid => streamHandle != 0;
 
+		public override bool IsPrepared
+		{
+			get
+			{
+				return IsPlayerItemValid;
+			}
+			set
+			{
+				base.IsPrepared = value;
+			}
+		}
+
 		public override float Rate => IsPlayerItemValid && Bass.ChannelIsActive(streamHandle) == ManagedBass.PlaybackState.Playing ? 1 : 0;
 
 		public override float Volume
@@ -214,7 +226,6 @@ namespace MusicPlayer
 					RemoveHandles();
 					Stop();
 					streamHandle = 0;
-					IsPrepared = false;
 				}
 				Console.WriteLine(error);
 			}
@@ -285,7 +296,6 @@ namespace MusicPlayer
 				currentData?.SongPlaybackData?.CurrentTrack?.Id == playbackData.SongPlaybackData.CurrentTrack.Id &&
 			   currentData?.SongPlaybackData?.IsLocal == playbackData.SongPlaybackData.IsLocal)
 			{
-				IsPrepared = true;
 				return true;
 			}
 			currentData = playbackData;
@@ -297,7 +307,6 @@ namespace MusicPlayer
 			}
 			return await Task.Run(() =>
 		   {
-			   Bass.Start();
 			   var data = playbackData.SongPlaybackData;
 			   if (data.IsLocal)
 			   {
@@ -329,7 +338,6 @@ namespace MusicPlayer
 				   Bass.ChannelSetPosition(streamHandle, location);
 			   }
 			   SetState();
-			   IsPrepared = true;
 			   if (shouldBePlaying)
 				   Play();
 			   if (isDisposed)
