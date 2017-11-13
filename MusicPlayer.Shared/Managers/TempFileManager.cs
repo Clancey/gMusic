@@ -48,9 +48,11 @@ namespace MusicPlayer.Managers
 			var track = Database.Main.GetObject<Track, TempTrack>(trackId);
 			var newPath = track.FileName;
 			var info = new FileInfo(filePath);
+			track.FileLocation = Path.Combine(Locations.TmpMusicCacheDir, newPath);
 			if (info.Length == 0)
 				return;
-			File.Copy(filePath, Path.Combine(Locations.TmpMusicCacheDir, newPath), true);
+			if(filePath != track.FileLocation)
+				File.Copy(filePath, track.FileLocation, true);
 			Queue.Add(newPath);
 		}
 	}

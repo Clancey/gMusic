@@ -192,7 +192,15 @@ namespace MusicPlayer.Api
 
 		public override async Task<Uri> GetPlaybackUri (MusicPlayer.Models.Track track)
 		{
-			var uri = new Uri (track.FileLocation).AbsoluteUri;
+			string filePath = "";
+			if (!string.IsNullOrEmpty(track.FileLocation) && File.Exists(track.FileLocation))
+			{
+				filePath = track.FileLocation;
+			}
+
+			filePath = Directory.EnumerateFiles(musicPath, track.FileName, SearchOption.AllDirectories).FirstOrDefault();
+
+			var uri = new Uri(filePath).AbsoluteUri;
 			return new Uri(uri);
 		}
 

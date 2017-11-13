@@ -10,7 +10,7 @@ namespace MusicPlayer.Models
 		public SongPlaybackData()
 		{
 		}
-
+		public bool IsVideo { get; set; }
 		public Song Song { get; set; }
 		public Track CurrentTrack { get; set; }
 		public List<Track> Tracks { get; set; }

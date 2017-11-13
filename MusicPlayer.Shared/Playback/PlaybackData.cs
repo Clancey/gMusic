@@ -12,7 +12,6 @@ namespace MusicPlayer.Playback
 		public SongPlaybackData SongPlaybackData { get; set; }
 		public DownloadHelper DownloadHelper { get; set; }
 		public CancellationTokenSource CancelTokenSource { get; set; } = new CancellationTokenSource();
-		public bool IsVideo { get; set; }
 		public string MimeType
 		{
 			get
@@ -34,7 +33,7 @@ namespace MusicPlayer.Playback
 				}
 				if (!SongPlaybackData.IsLocal)
 				{
-					SongPlaybackData = MusicManager.Shared.GetPlaybackData(SongPlaybackData.Song, IsVideo).Result;
+					SongPlaybackData = MusicManager.Shared.GetPlaybackData(SongPlaybackData.Song, SongPlaybackData.IsVideo).Result;
 				}
 				return SongPlaybackData.IsLocal ? (Stream)File.OpenRead(SongPlaybackData.Uri.LocalPath) : DownloadHelper;
 			}

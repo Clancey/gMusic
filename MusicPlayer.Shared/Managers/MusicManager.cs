@@ -54,6 +54,8 @@ namespace MusicPlayer.Managers
 			}
 			return new SongPlaybackData
 			{
+				IsVideo = true,
+				Song = song,
 				Tracks = tracks,
 				CurrentTrack = track,
 				CurrentTrackIndex = 0,

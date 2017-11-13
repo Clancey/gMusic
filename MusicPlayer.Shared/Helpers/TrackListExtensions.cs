@@ -5,6 +5,7 @@ using System.Text;
 using MusicPlayer.Api;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
+using MusicPlayer.Managers;
 
 namespace MusicPlayer.Helpers
 {
@@ -20,6 +21,13 @@ namespace MusicPlayer.Helpers
 	{
 		public int Compare(Track x, Track y)
 		{
+			var first = OfflinePriority(TempFileManager.Shared.GetTempFile(x.Id).Item1);
+			var second = OfflinePriority(TempFileManager.Shared.GetTempFile(y.Id).Item1);
+			var tempPriority = first.CompareTo(second);
+			if (tempPriority != 0)
+				return tempPriority;
+				
+			                           
 			var priority = x.Priority.CompareTo(y.Priority);
 			if (priority != 0)
 				return priority;
@@ -30,6 +38,11 @@ namespace MusicPlayer.Helpers
 
 			var mediaPriority = Priority(x.MediaType).CompareTo(Priority(y.MediaType));
 			return mediaPriority;
+		}
+
+		public int OfflinePriority(bool isLocal)
+		{
+			return isLocal ? 100 : 0;
 		}
 
 		public int Priority(MediaType media)
