@@ -277,7 +277,7 @@ namespace MusicPlayer.iOS.Playback
 					player.ApplyEqualizer();
 					eqApplied = true;
 				}
-				if (!Settings.EnableGaplessPlayback || nextSong == null)
+				if (!Settings.EnableGaplessPlayback || Settings.RepeatMode == RepeatMode.RepeatOne || nextSong == null)
 					return;
 				var current = player.CurrentTimeSeconds();
 				var duration = player.Duration();
