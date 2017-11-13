@@ -360,16 +360,16 @@ namespace MusicPlayer
 		void OnFileClose(IntPtr user)
 		{
 			//We are done with the downloader. Lets free it's memory
-			currentData?.DownloadHelper?.Dispose();
+			currentData?.DataStream?.Dispose();
 		}
 
 		long OnFileLength(IntPtr user)
 		{
 			try
 			{
-				while ((currentData?.DownloadHelper.Length ?? 0) == 0)
+				while ((currentData?.DataStream.Length ?? 0) == 0)
 					Task.Delay(500).Wait();
-				return currentData?.DownloadHelper.Length ?? 0;
+				return currentData?.DataStream.Length ?? 0;
 			}
 			catch (Exception ex)
 			{
@@ -385,7 +385,7 @@ namespace MusicPlayer
 			var read = 0;
 			try
 			{
-				read = currentData?.DownloadHelper?.Read(data, 0, length) ?? 0;
+				read = currentData?.DataStream?.Read(data, 0, length) ?? 0;
 			}
 			catch (Exception ex)
 			{

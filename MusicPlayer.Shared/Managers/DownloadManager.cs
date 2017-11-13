@@ -157,7 +157,7 @@ namespace MusicPlayer.Managers
 			Error,
 			Completed
 		}
-
+		public bool IsDisposed { get => Stream?.IsDisposed ?? false; }
 		public string MimeType { get; set; }
 		const int MaxTryCount = 5;
 		readonly HttpClient client = new HttpClient();

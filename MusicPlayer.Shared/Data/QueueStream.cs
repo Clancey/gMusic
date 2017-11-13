@@ -28,6 +28,8 @@ namespace MusicPlayer.Data
 			readStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096);
 		}
 
+		public bool IsDisposed { get; private set; }
+
 		public long WritePosition => size;
 
 		public override bool CanRead
@@ -111,6 +113,7 @@ namespace MusicPlayer.Data
 
 		protected override void Dispose(bool disposing)
 		{
+			IsDisposed = true;
 			if (disposing)
 			{
 				readStream.Close();

@@ -516,9 +516,6 @@
     <Reference Include="Plugin.Connectivity">
       <HintPath>..\packages\Xam.Plugin.Connectivity.3.0.3\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
     </Reference>
-    <Reference Include="Calabash">
-      <HintPath>..\packages\Xamarin.TestCloud.Agent.0.21.1\lib\Xamarin.iOS\Calabash.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.Settings.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Settings.3.1.1\lib\Xamarin.iOS10\Plugin.Settings.Abstractions.dll</HintPath>
     </Reference>
@@ -557,6 +554,9 @@
     </Reference>
     <Reference Include="Microsoft.Azure.Mobile.Distribute.iOS.Bindings">
       <HintPath>..\packages\Microsoft.Azure.Mobile.Distribute.0.17.1\lib\Xamarin.iOS10\Microsoft.Azure.Mobile.Distribute.iOS.Bindings.dll</HintPath>
+    </Reference>
+    <Reference Include="Calabash">
+      <HintPath>..\packages\Xamarin.TestCloud.Agent.0.21.2\lib\Xamarin.iOS\Calabash.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ using MusicPlayer.Models;
 using MusicPlayer.Managers;
 using System.Threading;
 using System.IO;
+using MusicPlayer.Data;
 namespace MusicPlayer.Playback
 {
 	public class PlaybackData
@@ -10,7 +11,8 @@ namespace MusicPlayer.Playback
 		public string SongId { get; set; }
 		public SongPlaybackData SongPlaybackData { get; set; }
 		public DownloadHelper DownloadHelper { get; set; }
-		public CancellationTokenSource CancelTokenSource { get; set; } = new CancellationTokenSource ();
+		public CancellationTokenSource CancelTokenSource { get; set; } = new CancellationTokenSource();
+		public bool IsVideo { get; set; }
 		public string MimeType
 		{
 			get
@@ -21,6 +23,22 @@ namespace MusicPlayer.Playback
 				return SongPlaybackData.CurrentTrack.MediaType == MediaType.Video ? "video/mpeg" : "audio/mpeg";
 			}
 		}
-		public Stream DataStream => SongPlaybackData.IsLocal ? (Stream)File.OpenRead(SongPlaybackData.Uri.LocalPath) : DownloadHelper;
+		Stream fileStream;
+		public Stream DataStream
+		{
+			get
+			{
+				if (!(DownloadHelper?.IsDisposed ?? true))
+				{
+					return DownloadHelper;
+				}
+				if (!SongPlaybackData.IsLocal)
+				{
+					SongPlaybackData = MusicManager.Shared.GetPlaybackData(SongPlaybackData.Song, IsVideo).Result;
+				}
+				return SongPlaybackData.IsLocal ? (Stream)File.OpenRead(SongPlaybackData.Uri.LocalPath) : DownloadHelper;
+			}
+		}
+
 	}
 }
