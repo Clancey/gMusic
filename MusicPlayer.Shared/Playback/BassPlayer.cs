@@ -20,27 +20,21 @@ namespace MusicPlayer
 	public class BassPlayer : Player
 	{
 		Timer progressTimer;
-		static bool IsInit { get; set; }
-		static void BassInit()
+		static  BassPlayer()
 		{
-			lock (bassPlayerLocker)
-			{
-				if (!IsInit)
-					return;
+			
 #if __IOS__
-				Bass.Configure(Configuration.IOSMixAudio, 0);
+				//Bass.Configure(Configuration.IOSMixAudio, 0);
 				Bass.IOSNoCategory = true;
 #endif
 				Bass.Init();
-				var fxv = BassFx.Version;
-				IsInit = true;
-			}
+			var fxv = BassFx.Version;
+
 		}
 		static int bassPlayers = 0;
 		static object bassPlayerLocker = new object();
 		public static void StartBass()
 		{
-			BassInit();
 			lock (bassPlayerLocker)
 				bassPlayers++;
 			UpdateStaticBass();
