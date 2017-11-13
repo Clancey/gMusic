@@ -522,7 +522,7 @@ namespace MusicPlayer.Managers
 				Pause();
 				return;
 			}
-			if (CurrentSongIndex == nextIndex)
+			if (CurrentSongIndex == nextIndex && Settings.RepeatMode != RepeatMode.RepeatOne)
 				return;
 			CurrentSongIndex = nextIndex;
 			var song = GetSong(CurrentSongIndex);
