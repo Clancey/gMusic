@@ -25,7 +25,7 @@ namespace MusicPlayer
 		{
 			lock (bassPlayerLocker)
 			{
-				if (IsInit)
+				if (!IsInit)
 					return;
 #if __IOS__
 				Bass.Configure(Configuration.IOSMixAudio, 0);
