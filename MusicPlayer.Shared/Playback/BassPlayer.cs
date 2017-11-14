@@ -139,7 +139,6 @@ namespace MusicPlayer
 			BassFileProceduresManager.ClearProcedure(fileProcUser);
 			BassFileProceduresManager.ClearProcedure(endSyncUser);
 			BassFileProceduresManager.ClearProcedure(bufferSyncUser);
-
 		}
 
 		public override float[] AudioLevels
@@ -362,7 +361,7 @@ namespace MusicPlayer
 		void OnFileClose(IntPtr user)
 		{
 			//We are done with the downloader. Lets free it's memory
-			currentData?.DataStream?.Dispose();
+			//currentData?.DataStream?.Dispose();
 		}
 
 		long OnFileLength(IntPtr user)
