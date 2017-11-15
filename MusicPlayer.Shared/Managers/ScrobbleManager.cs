@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
 using MusicPlayer.Models.Scrobbling;
-using Xamarin;
 using Lastfm.Scrobbling;
 using Lastfm;
 using MusicPlayer.Api;

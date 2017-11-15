@@ -12,7 +12,6 @@ using MusicPlayer.Helpers;
 using MusicPlayer.Models;
 using MusicPlayer.Models.Scrobbling;
 using Newtonsoft.Json.Converters;
-using Xamarin;
 
 namespace MusicPlayer.Managers
 {

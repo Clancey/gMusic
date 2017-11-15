@@ -7,7 +7,6 @@ using MusicPlayer.Api;
 using MusicPlayer.Cells;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;
-using Xamarin;
 using SimpleTables;
 
 namespace MusicPlayer.ViewModels

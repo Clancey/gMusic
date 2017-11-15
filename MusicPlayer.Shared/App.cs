@@ -7,7 +7,6 @@ using MusicPlayer.Api;
 using MusicPlayer.Api.GoogleMusic;
 using MusicPlayer.Cells;
 using MusicPlayer.Managers;
-using Xamarin;
 using MusicPlayer.Data;
 using System.Collections.Generic;
 using Localizations;

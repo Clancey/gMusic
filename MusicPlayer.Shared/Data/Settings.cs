@@ -6,7 +6,6 @@ using MusicPlayer.Api;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;
 using SimpleAuth;
-using Xamarin;
 using Utility = MusicPlayer.Api.Utility;
 using System.Runtime.CompilerServices;
 using Plugin.Settings;

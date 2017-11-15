@@ -13,9 +13,9 @@ using MusicPlayer.Managers;
 using MusicPlayer.iOS.Playback;
 using MusicPlayer.Data;
 using System.Threading.Tasks;
-using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.Azure.Mobile.Crashes;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace MusicPlayer.iOS
 {
@@ -43,12 +43,6 @@ namespace MusicPlayer.iOS
 		{
 			bool handled = true;
 			SimpleAuth.Providers.Twitter.Init();
-			MobileCenter.Start(ApiConstants.MobileCenterApiKey,
-			                   #if !APPSTORE
-							   typeof(Microsoft.Azure.Mobile.Distribute.Distribute),
-								#endif
-							   typeof(Analytics),
-							   typeof(Crashes));
 
 			// Get possible shortcut item
 			if (launchOptions != null && UIApplication.LaunchOptionsShortcutItemKey != null)

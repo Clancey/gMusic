@@ -1,12 +1,11 @@
 ﻿#if !__OSX__
-using MusicPlayer.Models;
+﻿using MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Xamarin;
 using System.Threading.Tasks;
-using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.AppCenter.Analytics;
 
 namespace MusicPlayer.Managers
 {

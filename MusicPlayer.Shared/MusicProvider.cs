@@ -10,7 +10,6 @@ using MusicPlayer.Managers;
 using MusicPlayer.Models;
 using MusicPlayer.Models.Scrobbling;
 using Punchclock;
-using Xamarin;
 using System.Net.Http;
 using System.Threading;
 using System.IO;

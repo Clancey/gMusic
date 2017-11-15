@@ -13,6 +13,7 @@ using Playlist = MusicPlayer.Models.Playlist;
 using MusicPlayer.Data;
 using MusicPlayer.Managers;
 using SimpleAuth;
+using System.Net;
 
 namespace YoutubeApi
 {
@@ -40,7 +41,7 @@ namespace YoutubeApi
 
 		public YoutubeProvider (YoutubeOauthApi api) : base(api)
 		{
-
+			
         }
 
 		public const string DefaultId = "youtube";
@@ -141,10 +142,22 @@ namespace YoutubeApi
 		const string LibraryPlaylistName = "gMusic Library";
 		async Task<string> getOrCreatePlaylistId()
 		{
-			SyncPlaylists();
-			var playlistId = await libraryPlaylistSource.Task;
-			if (!string.IsNullOrWhiteSpace(playlistId))
-				return playlistId;
+			try
+			{
+				var playlistSyncTask = SyncPlaylists();
+				var finishedTask = await Task.WhenAny(playlistSyncTask, libraryPlaylistSource.Task);
+				if (finishedTask == libraryPlaylistSource.Task)
+				{
+					var playlistId = libraryPlaylistSource.Task.Result;
+					if (!string.IsNullOrWhiteSpace(playlistId))
+						return playlistId;
+				}
+
+			}
+			catch (WebException ex)
+			{
+				Console.WriteLine(ex);
+			}
 			var playlist = new Playlist(LibraryPlaylistName)
 			{
 				Description = "All tracks in this playlist will sync to gMusic",
@@ -172,8 +185,6 @@ namespace YoutubeApi
 		{
 			try{
 				var playlists = await GetPlaylists();
-				if (!libraryPlaylistSource.Task.IsCompleted)
-					libraryPlaylistSource.TrySetResult(null);
 				foreach (var playlist in playlists)
 				{
 					Playlist plist;
@@ -231,7 +242,7 @@ namespace YoutubeApi
 			foreach (var x in resp.Items) {
 				if (x.Snippet.Title == LibraryPlaylistName)
 				{
-					libraryPlaylistSource.TrySetResult(x.Id);
+					libraryPlaylistSource?.TrySetResult(x.Id);
 				}
 				playlists.Add(new Playlist (x.Snippet.Title) {
 					Description = x.Snippet.Description,
@@ -256,7 +267,7 @@ namespace YoutubeApi
 						Description = playlist.Description,
 					}
 				};
-				var resp = await Api.Post<Google.Apis.Youtube.v3.Data.Playlist> (body, "playlists?part=id%2CcontentDetails%2Csnippet");
+				var resp = await Api.Post<Google.Apis.Youtube.v3.Data.Playlist> (body, "https://www.googleapis.com/youtube/v3/playlists?part=snippet");
 				if (string.IsNullOrWhiteSpace (body.Id))
 					return false;
 				playlist.Id = body.Id;

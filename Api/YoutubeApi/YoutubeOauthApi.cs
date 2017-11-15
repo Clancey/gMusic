@@ -100,6 +100,7 @@ namespace YoutubeApi
 		public YoutubeOauthApi (string id, HttpMessageHandler handler = null)
 			: base (id, MusicPlayer.ApiConstants.YouTubeApiKey, "key", AuthLocation.Query, new GoogleMusicAuthenticator { ClientId = MusicPlayer.ApiConstants.YouTubeClientId }, handler)
 		{
+			
 			BaseAddress = new Uri ("https://www.googleapis.com/youtube/v3/");
 			AutoAuthenticate = true;
 			ClientId = MusicPlayer.ApiConstants.YouTubeClientId;
@@ -243,6 +244,16 @@ namespace YoutubeApi
 			return true;
 		}
 
+		protected override string SerializeObject(object obj)
+		{
+			var settings = new JsonSerializerSettings
+			{
+				NullValueHandling = NullValueHandling.Ignore,
+				MissingMemberHandling = MissingMemberHandling.Ignore
+			};
+			var jsonModel = JsonConvert.SerializeObject(obj, settings);
+			return jsonModel;
+		}
 		internal async Task GetAuthToken (OAuthAccount account)
 		{
 			try{

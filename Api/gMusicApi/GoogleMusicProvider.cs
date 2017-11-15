@@ -2182,9 +2182,12 @@ namespace MusicPlayer.Api.GoogleMusic
 			}
 			return null;
 		}
-
+		bool AccountLocked = false;
+		DateTime AccountLockedTime;
 		async Task<Tuple<string, Uri>> GetTrackUri(Track track, string qualityString, int tryCount = 0)
 		{
+			if (AccountLocked && (DateTime.Now - AccountLockedTime).Minutes < 5)
+				return new Tuple<string, Uri>("ERROR", null);
 			const string key = "34ee7983-5ee6-4147-aa86-443ea062abf774493d6a-2a15-43fe-aace-e78566927585\n";
 			try
 			{
@@ -2224,27 +2227,35 @@ namespace MusicPlayer.Api.GoogleMusic
 				else
 				{
 					IEnumerable<string> reasons;
-					if(resp.Headers.TryGetValues("x-rejected-reason",out reasons))
+					if (resp.Headers.TryGetValues("x-rejected-reason", out reasons))
 					{
 						var reason = reasons.FirstOrDefault();
 						Console.WriteLine("Rejected reason: " + reason);
-						LogManager.Shared.Log("Rejected reason","Reason",reason);
-						if(reason == "DEVICE_NOT_AUTHORIZED" || reason	== "EXCEEDED_DEVICE_TRANSITION_QUOTA")
+						LogManager.Shared.Log("Rejected reason", "Reason", reason);
+						if (reason == "DEVICE_NOT_AUTHORIZED" || reason == "EXCEEDED_DEVICE_TRANSITION_QUOTA")
 						{
 							LogManager.Shared.GetPlaybackUrlError(reason, tryCount, track);
-							if(Api.HasMoreDevices()){
+							if (Api.HasMoreDevices())
+							{
 								await Api.GetDeviceId(true);
 								return await GetTrackUri(track, qualityString, 0);
 							}
 							else
-								return new Tuple<string, Uri>("ERROR", null) ;
-                        }
+								return new Tuple<string, Uri>("ERROR", null);
+						}
+						else if (reason == "STREAM_RATE_LIMIT_REACHED")
+						{
+							AccountLocked = true;
+							AccountLockedTime = DateTime.Now;
+							return new Tuple<string, Uri>("ERROR", null);
+						}
 						else
 						{
 							LogManager.Shared.Report(new Exception($"Get Url Rejected: {reason}"));
-							return new Tuple<string, Uri>("ERROR", null) ;
+							return new Tuple<string, Uri>("ERROR", null);
 						}
 					}
+
 					else
 					{
 						if(Api.HasMoreDevices())
