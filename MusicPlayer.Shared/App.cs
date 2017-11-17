@@ -63,6 +63,7 @@ namespace MusicPlayer
 			CellRegistrar.Register<TempArtist, ArtistCell>();
 			CellRegistrar.Register<Genre, GenreCell>();
 			CellRegistrar.Register<TempGenre, GenreCell>();
+			CellRegistrar.Register<AutoPlaylist, PlaylistCell>();
 			CellRegistrar.Register<Playlist, PlaylistCell>();
 			CellRegistrar.Register<PlaylistSong, PlaylistSongCell>();
 			CellRegistrar.Register<RadioStation, RadioStationCell>();

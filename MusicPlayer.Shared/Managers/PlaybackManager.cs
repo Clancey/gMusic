@@ -297,16 +297,17 @@ namespace MusicPlayer.Managers
 			}
 			await PrepareNextTrack();
 		}
-		public async Task PlayAutoPlaylist(AutoPlaylist playlist,Song playlistSong, GroupInfo groupInfo, string playlistId = "")
+		public async Task PlayAutoPlaylist(AutoPlaylist playlist,Song playlistSong, GroupInfo groupInfo = null)
 		{
-
+			if (groupInfo == null)
+				groupInfo = AutoPlaylistSongViewModel.CreateGroupInfo(playlist, Settings.ShowOfflineOnly);
 			LogManager.Shared.LogPlayback(playlist);
 			SendEndNotification(ScrobbleManager.PlaybackEndedReason.Skipped);
 			Settings.CurrentPlaybackContext = new PlaybackContext
 			{
 				IsContinuous = false,
 				Type = PlaybackContext.PlaybackType.Playlist,
-				ParentId = playlist.Id ?? playlistId,
+				ParentId = playlist.Id,
 			};
 			Pause();
 			var song = playlistSong;
@@ -423,7 +424,11 @@ namespace MusicPlayer.Managers
 				await PlaySongs(songs);
 				return;
 			}
-
+			if (item is AutoPlaylist ap)
+			{
+				await PlayAutoPlaylist(ap, null);
+				return;
+			}
 			var playlist = item as Playlist;
 			if (playlist != null)
 			{
