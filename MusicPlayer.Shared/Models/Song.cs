@@ -60,6 +60,7 @@ namespace MusicPlayer.Models
 		[Indexed]
 		public string Genre { get; set; }
 
+		[Indexed]
 		public int PlayedCount { get; set; }
 
 		[Indexed]

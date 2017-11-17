@@ -206,6 +206,7 @@ namespace MusicPlayer.Managers
 				if (!string.IsNullOrWhiteSpace(song?.Id))
 				{
 					song.LastPlayed = (long)(DateTime.Now - new System.DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
+					song.PlayedCount++;
 					Database.Main.Update(song);
 				}
 				var track = Database.Main.GetObject<Track, TempTrack>(data.TrackId);
