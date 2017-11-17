@@ -30,6 +30,8 @@ namespace MusicPlayer.Models
 		{
 		}
 
+		public bool IsAutoPlaylist { get; set; }
+
 		[Indexed]
 		public string ServiceId { get; set; }
 
@@ -52,7 +54,7 @@ namespace MusicPlayer.Models
 			return this.Name;
 		}
 
-		public int SongCount { get; set; }
+		public virtual int SongCount { get; set; }
 
 		public long LastSync { get; set; }
 
@@ -72,7 +74,7 @@ namespace MusicPlayer.Models
 			set { allArtwork = value; }
 		}
 
-		public async Task<AlbumArtwork[]> GetAllArtwork()
+		public virtual async Task<AlbumArtwork[]> GetAllArtwork()
 		{
 			if (allArtwork != null)
 				return allArtwork;

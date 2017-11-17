@@ -297,6 +297,36 @@ namespace MusicPlayer.Managers
 			}
 			await PrepareNextTrack();
 		}
+		public async Task PlayAutoPlaylist(AutoPlaylist playlist,Song playlistSong, GroupInfo groupInfo, string playlistId = "")
+		{
+
+			LogManager.Shared.LogPlayback(playlist);
+			SendEndNotification(ScrobbleManager.PlaybackEndedReason.Skipped);
+			Settings.CurrentPlaybackContext = new PlaybackContext
+			{
+				IsContinuous = false,
+				Type = PlaybackContext.PlaybackType.Playlist,
+				ParentId = playlist.Id ?? playlistId,
+			};
+			Pause();
+			var song = playlistSong;
+			var info = groupInfo.Clone();
+			await Task.WhenAll(
+				NativePlayer.PlaySong(song),
+				Task.Run(async () =>
+				{
+					string query =
+						$"select Id from Song {info.FilterString(true)} {info.OrderByString(true)} {info.LimitString()}";
+					var queryInfo = info.ConvertSqlFromNamed(query);
+					await SetupCurrentPlaylist(queryInfo.Item1, song?.Id ?? "", queryInfo.Item2);
+				}));
+			if (song == null)
+			{
+				song = GetSong(CurrentSongIndex);
+				await NativePlayer.PlaySong(song);
+			}
+			await PrepareNextTrack();
+		}
 
 		public async Task Play(RadioStation station)
 		{
@@ -691,7 +721,7 @@ namespace MusicPlayer.Managers
 
 		async Task<bool> SetupCurrentPlaylist(string query, string currentId, object[] parameters)
 		{
-			ClearPlayist();
+			await ClearPlayist();
 			Database.Main.Execute($"create table SongsOrdered as {query}", parameters);
 			await PrepareCurrentPlaylist(currentId);
 
@@ -701,7 +731,7 @@ namespace MusicPlayer.Managers
 
 		async Task<bool> SetupCurrentPlaylist(IEnumerable<Song> songs, string currentId)
 		{
-			ClearPlayist();
+			await ClearPlayist();
 			Database.Main.CreateTable<SongsOrdered>();
 			Database.Main.InsertAll(songs.Select(x => new SongsOrdered() {Id = x.Id}));
 			await PrepareCurrentPlaylist(currentId);
@@ -710,13 +740,25 @@ namespace MusicPlayer.Managers
 			return true;
 		}
 
-		bool ClearPlayist()
+		async Task ClearPlayist()
 		{
 			CurrentOrder.Clear();
 			CurrentPlaylistSongCount = 0;
 			CurrentSongIndex = 0;
-			Database.Main.Execute("drop table if exists SongsOrdered");
-			return true;
+			bool didClear = false;
+			while (!didClear)
+			{
+				try
+				{
+					Database.Main.Execute("drop table if exists SongsOrdered");
+					didClear = true;
+				}
+				catch
+				{
+					await Task.Delay(1000);
+				}
+			}
+
 		}
 
 		async Task<bool> PrepareCurrentPlaylist(string currentId)

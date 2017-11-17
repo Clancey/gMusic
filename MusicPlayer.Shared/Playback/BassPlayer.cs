@@ -22,11 +22,11 @@ namespace MusicPlayer
 		Timer progressTimer;
 		static  BassPlayer()
 		{
-			
 #if __IOS__
-				Bass.Configure(Configuration.IOSMixAudio, 0);
+			Bass.Configure(Configuration.IOSMixAudio, 0);
 #endif
-				Bass.Init();
+			Bass.Init();
+			Bass.Stop();
 			var fxv = BassFx.Version;
 
 		}

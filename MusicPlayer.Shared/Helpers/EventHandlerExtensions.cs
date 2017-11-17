@@ -81,7 +81,8 @@ namespace MusicPlayer
 			static string[] IgnoredMessages = {
 				"ProcCurrentTrackPositionChanged",
 				"ProcConsoleChanged",
-				"ProcSongDownloadPulsed"
+				"ProcSongDownloadPulsed",
+				"ProcUpdateVisualizer"
 			};
 			public EventLogger(string name)
 			{

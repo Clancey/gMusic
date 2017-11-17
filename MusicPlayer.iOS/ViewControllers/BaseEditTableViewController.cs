@@ -13,10 +13,12 @@ namespace MusicPlayer.iOS.ViewControllers
 		public override void LoadView()
 		{
 			base.LoadView();
+			if(CanEdit)
 			NavigationItem.RightBarButtonItem =
 				editButton = new UIBarButtonItem(UIBarButtonSystemItem.Edit, (sender, args) => toggleEditing());
 			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (sender, args) => toggleEditing());
 		}
+		public bool CanEdit { get; set; } = true;
 
 		void toggleEditing()
 		{

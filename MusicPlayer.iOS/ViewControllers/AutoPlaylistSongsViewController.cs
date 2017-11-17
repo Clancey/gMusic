@@ -1,23 +1,19 @@
 ﻿using System;
-using MusicPlayer.iOS.ViewControllers;
-using MusicPlayer.Managers;
-using UIKit;
 using MusicPlayer.Models;
 using MusicPlayer.ViewModels;
-
-namespace MusicPlayer.iOS
+using MusicPlayer.Managers;
+namespace MusicPlayer.iOS.ViewControllers
 {
-	public class PlaylistSongsViewController : BaseEditTableViewController
+	public class AutoPlaylistSongsViewController : BaseTableViewController
 	{
-		PlaylistSongViewModel model;
+		AutoPlaylistSongViewModel model;
 
-		public PlaylistSongsViewController(Playlist playlist)
+		public AutoPlaylistSongsViewController(AutoPlaylist playlist)
 		{
-			model = new PlaylistSongViewModel
+			model = new AutoPlaylistSongViewModel
 			{
 				Playlist = playlist,
 			};
-			CanEdit = !(playlist is AutoPlaylist);
 			Title = model.Title;
 		}
 
@@ -35,7 +31,7 @@ namespace MusicPlayer.iOS
 
 		public override void SetupEvents()
 		{
-			NotificationManager.Shared.PlaylistsDatabaseUpdated += PlaylistDatabaseUpdated;
+			NotificationManager.Shared.SongDatabaseUpdated += PlaylistDatabaseUpdated;
 		}
 
 		void PlaylistDatabaseUpdated(object sender, EventArgs eventArgs)
@@ -45,7 +41,7 @@ namespace MusicPlayer.iOS
 
 		public override void TeardownEvents()
 		{
-			NotificationManager.Shared.PlaylistsDatabaseUpdated -= PlaylistDatabaseUpdated;
+			NotificationManager.Shared.SongDatabaseUpdated -= PlaylistDatabaseUpdated;
 		}
 	}
 }

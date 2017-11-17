@@ -355,7 +355,10 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				TrackEvent("Play Playlist");
+				if (entry is AutoPlaylist a)
+					TrackEvent("Play AutoPlaylist", "Type", a.Id);
+				else
+					TrackEvent( "Play Playlist");
 			}
 			catch (Exception ex)
 			{

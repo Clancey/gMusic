@@ -125,6 +125,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)WebServer\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebServer\RequestExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Playback\BassFileProceduresManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AutoPlaylist.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AutoPlaylistSongViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />
