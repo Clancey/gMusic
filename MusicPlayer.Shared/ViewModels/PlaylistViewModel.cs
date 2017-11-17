@@ -60,7 +60,7 @@ namespace MusicPlayer.ViewModels
 				return 0;
 			if (section == 0)
 				return AutoPlaylist.AutoPlaylists.Length;
-			return base.RowsInSection(section - 1);
+			return base.RowsInSection(section + 1);
 		}
 
 		public override int NumberOfSections()
