@@ -189,7 +189,7 @@ namespace MusicPlayer.iOS
 		};
 		static void AddOfflineButtons(ActionSheet controller, MediaItemBase item)
 		{
-			if (item is RadioStation)
+			if (item is RadioStation || item is AutoPlaylist)
 				return;
 			var song = item as Song;
 			if(song != null)
