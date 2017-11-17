@@ -24,8 +24,7 @@ namespace MusicPlayer
 		{
 			
 #if __IOS__
-				//Bass.Configure(Configuration.IOSMixAudio, 0);
-				Bass.IOSNoCategory = true;
+				Bass.Configure(Configuration.IOSMixAudio, 0);
 #endif
 				Bass.Init();
 			var fxv = BassFx.Version;
