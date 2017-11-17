@@ -37,9 +37,20 @@ namespace MusicPlayer.iOS
 		public class SongTableViewCell : MediaItemCell
 		{
 			public const string Key = "SongCell";
-
+			UIView overlay = new UIView(new CGRect(0,0,MediaItemCell.ImageWidth,MediaItemCell.ImageWidth))
+			{
+				Alpha = .5f,
+			};
 			public SongTableViewCell() : base(Key)
 			{
+				
+			}
+			public override void ApplyStyle(UITableView tv)
+			{
+				base.ApplyStyle(tv);
+
+				var style = this.GetStyle();
+				overlay.BackgroundColor = style.BackgroundColor;
 			}
 
 			WeakReference bindingContext;
@@ -74,6 +85,7 @@ namespace MusicPlayer.iOS
 				if (Meter.Superview == ImageView)
 				{
 					Meter.RemoveFromSuperview();
+					overlay.RemoveFromSuperview();
 				}
 			}
 
@@ -101,6 +113,7 @@ namespace MusicPlayer.iOS
 
 				if (song != null && song.Id == Settings.CurrentSong)
 				{
+					ImageView.AddSubview(overlay);
 					ImageView.AddSubview(Meter);
 					Meter.AutoUpdate = true;
 					Meter.Frame = ImageView.Bounds.Inset(5, 5);
@@ -108,6 +121,7 @@ namespace MusicPlayer.iOS
 				else if (Meter.Superview == ImageView)
 				{
 					Meter.RemoveFromSuperview();
+					overlay.RemoveFromSuperview();
 				}
 			}
 			public override void LayoutSubviews()
@@ -117,6 +131,7 @@ namespace MusicPlayer.iOS
 				{
 					Meter.Frame = ImageView.Bounds.Inset(5,5);
 				}
+				overlay.Frame = ImageView.Bounds;
 			}
 		}
 	}

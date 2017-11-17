@@ -144,12 +144,13 @@ namespace MusicPlayer
 		{
 			get
 			{
+				const float MaxValue = 32768;
 				if (!IsPlayerItemValid)
 					return base.AudioLevels;
 				var left = (float)Bass.ChannelGetLevelLeft(streamHandle);
 				var right = (float)Bass.ChannelGetLevelRight(streamHandle);
 				//Console.WriteLine(left);
-				return new[] { left, right };
+				return new[] { left/MaxValue, right/MaxValue };
 			}
 			set
 			{
