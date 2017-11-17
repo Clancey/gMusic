@@ -435,6 +435,7 @@
     <Compile Include="ViewControllers\ConsoleViewController.cs" />
     <Compile Include="Playback\NativeTrackHandler.cs" />
     <Compile Include="UI\DragDismissAnimator.cs" />
+    <Compile Include="UI\LevelMeter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

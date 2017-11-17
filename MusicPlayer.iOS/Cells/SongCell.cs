@@ -6,6 +6,7 @@ using Foundation;
 using SDWebImage;
 using MusicPlayer.Cells;
 using MusicPlayer.Managers;
+using MusicPlayer.Data;
 
 namespace MusicPlayer.iOS
 {
@@ -13,6 +14,16 @@ namespace MusicPlayer.iOS
 	{
 		#region implemented abstract members of BaseCell
 
+		static LevelMeter meter;
+		public bool IncludeVisualizer { get; set; }
+		static LevelMeter Meter
+		{
+			get { return meter ?? (meter = new LevelMeter(new CGRect(0, 0, 5, 5))); }
+			set
+			{
+				meter = value;
+			}
+		}
 		public override UITableViewCell GetCell(UITableView tv)
 		{
 			var cell = tv.DequeueReusableCell(SongTableViewCell.Key) as SongTableViewCell ?? new SongTableViewCell();
@@ -60,7 +71,12 @@ namespace MusicPlayer.iOS
 				var song = BindingContext;
 				if (song == null)
 					return;
+				if (Meter.Superview == ImageView)
+				{
+					Meter.RemoveFromSuperview();
+				}
 			}
+
 
 			async void SetValues(Song song)
 			{
@@ -81,6 +97,25 @@ namespace MusicPlayer.iOS
 						ImageView.Image = Images.GetDefaultSongImage(ImageWidth);
 					else
 						ImageView.SetImage(NSUrl.FromString(artUrl), Images.GetDefaultSongImage(ImageWidth));
+				}
+
+				if (song != null && song.Id == Settings.CurrentSong)
+				{
+					ImageView.AddSubview(Meter);
+					Meter.AutoUpdate = true;
+					Meter.Frame = ImageView.Bounds.Inset(5, 5);
+				}
+				else if (Meter.Superview == ImageView)
+				{
+					Meter.RemoveFromSuperview();
+				}
+			}
+			public override void LayoutSubviews()
+			{
+				base.LayoutSubviews();
+				if (Meter.Superview == ImageView)
+				{
+					Meter.Frame = ImageView.Bounds.Inset(5,5);
 				}
 			}
 		}

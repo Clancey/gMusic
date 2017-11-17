@@ -58,6 +58,7 @@ namespace MusicPlayer.iOS.Playback
 				PlaySong(currentSong, isVideo);
 				return true;
 			}
+			SetVideo(CurrentPlayer);
 			return success;
 		}
 

@@ -199,9 +199,10 @@ namespace MusicPlayer.iOS
 					Items = new UIBarButtonItem[] {
 						new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 10 },
 						new UIBarButtonItem(timeLabel),
+						new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 5 },
 
 						new UIBarButtonItem(slider),
-
+						new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 5 },
 						new UIBarButtonItem(timeRemaingLabel),
 						new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 10 },
 					}
@@ -255,14 +256,16 @@ namespace MusicPlayer.iOS
 				await AnimateAsync(.2, () =>
 				{
 					var bounds = Bounds;
+					var safeArea = this.GetSafeArea();
+
 					var frame = topToolbar.Frame;
-					frame.Y = 0;
+					frame.Y = safeArea.Top;
 					topToolbar.Frame = frame;
 
 					playPauseButton.Alpha = 1;
 
 					frame = bottomToolbar.Frame;
-					frame.Y = bounds.Height - frame.Height;
+					frame.Y = bounds.Height - frame.Height - safeArea.Bottom;
 					bottomToolbar.Frame = frame;
 				});
 				if (autohide)
@@ -280,13 +283,13 @@ namespace MusicPlayer.iOS
 				{
 					var bounds = Bounds;
 					var frame = topToolbar.Frame;
-					frame.Y = -frame.Height;
+					frame.Y = -(frame.Height + 10);
 					topToolbar.Frame = frame;
 
 					playPauseButton.Alpha = 0;
 
 					frame = bottomToolbar.Frame;
-					frame.Y = bounds.Height;
+					frame.Y = bounds.Height + 10;
 					bottomToolbar.Frame = frame;
 				});
 			}
@@ -309,25 +312,33 @@ namespace MusicPlayer.iOS
 			{
 				base.LayoutSubviews();
 				videoView.Frame = Bounds;
+				var safeArea = this.GetSafeArea();
 				var bounds = Bounds;
-
+				bounds.Width -= safeArea.Right + safeArea.Left;
+				bounds.X = safeArea.Left;
+				bounds.Y = safeArea.Right;
+				bounds.Height -= safeArea.Top + safeArea.Bottom;
 				playPauseButton.Center = bounds.GetCenter();
 
 				var frame = topToolbar.Frame;
 				frame.Width = bounds.Width;
+				frame.X = bounds.X;
 				frame.Y = visible ? 0 : -frame.Height;
 				topToolbar.Frame = frame;
 
 				frame = slider.Frame;
+				frame.X = bounds.X;
 				//Custom views have a padding of 12, we have 3 custom views (labels, slider);
 				frame.Width = bounds.Width - 20 - (timeLabel.Frame.Width * 2) - (12 * bottomToolbar.Items.Length);
 				slider.Frame = frame;
 
 				frame = bottomToolbar.Frame;
+				frame.X = bounds.X;
 				frame.Width = bounds.Width;
 				frame.Y = visible ? bounds.Height - frame.Height : bounds.Height;
 				bottomToolbar.Frame = frame;
-
+				if (!visible)
+					hideOverlay();
 				ResetTimer();
 			}
 		}
