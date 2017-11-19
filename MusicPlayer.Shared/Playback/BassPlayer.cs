@@ -168,6 +168,7 @@ namespace MusicPlayer
 
 		public override void Pause()
 		{
+			currentPossition = IsPlayerItemValid ? Bass.ChannelGetPosition(streamHandle) : 0;
 			Bass.Pause();
 			shouldBePlaying = false;
 			if (!IsPlayerItemValid)
@@ -179,6 +180,7 @@ namespace MusicPlayer
 			Bass.ChannelPause(streamHandle);
 			SetState();
 		}
+		long currentPossition;
 
 		public override void Stop()
 		{
@@ -217,6 +219,8 @@ namespace MusicPlayer
 			}
 			else
 				Bass.Start();
+			if(currentPossition > 0  && Bass.ChannelGetPosition(streamHandle) != currentPossition)
+				Bass.ChannelSetPosition(streamHandle, currentPossition);
 			var success = Bass.ChannelPlay(streamHandle, false);
 			Console.WriteLine($"Play Song: {success}");
 			if (!success)
