@@ -17,6 +17,7 @@ namespace MusicPlayer
 				var item = Model.GetItem (TableView.SelectedRow);
 				Model.PlayItem (item);
 			};
+
 			Model = new PlaylistSongViewModel {
 				AutoPlayOnSelect = false,
 				Playlist = playlist,

@@ -60,7 +60,7 @@ namespace MusicPlayer.ViewModels
 				return 0;
 			if (section == 0)
 				return AutoPlaylist.AutoPlaylists.Length;
-			return base.RowsInSection(section + 1);
+			return base.RowsInSection(section - 1);
 		}
 
 		public override int NumberOfSections()
@@ -77,7 +77,7 @@ namespace MusicPlayer.ViewModels
 				return "";
 			if (section == 0)
 				return "Auto Playlists";
-			return base.HeaderForSection(section + 1);
+			return base.HeaderForSection(section - 1);
 		}
 
 		public override string[] SectionIndexTitles()
@@ -94,7 +94,7 @@ namespace MusicPlayer.ViewModels
 			{
 				return AutoPlaylist.AutoPlaylists[row];
 			}
-			return base.ItemFor(section + 1, row);
+			return base.ItemFor(section - 1, row);
 		}
 
   #endregion

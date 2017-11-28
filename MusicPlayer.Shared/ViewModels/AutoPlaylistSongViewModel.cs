@@ -9,7 +9,7 @@ namespace MusicPlayer.ViewModels
 	{
 
 		public override GroupInfo OfflineGroupInfo { get; set; }
-
+		public bool AutoPlay { get; set; } = true;
 		AutoPlaylist playlist;
 
 		public AutoPlaylist Playlist
@@ -27,9 +27,15 @@ namespace MusicPlayer.ViewModels
 			}
 		}
 
-		public override async void RowSelected(Song item)
+		public override void RowSelected(Song item)
 		{
-			await PlaybackManager.Shared.PlayAutoPlaylist(playlist,item, CurrentGroupInfo);
+			if(AutoPlay)
+				PlayItem(item);
+		}
+
+		public async void PlayItem(Song item)
+		{
+			await PlaybackManager.Shared.PlayAutoPlaylist(playlist, item, CurrentGroupInfo);
 		}
 
 		public static GroupInfo CreateGroupInfo(AutoPlaylist playlist, bool offlineOnly = false)
