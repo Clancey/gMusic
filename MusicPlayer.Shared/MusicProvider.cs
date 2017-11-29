@@ -251,6 +251,12 @@ ServiceTypesString = (select group_concat(ServiceType, ',') from Track where Son
 MediaTypesString = (select group_concat(MediaType, ',') from Track where SongId = Song.Id)
 Where Id = ?
 ", track.SongId);
+					connection.Execute(@"
+Update TempSong
+Set 
+OfflineCount = (select count(id) from Track where SongId = TempSong.Id and ServiceType  in ('6','2'))
+Where Id = ?
+", track.SongId);
 
 
 					connection.Execute(@"
@@ -277,6 +283,86 @@ AlbumCount = (select count(distinct AlbumId) from Song where Genre = Genre.Id),
 OfflineCount = (select count(id) from Track where Genre = Genre.Id and ServiceType  in ('6','2'))
 where Id = ?
 ", track.Genre);
+
+					connection.Execute(@"
+Update PlaylistSong
+set 
+OfflineCount = (select count(id) from Track where SongId = PlaylistSong.SongId and ServiceType  in ('6','2'))
+Where Id = ?
+", track.SongId);
+
+
+					connection.Execute(@"Delete From Artist where SongCount = 0");
+
+					connection.Execute(@"Delete From Album where TrackCount = 0");
+
+					connection.Execute(@"Delete From Genre where SongCount = 0");
+
+					connection.Execute(@"Delete From Song where TrackCount = 0");
+
+					var end = DateTime.Now - start;
+					Debug.WriteLine($"grouping in database took {end.TotalMilliseconds}");
+				});
+
+				Database.Main.ClearMemoryStore();
+				NotificationManager.Shared.ProcSongDatabaseUpdated();
+			});
+		}
+
+		public static async Task SetOffline()
+		{
+			//await SetOfflineEverything();
+			await Task.Run(() =>
+			{
+				Database.Main.RunInTransaction((connection) =>
+				{
+					var start = DateTime.Now;
+
+					connection.Execute(@"
+Update Song
+Set TrackCount = (select count(*) from Track where SongId = Song.Id),
+OfflineCount = (select count(id) from Track where SongId = Song.Id and ServiceType  in ('6','2')),
+ServiceTypesString = (select group_concat(ServiceType, ',') from Track where SongId = Song.Id),
+MediaTypesString = (select group_concat(MediaType, ',') from Track where SongId = Song.Id)
+");
+					connection.Execute(@"
+Update TempSong
+Set 
+OfflineCount = (select count(id) from Track where SongId = TempSong.Id and ServiceType  in ('6','2'))
+");
+
+
+					connection.Execute(@"
+Update Artist
+set SongCount = (select count(*) from Song where ArtistId = Artist.Id),
+AlbumCount = (select count(distinct Id) from Album where ArtistId = Artist.Id),
+OfflineCount = (select count(id) from Track where ArtistId = Artist.Id and ServiceType  in ('6','2'))
+");
+
+					connection.Execute(@"
+Update Album
+set TrackCount = (select count(*) from Song where AlbumId = Album.Id),
+IsCompilation = (select count(distinct ArtistID) from Song where AlbumId = Album.Id) > 1,
+OfflineCount = (select count(id) from Track where AlbumId = Album.Id and ServiceType  in ('6','2'))
+");
+
+
+					connection.Execute(@"
+Update Genre
+set SongCount = (select count(*) from Song where Genre = Genre.Id),
+AlbumCount = (select count(distinct AlbumId) from Song where Genre = Genre.Id),
+OfflineCount = (select count(id) from Track where Genre = Genre.Id and ServiceType  in ('6','2'))
+");
+
+					connection.Execute(@"
+Update PlaylistSong
+set 
+OfflineCount = (select count(id) from Track where SongId = PlaylistSong.SongId and ServiceType  in ('6','2'))
+");
+					connection.Execute(@"
+Update Playlist
+Set 
+OfflineCount = (select count(id) from PlaylistSong where PlaylistId = Playlist.Id and OfflineCount > 0)");
 
 
 					connection.Execute(@"Delete From Artist where SongCount = 0");

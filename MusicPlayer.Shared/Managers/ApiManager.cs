@@ -145,6 +145,7 @@ namespace MusicPlayer.Managers
 				var apis = Collection.Values.ToList();
 				var tasks = apis.Select(x => x.Resync());
 				await Task.WhenAll (tasks);
+				await MusicProvider.SetOffline();
 			}
 		}
 

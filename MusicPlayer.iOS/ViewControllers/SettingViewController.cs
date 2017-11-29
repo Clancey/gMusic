@@ -131,6 +131,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					CreateThemePicker("Theme"),
 					new SettingsElement(Strings.ResyncDatabase, () =>
 					{
+						Database.Main.ResetDatabase();
 						Settings.ResetApiModes();
 						ApiManager.Shared.ReSync();
 					}),

@@ -32,8 +32,8 @@ namespace MusicPlayer.ViewModels
 		public static GroupInfo CreateOfflineGroupInfo(GroupInfo groupInfo)
 		{
 			var offlineGroupInfo = groupInfo.Clone();
-			//TODO: Fix this
-			offlineGroupInfo.From = "s inner join Song o on o.Id = s.SongId and o.OfflineCount > 0";
+
+			offlineGroupInfo.Filter = offlineGroupInfo.Filter + (string.IsNullOrEmpty(offlineGroupInfo.Filter) ? " " : " and ") + "OfflineCount > 0";
 			return offlineGroupInfo;
 		}
 

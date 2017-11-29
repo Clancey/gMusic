@@ -50,6 +50,7 @@ namespace MusicPlayer.Data
 		public static readonly string TmpMusicCacheDir = Path.Combine(BaseDir, "tmp/Music");
 		public static readonly string TmpDownloadDir = Path.Combine(BaseDir, "tmp/Download");
 		public static readonly string TempRelative = "tmp/Download";
+		public static readonly string TmpDir = Path.Combine(BaseDir, "tmp");
 		public static readonly string DocumentsDir = Path.Combine(BaseDir, "Documents/");
 		public static readonly string MusicDir = Path.Combine(DocumentsDir, "Music");
 	}

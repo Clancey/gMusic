@@ -66,7 +66,9 @@ namespace MusicPlayer.Managers
 		{
 			var songs = await Database.Main.QueryAsync<Song> ("select s.* from song s inner join PlaylistSong ps on s.Id = ps.SongId inner join PlaylistOfflineClass pso on ps.PlaylistId = pso.Id where s.OfflineCount = 0 and pso.ShouldBeLocal = 1 and s.ExcludedOffline is not 1");
 
-			songs?.ForEach (async (x) => await StartDownload (x));
+			var tempSongs = await Database.Main.QueryAsync<Song>("select s.* from TempSong s inner join PlaylistSong ps on s.Id = ps.SongId inner join PlaylistOfflineClass pso on ps.PlaylistId = pso.Id where ps.OfflineCount = 0 and pso.ShouldBeLocal = 1 and s.ExcludedOffline is not 1");
+
+			songs.Union(tempSongs).ForEach (async (x) => await StartDownload (x));
 		}
 
 		async Task StartDownload (Song song)
@@ -124,8 +126,9 @@ namespace MusicPlayer.Managers
 		{
 			Database.Main.InsertOrReplace (new PlaylistOfflineClass { Id = playlist.Id, ShouldBeLocal = shouldBeLocal });
 			var songs = await Database.Main.QueryAsync <Song> ("select s.* from song s inner join PlaylistSong ps on s.Id = ps.SongId where ps.PlaylistId = ?", playlist.Id);
+			var tempSongs = await Database.Main.QueryAsync<Song>("select s.* from TempSong s inner join PlaylistSong ps on s.Id = ps.SongId where ps.PlaylistId = ?", playlist.Id);
 
-			await ToggleOffline (songs, shouldBeLocal);
+			await ToggleOffline (songs.Union(tempSongs), shouldBeLocal);
 		}
 
 		public async Task ToggleOffline (Genre genre, bool shouldBeLocal)

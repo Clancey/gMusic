@@ -5,16 +5,20 @@ using System.Text;
 using MusicPlayer.Managers;
 using MusicPlayer.Models;
 using SimpleDatabase;
+using SQLite;
 
 namespace MusicPlayer.Data
 {
 	internal class Database : SimpleDatabaseConnection
 	{
-		public static Database Main { get; set; } = new Database();
+		public static Database Main { get; set; } = new Database(new SQLiteConnection(dbPath,SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex | SQLiteOpenFlags.Create, true));
 		static string dbPath => Path.Combine(Locations.LibDir, "db.db");
-
-		public Database() : base(dbPath)
+		SQLiteConnection connection;
+		public Database(SQLiteConnection connection) : base(connection)
 		{
+			this.connection = connection;
+			connection.ExecuteScalar<string>("PRAGMA journal_mode=WAL");
+
 			CreateTables(
 				typeof (Album),
 				typeof (AlbumArtwork),
@@ -58,6 +62,51 @@ namespace MusicPlayer.Data
 				);
 
 			this.MakeClassInstant<Song>();
+		}
+
+		public void ResetDatabase()
+		{
+			DropAndCreateTable<TempPlaylistSong>();
+			DropAndCreateTable<TempPlaylist>();
+			DropAndCreateTable<TempArtistIds>();
+			DropAndCreateTable<TempRadioStationSong>();
+			DropAndCreateTable<TempArtistArtwork>();
+			DropAndCreateTable<TempAlbumIds>();
+			DropAndCreateTable<TempAlbumArtwork>();
+			DropAndCreateTable<TempPlaylistEntry>();
+			DropAndCreateTable<TempGenre>();
+			DropAndCreateTable<TempTrack>();
+			DropAndCreateTable<TempSong>();
+			DropAndCreateTable<TempArtist>();
+			DropAndCreateTable<TempAlbum>();
+			DropAndCreateTable<PlaybackManager.SongsOrdered>();
+			DropAndCreateTable<RadioStationArtwork>();
+			DropAndCreateTable<RadioStationSeed>();
+			DropAndCreateTable<RadioStationSong>();
+			DropAndCreateTable<RadioStation>();
+			DropAndCreateTable<PlaylistSong>();
+			DropAndCreateTable<Playlist>();
+			DropAndCreateTable<Track>();
+			DropAndCreateTable<Song>();
+			DropAndCreateTable<Genre>();
+			DropAndCreateTable<ArtistIds>();
+			DropAndCreateTable<ArtistArtwork>();
+			DropAndCreateTable<Artist>();
+			DropAndCreateTable<AlbumIds>();
+			DropAndCreateTable<AlbumArtwork>();
+			DropAndCreateTable<Album>();
+
+		}
+
+		public void DropTable<T>()
+		{
+			var map = connection.GetMapping(typeof(T));
+			this.Execute($"drop table if exists {map.TableName}");
+		}
+		public void DropAndCreateTable<T>()
+		{
+			DropTable<T>();
+			connection.CreateTable<T>();
 		}
 
 		public T GetObject<T, T1>(object id) where T1 : T, new() where T : new()
