@@ -25,7 +25,7 @@ namespace MusicPlayer
 		{
 			try
 			{
-				if (Settings.EqualizerEnabled && Equalizer.Shared.CurEqId == Equalizer.Shared.CurrentPreset.GlobalId)
+				if (Settings.EqualizerEnabled)
 				{
 					Equalizer.Shared.Bands[tag].Gain = gain;
 					Equalizer.Shared.UpdateBand(tag, gain, true);

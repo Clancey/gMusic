@@ -19,7 +19,6 @@ namespace MusicPlayer.Playback
 			CurrentPreset = StateManager.Shared.GlobalEqualizerPreset > 0
 				? Presets.FirstOrDefault(x => x.Id == StateManager.Shared.GlobalEqualizerPreset)
 				: Presets.FirstOrDefault(x => x.Name == "Flat") ?? Presets.FirstOrDefault();
-			CurEqId = CurrentPreset.GlobalId;
 		}
 
 		static Equalizer shared;
@@ -91,14 +90,6 @@ namespace MusicPlayer.Playback
 			}
 		}
 
-		string curEqId;
-
-		public string CurEqId
-		{
-			get { return curEqId; }
-			set { curEqId = value; }
-		}
-
 		public void Clear ()
 		{
 			for (int i = 0; i < Bands.Length; i++) {
@@ -118,7 +109,6 @@ namespace MusicPlayer.Playback
 			ApplyPreset(curEq);
 			CurEqId = curEq.GlobalId;
 #else
-			CurEqId = CurrentPreset.GlobalId;
 #endif
 			PlaybackManager.Shared.NativePlayer.ApplyEqualizer (Bands);
 		}

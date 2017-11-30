@@ -24,6 +24,8 @@ namespace MusicPlayer
 		{
 #if __IOS__
 			Bass.Configure(Configuration.IOSMixAudio, 0);
+#else
+			Bass.Configure(Configuration.GlobalMusicVolume, 0);
 #endif
 			Bass.Init();
 			Bass.Stop();
@@ -96,6 +98,9 @@ namespace MusicPlayer
 		{
 			if (State != Models.PlaybackState.Playing)
 				return;
+			if (Rate == 0)
+				Play();
+			currentPossition = IsPlayerItemValid ? Bass.ChannelGetPosition(streamHandle) : 0;
 			var time = CurrentTimeSeconds();
 			this.PlabackTimeChanged(time);
 		}
@@ -133,6 +138,7 @@ namespace MusicPlayer
 		public override void Dispose()
 		{
 			isDisposed = true;
+			progressTimer.Elapsed -= ProgressTimerChanged;
 			Stop();
 			RemoveHandles();
 			BassFileProceduresManager.ClearProcedure(fileProcUser);
@@ -168,6 +174,7 @@ namespace MusicPlayer
 
 		public override void Pause()
 		{
+			progressTimer.Enabled = false;
 			currentPossition = IsPlayerItemValid ? Bass.ChannelGetPosition(streamHandle) : 0;
 			Bass.Pause();
 			shouldBePlaying = false;
@@ -184,6 +191,7 @@ namespace MusicPlayer
 
 		public override void Stop()
 		{
+			progressTimer.Enabled = false;
 			if (hasBassStarted)
 			{
 				hasBassStarted = false;
@@ -219,7 +227,7 @@ namespace MusicPlayer
 			}
 			else
 				Bass.Start();
-			if(currentPossition > 0  && Bass.ChannelGetPosition(streamHandle) != currentPossition)
+			if(currentPossition > 0  && Bass.ChannelGetPosition(streamHandle) < currentPossition)
 				Bass.ChannelSetPosition(streamHandle, currentPossition);
 			var success = Bass.ChannelPlay(streamHandle, false);
 			Console.WriteLine($"Play Song: {success}");
@@ -234,49 +242,35 @@ namespace MusicPlayer
 				}
 				Console.WriteLine(error);
 			}
+			progressTimer.Enabled = true;
 			SetState();
 			return success;
 		}
 
 		void SetState()
 		{
-			try
+			if (!IsPlayerItemValid)
 			{
-				if (!IsPlayerItemValid)
-				{
-					State = shouldBePlaying && !string.IsNullOrWhiteSpace(CurrentSongId) ? Models.PlaybackState.Buffering : Models.PlaybackState.Stopped;
+				State = shouldBePlaying && !string.IsNullOrWhiteSpace(CurrentSongId) ? Models.PlaybackState.Buffering : Models.PlaybackState.Stopped;
+				return;
+			}
+			var state = Bass.ChannelIsActive(streamHandle);
+			switch (state)
+			{
+				case ManagedBass.PlaybackState.Paused:
+					State = Models.PlaybackState.Paused;
 					return;
-				}
-				var state = Bass.ChannelIsActive(streamHandle);
-				switch (state)
-				{
-					case ManagedBass.PlaybackState.Paused:
-						State = Models.PlaybackState.Paused;
-						return;
-					case ManagedBass.PlaybackState.Stalled:
-						State = Models.PlaybackState.Buffering;
-						return;
-					case ManagedBass.PlaybackState.Stopped:
-						State = Models.PlaybackState.Stopped;
-						return;
-					case ManagedBass.PlaybackState.Playing:
-						State = Models.PlaybackState.Playing;
-						return;
-				}
+				case ManagedBass.PlaybackState.Stalled:
+					State = Models.PlaybackState.Buffering;
+					return;
+				case ManagedBass.PlaybackState.Stopped:
+					State = Models.PlaybackState.Stopped;
+					return;
+				case ManagedBass.PlaybackState.Playing:
+					State = Models.PlaybackState.Playing;
+					return;
 			}
-			finally
-			{
-				var shouldRun = State == Models.PlaybackState.Playing;
-				if (shouldRun)
-				{
-					if (!progressTimer.Enabled)
-						progressTimer.Start();
-				}
-				else
-				{
-					progressTimer.Stop();
-				}
-			}
+			
 		}
 		public override Task<bool> PlaySong(Song song, bool isVideo, bool forcePlay = false)
 		{
@@ -436,7 +430,7 @@ namespace MusicPlayer
 		int fxEq;
 		public override void ApplyEqualizer(Equalizer.Band[] bands)
 		{
-			if (!IsPlayerItemValid)
+			if (!IsPlayerItemValid || !Settings.EqualizerEnabled)
 				return;
 			if (fxStream == streamHandle)
 			{
@@ -451,7 +445,7 @@ namespace MusicPlayer
 			if (fxEq == 0)
 			{
 				fxStream = 0;
-				Console.WriteLine(Bass.LastError);
+				LogManager.Shared.Report(new Exception($"Equalizer not working {Bass.LastError}"));
 				return;
 			}
 
@@ -482,12 +476,16 @@ namespace MusicPlayer
 				ApplyEqualizer();
 				if (fxEq == 0)
 					return;
+				
 			}
 			// get values of the selected band
 			eq.lBand = band;
+
+			Console.WriteLine($"Get Band {band}");
 			Bass.FXGetParameters(fxEq, eq);
 			//eq.fGain = gain+( _cmp1.fThreshold * (1 / _cmp1.fRatio - 1));
 			eq.fGain = gain;
+			Console.WriteLine($"Set Gain {eq.fCenter} - {gain}");
 			Bass.FXSetParameters(fxEq, eq);
 		}
 	}

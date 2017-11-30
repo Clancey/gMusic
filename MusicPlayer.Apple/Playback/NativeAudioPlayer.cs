@@ -104,12 +104,23 @@ namespace MusicPlayer.Playback
 						Pause();
 					Console.WriteLine("Route Changed");
 				});
+			NotificationManager.Shared.EqualizerEnabledChanged += (sender, e) =>
+			{
+				if (!Settings.EqualizerEnabled)
+					for (int i = 0; i < Equalizer.Shared.Bands.Length; i++)
+					{
+						player?.UpdateBand(i, 0);
+					}
+				else
+					ApplyEqualizer(Equalizer.Shared.Bands);
+			};
 			#endif
 		}
 
 		public void UpdateBand (int band, float gain)
 		{
-			player?.UpdateBand (band, gain);
+			if(Settings.EqualizerEnabled)
+				player?.UpdateBand (band, gain);
 		}
 
 		double lastDurration;
@@ -225,7 +236,8 @@ namespace MusicPlayer.Playback
 
 		public void ApplyEqualizer (Equalizer.Band [] bands)
 		{
-			player.ApplyEqualizer (bands);
+			if(Settings.EqualizerEnabled)
+				player.ApplyEqualizer (bands);
 		}
 		public float[] AudioLevels 
 		{

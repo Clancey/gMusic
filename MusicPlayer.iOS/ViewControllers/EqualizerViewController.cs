@@ -358,11 +358,12 @@ namespace MusicPlayer.iOS
 				//SetNeedsDisplay();
 			}
 
-
+			EqualizerPreset currentPreset;
 			public void SetPreset(EqualizerPreset preset)
 			{
-				if (preset == null)
+				if (preset == null || currentPreset == preset)
 					return;
+				currentPreset = preset;
 				try
 				{
 					EqualizerManager.Shared.SaveCurrent();
