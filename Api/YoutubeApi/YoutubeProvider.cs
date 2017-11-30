@@ -33,9 +33,9 @@ namespace YoutubeApi
 		{
 			get
 			{
-				if(RequiresAuthentication)
+				//if(RequiresAuthentication)
 					return new []{MediaProviderCapabilities.Searchable , MediaProviderCapabilities.NewReleases , MediaProviderCapabilities.Trending , MediaProviderCapabilities.Playlists};
-				return new[]{ MediaProviderCapabilities.Searchable ,  MediaProviderCapabilities.NewReleases , MediaProviderCapabilities.Trending };
+				//return new[]{ MediaProviderCapabilities.Searchable ,  MediaProviderCapabilities.NewReleases , MediaProviderCapabilities.Trending };
 			}
 		}
 
@@ -128,10 +128,13 @@ namespace YoutubeApi
 
 		TaskCompletionSource<string> libraryPlaylistSource = new TaskCompletionSource<string>();
 		Task<string> getOrCreateTask;
+		const string OfflinePlaylistId = "Offline";
 		async Task<string> GetOrCreatePlaylistId()
 		{
 			if (!string.IsNullOrWhiteSpace (Api.ExtraData.PlaylistId))
 				return Api.ExtraData.PlaylistId;
+			if (!RequiresAuthentication)
+				return OfflinePlaylistId;
 			lock (taskLocker) {
 				if (getOrCreateTask?.IsCompleted != false) {
 					getOrCreateTask = getOrCreatePlaylistId ();
@@ -330,6 +333,11 @@ namespace YoutubeApi
 		{
 			try
 			{
+				if (!RequiresAuthentication)
+				{
+					Database.Main.Delete(playlist);
+					return true;
+				}
 				var resp = await Api.Delete(path: "playlists", queryParameters: new Dictionary<string, string> { { "id", playlist.Id } });
 
 				var success = string.IsNullOrWhiteSpace(resp) || resp.Contains("playlistNotFound");
@@ -349,6 +357,11 @@ namespace YoutubeApi
 		{
 			try
 			{
+				if (!RequiresAuthentication)
+				{
+					Database.Main.Delete(song);
+					return true;
+				}
 				var resp = await Api.Delete(path: "playlistItems", queryParameters: new Dictionary<string, string> { { "id", song.Id } });
 
 				var success = string.IsNullOrWhiteSpace(resp);
@@ -369,6 +382,11 @@ namespace YoutubeApi
 		{
 			try
 			{
+				if (!RequiresAuthentication)
+				{
+					App.ShowNotImplmented();
+					return false;
+				}
 				var body = new Google.Apis.Youtube.v3.Data.PlaylistItem
 				{
 					Snippet = new PlaylistItemSnippet
@@ -419,7 +437,9 @@ namespace YoutubeApi
 
 		public async Task<bool> AddToPlaylist (Track song, Playlist playlist, string notes = "")
 		{
-			try{
+			try
+			{
+
 				if (string.IsNullOrWhiteSpace(playlist.Id))
 				{
 					playlist.ServiceType = ServiceType;
@@ -473,10 +493,11 @@ namespace YoutubeApi
 			}
 		}
 
-		public override async Task<bool> SetRating (Track track, int rating)
+		public override Task<bool> SetRating (Track track, int rating)
 		{
-			App.ShowNotImplmented();
-			return false;
+			//TODO: Support Online rating
+			//App.ShowNotImplmented();
+			return Task.FromResult(true);
 		}
 
 		public override async Task<System.Collections.Generic.List<Song>> GetAlbumDetails (string id)
@@ -544,7 +565,7 @@ namespace YoutubeApi
 				if (!string.IsNullOrWhiteSpace(playlist.ServiceExtra))
 					headers = new Dictionary<string, string>{{"ETag",playlist.ServiceExtra}};
 				int order = 0;
-				var playlistResponse = await Api.Get<PlaylistItemListResponse>(path,headers:headers);
+				var playlistResponse = await Api.Get<PlaylistItemListResponse>(path, headers: headers, authenticated: RequiresAuthentication);
 				if (playlistResponse.ETag == playlist.ServiceExtra)
 					return entries;
 				foreach(var item in playlistResponse.Items)
@@ -609,7 +630,7 @@ namespace YoutubeApi
 			var result = new SearchResults();
 			try{
 	            var path = "search?part=snippet&maxResults=50&q=" + HttpUtility.UrlEncode(query);
-				var searchListResponse = await Api.Get<SearchListResponse>(path);
+				var searchListResponse = await Api.Get<SearchListResponse>(path, authenticated: RequiresAuthentication);
 
 				foreach (var searchResult in searchListResponse.Items)
 				{
@@ -676,6 +697,20 @@ namespace YoutubeApi
 		public async override Task<bool> AddToLibrary (OnlinePlaylist onlinePlaylist)
 		{
 			var tracks = await getPlaylistEntries(onlinePlaylist);
+			if (!RequiresAuthentication)
+			{
+				var playlist = new Playlist(onlinePlaylist.Name)
+				{
+					ServiceId = Api.Identifier,
+					ServiceType = ServiceType,
+					Id = onlinePlaylist.Id,
+				};
+				Database.Main.InsertOrReplace(playlist);
+				await ProcessTracks(tracks.OfType<FullTrackData>().ToList());
+				await ProcessPlaylistTracks(tracks, new List<TempPlaylistEntry>());
+				await FinalizePlaylists(Id);
+				return true;
+			}
 			return await AddToPlaylist(tracks.OfType<Track>().ToList(), onlinePlaylist.Name);
 		}
 
@@ -685,8 +720,24 @@ namespace YoutubeApi
 			return false;
 		}
 
+
 		public override async Task<bool> AddToLibrary (OnlineSong song)
 		{
+			if (!RequiresAuthentication)
+			{
+				return await MusicProvider.ProcessTracks(new List<FullTrackData> { 
+					new FullTrackData(song.Name,song.TrackData.Artist,song.TrackData.AlbumArtist,song.TrackData.Album,song.TrackData.Genre){
+						AlbumArtwork = new List<AlbumArtwork> { new AlbumArtwork { Url = string.Format("http://img.youtube.com/vi/{0}/0.jpg", song.TrackData.Id) }},
+						MediaType = MediaType.Video,
+						ServiceId = Api.Identifier,
+						Id = song.TrackData.Id,
+						ServiceType = ServiceType.YouTube,
+						FileExtension = "mp3",
+						Disc = song.TrackData.Disc,
+						Track = song.TrackData.Track,
+						Year = song.TrackData.Year,
+					}});
+			}
 			var notes = new Notes
 			{
 				Album = song.TrackData.Album,
