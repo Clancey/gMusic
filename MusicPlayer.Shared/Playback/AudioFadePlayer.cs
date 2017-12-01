@@ -113,7 +113,7 @@ namespace MusicPlayer.iOS.Playback
 					currentSong = song;
 				eqApplied = false;
 				isVideoDict [song.Id] = isVideo;
-				var player = GetPlayer (song,true);
+				var player = await GetPlayer (song,true);
 				if (player.IsPrepared || player.State == PlaybackState.Playing)
 					return true;
 				player.State = PlaybackState.Buffering;
@@ -130,13 +130,19 @@ namespace MusicPlayer.iOS.Playback
 			return false;
 		}
 
-		public Player GetPlayer (Song song, bool create = false, bool forceNew = false)
+		public Player GetPlayer (Song song)
+		{
+			if (string.IsNullOrWhiteSpace(song?.Id))
+				return null;
+			return playerQueue[song.Id];
+		}
+		public async Task<Player> GetPlayer (Song song, bool create , bool forceNew = false)
 		{
 			if (string.IsNullOrWhiteSpace (song?.Id))
 				return null;
 			if (forceNew)
 				playerQueue.Remove(song.Id);
-			var player = playerQueue [song.Id] ?? (create  ? (playerQueue [song.Id] = CreatePlayer (song)) : null);
+			var player = playerQueue [song.Id] ?? (create  ? (playerQueue [song.Id] = (await CreatePlayer (song))) : null);
 			return player;
 		}
 
@@ -154,7 +160,7 @@ namespace MusicPlayer.iOS.Playback
 			{
 				try
 				{
-					var player = GetPlayer(song, true,true);
+					var player = await GetPlayer(song, true,true);
 					player.Volume = Settings.CurrentVolume;
 					var data = await Parent.PrepareSong(song, isVideo);
 					if (!data.Item1)
@@ -181,7 +187,7 @@ namespace MusicPlayer.iOS.Playback
 			}
 			else if (isSongPrepared (song)) {
 				fadingToSong = null;
-				var player = GetPlayer (song,true);
+				var player = await GetPlayer (song,true);
 				player.ApplyEqualizer ();
 				player.Play ();
 				State = player.State;
@@ -192,7 +198,7 @@ namespace MusicPlayer.iOS.Playback
 				return true;
 			}
 			try {
-				var player = GetPlayer (song,true);
+				var player = await GetPlayer (song,true);
 				player.Volume = Settings.CurrentVolume;
 				if (!player.IsPrepared) {
 					var data = await Parent.PrepareSong (song, isVideo);
@@ -311,7 +317,7 @@ namespace MusicPlayer.iOS.Playback
 		{
 			if (nextSong == null || isSongPrepared(nextSong))
 				return;
-			var player = GetPlayer (nextSong,true);
+			var player = await GetPlayer (nextSong,true);
 			bool isVideo;
 			isVideoDict.TryGetValue (nextSong.Id, out isVideo);
 			var data = await Parent.PrepareSong (nextSong, isVideo);
@@ -378,11 +384,14 @@ namespace MusicPlayer.iOS.Playback
 			return dur;
 		}
 
-		Player CreatePlayer (Song song)
+		async Task<Player> CreatePlayer (Song song)
 		{
+
 			var isVideo = isVideoDict [song.Id];
+			var data = await MusicManager.Shared.GetPlaybackData(song, isVideo);
+
 #if BASS
-			var player = isVideo ? (Player)new AVMediaPlayer () : new BassPlayer ();
+			var player = isVideo || data.CurrentTrack.ServiceType == Api.ServiceType.iPod ? (Player)new AVMediaPlayer () : new BassPlayer ();
 #else
 			var player = new AVMediaPlayer ();
 #endif
