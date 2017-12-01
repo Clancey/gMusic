@@ -706,7 +706,8 @@ namespace YoutubeApi
 					Id = onlinePlaylist.Id,
 				};
 				Database.Main.InsertOrReplace(playlist);
-				await ProcessTracks(tracks.OfType<FullTrackData>().ToList());
+				//TODO: Decide what to do here. If you uncomment this line, all tracks show up in the library. Need to determine if you are adding the playlist or the songs.
+				//await ProcessTracks(tracks.OfType<FullTrackData>().ToList());
 				await ProcessPlaylistTracks(tracks, new List<TempPlaylistEntry>());
 				await FinalizePlaylists(Id);
 				return true;
