@@ -14,7 +14,14 @@ namespace MusicPlayer.iOS
 			return vc.View.IsLandscape ();
 		}
 
-		public static UIEdgeInsets GetSafeArea(this UIView view) => Device.IsIos11 ? view.SafeAreaInsets : view.LayoutMargins;
+		public static UIEdgeInsets GetSafeArea(this UIView view)
+		{
+			if (Device.IsIos11)
+				return view.SafeAreaInsets;
+			var margins = view.LayoutMargins;
+			margins.Top = 64;
+			return margins;
+		}
 	}
 }
 
