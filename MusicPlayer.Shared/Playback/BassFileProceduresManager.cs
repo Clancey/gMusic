@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if BASS
+using System;
 using ObjCRuntime;
 using ManagedBass;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace MusicPlayer.Playback
 		static Dictionary<IntPtr, SyncProcedure> SyncProcs = new Dictionary<IntPtr, SyncProcedure>();
 		public static void ClearProcedure(IntPtr user)
 		{
-			if(FileProcs.ContainsKey(user))
+			if (FileProcs.ContainsKey(user))
 				FileProcs.Remove(user);
 			if (SyncProcs.ContainsKey(user))
 				SyncProcs.Remove(user);
@@ -57,7 +58,7 @@ namespace MusicPlayer.Playback
 			if (currenSyncProc > 1000)
 				currenSyncProc = 0;
 			SyncProcs[user] = proc;
-			return (SyncProcWrapper,user);
+			return (SyncProcWrapper, user);
 		}
 
 
@@ -94,7 +95,7 @@ namespace MusicPlayer.Playback
 			{
 				if (!FileProcs.TryGetValue(user, out var proc))
 					return 0;
-				return proc.Read(buffer,length,user);
+				return proc.Read(buffer, length, user);
 			}
 			catch (Exception ex)
 			{
@@ -124,9 +125,10 @@ namespace MusicPlayer.Playback
 		{
 			if (!SyncProcs.TryGetValue(user, out var proc))
 				return;
-			proc.Invoke(handle,channel,data, user);
+			proc.Invoke(handle, channel, data, user);
 		}
 
 #endif
 	}
 }
+#endif
