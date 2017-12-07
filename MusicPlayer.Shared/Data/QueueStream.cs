@@ -28,6 +28,18 @@ namespace MusicPlayer.Data
 			readStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096);
 		}
 
+		public void SetNewFile(string filePath)
+		{
+			lock (plock)
+			{
+				var position = Position;
+				readStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096);
+				readStream.Seek(position, SeekOrigin.Begin);
+				writeStream.Dispose();
+				writeStream = null;
+			}
+		}
+
 		public bool IsDisposed { get; private set; }
 
 		public long WritePosition => size;

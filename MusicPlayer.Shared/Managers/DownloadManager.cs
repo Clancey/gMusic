@@ -136,10 +136,6 @@ namespace MusicPlayer.Managers
 			};
 			helper.StateChanged = (state)=>
 			{
-				if (state == DownloadHelper.DownloadState.Completed)
-				{
-					TempFileManager.Shared.Add(helper.TrackId, helper.FilePath);
-				}
 				RunPoller();
 			};
 			return helper;
@@ -315,7 +311,11 @@ namespace MusicPlayer.Managers
 					await Task.Delay (1000);
 				}
 				if (finished)
+				{
 					State = DownloadState.Completed;
+					var newFilePath = TempFileManager.Shared.Add(TrackId, FilePath);
+					Stream.SetNewFile(newFilePath);
+				}
 				else if (MaxTryCount == TryCount) {
 					State = DownloadState.Error;
 				}

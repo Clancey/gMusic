@@ -43,17 +43,18 @@ namespace MusicPlayer.Managers
 			return new Tuple<bool, string>(false, null);
 		}
 
-		public void Add(string trackId, string filePath)
+		public string Add(string trackId, string filePath)
 		{
 			var track = Database.Main.GetObject<Track, TempTrack>(trackId);
 			var newPath = track.FileName;
 			var info = new FileInfo(filePath);
 			track.FileLocation = Path.Combine(Locations.TmpMusicCacheDir, newPath);
 			if (info.Length == 0)
-				return;
+				return null;
 			if(filePath != track.FileLocation)
 				File.Copy(filePath, track.FileLocation, true);
 			Queue.Add(newPath);
+			return newPath;
 		}
 	}
 }
