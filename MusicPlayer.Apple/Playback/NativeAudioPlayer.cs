@@ -286,7 +286,7 @@ namespace MusicPlayer.Playback
 		}
 		AVPlayerItem currentPlayerItem;
         bool isVideo;
-
+		static int AutoSkipCount = 0;
 		public async Task PlaySong(Song song, bool playVideo = false)
 		{
 			playbackStarted = DateTime.Now;
@@ -320,9 +320,18 @@ namespace MusicPlayer.Playback
 				return;
 			if (!success)
 			{
+				AutoSkipCount++;
 				this.State = PlaybackState.Stopped;
-				PlaybackManager.Shared.NextTrack();
+				if (AutoSkipCount < 5)
+					PlaybackManager.Shared.NextTrack();
+				else
+				{
+					this.Pause();
+					App.ShowAlert("Error", "Unable to play music Please try again later");
+				}
 			}
+			else
+				AutoSkipCount = 0;
 		}
 
 		internal static readonly MyResourceLoaderDelegate LoaderDelegate = new MyResourceLoaderDelegate();
