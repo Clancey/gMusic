@@ -47,6 +47,8 @@ namespace MusicPlayer.Playback
 
 		public abstract double Duration ();
 
+		public float Progress => (float)CurrentTimeSeconds().SafeDivideByZero(Duration());
+
 		public abstract void Dispose ();
 
 		public abstract void ApplyEqualizer (Equalizer.Band [] bands);

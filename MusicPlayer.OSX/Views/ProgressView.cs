@@ -38,7 +38,7 @@ namespace MusicPlayer
 				return _downloadProgress;
 			}
 			set {
-				if (Math.Abs (_downloadProgress - value) < float.Epsilon)
+				if ((_downloadProgress - value).IsZero())
 					return;
 				_downloadProgress = value;
 				ResizeSubviewsWithOldSize (CGSize.Empty);

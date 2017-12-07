@@ -137,7 +137,7 @@ namespace MusicPlayer
 			var v = point.X / Bounds.Width;
 			var oldValue = val;
 			Value = (float)v;
-			if (Math.Abs (oldValue - Value) > float.Epsilon)
+			if ((oldValue - Value).IsNotZero())
 				ValueChanged?.Invoke (Value);
 		}
 	}

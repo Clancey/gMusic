@@ -132,7 +132,7 @@ namespace MusicPlayer.Playback
 			{
 				if (CurrentSong == null || (!(player.CurrentPlayer?.IsPlayerItemValid ?? false) && (DateTime.Now - playbackStarted).TotalSeconds < 10))
 					return;
-				if (Duration > 0 && Math.Abs(lastDurration) < Double.Epsilon)
+				if (Duration > 0 && lastDurration.IsZero())
 				{
 					Seek(Settings.CurrentPlaybackPercent);
 					lastDurration = Duration;
@@ -140,7 +140,7 @@ namespace MusicPlayer.Playback
 				if (State == PlaybackState.Paused || State == PlaybackState.Stopped)
 					return;
 				var time = player.CurrentTimeSeconds();
-				if (player.Rate > 0 && Math.Abs(time - lastSeconds) > Double.Epsilon)
+				if (player.Rate > 0 &&  (time - lastSeconds).IsNotZero())
 				{
 					lastSeconds = time;
 					return;
@@ -177,7 +177,7 @@ namespace MusicPlayer.Playback
 
 		public double Duration => player.Duration();
 
-		public float Progress => (float) (Math.Abs(Duration) < Double.Epsilon ? 0 : CurrentTime/Duration);
+		public float Progress => player.Progress;
 
 		public void DisableVideo()
 		{

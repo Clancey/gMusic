@@ -45,9 +45,9 @@ namespace MusicPlayer
 			});
 		}
 
-		void OnStateChanged(AVPlayer player)
+		void OnStateChanged(AVPlayer p)
 		{
-			State = (Math.Abs(player?.Rate ?? 0) < float.Epsilon) ? PlaybackState.Paused : PlaybackState.Playing;
+			State = p?.Rate.IsZero() ?? true ? PlaybackState.Paused : PlaybackState.Playing;
 			Console.WriteLine($"State Changed {CurrentSongId} - {State}");
 		}
 
@@ -57,7 +57,7 @@ namespace MusicPlayer
 			Finished?.Invoke(this);
 		}
 
-		void OnPlabackTimeChanged(AVPlayer player, CMTime time)
+		void OnPlabackTimeChanged(AVPlayer p, CMTime time)
 		{
 			PlabackTimeChanged?.Invoke(CurrentTimeSeconds());
 			//Make sure the equalizer is set

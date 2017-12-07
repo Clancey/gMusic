@@ -127,6 +127,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Playback\BassFileProceduresManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AutoPlaylist.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AutoPlaylistSongViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MathExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />
