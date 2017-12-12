@@ -41,7 +41,6 @@ namespace MusicPlayer.Playback
 			#if __IOS__
 			AVAudioSession.SharedInstance().SetCategory(AVAudioSession.CategoryPlayback, out error);
 			#endif
-			LoaderDelegate.Parent = this;
 
 			player = new AudioFadePlayer
 			{
@@ -166,6 +165,7 @@ namespace MusicPlayer.Playback
 				Console.WriteLine(e);
 			}
 	    }
+
 		public async Task PrepareFirstTrack(Song song, bool isVideo)
 		{
 			if (!(await PrepareSong (song, isVideo)).Item1)
@@ -277,14 +277,14 @@ namespace MusicPlayer.Playback
 			var data = GetPlaybackData(song.Id, false);
 			if (data == null)
 				return;
-			data.CancelTokenSource.Cancel();
+			//data.CancelTokenSource.Cancel();
 			data = null;
 			CurrentData.Remove(song.Id);
 			var key = SongIdTracks.FirstOrDefault(x => x.Value == song.Id);
 			if (key.Key != null)
 				SongIdTracks.Remove(key.Key);
 		}
-		AVPlayerItem currentPlayerItem;
+
         bool isVideo;
 		static int AutoSkipCount = 0;
 		public async Task PlaySong(Song song, bool playVideo = false)
@@ -334,29 +334,9 @@ namespace MusicPlayer.Playback
 				AutoSkipCount = 0;
 		}
 
-		internal static readonly MyResourceLoaderDelegate LoaderDelegate = new MyResourceLoaderDelegate();
 		PlaybackState state;
 		Song currentSong;
 
-		public bool ShouldWaitForLoadingOfRequestedResource(AVAssetResourceLoader resourceLoader,
-			AVAssetResourceLoadingRequest loadingRequest)
-		{
-			try
-			{
-				var id = loadingRequest.Request.Url.Path.Trim('/');
-				if (id.Contains('.'))
-					id = id.Substring(0, id.IndexOf('.'));
-				var songId = SongIdTracks[id];
-				var data = GetPlaybackData(songId, false);
-				Task.Run(() => ProcessesRequest(resourceLoader, loadingRequest, data));
-				return true;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-			}
-			return false;
-		}
 		public void SeekTime (double time)
 		{
 			player.Seek (time);
@@ -375,109 +355,7 @@ namespace MusicPlayer.Playback
 			});
 		}
 
-		public void DidCancelLoadingRequest(AVAssetResourceLoader resourceLoader, AVAssetResourceLoadingRequest loadingRequest)
-		{
-		}
 
-		async void ProcessesRequest(AVAssetResourceLoader resourceLoader,
-			AVAssetResourceLoadingRequest loadingRequest, PlaybackData data)
-		{
-			if (data == null)
-			{
-				loadingRequest.FinishLoading();
-				return;
-			}
-			try
-			{
-				var currentDownloadHelper = data.DownloadHelper;
-				var content = loadingRequest.ContentInformationRequest;
-				if (content != null)
-				{
-					content.ByteRangeAccessSupported = true;
-
-					if (string.IsNullOrWhiteSpace(currentDownloadHelper.MimeType))
-					{
-						var success = await currentDownloadHelper.WaitForMimeType();
-					}
-					content.ContentType = currentDownloadHelper.MimeType;
-					content.ContentLength = currentDownloadHelper.TotalLength;
-				}
-
-				var dataRequest = loadingRequest.DataRequest;
-
-				Console.WriteLine(
-					$"Data Request: {dataRequest.RequestedOffset} - {dataRequest.RequestedLength} : {dataRequest.CurrentOffset} - {currentDownloadHelper.TotalLength}");
-				var allData = Device.IsIos9 && dataRequest.RequestsAllDataToEndOfResource;
-                long exspected = allData ? Math.Max(dataRequest.RequestedLength,currentDownloadHelper.TotalLength) : dataRequest.RequestedLength;
-				int sent = 0;
-				var bufer = new byte[exspected];
-				lock (currentDownloadHelper)
-				{
-					while (sent < exspected)
-					{
-						if (data.CancelTokenSource.IsCancellationRequested)
-						{
-							loadingRequest.FinishLoading();
-							return;
-						}
-						var startOffset = dataRequest.CurrentOffset != 0 ? dataRequest.CurrentOffset : dataRequest.RequestedOffset;
-						var remaining = exspected - sent;
-						currentDownloadHelper.Position = startOffset;
-						if (loadingRequest.IsCancelled)
-							break;
-						var read = currentDownloadHelper.Read(bufer, 0, (int) remaining);
-						var sendBuffer = bufer.Take(read).ToArray();
-						dataRequest.Respond(NSData.FromArray(sendBuffer));
-						sent += read;
-						if(sent + startOffset >= currentDownloadHelper.TotalLength)
-							break;
-					}
-				}
-				if (!loadingRequest.IsCancelled){
-					loadingRequest.FinishLoading();
-					if(NativeAudioPlayer.Shared.State == PlaybackState.Buffering || NativeAudioPlayer.Shared.State == PlaybackState.Playing)
-						NativeAudioPlayer.Shared.player.CurrentPlayer.Play();
-				}
-			}
-			catch (Exception ex)
-			{
-				loadingRequest.FinishLoadingWithError(new NSError((NSString) ex.Message, 0));
-				TryPlayAgain(data.SongId);
-				Console.WriteLine("***************** ERROR ******************");
-				Console.WriteLine("Error in Resouce Loader. Trying Again\r\n {0}", ex);
-				Console.WriteLine("*******************************************");
-			}
-		}
-
-		internal class MyResourceLoaderDelegate : AVAssetResourceLoaderDelegate
-		{
-			public NativeAudioPlayer Parent { get; set; }
-
-			public override bool ShouldWaitForLoadingOfRequestedResource(AVAssetResourceLoader resourceLoader,
-				AVAssetResourceLoadingRequest loadingRequest)
-			{
-				return Parent.ShouldWaitForLoadingOfRequestedResource(resourceLoader, loadingRequest);
-			}
-
-			public override void DidCancelLoadingRequest(AVAssetResourceLoader resourceLoader,
-				AVAssetResourceLoadingRequest loadingRequest)
-			{
-				Parent.DidCancelLoadingRequest(resourceLoader, loadingRequest);
-				// base.DidCancelLoadingRequest(resourceLoader, loadingRequest);
-			}
-
-			public override bool ShouldWaitForRenewalOfRequestedResource(AVAssetResourceLoader resourceLoader,
-				AVAssetResourceRenewalRequest renewalRequest)
-			{
-				return base.ShouldWaitForRenewalOfRequestedResource(resourceLoader, renewalRequest);
-			}
-
-			public override bool ShouldWaitForResponseToAuthenticationChallenge(AVAssetResourceLoader resourceLoader,
-				NSUrlAuthenticationChallenge authenticationChallenge)
-			{
-				return base.ShouldWaitForResponseToAuthenticationChallenge(resourceLoader, authenticationChallenge);
-			}
-		}
 
 		public static async Task<bool> VerifyMp3(string path, bool deleteBadFile = false)
 		{

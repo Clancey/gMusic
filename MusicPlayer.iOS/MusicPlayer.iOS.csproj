@@ -84,9 +84,9 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements></CodesignEntitlements>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <MtouchProfiling>true</MtouchProfiling>
     <IpaPackageName>gMusic</IpaPackageName>
@@ -94,7 +94,7 @@
     <MtouchExtraArgs>-gcc_flags "-L${ProjectDir} -lbass -lbass_fx -framework CFNetwork -framework AudioToolbox -framework SystemConfiguration -framework Accelerate -force_load ${ProjectDir}/libbass.a -force_load ${ProjectDir}/libbass_fx.a"</MtouchExtraArgs>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
-    <CodesignProvision>WildCard</CodesignProvision>
+    <CodesignProvision>WildCardDev</CodesignProvision>
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>MediaPlayer</IpaMetadata>
     <CustomCommands>
@@ -107,6 +107,8 @@
     </CustomCommands>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -159,8 +161,8 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements></CodesignEntitlements>
     <BuildIpa>True</BuildIpa>
-    <CodesignKey>iPhone Distribution: INTERACTIVE INNOVATIVE SOLUTIONS LLC</CodesignKey>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseLlvm>false</MtouchUseLlvm>
     <MtouchUseThumb>true</MtouchUseThumb>
     <MtouchI18n>
     </MtouchI18n>
@@ -170,6 +172,10 @@
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <CodesignProvision>WildCardDev</CodesignProvision>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchProfiling>true</MtouchProfiling>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>
@@ -519,9 +525,6 @@
     <Reference Include="ManagedBass.Fx">
       <HintPath>..\packages\ManagedBass.Fx.2.0.1\lib\Xamarin.iOS\ManagedBass.Fx.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleAuth">
-      <HintPath>..\packages\Clancey.SimpleAuth.1.0.44\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AppCenter">
       <HintPath>..\packages\Microsoft.AppCenter.1.0.1\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
     </Reference>
@@ -560,6 +563,9 @@
     </Reference>
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.21.3\lib\Xamarin.iOS\Calabash.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAuth">
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.46\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

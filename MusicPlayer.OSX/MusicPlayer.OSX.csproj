@@ -27,15 +27,16 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <CreatePackage>false</CreatePackage>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
-    <EnableCodeSigning>false</EnableCodeSigning>
+    <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <CodeSignProvision>d81867a5-6813-4c61-873e-11a677311e41</CodeSignProvision>
+    <CodeSignProvision>Automatic</CodeSignProvision>
     <PackageSigningKey>Developer ID Installer</PackageSigningKey>
     <XamMacArch>x86_64</XamMacArch>
     <MonoBundlingExtraArgs>-v</MonoBundlingExtraArgs>
     <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
     <EnableSGenConc>true</EnableSGenConc>
+    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -51,7 +52,7 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>__OSX__;UNIFIED;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MACOS__;__OSX__;UNIFIED;BASS;</DefineConstants>
     <PackageSigningKey>Developer ID Installer</PackageSigningKey>
     <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
     <XamMacArch>x86_64</XamMacArch>
@@ -117,9 +118,6 @@
     <Reference Include="ManagedBass">
       <HintPath>..\packages\ManagedBass.2.0.4\lib\netstandard1.4\ManagedBass.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleAuth">
-      <HintPath>..\packages\Clancey.SimpleAuth.1.0.44\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
-    </Reference>
     <Reference Include="ManagedBass.Fx">
       <HintPath>..\packages\ManagedBass.Fx.2.0.1\lib\netstandard1.4\ManagedBass.Fx.dll</HintPath>
     </Reference>
@@ -137,6 +135,9 @@
     </Reference>
     <Reference Include="SQLitePCLRaw.provider.sqlite3">
       <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.macos.1.1.9\lib\Xamarin.Mac20\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAuth">
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.46\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

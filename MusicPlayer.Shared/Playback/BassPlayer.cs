@@ -3,10 +3,7 @@ using System.Threading.Tasks;
 #if BASS
 using ManagedBass;
 using MusicPlayer.Models;
-using System.IO;
 using MusicPlayer.Playback;
-using AudioToolbox;
-using ObjCRuntime;
 using System.Runtime.InteropServices;
 using MusicPlayer.Managers;
 using ManagedBass.Fx;
@@ -20,7 +17,7 @@ namespace MusicPlayer
 	public class BassPlayer : Player
 	{
 		Timer progressTimer;
-		static  BassPlayer()
+		static BassPlayer()
 		{
 #if __IOS__
 			Bass.Configure(Configuration.IOSMixAudio, 0);
@@ -80,6 +77,7 @@ namespace MusicPlayer
 		bool shouldBePlaying = false;
 		bool isDisposed = false;
 		bool hasBassStarted = false;
+
 		public BassPlayer()
 		{
 			State = Models.PlaybackState.Stopped;
@@ -96,11 +94,12 @@ namespace MusicPlayer
 
 		void ProgressTimerChanged(object o, EventArgs e)
 		{
+			if (!shouldBePlaying && IsPlayerItemValid && Bass.ChannelIsActive(streamHandle) == ManagedBass.PlaybackState.Playing)
+				Pause();
 			if (State != Models.PlaybackState.Playing)
 				return;
-			if (Rate == 0)
+			if (Rate.IsZero())
 				Play();
-			currentPossition = IsPlayerItemValid ? Bass.ChannelGetPosition(streamHandle) : 0;
 			var time = CurrentTimeSeconds();
 			this.PlabackTimeChanged(time);
 		}
@@ -156,7 +155,7 @@ namespace MusicPlayer
 				var left = (float)Bass.ChannelGetLevelLeft(streamHandle);
 				var right = (float)Bass.ChannelGetLevelRight(streamHandle);
 				//Console.WriteLine(left);
-				return new[] { left/MaxValue, right/MaxValue };
+				return new[] { left / MaxValue, right / MaxValue };
 			}
 			set
 			{
@@ -174,7 +173,6 @@ namespace MusicPlayer
 
 		public override void Pause()
 		{
-			progressTimer.Enabled = false;
 			currentPossition = IsPlayerItemValid ? Bass.ChannelGetPosition(streamHandle) : 0;
 			Bass.Pause();
 			shouldBePlaying = false;
@@ -227,7 +225,7 @@ namespace MusicPlayer
 			}
 			else
 				Bass.Start();
-			if(currentPossition > 0  && Bass.ChannelGetPosition(streamHandle) < currentPossition)
+			if (currentPossition > 0 && Bass.ChannelGetPosition(streamHandle) < currentPossition)
 				Bass.ChannelSetPosition(streamHandle, currentPossition);
 			var success = Bass.ChannelPlay(streamHandle, false);
 			Console.WriteLine($"Play Song: {success}");
@@ -270,7 +268,7 @@ namespace MusicPlayer
 					State = Models.PlaybackState.Playing;
 					return;
 			}
-			
+
 		}
 		public override Task<bool> PlaySong(Song song, bool isVideo, bool forcePlay = false)
 		{
@@ -309,13 +307,13 @@ namespace MusicPlayer
 			   var data = playbackData.SongPlaybackData;
 			   if (data.IsLocal)
 			   {
-				   streamHandle = Bass.CreateStream(data.Uri.LocalPath, Flags: BassFlags.AutoFree | BassFlags.Prescan);
+				   streamHandle = Bass.CreateStream(data.Uri.LocalPath, Flags: BassFlags.Prescan);
 			   }
 			   else
 			   {
 				   var fileProcData = BassFileProceduresManager.CreateProcedure(fileProcs);
 				   fileProcUser = fileProcData.user;
-				   streamHandle = Bass.CreateStream(StreamSystem.Buffer, BassFlags.AutoFree, fileProcData.proc, fileProcData.user);//, downloaderPointer);
+				   streamHandle = Bass.CreateStream(StreamSystem.Buffer, BassFlags.Prescan, fileProcData.proc, fileProcData.user);//, downloaderPointer);
 			   }
 			   if (streamHandle == 0)
 			   {
@@ -398,6 +396,7 @@ namespace MusicPlayer
 
 		bool OnFileSeek(long offset, IntPtr user)
 		{
+			currentData?.DataStream.Seek(offset, System.IO.SeekOrigin.Begin);
 			return true;
 		}
 
@@ -421,8 +420,10 @@ namespace MusicPlayer
 				BassFileProceduresManager.ClearProcedure(fileProcUser);
 				BassFileProceduresManager.ClearProcedure(endSyncUser);
 				BassFileProceduresManager.ClearProcedure(bufferSyncUser);
+				streamHandle = Bass.StreamFree(streamHandle) ? 0 : streamHandle;
 			}
-			streamHandle = 0;
+			else
+				streamHandle = 0;
 
 		}
 
@@ -476,16 +477,14 @@ namespace MusicPlayer
 				ApplyEqualizer();
 				if (fxEq == 0)
 					return;
-				
+
 			}
 			// get values of the selected band
 			eq.lBand = band;
 
-			Console.WriteLine($"Get Band {band}");
 			Bass.FXGetParameters(fxEq, eq);
 			//eq.fGain = gain+( _cmp1.fThreshold * (1 / _cmp1.fRatio - 1));
 			eq.fGain = gain;
-			Console.WriteLine($"Set Gain {eq.fCenter} - {gain}");
 			Bass.FXSetParameters(fxEq, eq);
 		}
 	}

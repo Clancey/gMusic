@@ -293,7 +293,7 @@ namespace MusicPlayer.iOS.Playback
 				var remaining = duration - current;
 				//Console.WriteLine ("Time Remaining: {0}",remaining);
 				var avgAudio = AudioLevels?.Max() ?? 1;
-				if (remaining < 3 && avgAudio < .01 && lastAudioCheck < .01 && lastAudioCheck > 0)
+				if (remaining < 8 && avgAudio < .01 && lastAudioCheck < .01 && lastAudioCheck > 0)
 				{
 					StartNext(current);
 				}

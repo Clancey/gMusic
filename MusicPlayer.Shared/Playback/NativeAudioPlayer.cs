@@ -64,8 +64,6 @@ namespace MusicPlayer.Playback
 				var playbackData = data.SongPlaybackData = await MusicManager.Shared.GetPlaybackData (song, playVideo);
 				if (playbackData == null)
 					return new Tuple<bool, PlaybackData> (false, data);
-				if (data.CancelTokenSource.IsCancellationRequested)
-					return new Tuple<bool, PlaybackData> (false, data);
 
 				if (song == CurrentSong) {
 					Settings.CurrentTrackId = playbackData.CurrentTrack.Id;
@@ -81,14 +79,11 @@ namespace MusicPlayer.Playback
 					NotificationManager.Shared.ProcSongDownloadPulsed(song.Id, 0f);
 					data.SongPlaybackData = playbackData;
 					data.DownloadHelper = await DownloadManager.Shared.DownloadNow (playbackData.CurrentTrack.Id, playbackData.Uri);
-					if (data.CancelTokenSource.IsCancellationRequested)
-						return new Tuple<bool, PlaybackData> (false, data);
 					LogManager.Shared.Log ("Loading online Track", data.SongPlaybackData.CurrentTrack);
 					SongIdTracks [data.SongPlaybackData.CurrentTrack.Id] = song.Id;
 				}
 
 				lastSeconds = -1;
-				var success = !data.CancelTokenSource.IsCancellationRequested;
 
 				LogManager.Shared.Log("Finished Preparing Song", song);
 				return new Tuple<bool, PlaybackData> (true, data);

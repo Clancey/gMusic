@@ -54,7 +54,7 @@ namespace MusicPlayer.Managers
 			if(filePath != track.FileLocation)
 				File.Copy(filePath, track.FileLocation, true);
 			Queue.Add(newPath);
-			return newPath;
+			return track.FileLocation;
 		}
 	}
 }

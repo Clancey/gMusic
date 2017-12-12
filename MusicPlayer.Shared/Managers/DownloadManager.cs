@@ -22,6 +22,8 @@ namespace MusicPlayer.Managers
 
 		public DownloadManager()
 		{
+
+			Directory.GetFiles(Locations.TmpDir, "*.tmp").ToList().ForEach(File.Delete);
 			downloads.OnDequeue = (KeyValuePair<string, DownloadHelper> obj) =>
 			{
 				var helper = obj.Value;
@@ -168,6 +170,7 @@ namespace MusicPlayer.Managers
 		public string TrackId { get; set; }
 		public string SongId { get; set; }
 		public long TotalLength => Math.Max(Stream.FinalLength, Stream.EstimatedLength);
+		public long CurrentSize => Stream.CurrentSize;
 		public long CurrentDownloaded => Stream.WritePosition;
 		public float Percent => (float) CurrentDownloaded/TotalLength;
 		public Uri Uri { get; set; }
@@ -415,7 +418,7 @@ namespace MusicPlayer.Managers
 				Stream.Push(buffer, 0, bytesRead);
 				var current = Stream.WritePosition;
 				var total = Length;
-				var percent = (float) current/(float) total;
+				var percent = (float)current / (float)total;
 				if (!(percent >= (lastUpdatePercent + .05f)) && !(percent >= .99f) || float.IsNaN(percent) || float.IsInfinity(percent)) continue;
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -424,6 +427,9 @@ namespace MusicPlayer.Managers
 				lastUpdatePercent = percent;
 				if (Stream.FinalLength == 0)
 					Stream.FinalLength = response?.Content?.Headers?.ContentLength ?? 0;
+#if DEBUG
+				await Task.Delay(500);
+#endif
 			}
 			var success = Stream.FinalLength == Stream.CurrentSize && Stream.FinalLength > 0 || (Math.Abs (Stream.WritePosition - Stream.EstimatedLength) < 200000 && !hasData)  || (Length == 0 && Stream.WritePosition > 0 && !hasData);
 			if (success && Stream.FinalLength == 0) {
@@ -478,7 +484,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Console.WriteLine("Canceling Download: {0}",TrackId);
+
+				if(this.State != DownloadState.Completed)
+					Console.WriteLine("Canceling Download: {0}",TrackId);
 				DownloadStream?.Close();
 				DownloadStream?.Dispose();
 			}

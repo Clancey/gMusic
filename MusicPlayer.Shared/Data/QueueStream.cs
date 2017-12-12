@@ -16,8 +16,8 @@ namespace MusicPlayer.Data
 		object plock = new object();
 
 		public string FilePath { get; private set; }
-
-		public QueueStream() : this(Path.GetTempFileName())
+		static string GetTempPath() => Path.Combine(Locations.TmpDir, $"{Guid.NewGuid()}.tmp");
+		public QueueStream() : this(GetTempPath())
 		{
 		}
 
@@ -128,10 +128,10 @@ namespace MusicPlayer.Data
 			IsDisposed = true;
 			if (disposing)
 			{
-				readStream.Close();
-				readStream.Dispose();
-				writeStream.Close();
-				writeStream.Dispose();
+				readStream?.Close();
+				readStream?.Dispose();
+				writeStream?.Close();
+				writeStream?.Dispose();
 			}
 			base.Dispose(disposing);
 		}

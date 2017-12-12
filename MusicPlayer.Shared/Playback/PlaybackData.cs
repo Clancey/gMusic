@@ -11,7 +11,6 @@ namespace MusicPlayer.Playback
 		public string SongId { get; set; }
 		public SongPlaybackData SongPlaybackData { get; set; }
 		public DownloadHelper DownloadHelper { get; set; }
-		public CancellationTokenSource CancelTokenSource { get; set; } = new CancellationTokenSource();
 		public string MimeType
 		{
 			get

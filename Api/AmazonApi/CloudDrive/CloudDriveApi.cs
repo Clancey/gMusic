@@ -27,7 +27,7 @@ namespace Amazon.CloudDrive
 		}
 
 		public CloudDriveApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null)
-			: base(identifier, clientId, clientSecret, handler)
+			: base(identifier, clientId, clientSecret, handler: handler)
 		{
 			SetEndpoint(RootUrl);
 		}

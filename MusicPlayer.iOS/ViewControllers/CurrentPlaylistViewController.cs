@@ -33,7 +33,6 @@ namespace MusicPlayer.iOS.ViewControllers
 		public override void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
-
 			if (model.RowsInSection(0) > PlaybackManager.Shared.CurrentSongIndex)
 				TableView.ScrollToRow(NSIndexPath.FromItemSection(PlaybackManager.Shared.CurrentSongIndex, 0),
 					UITableViewScrollPosition.Top, true);
