@@ -229,7 +229,6 @@ namespace MusicPlayer.Managers
 				Stream?.Dispose();
 				DownloadStream?.Dispose();
 				response?.Dispose();
-				client?.Dispose();
 			} 
 			base.Dispose(disposing);
 		}
@@ -507,8 +506,6 @@ namespace MusicPlayer.Managers
 			}
 
 			response?.Dispose();
-			client?.Dispose();
-
 		}
 	}
 }
