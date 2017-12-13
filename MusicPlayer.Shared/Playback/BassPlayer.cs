@@ -95,7 +95,7 @@ namespace MusicPlayer
 		void ProgressTimerChanged(object o, EventArgs e)
 		{
 			if (!shouldBePlaying && IsPlayerItemValid && Bass.ChannelIsActive(streamHandle) == ManagedBass.PlaybackState.Playing)
-				Pause();
+				Bass.ChannelPause(streamHandle);
 			if (State != Models.PlaybackState.Playing)
 				return;
 			if (Rate.IsZero())
@@ -350,8 +350,8 @@ namespace MusicPlayer
 				return;
 			}
 
-			var location = Bass.ChannelSeconds2Bytes(streamHandle, seconds);
-			Bass.ChannelSetPosition(streamHandle, location);
+			currentPossition = Bass.ChannelSeconds2Bytes(streamHandle, seconds);
+			Bass.ChannelSetPosition(streamHandle, currentPossition);
 		}
 
 		void OnFileClose(IntPtr user)
@@ -365,7 +365,12 @@ namespace MusicPlayer
 			try
 			{
 				while ((currentData?.DataStream.Length ?? 0) == 0)
+				{
 					Task.Delay(500).Wait();
+
+					if (isDisposed)
+						return 0;
+				}
 				return currentData?.DataStream.Length ?? 0;
 			}
 			catch (Exception ex)
@@ -378,6 +383,8 @@ namespace MusicPlayer
 
 		int OnFileRead(IntPtr buffer, int length, IntPtr user)
 		{
+			if (isDisposed)
+				return 0;
 			var data = new byte[length];
 			var read = 0;
 			try
@@ -396,6 +403,8 @@ namespace MusicPlayer
 
 		bool OnFileSeek(long offset, IntPtr user)
 		{
+			if (isDisposed)
+				return false;
 			currentData?.DataStream.Seek(offset, System.IO.SeekOrigin.Begin);
 			return true;
 		}

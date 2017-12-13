@@ -113,7 +113,7 @@ namespace MusicPlayer.Playback
 		public static void SetupThumbsUp()
 		{
 			var center = MPRemoteCommandCenter.Shared;
-			if (Settings.ThubsUpOnLockScreen) {
+			if (Settings.ThubsUpOnLockScreen ) {
 				thumbsDownObject = center.DislikeCommand.AddTarget ((evt) => {
 					MusicManager.Shared.ThumbsDown (MusicManager.Shared.GetCurrentSong ());
 					return MPRemoteCommandHandlerStatus.Success;

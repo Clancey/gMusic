@@ -37,7 +37,7 @@ namespace MusicPlayer.iOS
 		public class SongTableViewCell : MediaItemCell
 		{
 			public const string Key = "SongCell";
-			UIView overlay = new UIView(new CGRect(0,0,MediaItemCell.ImageWidth,MediaItemCell.ImageWidth))
+			static UIView overlay = new UIView(new CGRect(0,0,MediaItemCell.ImageWidth,MediaItemCell.ImageWidth))
 			{
 				Alpha = .5f,
 			};
@@ -130,8 +130,8 @@ namespace MusicPlayer.iOS
 				if (Meter.Superview == ImageView)
 				{
 					Meter.Frame = ImageView.Bounds.Inset(5,5);
+					overlay.Frame = ImageView.Bounds;
 				}
-				overlay.Frame = ImageView.Bounds;
 			}
 		}
 	}

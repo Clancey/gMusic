@@ -48,12 +48,13 @@ namespace MusicPlayer.Managers
 			if (url == null)
 			{
 				var temp = TempFileManager.Shared.GetTempFile(track.Id);
-				url = temp.Item1 ? new Uri(temp.Item2) : await GetTrackUrl(track);
+				if (temp.Item1)
+					url = new Uri(temp.Item2);
 
 			}
 			return new SongPlaybackData
 			{
-				IsVideo = true,
+				IsVideo = playVideo || track.MediaType == MediaType.Video ,
 				Song = song,
 				Tracks = tracks,
 				CurrentTrack = track,
@@ -97,6 +98,7 @@ namespace MusicPlayer.Managers
 					return new Uri(path);
 				}
 				var provider = ApiManager.Shared.GetMusicProvider(track.ServiceId);
+				Console.WriteLine($"Getting Track Url {track.MediaType} - {track.SongId}");
 				return await provider.GetPlaybackUri(track);
 			}
 			catch (Exception ex)

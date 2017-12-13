@@ -9,6 +9,7 @@ using Amazon.CloudDrive;
 using OneDrive;
 using YoutubeApi;
 using SoundCloud;
+using System.Net.Http;
 
 namespace MusicPlayer.Managers
 {
@@ -62,6 +63,13 @@ namespace MusicPlayer.Managers
 			await CreateYouTube ();
 		}
 
+		HttpMessageHandler CreateHandler()
+		{
+#if __IOS__
+			return new ModernHttpClient.NativeMessageHandler();
+#endif
+			return null;
+		}
 		void CreateApi(ApiModel model)
 		{
 			try
@@ -69,7 +77,7 @@ namespace MusicPlayer.Managers
 				if (model.Service == ServiceType.FileSystem)
 					model.Service = ServiceType.OneDrive;
 				var apiType = ApiServiceTypes[model.Service];
-				var api = Activator.CreateInstance(apiType, model.Id.ToString(), null) as SimpleAuth.Api;
+				var api = Activator.CreateInstance(apiType, model.Id.ToString(), CreateHandler()) as SimpleAuth.Api;
 				api.DeviceId = model.DeviceId;
 				api.ExtraDataString = model.ExtraData;
 

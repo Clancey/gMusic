@@ -289,7 +289,6 @@
   <Import Project="..\Api\OneDrive\OneDrive.projitems" Label="Shared" Condition="Exists('..\Api\OneDrive\OneDrive.projitems')" />
   <Import Project="..\Api\SoundCloud\SoundCloud.projitems" Label="Shared" Condition="Exists('..\Api\SoundCloud\SoundCloud.projitems')" />
   <Import Project="..\Api\AmazonApi\AmazonApi.projitems" Label="Shared" Condition="Exists('..\Api\AmazonApi\AmazonApi.projitems')" />
-  <Import Project="..\Api\Api\Api.projitems" Label="Shared" Condition="Exists('..\Api\Api\Api.projitems')" />
   <Import Project="..\Api\gMusicApi\gMusicApi.projitems" Label="Shared" Condition="Exists('..\Api\gMusicApi\gMusicApi.projitems')" />
   <Import Project="..\..\taglib-sharp\src\taglib-sharp.projitems" Label="Shared" Condition="Exists('..\..\taglib-sharp\src\taglib-sharp.projitems')" />
   <Import Project="..\..\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor.projitems" Label="Shared" Condition="Exists('..\..\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor\YoutubeExtractor.projitems')" />

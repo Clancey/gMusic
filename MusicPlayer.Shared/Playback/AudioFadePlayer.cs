@@ -391,10 +391,10 @@ namespace MusicPlayer.iOS.Playback
 			var data = await MusicManager.Shared.GetPlaybackData(song, isVideo);
 
 #if BASS
-			var player = isVideo || data.CurrentTrack.ServiceType == Api.ServiceType.iPod ? (Player)new AVMediaPlayer () : new BassPlayer ();
+			var player = isVideo || data.CurrentTrack.MediaType == MediaType.Video || data.CurrentTrack.ServiceType == Api.ServiceType.iPod ? (Player)new AVMediaPlayer () : new BassPlayer ();
 #else
 			var player = new AVMediaPlayer ();
-#endif
+			#endif
 
 			player.StateChanged = (state) => {
 				if (player.CurrentSongId == CurrentSongId)
@@ -408,6 +408,7 @@ namespace MusicPlayer.iOS.Playback
 				playerQueue.Remove (p.CurrentSongId);
 				if(p.CurrentSongId == CurrentSongId)
 					Finished?.Invoke (p);
+				PrepareNextSong();
 			};
 
 			player.PlabackTimeChanged = (time) => {

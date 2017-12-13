@@ -242,7 +242,6 @@ namespace MusicPlayer.Managers
 				}
 				if (downloadTask == null || downloadTask.IsCompleted)
 				{
-					await OpenConnection();
 					downloadTask = Task.Run(() => realDownload());
 				}
 				return true;
@@ -291,9 +290,17 @@ namespace MusicPlayer.Managers
 					try
 					{
 						State = DownloadState.Downloading;
-						await OpenConnection();
-						finished = await ProccessStream();
-						break;
+						cancelSource.Token.ThrowIfCancellationRequested();
+						var success = await OpenConnection();
+						if (success)
+						{
+							finished = await ProccessStream();
+							break;
+						}
+						else
+						{
+							TryCount++;
+						}
 					}
 					catch (TaskCanceledException)
 					{
@@ -342,11 +349,13 @@ namespace MusicPlayer.Managers
 					return true;
 				Console.WriteLine($"Requesting Playback Url {TrackId}");
 				url = Uri ?? await MusicManager.Shared.GeTrackPlaybackUri(TrackId);
-				if(url == null)
+				if (url == null)
 				{
 					NotificationManager.Shared.ProcFailedDownload(SongId);
 					return false;
 				}
+				else
+					Uri = url;
 				var request = new HttpRequestMessage(HttpMethod.Get, url);
 				if (Stream.WritePosition > 0)
 					request.Headers.Range = new RangeHeaderValue(Stream.WritePosition, Stream.FinalLength);
@@ -387,6 +396,7 @@ namespace MusicPlayer.Managers
 			catch (OperationCanceledException ex)
 			{
 				Console.WriteLine(ex);
+				return false;
 			}
 			catch (Exception ex)
 			{

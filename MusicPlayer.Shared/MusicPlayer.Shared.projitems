@@ -129,6 +129,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AutoPlaylistSongViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MathExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SimpleQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ServiceType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)ApiConstants.cs" />

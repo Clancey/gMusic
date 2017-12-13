@@ -567,6 +567,9 @@
     <Reference Include="SimpleAuth">
       <HintPath>..\packages\Clancey.SimpleAuth.1.0.46\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
     </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
@@ -633,12 +636,6 @@
     <ProjectReference Include="..\..\MonoTouch.Dialog\MonoTouch.Dialog\MonoTouch.Dialog.csproj">
       <Project>{3FFBFFF8-5560-4EDE-82E5-3FFDFBBA8A50}</Project>
       <Name>MonoTouch.Dialog</Name>
-      <IsAppExtension>False</IsAppExtension>
-      <IsWatchApp>False</IsWatchApp>
-    </ProjectReference>
-    <ProjectReference Include="..\Api\Api.iOS\Api.iOS.csproj">
-      <Project>{5914FC5F-C364-4E11-9248-27BA7C8C17D0}</Project>
-      <Name>Api.iOS</Name>
       <IsAppExtension>False</IsAppExtension>
       <IsWatchApp>False</IsWatchApp>
     </ProjectReference>
