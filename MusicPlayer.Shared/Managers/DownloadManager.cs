@@ -167,6 +167,7 @@ namespace MusicPlayer.Managers
 #else
 		static readonly HttpClient client = new HttpClient();
 #endif
+		CancellationTokenSource cancelSource = new CancellationTokenSource();
 		Stream DownloadStream;
 		Task downloadTask;
 		HttpResponseMessage response;
@@ -371,7 +372,7 @@ namespace MusicPlayer.Managers
 					request.Headers.Range = new RangeHeaderValue(Stream.WritePosition, Stream.FinalLength);
 
 				var time = TimeSpan.FromSeconds(30);
-				var respTask = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+				var respTask = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead,cancelSource.Token);
 				if (await Task.WhenAny(respTask, Task.Delay(time)) != respTask)
 					throw new TimeoutException();
 				response = respTask.Result;
@@ -429,7 +430,7 @@ namespace MusicPlayer.Managers
 				{
 					return false;
 				}
-				var bytesRead = await DownloadStream.ReadAsync(buffer, 0, buffer.Length);
+				var bytesRead = await DownloadStream.ReadAsync(buffer, 0, buffer.Length,cancelSource.Token);
 				hasData = bytesRead > 0;
 				if (!hasData)
 					continue;
@@ -504,7 +505,7 @@ namespace MusicPlayer.Managers
 			{
 				LogManager.Shared.Report(ex);
 			}
-
+			cancelSource?.Cancel();
 			response?.Dispose();
 		}
 	}
