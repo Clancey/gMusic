@@ -33,7 +33,7 @@ namespace MusicPlayer.Managers
 				var fileName = helper.FilePath;
 				helper.Cancel();
 				helper.Dispose();
-				if(File.Exists(fileName))
+				if (File.Exists(fileName))
 					File.Delete(fileName);
 				RunPoller();
 			};
@@ -69,6 +69,8 @@ namespace MusicPlayer.Managers
 							DownloadHelper helper;
 							if (!string.IsNullOrWhiteSpace(currentId) && downloads.TryGetValue(currentId, out helper))
 							{
+								if (helper.State == DownloadHelper.DownloadState.Canceled)
+									continue;
 								if (helper.State == DownloadHelper.DownloadState.Downloading)
 									continue;
 								if (helper.State != DownloadHelper.DownloadState.Completed)
@@ -81,6 +83,8 @@ namespace MusicPlayer.Managers
 							if (string.IsNullOrWhiteSpace(next.Key))
 								continue;
 							helper = next.Value;
+							if (helper.State == DownloadHelper.DownloadState.Canceled)
+								continue;
 							if (helper.State == DownloadHelper.DownloadState.Downloading)
 								continue;
 							if (helper.State != DownloadHelper.DownloadState.Completed)
@@ -136,7 +140,7 @@ namespace MusicPlayer.Managers
 				TrackId = trackId,
 				Uri = uri
 			};
-			helper.StateChanged = (state)=>
+			helper.StateChanged = (state) =>
 			{
 				RunPoller();
 			};
@@ -158,8 +162,11 @@ namespace MusicPlayer.Managers
 		public bool IsDisposed { get => Stream?.IsDisposed ?? false; }
 		public string MimeType { get; set; }
 		const int MaxTryCount = 5;
-		readonly HttpClient client = new HttpClient();
-		CancellationTokenSource cancelSource;
+#if __IOS__
+		static readonly HttpClient client = new HttpClient(new ModernHttpClient.NativeMessageHandler());
+#else
+		static readonly HttpClient client = new HttpClient();
+#endif
 		Stream DownloadStream;
 		Task downloadTask;
 		HttpResponseMessage response;
@@ -223,7 +230,6 @@ namespace MusicPlayer.Managers
 				DownloadStream?.Dispose();
 				response?.Dispose();
 				client?.Dispose();
-				;
 			} 
 			base.Dispose(disposing);
 		}
@@ -235,7 +241,6 @@ namespace MusicPlayer.Managers
 				if (State == DownloadState.Completed || State == DownloadState.Downloading)
 					return true;
 				State = DownloadState.Downloading;
-				cancelSource = new CancellationTokenSource();
 				if (string.IsNullOrWhiteSpace(SongId))
 				{
 					SongId = MusicManager.Shared.GetSongId(TrackId);
@@ -286,11 +291,16 @@ namespace MusicPlayer.Managers
 			try {
 				Console.WriteLine ("Starting Download {0}", TrackId);
 				var finished = false;
+				TryCount = 0;
 				while (TryCount < MaxTryCount && !finished) {
 					try
 					{
 						State = DownloadState.Downloading;
-						cancelSource.Token.ThrowIfCancellationRequested();
+
+						if (State == DownloadState.Canceled)
+						{
+							break;
+						}
 						var success = await OpenConnection();
 						if (success)
 						{
@@ -342,7 +352,8 @@ namespace MusicPlayer.Managers
 			{
 				Console.WriteLine($"Opening Connection {TrackId}");
 				State = DownloadState.Downloading;
-				cancelSource.Token.ThrowIfCancellationRequested();
+				if (State == DownloadState.Canceled)
+					return false;
 				if (DownloadStream?.CanRead ?? false)
 					return true;
 				if (response?.IsSuccessStatusCode ?? false)
@@ -361,9 +372,7 @@ namespace MusicPlayer.Managers
 					request.Headers.Range = new RangeHeaderValue(Stream.WritePosition, Stream.FinalLength);
 
 				var time = TimeSpan.FromSeconds(30);
-				var cancelationSource = new CancellationTokenSource();
-
-				var respTask = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancelationSource.Token);
+				var respTask = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 				if (await Task.WhenAny(respTask, Task.Delay(time)) != respTask)
 					throw new TimeoutException();
 				response = respTask.Result;
@@ -417,7 +426,7 @@ namespace MusicPlayer.Managers
 			bool hasData = true;
 			while (Stream.WritePosition < Stream.FinalLength || (Stream.WritePosition < Stream.EstimatedLength && hasData) || (Length == 0 && hasData))
 			{
-				if (cancelSource.IsCancellationRequested)
+				if (State == DownloadState.Canceled)
 				{
 					return false;
 				}
@@ -462,17 +471,7 @@ namespace MusicPlayer.Managers
 
 		public override long Seek(long offset, SeekOrigin origin)
 		{
-			try
-			{
-				return Stream.Seek(offset, origin);
-			}
-			catch (ObjectDisposedException ex)
-			{
-				Stream = new QueueStream();
-				Cancel();
-				StartDownload();
-				return Stream.Seek(offset, origin);
-			}
+			return Stream.Seek(offset, origin);
 		}
 
 		public override void SetLength(long value)
@@ -495,8 +494,10 @@ namespace MusicPlayer.Managers
 			try
 			{
 
-				if(this.State != DownloadState.Completed)
+				if(this.State != DownloadState.Completed){
 					Console.WriteLine("Canceling Download: {0}",TrackId);
+					State = DownloadState.Canceled;
+				}
 				DownloadStream?.Close();
 				DownloadStream?.Dispose();
 			}
@@ -507,7 +508,7 @@ namespace MusicPlayer.Managers
 
 			response?.Dispose();
 			client?.Dispose();
-			cancelSource.Cancel();
+
 		}
 	}
 }

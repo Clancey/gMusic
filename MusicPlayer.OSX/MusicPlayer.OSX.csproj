@@ -155,7 +155,6 @@
     <Compile Include="Views\Cells\SpinnerCell.cs" />
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Device.cs" />
-    <Compile Include="Helpers\Utility.cs" />
     <Compile Include="Helpers\HttpUtility.cs" />
     <Compile Include="Native\BackgroundDownloadManager.cs" />
     <Compile Include="Native\NativeTrackHandler.cs" />
