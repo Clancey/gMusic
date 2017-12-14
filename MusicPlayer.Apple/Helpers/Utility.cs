@@ -37,12 +37,12 @@ namespace MusicPlayer.Api
 			return "";
 		}
 
-		public static string DeviceName => UIKit.UIDevice.CurrentDevice.Name;
+		public static string DeviceName => Device.Name;
 
 		public static string DeviceId
 		{
 			get {
-				if (ObjCRuntime.Runtime.Arch == ObjCRuntime.Arch.SIMULATOR)
+				if (Device.IsSim)
 					return "58B5F896-3C78-4A19-9BA4-8D98DB7D1149";
                 
 				var id = GetSecured("GoogleDeviceId", "GoogleMusic");
