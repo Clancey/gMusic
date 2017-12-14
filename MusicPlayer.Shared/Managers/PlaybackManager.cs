@@ -26,7 +26,7 @@ namespace MusicPlayer.Managers
 			killTimer = new Timer(20*1000);
 			killTimer.Elapsed += (sender, args) => StopTimers();
 			NativePlayer = new NativeAudioPlayer();
-			LocalWebServer.Shared.Start(10);
+			//LocalWebServer.Shared.Start(10);
 			NativePlayer.SubscribeToProperty(nameof (NativePlayer.State), () =>
 			{
 				NotificationManager.Shared.ProcPlaybackStateChanged(NativePlayer.State);
