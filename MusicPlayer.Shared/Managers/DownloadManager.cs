@@ -426,10 +426,7 @@ namespace MusicPlayer.Managers
 			bool hasData = true;
 			while (Stream.WritePosition < Stream.FinalLength || (Stream.WritePosition < Stream.EstimatedLength && hasData) || (Length == 0 && hasData))
 			{
-				if (State == DownloadState.Canceled)
-				{
-					return false;
-				}
+				cancelSource.Token.ThrowIfCancellationRequested();
 				var bytesRead = await DownloadStream.ReadAsync(buffer, 0, buffer.Length,cancelSource.Token);
 				hasData = bytesRead > 0;
 				if (!hasData)
