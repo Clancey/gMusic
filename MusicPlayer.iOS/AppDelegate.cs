@@ -160,6 +160,21 @@ namespace MusicPlayer.iOS
 		}
 		public override void OnActivated(UIApplication application)
 		{
+			foreach (var w in application.Windows)
+			{
+				if (w != null && w != window)
+				{
+					foreach (var v in w.Subviews)
+					{
+						var desc = v.Description;
+						if (desc.Contains("UIReplicantView"))
+						{
+							v.RemoveFromSuperview();
+							LogManager.Shared.Report(new Exception("Had to remove apples view to fix their stupid bug..."));
+						}
+					}
+				}
+			}
 			PlaybackManager.Shared.NativePlayer.EnableVideo();
 			HandleShortcut(LaunchedShortcutItem);
 			LaunchedShortcutItem = null;
