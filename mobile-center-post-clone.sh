@@ -10,7 +10,6 @@ cd MusicPlayer.iOS
 if [[ ${MOBILECENTER_BRANCH} = "AppStoreRelease" ]]
 then
     echo 'App Store Build'
-    cd MusicPlayer.iOS
     sh ./SetupAppStore.sh
 else
     echo 'Normal Branch'

@@ -186,7 +186,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignEntitlements></CodesignEntitlements>
     <CodesignProvision>gMusic 2 App Store</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchUseLlvm>True</MtouchUseLlvm>
