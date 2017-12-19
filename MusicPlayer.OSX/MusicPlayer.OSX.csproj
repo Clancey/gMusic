@@ -275,6 +275,7 @@
     <Compile Include="Views\ConsoleViewController.cs" />
     <Compile Include="Managers\LogManager.Mac.cs" />
     <Compile Include="Views\AutoPlaylistSongsListView.cs" />
+    <Compile Include="Helpers\AudioOutputHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\MainMenu.xib" />

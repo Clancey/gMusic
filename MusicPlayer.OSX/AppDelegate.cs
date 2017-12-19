@@ -56,6 +56,7 @@ namespace MusicPlayer
 
 		public override void DidFinishLaunching (NSNotification notification)
 		{
+			AudioOutputHelper.Init();
 			var version = Device.SystemVersion;
 
 			//window.StyleMask |= NSWindowStyle.FullSizeContentView;

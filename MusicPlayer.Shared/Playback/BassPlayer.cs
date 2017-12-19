@@ -9,6 +9,7 @@ using MusicPlayer.Managers;
 using ManagedBass.Fx;
 using System.Timers;
 using MusicPlayer.Data;
+using System.Collections.Generic;
 namespace MusicPlayer
 {
 	/// <summary>
@@ -17,12 +18,32 @@ namespace MusicPlayer
 	public class BassPlayer : Player
 	{
 		Timer progressTimer;
+		static List<BassPlayer> currentPlayers = new List<BassPlayer>();
 		static BassPlayer()
 		{
 #if __IOS__
 			Bass.Configure(Configuration.IOSMixAudio, 0);
 #else
 			Bass.Configure(Configuration.GlobalMusicVolume, 0);
+#endif
+
+#if __MACOS__
+			AudioOutputHelper.OutputChanged = () =>
+			{
+				DeviceInfo di;
+				for (int d = 1; Bass.GetDeviceInfo(d, out di); d++)
+				{
+					if (di.IsDefault)
+					{
+						var oldDevice = Bass.DefaultDevice;
+						if (oldDevice == d)
+							break;
+						Bass.Init(d);
+						currentPlayers.ForEach(x => x.OutputChanged(d));
+						Bass.CurrentDevice = d;
+					}
+				}
+			};
 #endif
 			Bass.Init();
 			Bass.Stop();
@@ -90,6 +111,13 @@ namespace MusicPlayer
 			};
 			progressTimer = new Timer(500);
 			progressTimer.Elapsed += ProgressTimerChanged;
+			currentPlayers.Add(this);
+		}
+
+		void OutputChanged(int device)
+		{
+			if(IsPlayerItemValid)
+				Bass.ChannelSetDevice(streamHandle, device);
 		}
 
 		void ProgressTimerChanged(object o, EventArgs e)
@@ -143,6 +171,8 @@ namespace MusicPlayer
 			BassFileProceduresManager.ClearProcedure(fileProcUser);
 			BassFileProceduresManager.ClearProcedure(endSyncUser);
 			BassFileProceduresManager.ClearProcedure(bufferSyncUser);
+			if (currentPlayers.Contains(this))
+				currentPlayers.Remove(this);
 		}
 
 		public override float[] AudioLevels
@@ -322,6 +352,9 @@ namespace MusicPlayer
 				   return false;
 			   }
 			   Bass.ChannelSetAttribute(streamHandle, ChannelAttribute.Volume, 1f);
+#if __MACOS__
+				Bass.ChannelSetDevice(streamHandle, Bass.CurrentDevice);
+#endif
 
 			   var endSyncData = BassFileProceduresManager.CreateProcedure(OnTrackEnd);
 			   endSyncUser = endSyncData.user;
