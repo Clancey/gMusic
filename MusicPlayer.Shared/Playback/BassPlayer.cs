@@ -18,6 +18,7 @@ namespace MusicPlayer
 	public class BassPlayer : Player
 	{
 		Timer progressTimer;
+		static int CurrentDevice;
 		static List<BassPlayer> currentPlayers = new List<BassPlayer>();
 		static BassPlayer()
 		{
@@ -40,13 +41,14 @@ namespace MusicPlayer
 							break;
 						Bass.Init(d);
 						currentPlayers.ForEach(x => x.OutputChanged(d));
-						Bass.CurrentDevice = d;
+						CurrentDevice = d;
 					}
 				}
 			};
 #endif
 			Bass.Init();
 			Bass.Stop();
+			CurrentDevice = Bass.CurrentDevice;
 			var fxv = BassFx.Version;
 
 		}
@@ -258,8 +260,8 @@ namespace MusicPlayer
 			if (currentPossition > 0 && Bass.ChannelGetPosition(streamHandle) < currentPossition)
 				Bass.ChannelSetPosition(streamHandle, currentPossition);
 #if __MACOS__
-			if (IsPlayerItemValid && Bass.ChannelGetDevice(streamHandle) != Bass.CurrentDevice)
-				Bass.ChannelSetDevice(streamHandle, Bass.CurrentDevice);
+			if (IsPlayerItemValid && Bass.ChannelGetDevice(streamHandle) != CurrentDevice)
+				Bass.ChannelSetDevice(streamHandle, CurrentDevice);
 #endif
 			var success = Bass.ChannelPlay(streamHandle, false);
 			Console.WriteLine($"Play Song: {success}");
@@ -357,7 +359,7 @@ namespace MusicPlayer
 			   }
 			   Bass.ChannelSetAttribute(streamHandle, ChannelAttribute.Volume, 1f);
 #if __MACOS__
-				Bass.ChannelSetDevice(streamHandle, Bass.CurrentDevice);
+				Bass.ChannelSetDevice(streamHandle, CurrentDevice);
 #endif
 
 			   var endSyncData = BassFileProceduresManager.CreateProcedure(OnTrackEnd);
