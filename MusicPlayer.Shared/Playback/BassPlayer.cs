@@ -257,6 +257,10 @@ namespace MusicPlayer
 				Bass.Start();
 			if (currentPossition > 0 && Bass.ChannelGetPosition(streamHandle) < currentPossition)
 				Bass.ChannelSetPosition(streamHandle, currentPossition);
+#if __MACOS__
+			if (IsPlayerItemValid && Bass.ChannelGetDevice(streamHandle) != Bass.CurrentDevice)
+				Bass.ChannelSetDevice(streamHandle, Bass.CurrentDevice);
+#endif
 			var success = Bass.ChannelPlay(streamHandle, false);
 			Console.WriteLine($"Play Song: {success}");
 			if (!success)
