@@ -32,14 +32,11 @@ namespace MusicPlayer
 				return default (T1);
 			}
 			set {
-				if (!dictionary.ContainsKey(key))
-				{
-					queue.Enqueue(key);
-				}
-				else
+				if (dictionary.ContainsKey(key))
 				{
 					Remove(key);
 				}
+				queue.Enqueue(key);
 				dictionary [key] = value;
 			}
 		}
