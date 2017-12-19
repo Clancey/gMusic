@@ -206,7 +206,7 @@ namespace MusicPlayer
 		public override void Pause()
 		{
 			currentPossition = IsPlayerItemValid ? Bass.ChannelGetPosition(streamHandle) : 0;
-			Bass.Pause();
+			//Bass.Pause();
 			shouldBePlaying = false;
 			if (!IsPlayerItemValid)
 			{

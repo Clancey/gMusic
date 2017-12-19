@@ -64,6 +64,9 @@ namespace MusicPlayer.iOS.Playback
 
 		public override void Pause ()
 		{
+#if BASS
+			ManagedBass.Bass.Pause();
+#endif
 			CurrentPlayer?.Pause ();
 		}
 		public override void Stop()
