@@ -36,7 +36,7 @@ namespace MusicPlayer.Playback
 		public NativeAudioPlayer()
 		{
 			Shared = this;
-            timer = NSTimer.CreateRepeatingScheduledTimer(2,CheckPlaybackStatus);
+            timer = NSTimer.CreateRepeatingScheduledTimer(10,CheckPlaybackStatus);
 			NSError error;
 			#if __IOS__
 			AVAudioSession.SharedInstance().SetCategory(AVAudioSession.CategoryPlayback, out error);
