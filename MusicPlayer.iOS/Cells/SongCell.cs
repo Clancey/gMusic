@@ -117,6 +117,7 @@ namespace MusicPlayer.iOS
 					ImageView.AddSubview(Meter);
 					Meter.AutoUpdate = true;
 					Meter.Frame = ImageView.Bounds.Inset(5, 5);
+					overlay.Frame = ImageView.Bounds;
 				}
 				else if (Meter.Superview == ImageView)
 				{
