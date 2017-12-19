@@ -89,13 +89,9 @@ namespace MusicPlayer
 			}
 		}
 		public float TextOffset {get;set; } = 0;
-		CGSize lastSize;
 		public override void LayoutSubviews()
 		{
 			var bounds = ContentView.Bounds;
-			if (bounds.Size == lastSize)
-				return;
-			lastSize = bounds.Size;
 
 			var padding = bounds.Height * .11f;
 			var frameHeight = bounds.Height * .8f;
