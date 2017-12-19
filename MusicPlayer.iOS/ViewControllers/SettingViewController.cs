@@ -79,14 +79,15 @@ namespace MusicPlayer.iOS.ViewControllers
 					{
 						ValueUpdated = (b => {
 							Settings.ThubsUpOnLockScreen = b;
-							RemoteControlHandler.SetupThumbsUp(); })
+							RemoteControlHandler.SetupThumbsUp();
+						})
 					},
 					new MenuHelpTextElement(Strings.EnableLikeHint),
-					new SettingsSwitch(Strings.EnableGaplessPlayback, Settings.ThubsUpOnLockScreen)
+					new SettingsSwitch(Strings.EnableGaplessPlayback, Settings.EnableGaplessPlayback)
 					{
 						ValueUpdated = (b => {
-							Settings.ThubsUpOnLockScreen = b;
-							RemoteControlHandler.SetupThumbsUp(); })
+							Settings.EnableGaplessPlayback = b;
+						})
 					},
 					new MenuHelpTextElement(Strings.EnableGapplessHint),
 					new SettingsSwitch(Strings.PlayVideosWhenAvailable, Settings.PreferVideos)
