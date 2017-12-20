@@ -342,7 +342,7 @@ namespace MusicPlayer.iOS.ViewControllers
 			mailController = new MFMailComposeViewController();
 			mailController.SetToRecipients(new[] {"support@youriisolutions.com"});
 			var tintColor = UIApplication.SharedApplication.KeyWindow.TintColor;
-			mailController.SetSubject(string.Format("Feedback: {0} - {1}", AppDelegate.AppName, versionNumber()));
+			mailController.SetSubject(string.Format("Feedback: {0} - {1}", AppDelegate.AppName, Device.AppVersion()));
 			mailController.Finished += async (object s, MFComposeResultEventArgs args) =>
 			{
 				if (args.Result == MFMailComposeResult.Sent)
@@ -380,14 +380,6 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				BTProgressHUD.Dismiss();
 			}
-		}
-
-		string versionNumber()
-		{
-#if ADHOC
-			return string.Format("{0}.{1}", NSBundle.MainBundle.InfoDictionary ["CFBundleShortVersionString"], NSBundle.MainBundle.InfoDictionary ["CFBundleVersion"]);
-#endif
-			return NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString();
 		}
 
 		async void ToggleIPod(bool on)

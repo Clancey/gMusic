@@ -26,8 +26,8 @@ namespace MusicPlayer
 		public static string AppVersion()
 		{
 			var build = NSBundle.MainBundle.InfoDictionary.ValueForKey((NSString)"CFBundleVersion");
-			var version = NSBundle.MainBundle.InfoDictionary.ValueForKey((NSString)"CFBundleShortVersionString");
-			return $"{version} ({build})";
+			var v = NSBundle.MainBundle.InfoDictionary.ValueForKey((NSString)"CFBundleShortVersionString");
+			return $"{v}.{build}";
 		}
 	}
 }
