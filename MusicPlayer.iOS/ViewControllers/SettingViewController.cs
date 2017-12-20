@@ -139,7 +139,8 @@ namespace MusicPlayer.iOS.ViewControllers
 					new MenuHelpTextElement (Strings.ResyncDatabaseHint),
 					new SettingsElement(Strings.DownloadQueue,
 						() => NavigationController.PushViewController(new DownloadViewController(), true)),
-					(songsElement = new SettingsElement(Strings.SongsCount))
+					(songsElement = new SettingsElement(Strings.SongsCount)),
+					new StringElement("Version",Device.AppVersion()),
 				}
 			};
 			if (lastFmElement != null) {

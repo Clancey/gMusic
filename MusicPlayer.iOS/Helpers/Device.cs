@@ -20,8 +20,14 @@ namespace MusicPlayer
 
 		public static bool IsIos7_1 => version > new Version(7, 1);
 
-		public static string Name {get;} = UIKit.UIDevice.CurrentDevice.Name;
+		public static string Name { get; } = UIKit.UIDevice.CurrentDevice.Name;
 
-		public static bool IsSim { get;} = ObjCRuntime.Runtime.Arch == ObjCRuntime.Arch.SIMULATOR;
+		public static bool IsSim { get; } = ObjCRuntime.Runtime.Arch == ObjCRuntime.Arch.SIMULATOR;
+		public static string AppVersion()
+		{
+			var build = NSBundle.MainBundle.InfoDictionary.ValueForKey((NSString)"CFBundleVersion");
+			var version = NSBundle.MainBundle.InfoDictionary.ValueForKey((NSString)"CFBundleShortVersionString");
+			return $"{version} ({build})";
+		}
 	}
 }
