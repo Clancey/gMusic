@@ -276,6 +276,7 @@
     <Compile Include="Managers\LogManager.Mac.cs" />
     <Compile Include="Views\AutoPlaylistSongsListView.cs" />
     <Compile Include="Helpers\AudioOutputHelper.cs" />
+    <Compile Include="Views\SimpleButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\MainMenu.xib" />
@@ -544,6 +545,9 @@
     </BundleResource>
     <BundleResource Include="..\MusicPlayer.iOS\Resources\accentColorHorizontal%402x.png">
       <Link>Resources\accentColorHorizontal%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\MusicPlayer.iOS\Resources\SVG\dice.svg">
+      <Link>Resources\SVG\dice.svg</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>

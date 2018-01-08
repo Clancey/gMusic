@@ -13,8 +13,22 @@ namespace MusicPlayer
 		NSTabView tabView;
 		RadioStationListView recent;
 		RadioStationListView stations;
+		SimpleButton iflButton;
 		public RadioStationView ()
 		{
+			iflButton = new SimpleButton
+			{
+				Clicked = async (obj) =>
+				{
+					await PlaybackManager.Shared.Play(new RadioStation("I'm Feeling Lucky")
+					{
+						Id = "IFL",
+					});
+				},
+				Title = "I'm Feeling Luck",
+
+			};
+			AddSubview(iflButton);
 			tabView = new NSTabView ();
 
 			tabView.Add (new NSTabViewItem ((NSString)"Recent") {
@@ -38,16 +52,15 @@ namespace MusicPlayer
 			};
 			AddSubview (tabView);
 		}
+		public override bool IsFlipped => true;
 		public override void ResizeSubviewsWithOldSize (CoreGraphics.CGSize oldSize)
 		{
 			base.ResizeSubviewsWithOldSize (oldSize);
-			tabView.Frame = Bounds;
-		}
-		public override async void ViewWillMoveToSuperview (NSView newSuperview)
-		{
-			base.ViewWillMoveToSuperview (newSuperview);
-
-			await Task.Delay(10);
+			iflButton.SizeToFit();
+			var bounds = Bounds;
+			bounds.Y += iflButton.Frame.Bottom;
+			bounds.Height -= iflButton.Frame.Bottom;
+			tabView.Frame = bounds;
 		}
 
 		#region ILifeCycleView implementation

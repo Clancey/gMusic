@@ -8,6 +8,7 @@ using Localizations;
 using MusicPlayer.Managers;
 using MusicPlayer.ViewModels;
 using UIKit;
+using MusicPlayer.Models;
 
 namespace MusicPlayer.iOS.ViewControllers
 {
@@ -55,6 +56,17 @@ namespace MusicPlayer.iOS.ViewControllers
 				AccessibilityIdentifier = "menu",
 			};
 			NavigationItem.LeftBarButtonItem = BaseViewController.ShouldShowMenuButton(this) ? menuButton : null;
+			NavigationItem.RightBarButtonItem = new UIBarButtonItem(Images.DiceImage, UIBarButtonItemStyle.Plain, async (sender, e) =>
+			{
+				await PlaybackManager.Shared.Play(new RadioStation("I'm Feeling Lucky")
+				{
+					Id = "IFL",
+				});
+			})
+			{
+				AccessibilityIdentifier="IFL",
+				AccessibilityLabel = "Play I'm Feeling Lucky Station",
+			};
 		}
 		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
 		{

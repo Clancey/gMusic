@@ -171,7 +171,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				var provider = ApiManager.Shared.GetMusicProvider(station.ServiceId);
+				var provider = station.Id == "IFL" ?  ApiManager.Shared.GetMusicProvider<GoogleMusicProvider>(ServiceType.Google) : ApiManager.Shared.GetMusicProvider(station.ServiceId);
 				if (!isContinuation)
 					await Database.Main.ExecuteAsync("delete from RadioStationSong where StationId = ?", station.Id);
 				var success = await provider.LoadRadioStation(station, isContinuation);

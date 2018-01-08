@@ -347,7 +347,7 @@ namespace MusicPlayer.Managers
 				ParentId = station.Id
 			};
 			
-			if(context.Equals(Settings.CurrentPlaybackContext) && CurrentPlaylistSongCount > 0) {
+			if(context.ParentId != "IFL" && context.Equals(Settings.CurrentPlaybackContext) && CurrentPlaylistSongCount > 0) {
 				Play();
 				return;
 			}

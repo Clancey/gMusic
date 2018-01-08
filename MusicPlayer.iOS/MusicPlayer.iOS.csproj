@@ -443,6 +443,7 @@
     <Compile Include="UI\DragDismissAnimator.cs" />
     <Compile Include="UI\LevelMeter.cs" />
     <Compile Include="ViewControllers\AutoPlaylistSongsViewController.cs" />
+    <BundleResource Include="Resources\SVG\dice.svg" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -165,6 +165,10 @@ namespace MusicPlayer
 		}
 
 
+		public static UIImage DiceImage => GetDiceImage(20);
+
+		public static UIImage GetDiceImage(double size) => GetGeneratedImage("SVG/dice.svg", size, size);
+
 		public static UIImage MenuImage => GetMenuImage (15);
 
 		public static UIImage GetMenuImage (double size) => GetGeneratedImage ("SVG/menu.svg", size, size);
