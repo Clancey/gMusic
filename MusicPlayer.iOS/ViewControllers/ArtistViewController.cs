@@ -2,6 +2,7 @@
 using MusicPlayer.Models;
 using MusicPlayer.ViewModels;
 using SimpleDatabase;
+using System.Linq;
 
 namespace MusicPlayer.iOS.ViewControllers
 {
@@ -46,6 +47,16 @@ namespace MusicPlayer.iOS.ViewControllers
 		public void GoToArtist(string artistId)
 		{
 			var artist = Database.Main.GetObject<Artist, TempArtist>(artistId);
+			if (artist is TempArtist)
+			{
+				var onlineId = Database.Main.Query<ArtistIds>("select * from TempArtistIds where ArtistId = ?",artistId).FirstOrDefault();
+				if(onlineId == null)	
+					onlineId = Database.Main.Query<ArtistIds>("select * from ArtistIds where ArtistId = ?", artistId).FirstOrDefault();
+				artist = new OnlineArtist(artist.Name, artist.NameNorm)
+				{
+					OnlineId = onlineId.Id,
+				};
+			}
 			GoToArtist(artist);
 		}
 		public void GoToArtist(Artist artist)

@@ -975,6 +975,7 @@ where (select SongId from Track where Id = TrackId) is not null");
 				tracks.ForEach(track =>
 				{
 					var artist = new Artist(track.Artist, track.ArtistId);
+					artists[artist.Id] = artist;
 					if (!string.IsNullOrWhiteSpace(track.ArtistServerId))
 						artistIDs[track.ArtistServerId] =
 							new ArtistIds
