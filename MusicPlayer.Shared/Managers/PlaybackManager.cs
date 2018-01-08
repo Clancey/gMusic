@@ -470,7 +470,7 @@ namespace MusicPlayer.Managers
 		{
 			Pause();
 			await Task.WhenAll(
-				Task.Run(async () => { await SetupCurrentPlaylist(songs, ""); }));
+				Task.Run(async () => { await SetupCurrentPlaylist(songs, song?.Id ?? ""); }));
 			if(song == null)
 				song = SongAtIndex(CurrentSongIndex);
 			await NativePlayer.PlaySong(song);
