@@ -23,10 +23,13 @@ namespace MusicPlayer.Api
 		}
 		#region implemented abstract members of MusicProvider
 
-		HashSet<string> supportedExtensions = new HashSet<string> {
+		static HashSet<string> supportedExtensions = new HashSet<string> {
 			".mp3",
 			".mp4",
 			".m4v",
+			".oog",
+			".aac",
+			".m4a",
 		};
 
 
@@ -184,7 +187,7 @@ namespace MusicPlayer.Api
 		static IEnumerable<string> GetFiles (string directory, DateTime? changedDate = null)
 		{
 			var date = changedDate ?? DateTime.MinValue;
-			var files = Directory.EnumerateFiles (directory, "*.*", SearchOption.AllDirectories).Where (x => x.EndsWith (".mp3", StringComparison.InvariantCultureIgnoreCase) || x.EndsWith ("mp4", StringComparison.InvariantCultureIgnoreCase) || x.EndsWith (".aac", StringComparison.InvariantCultureIgnoreCase) || x.EndsWith (".m4a", StringComparison.InvariantCultureIgnoreCase) || x.EndsWith ("m4v", StringComparison.InvariantCultureIgnoreCase));
+			var files = Directory.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories).Where(x => supportedExtensions.Any(e => x.EndsWith(e, StringComparison.InvariantCultureIgnoreCase)));
 
 			var filterd = files.Where (x => File.GetCreationTime (x) > date || File.GetLastWriteTime (x) > date);
 			return filterd;
