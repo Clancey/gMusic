@@ -235,7 +235,7 @@ namespace MusicPlayer.iOS
 		{
 			if (SimpleAuth.Native.OpenUrl(app, url, options))
 				return true;
-			return base.OpenUrl(app, url, options);
+			return false;
 		}
 	}
 }
