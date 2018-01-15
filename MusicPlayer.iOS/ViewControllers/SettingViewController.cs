@@ -62,12 +62,11 @@ namespace MusicPlayer.iOS.ViewControllers
 					{
 					Detail = Settings.TwitterDisplay
 				}),
-					new SettingsSwitch("Import iPod Music", Settings.IncludeIpod)
+					new SettingsSwitch(Strings.ImportIPodMusic, Settings.IncludeIpod)
 					{
 						ValueUpdated = ToggleIPod
 					},
-					new MenuHelpTextElement(
-						"Automatically imports and plays music from your local library. This saves data and space on your phone."),
+					new MenuHelpTextElement(Strings.ImportIpodHint),
 			};
 
 			Root = new RootElement(Strings.Settings)
@@ -269,12 +268,12 @@ namespace MusicPlayer.iOS.ViewControllers
 					elements.Remove (element);
 				else {
 					newElements.Add (new AccountCell (x, () => {
-					new AlertView ("Logout", "Are you sure you want to logout?") {
-							{"Logout",async()=>{
+					new AlertView (Strings.Logout, "Are you sure you want to logout?") {
+							{Strings.Logout,async()=>{
 									await ApiManager.Shared.LogOut (x);
 									UpdateAccounts ();
 								}},
-							{"Cancel",null,true}
+							{Strings.Nevermind,null,true}
 						}.Show(this);
 					}));
 				}

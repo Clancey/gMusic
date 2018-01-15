@@ -13,6 +13,7 @@ using MusicPlayer.Models.Scrobbling;
 using MusicPlayer.ViewModels;
 using SimpleDatabase;
 using MusicPlayer.Playback;
+using Localizations;
 
 namespace MusicPlayer.Managers
 {
@@ -358,7 +359,7 @@ namespace MusicPlayer.Managers
 				var success = await MusicManager.Shared.LoadRadioStationTracks(station);
 				if (!success)
 				{
-					App.ShowAlert("Error", "Please try again later");
+					App.ShowAlert(Strings.RenameError, Strings.PleaseTryAgain);
 					return;
 				}
 			}
@@ -659,7 +660,7 @@ namespace MusicPlayer.Managers
 					var success = await MusicManager.Shared.LoadMoreRadioStationTracks(station);
 					if (!success)
 					{
-						App.ShowAlert("Error", "Please try again later");
+						App.ShowAlert(Strings.RenameError, Strings.PleaseTryAgain);
 						return;
 					}
 					if (Settings.CurrentPlaybackContext?.ParentId != station.Id)

@@ -18,6 +18,7 @@ using MusicPlayer.Models;
 using MusicPlayer.Models.Scrobbling;
 using UIKit;
 using CoreAnimation;
+using Localizations;
 
 namespace MusicPlayer.Playback
 {
@@ -327,7 +328,7 @@ namespace MusicPlayer.Playback
 				else
 				{
 					this.Pause();
-					App.ShowAlert("Error", "Unable to play music Please try again later");
+					App.ShowAlert(Strings.RenameError, Strings.ThereWasAnErrorPlayingTrack);
 				}
 			}
 			else

@@ -11,6 +11,7 @@ using MusicPlayer.Models;
 using UIKit;
 using System.Linq;
 using MusicPlayer.Api;
+using Localizations;
 
 namespace MusicPlayer.iOS
 {
@@ -108,7 +109,7 @@ namespace MusicPlayer.iOS
 					{
 						var success = await MusicManager.Shared.AddToPlaylist(item, playlist);
 						if (!success)
-							App.ShowAlert("Error adding to playlist", "Please try again later");
+							App.ShowAlert("Error adding to playlist", Strings.PleaseTryAgain);
 					}
 				}
 				catch (TaskCanceledException canceledException)
@@ -117,7 +118,7 @@ namespace MusicPlayer.iOS
 				}
 				catch (Exception ex)
 				{
-					App.ShowAlert("Error adding to playlist", "Please try again later");
+					App.ShowAlert("Error adding to playlist", Strings.PleaseTryAgain);
 					LogManager.Shared.Report(ex);
 				}
 			});
@@ -130,7 +131,7 @@ namespace MusicPlayer.iOS
 				return;
 			controller.Add("Start Radio Station", async () =>
 			{
-				using (new Spinner("Creating Station"))
+				using (new Spinner(Strings.CreatingStation))
 				{
 					try
 					{
@@ -138,7 +139,7 @@ namespace MusicPlayer.iOS
 						if (station != null)
 							PlaybackManager.Shared.Play(station);
 						else
-							App.ShowAlert("Error", "There was an error creating the radio station");
+							App.ShowAlert(Strings.RenameError, "There was an error creating the radio station");
 					}
 					catch (Exception ex)
 					{
@@ -232,7 +233,7 @@ namespace MusicPlayer.iOS
 				}
 				var success = await MusicManager.Shared.AddToLibrary(item);
 				if(!success)
-					App.ShowAlert("Error","There was an error please try again");
+					App.ShowAlert(Strings.RenameError,Strings.PleaseTryAgain);
 			});
 		}
 

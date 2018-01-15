@@ -3,6 +3,7 @@ using MusicPlayer.Models;
 using AppKit;
 using MusicPlayer.Managers;
 using SimpleTables;
+using Localizations;
 
 namespace MusicPlayer
 {
@@ -44,7 +45,7 @@ namespace MusicPlayer
 			{
 				if (!await MusicManager.Shared.AddTemp(onlineSong))
 				{
-					App.ShowAlert("Sorry", "There was an error playing this track");
+					App.ShowAlert(Strings.RenameError, Strings.ThereWasAnErrorPlayingTrack);
 					return;
 				}
 				await PlaybackManager.Shared.PlayNow(onlineSong, onlineSong.TrackData.MediaType == MediaType.Video);
@@ -127,7 +128,7 @@ namespace MusicPlayer
 			var onlineRadio = eventArgs.Data as OnlineRadioStation;
 			if (onlineRadio != null)
 			{
-				using (new Spinner("Creating Station"))
+				using (new Spinner(Strings.CreatingStation))
 				{
 					var statsion = await MusicManager.Shared.CreateRadioStation(onlineRadio);
 					await PlaybackManager.Shared.Play(statsion);

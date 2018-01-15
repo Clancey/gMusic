@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UIKit;
 using Foundation;
+using Localizations;
 
 namespace MusicPlayer.iOS.Controls
 {
@@ -31,8 +32,8 @@ namespace MusicPlayer.iOS.Controls
 		{
 			UITextField usernameField = null;
 			UITextField passwordField = null;
-			var cancel = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (alert) => { tcs.TrySetCanceled(); });
-			var ok = UIAlertAction.Create("Login", UIAlertActionStyle.Default,
+			var cancel = UIAlertAction.Create(Strings.Nevermind, UIAlertActionStyle.Cancel, (alert) => { tcs.TrySetCanceled(); });
+			var ok = UIAlertAction.Create(Strings.Login, UIAlertActionStyle.Default,
 				a => { tcs.TrySetResult(new Tuple<string, string>(usernameField.Text, passwordField.Text)); });
 
 			alertController.AddTextField(field =>
@@ -56,7 +57,7 @@ namespace MusicPlayer.iOS.Controls
 
 		void setupAlertView()
 		{
-			alertView = new UIAlertView(title, details, null, "Cancel", "Login")
+			alertView = new UIAlertView(title, details, null,Strings.Nevermind,Strings.Login)
 			{
 				AlertViewStyle = UIAlertViewStyle.LoginAndPasswordInput
 			};

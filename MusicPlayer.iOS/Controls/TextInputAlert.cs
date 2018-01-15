@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using UIKit;
+using Localizations;
 
 namespace MusicPlayer.iOS.Controls
 {
@@ -31,7 +32,7 @@ namespace MusicPlayer.iOS.Controls
 		void setupAlertController()
 		{
 			UITextField textField = null;
-			var cancel = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (alert) => { tcs.TrySetCanceled(); });
+			var cancel = UIAlertAction.Create(Strings.Nevermind, UIAlertActionStyle.Cancel, (alert) => { tcs.TrySetCanceled(); });
 			var ok = UIAlertAction.Create(buttonText, UIAlertActionStyle.Default, a => { tcs.TrySetResult(textField.Text); });
 
 			alertController.AddTextField(field =>
@@ -45,7 +46,7 @@ namespace MusicPlayer.iOS.Controls
 
 		void setupAlertView()
 		{
-			alertView = new UIAlertView(text, "", null, "Cancel", buttonText)
+			alertView = new UIAlertView(text, "", null, Strings.Nevermind, buttonText)
 			{
 				AlertViewStyle = UIAlertViewStyle.PlainTextInput
 			};

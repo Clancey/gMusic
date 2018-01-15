@@ -10,6 +10,7 @@ using OneDrive;
 using YoutubeApi;
 using SoundCloud;
 using System.Net.Http;
+using Localizations;
 
 namespace MusicPlayer.Managers
 {
@@ -149,7 +150,7 @@ namespace MusicPlayer.Managers
 
 		public async Task ReSync()
 		{
-			using (new Spinner ("Syncing")) {
+			using (new Spinner (Strings.SyncingDatabase)) {
 				var apis = Collection.Values.ToList();
 				var tasks = apis.Select(x => x.Resync());
 				await Task.WhenAll (tasks);
@@ -322,7 +323,7 @@ namespace MusicPlayer.Managers
 			if (account == null)
 				return false;
 			var manager = AddApi(api);
-			using (new Spinner("Syncing Database"))
+			using (new Spinner(Strings.SyncingDatabase))
 			{
 				await manager.Resync();
 			}

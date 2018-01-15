@@ -9,6 +9,7 @@ using System.Linq;
 using MusicPlayer.Managers;
 using System.Reactive.Linq;
 using MusicPlayer.Data;
+using Localizations;
 
 namespace MusicPlayer
 {
@@ -134,7 +135,7 @@ namespace MusicPlayer
 					return;
 				ApiManager.Shared.AddApi (api);
 				var manager = ApiManager.Shared.GetMusicProvider (api.Identifier);
-				using (new Spinner ("Syncing Database")) {
+				using (new Spinner (Strings.SyncingDatabase)) {
 					await manager.SyncDatabase ();
 				}
 			} catch (Exception ex) {
