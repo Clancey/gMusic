@@ -334,6 +334,11 @@ namespace MusicPlayer.Managers
 		{
 			if(!await App.CheckForOffline())
 				return;
+			if (station == null)
+			{
+				App.ShowAlert(Strings.RenameError, Strings.PleaseTryAgain);
+				return;
+			}
 			LogManager.Shared.LogPlay(station);
 			var online = station as OnlineRadioStation;
 			if (online != null)
