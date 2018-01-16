@@ -500,28 +500,36 @@ namespace MusicPlayer.Managers
 
 		public async Task PrepareNextTrack()
 		{
-			var nextIndex = NextIndex();
-			if (nextIndex == -1)
-				return;
-
-			Console.WriteLine(Settings.CurrentPlaybackContext);
-			if (Settings.CurrentPlaybackContext?.IsContinuous == true && (CurrentPlaylistSongCount - nextIndex) < 5)
+			try
 			{
-				Console.WriteLine("Getting more tracks!");
-				await LoadMoreTracks();
+				var nextIndex = NextIndex();
+				if (nextIndex == -1)
+					return;
+
+				Console.WriteLine(Settings.CurrentPlaybackContext);
+				if (Settings.CurrentPlaybackContext?.IsContinuous == true && (CurrentPlaylistSongCount - nextIndex) < 5)
+				{
+					Console.WriteLine("Getting more tracks!");
+					await LoadMoreTracks();
+				}
+
+				if (CurrentOrder.Count <= nextIndex)
+					return;
+				var song = GetSong(nextIndex);
+				if (song == null)
+					return;
+
+				var playbackData = await MusicManager.Shared.GetPlaybackData(song);
+				NativePlayer.QueueTrack(playbackData.CurrentTrack);
+				if (playbackData?.IsLocal == true)
+					return;
+				await DownloadManager.Shared.QueueTrack(playbackData.CurrentTrack.Id);
+			}
+			catch (Exception ex)
+			{
+				LogManager.Shared.Report(ex);
 			}
 
-			if (CurrentOrder.Count <= nextIndex)
-				return;
-			var song = GetSong(nextIndex);
-			if (song == null)
-				return;
-
-			var playbackData = await MusicManager.Shared.GetPlaybackData(song);
-			NativePlayer.QueueTrack (playbackData.CurrentTrack);
-			if (playbackData?.IsLocal == true)
-				return;
-			await DownloadManager.Shared.QueueTrack(playbackData.CurrentTrack.Id);
 		}
 
 		public Song GetSong(int index)
