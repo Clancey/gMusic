@@ -34,11 +34,11 @@ namespace MusicPlayer.Cells
 			{
 			}
 
-			WeakReference bindingContext;
+			RadioStation bindingContext;
 
 			public RadioStation BindingContext
 			{
-				get { return bindingContext?.Target as RadioStation ?? null; }
+				get { return bindingContext; }
 				set
 				{
 					if (BindingContext != null)
@@ -48,7 +48,7 @@ namespace MusicPlayer.Cells
 						bindingContext = null;
 						return;
 					}
-					bindingContext = new WeakReference(value);
+					bindingContext = value;
 					SetValues(value);
 				}
 			}

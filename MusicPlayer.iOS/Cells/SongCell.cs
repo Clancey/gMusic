@@ -53,11 +53,11 @@ namespace MusicPlayer.iOS
 				overlay.BackgroundColor = style.BackgroundColor;
 			}
 
-			WeakReference bindingContext;
+			Song bindingContext;
 
 			public Song BindingContext
 			{
-				get { return bindingContext?.Target as Song; }
+				get { return bindingContext; }
 				set
 				{
 					if (BindingContext != null)
@@ -67,7 +67,7 @@ namespace MusicPlayer.iOS
 						bindingContext = null;
 						return;
 					}
-					bindingContext = new WeakReference(value);
+					bindingContext = value;
 					SetValues(value);
 				}
 			}

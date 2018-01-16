@@ -33,11 +33,11 @@ namespace MusicPlayer.Cells
 			{
 			}
 
-			WeakReference bindingContext;
+			Artist bindingContext;
 
 			public Artist BindingContext
 			{
-				get { return bindingContext?.Target as Artist ?? null; }
+				get { return bindingContext; }
 				set
 				{
 					if (BindingContext != null)
@@ -47,7 +47,7 @@ namespace MusicPlayer.Cells
 						bindingContext = null;
 						return;
 					}
-					bindingContext = new WeakReference(value);
+					bindingContext = value;
 					SetValues(value);
 				}
 			}

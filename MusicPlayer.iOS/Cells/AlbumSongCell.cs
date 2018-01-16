@@ -47,11 +47,11 @@ namespace MusicPlayer
 			{
 				PopupManager.Shared.Show(BindingContext, button);
 			}
-			WeakReference bindingContext;
 
+			Song bindingContext;
 			public Song BindingContext
 			{
-				get { return bindingContext?.Target as Song; }
+				get { return bindingContext; }
 				set
 				{
 					if (value == null)
@@ -59,7 +59,8 @@ namespace MusicPlayer
 						bindingContext = null;
 						return;
 					}
-					bindingContext = new WeakReference(value);
+					bindingContext = value;
+					Update(value);
 				}
 			}
 
