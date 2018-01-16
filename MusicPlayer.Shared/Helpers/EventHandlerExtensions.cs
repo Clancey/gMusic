@@ -15,9 +15,15 @@ namespace MusicPlayer
 		{
 			App.RunOnMainThread(() =>
 			{
-
-				using (new EventLogger(memberName))
-					handler.Invoke(sender, args);
+				try
+				{
+					using (new EventLogger(memberName))
+						handler.Invoke(sender, args);
+				}
+				catch (Exception ex)
+				{
+					LogManager.Shared.Report(ex);
+				}
 			}
 			);
 		}
@@ -28,9 +34,13 @@ namespace MusicPlayer
 		{
 			App.RunOnMainThread(() =>
 			{
-
-				using (new EventLogger(memberName))
-					handler.Invoke(sender, args);
+				try{
+					using (new EventLogger(memberName))
+							handler.Invoke(sender, args);}
+				catch (Exception ex)
+				{
+					LogManager.Shared.Report(ex);
+				}
 			});
 		}
 
@@ -40,9 +50,14 @@ namespace MusicPlayer
 		{
 			App.RunOnMainThread(() =>
 			{
-
-				using (new EventLogger(memberName))
-					handler.Invoke(sender, new SimpleTables.EventArgs<T>(args));
+				try{
+					using (new EventLogger(memberName))
+						handler.Invoke(sender, new SimpleTables.EventArgs<T>(args));
+				}
+				catch (Exception ex)
+				{
+					LogManager.Shared.Report(ex);
+				}
 			});
 		}
 
@@ -59,8 +74,15 @@ namespace MusicPlayer
 		{
 			App.RunOnMainThread(() =>
 			{
-				using (new EventLogger(memberName))
-					action.Invoke();
+				try
+				{
+					using (new EventLogger(memberName))
+						action.Invoke();
+				}
+				catch (Exception ex)
+				{
+					LogManager.Shared.Report(ex);
+				}
 			});
 		}
 
@@ -70,8 +92,14 @@ namespace MusicPlayer
 		{
 			App.RunOnMainThread(() =>
 			{
-				using(new EventLogger(memberName))
-					action.Invoke(t);
+				try{
+					using(new EventLogger(memberName))
+						action.Invoke(t);
+				}
+				catch (Exception ex)
+				{
+					LogManager.Shared.Report(ex);
+				}
 			});
 		}
 
