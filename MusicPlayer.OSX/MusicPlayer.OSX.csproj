@@ -137,7 +137,7 @@
       <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.macos.1.1.9\lib\Xamarin.Mac20\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
     </Reference>
     <Reference Include="SimpleAuth">
-      <HintPath>..\packages\Clancey.SimpleAuth.1.0.46\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.47\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
