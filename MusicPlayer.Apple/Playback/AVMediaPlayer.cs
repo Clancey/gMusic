@@ -268,9 +268,9 @@ namespace MusicPlayer
 				return;
 			if (PictureInPictureManager.Shared.StartPictureInPicture())
 				return;
-			tracks.ForEach(x =>
+			tracks?.ForEach(x =>
 			{
-				if (x.AssetTrack.HasMediaCharacteristic(AVMediaCharacteristic.Visual))
+				if (x?.AssetTrack?.HasMediaCharacteristic(AVMediaCharacteristic.Visual) ?? false)
 					x.Enabled = false;
 			});
 #endif
@@ -283,9 +283,9 @@ namespace MusicPlayer
 			if (tracks?.Any() != true)
 				return;
 			PictureInPictureManager.Shared.StopPictureInPicture();
-			tracks.ForEach(x =>
+			tracks?.ForEach(x =>
 			{
-				if (x.AssetTrack.HasMediaCharacteristic(AVMediaCharacteristic.Visual))
+				if (x?.AssetTrack?.HasMediaCharacteristic(AVMediaCharacteristic.Visual) ?? false)
 					x.Enabled = true;
 			});
 #endif
