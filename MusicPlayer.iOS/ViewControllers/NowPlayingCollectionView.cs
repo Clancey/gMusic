@@ -197,8 +197,15 @@ namespace MusicPlayer.iOS.ViewControllers
 			var index = PlaybackManager.Shared.CurrentSongIndex;
 			if (index < 0 || index >= CurrentCount)
 				return;
-			CollectionView.ScrollToItem(NSIndexPath.FromRowSection(index, 0),
-				UICollectionViewScrollPosition.CenteredHorizontally, animated);
+			try
+			{
+				CollectionView.ScrollToItem(NSIndexPath.FromRowSection(index, 0),
+					UICollectionViewScrollPosition.CenteredHorizontally, animated);
+			}
+			catch (Exception ex)
+			{
+				LogManager.Shared.Report(ex);
+			}
 		}
 
 		public void SetVisiblePercent(nfloat percent)

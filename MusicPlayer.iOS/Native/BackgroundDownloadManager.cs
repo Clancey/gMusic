@@ -134,31 +134,39 @@ namespace MusicPlayer.Managers
 
 		public async Task Download(Track track)
 		{
-			if(track == null)
-				return;
-			if (Files.ContainsKey(track.Id))
-				return;
-		
-			LogManager.Shared.Log("Download Track", track);
-			var url = await MusicManager.Shared.GetDownloadUrl(track);
+			try
+			{
+				if (track == null)
+					return;
+				if (Files.ContainsKey(track.Id))
+					return;
 
-			if (File.Exists(Path.Combine(Locations.MusicDir, track.FileName)))
-			{
-				await OfflineManager.Shared.TrackDownloaded(track.Id);
-				return;
+				LogManager.Shared.Log("Download Track", track);
+				var url = await MusicManager.Shared.GetDownloadUrl(track);
+				if (url == null)
+					return;
+				if (File.Exists(Path.Combine(Locations.MusicDir, track.FileName)))
+				{
+					await OfflineManager.Shared.TrackDownloaded(track.Id);
+					return;
+				}
+				var filePath = Path.Combine(Locations.TempRelative, track.FileName);
+				var file = new BackgroundDownloadFile
+				{
+					TrackId = track.Id,
+					Url = url.Url,
+					Headers = url.Headers,
+					Destination = filePath,
+				};
+				if (File.Exists(filePath))
+					await ProcessFile(file);
+				else
+					Download(file);
 			}
-			var filePath = Path.Combine(Locations.TempRelative, track.FileName);
-			var file = new BackgroundDownloadFile
+			catch (Exception ex)
 			{
-				TrackId = track.Id,
-				Url = url.Url,
-				Headers = url.Headers,
-				Destination = filePath,
-			};
-			if (File.Exists(filePath))
-				await ProcessFile(file);
-			else
-				Download(file);
+				LogManager.Shared.Report(ex);
+			}
 		}
 
 		readonly Dictionary<string, NSUrlSessionTask> TasksDictionary = new Dictionary<string, NSUrlSessionTask>();

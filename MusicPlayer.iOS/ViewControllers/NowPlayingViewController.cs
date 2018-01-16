@@ -375,6 +375,10 @@ namespace MusicPlayer.iOS.ViewControllers
 				const float nextbuttonSize = 25;
 				public nfloat MaxHeight {get;set;}
 
+				public BottomView(IntPtr handle) : base (handle)
+				{
+
+				}
 				public BottomView()
 				{
 					Add(backgroundBluredView = new BluredView());

@@ -36,7 +36,8 @@ namespace MusicPlayer.ViewModels
 				case UITableViewCellEditingStyle.Delete:
 					var item = ItemFor(indexPath.Section, indexPath.Row);
 					await DeleteSong(item);
-					tableView.DeleteRows(new NSIndexPath[] {indexPath}, UITableViewRowAnimation.Fade);
+					tableView.ReloadData();
+					//tableView.DeleteRows(new NSIndexPath[] {indexPath}, UITableViewRowAnimation.Fade);
 					break;
 			}
 			//base.CommitEditingStyle(tableView, editingStyle, indexPath);
