@@ -76,7 +76,7 @@ namespace MusicPlayer.ViewModels
 			if (Database.Main == null)
 				return "";
 			if (section == 0)
-				return "Auto Playlists";
+				return Strings.AutoPlaylists;
 			return base.HeaderForSection(section - 1);
 		}
 

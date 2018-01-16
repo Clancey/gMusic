@@ -12,6 +12,7 @@ using Lastfm;
 using MusicPlayer.Api;
 using SimpleAuth;
 using SimpleAuth.Providers;
+using Localizations;
 #if __IOS__
 using Accounts;
 using MusicPlayer.iOS;
@@ -122,7 +123,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				var credentials = await PopupManager.Shared.GetCredentials("Login to Last.FM", extra, "http://www.last.fm");
+				var credentials = await PopupManager.Shared.GetCredentials(string.Format(Strings.SignInToService,"Last.FM"), extra, "http://www.last.fm");
 				await session.AuthenticateAsync(credentials.Item1, Utilities.MD5(credentials.Item2));
 				if (session.Authenticated)
 				{
@@ -141,7 +142,7 @@ namespace MusicPlayer.Managers
 				LogManager.Shared.Report(ex);
 			}
 
-			return await ShowLogin("There was an error signing in");
+			return await ShowLogin(string.Format(Strings.ErrorLoggingInto,"Last.fm"));
 		}
 
 

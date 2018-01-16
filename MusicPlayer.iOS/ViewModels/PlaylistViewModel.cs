@@ -2,6 +2,7 @@
 using UIKit;
 using Foundation;
 using MusicPlayer.Managers;
+using Localizations;
 
 namespace MusicPlayer.ViewModels
 {
@@ -13,7 +14,7 @@ namespace MusicPlayer.ViewModels
 			switch (editingStyle)
 			{
 				case UITableViewCellEditingStyle.Delete:
-					using (var spinner = new Spinner("Deleting"))
+					using (var spinner = new Spinner(Strings.Deleting))
 					{
 						var item = ItemFor(indexPath.Section, indexPath.Row);
 						var success = await MusicManager.Shared.Delete(item);

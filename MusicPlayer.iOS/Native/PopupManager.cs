@@ -97,7 +97,7 @@ namespace MusicPlayer.iOS
 		{
 			if (!ShouldShowAddPlaylist(item))
 				return;
-			controller.Add("Add to Playlist", async () =>
+			controller.Add(Strings.AddToPlaylist, async () =>
 			{
 				try
 				{
@@ -105,11 +105,11 @@ namespace MusicPlayer.iOS
 					PresentController(new UINavigationController(playlistPicker));
 					var playlist = await playlistPicker.SelectPlaylist();
 					Console.WriteLine(playlist);
-					using (new Spinner("Adding to Playlist"))
+					using (new Spinner(Strings.AddingToPlaylist))
 					{
 						var success = await MusicManager.Shared.AddToPlaylist(item, playlist);
 						if (!success)
-							App.ShowAlert("Error adding to playlist", Strings.PleaseTryAgain);
+							App.ShowAlert(Strings.ErrorAddingToPlaylist, Strings.PleaseTryAgain);
 					}
 				}
 				catch (TaskCanceledException canceledException)
@@ -118,7 +118,7 @@ namespace MusicPlayer.iOS
 				}
 				catch (Exception ex)
 				{
-					App.ShowAlert("Error adding to playlist", Strings.PleaseTryAgain);
+					App.ShowAlert(Strings.ErrorAddingToPlaylist, Strings.PleaseTryAgain);
 					LogManager.Shared.Report(ex);
 				}
 			});
@@ -129,7 +129,7 @@ namespace MusicPlayer.iOS
 			//TODO check if we can add station to the item;
 			if (!SouldShowStartRadio(item))
 				return;
-			controller.Add("Start Radio Station", async () =>
+			controller.Add(Strings.StartRadioStation, async () =>
 			{
 				using (new Spinner(Strings.CreatingStation))
 				{
@@ -139,7 +139,7 @@ namespace MusicPlayer.iOS
 						if (station != null)
 							PlaybackManager.Shared.Play(station);
 						else
-							App.ShowAlert(Strings.RenameError, "There was an error creating the radio station");
+							App.ShowAlert(Strings.RenameError,Strings.ErrorCreatingStation);
 					}
 					catch (Exception ex)
 					{
@@ -157,26 +157,26 @@ namespace MusicPlayer.iOS
 
 			if (ShouldShowPlayNowButton(item))
 			{
-				controller.Add("Play", () => { PlaybackManager.Shared.Play(item); });
+				controller.Add(Strings.Play, () => { PlaybackManager.Shared.Play(item); });
 			}
 
 			if (ShouldShowPlayVideoButton(item))
 			{
-				controller.Add("Play Video", () =>
+				controller.Add(Strings.PlayVideo, () =>
 				{
 					PlaybackManager.Shared.PlayNow(item as Song, true);
 				});
 			}
-			controller.Add("Play Next", () => { PlaybackManager.Shared.PlayNext(item); });
+			controller.Add(Strings.PlayNext, () => { PlaybackManager.Shared.PlayNext(item); });
 
-			controller.Add("Add to Queue", () => { PlaybackManager.Shared.AddtoQueue(item); });
+			controller.Add(Strings.AddToQueue, () => { PlaybackManager.Shared.AddtoQueue(item); });
 		}
 
 		static void AddShuffleButton(ActionSheet controller, MediaItemBase item)
 		{
 			if (!ShouldShowShuffle(item))
 				return;
-			controller.Add("Shuffle", () =>
+			controller.Add(Strings.Shuffle, () =>
 			{
 				Settings.ShuffleSongs = true;
 				PlaybackManager.Shared.Play(item);
@@ -200,7 +200,7 @@ namespace MusicPlayer.iOS
 				if (!canOffline)
 					return;
 			}
-			var localTitle = item.ShouldBeLocal() || item.OfflineCount > 0 ? "Remove from Device" : "Download to Device";
+			var localTitle = item.ShouldBeLocal() || item.OfflineCount > 0 ? Strings.RemoveFromDevice :Strings.DownloadToDevice;
 			controller.Add(localTitle, () => { OfflineManager.Shared.ToggleOffline(item); });
 		}
 
@@ -210,16 +210,16 @@ namespace MusicPlayer.iOS
 			if (song == null)
 				return;
 			if (!string.IsNullOrWhiteSpace(song.AlbumId))
-				controller.Add("Go to Album", () => { NotificationManager.Shared.ProcGoToAlbum(song.AlbumId); });
+				controller.Add(Strings.GoToAlbum, () => { NotificationManager.Shared.ProcGoToAlbum(song.AlbumId); });
 
-			controller.Add("Go to Artist", () => { NotificationManager.Shared.ProcGoToArtist(song.ArtistId); });
+			controller.Add(Strings.GoToArtist, () => { NotificationManager.Shared.ProcGoToArtist(song.ArtistId); });
 		}
 
 		static void AddToLibrary(ActionSheet controller, MediaItemBase item)
 		{
 			if(!ShouldShowAddToLibrary(item))
 				return;
-			controller.Add("Add to Library",async () =>
+			controller.Add(Strings.AddToLibrary,async () =>
 			{
 				var onlineSong = item as OnlineSong;
 				if (onlineSong?.TrackData?.ServiceType == ServiceType.YouTube)
@@ -241,19 +241,19 @@ namespace MusicPlayer.iOS
 		{
 			if (!ShouldRemoveFromLibrary(item))
 				return;
-			controller.Add("Remove from Library", async () =>
+			controller.Add(Strings.RemoveFromLibrary, async () =>
 			{
 				var success = await MusicManager.Shared.Delete(item);
 				//TODO: Show Alert
 				Console.WriteLine(success);
 			});
 		}
-		public async Task<string> GetTextInput(string title, string defaultText, string buttonText = "Ok")
+		public async Task<string> GetTextInput(string title, string defaultText, string buttonText = null)
 		{
 			var current = GetCurrentViewController();
 			if (current == null)
 				return null;
-			var textInput = new TextInputAlert(title, defaultText, buttonText);
+			var textInput = new TextInputAlert(title, defaultText, buttonText ?? Strings.Ok);
 			return await textInput.GetText(current);
 		}
 
@@ -266,7 +266,7 @@ namespace MusicPlayer.iOS
 			var result = await loginEntry.GetCredentials(current);
 			if (string.IsNullOrWhiteSpace(result.Item1) || string.IsNullOrWhiteSpace(result.Item2))
 			{
-				result = await GetCredentials(title, "Invalid Credentials");
+				result = await GetCredentials(title, Strings.InvalidCredentials);
 			}
 			return result;
 		}

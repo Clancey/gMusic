@@ -224,7 +224,7 @@ namespace MusicPlayer.Managers
 		public async Task Play(OnlinePlaylistEntry entry, OnlinePlaylist playlist)
 		{
 			LogManager.Shared.LogPlayback(entry);
-			using (new Spinner("Loading Playlist"))
+			using (new Spinner(Strings.LoadingPlaylist))
 			{
 				await MusicManager.Shared.AddTemp(playlist);
 			}
@@ -353,7 +353,7 @@ namespace MusicPlayer.Managers
 				return;
 			}
 
-			using (new Spinner("Starting station"))
+			using (new Spinner(Strings.StartingStation))
 			{
 				Settings.CurrentPlaybackContext = context;
 				var success = await MusicManager.Shared.LoadRadioStationTracks(station);
@@ -649,7 +649,7 @@ namespace MusicPlayer.Managers
 				try
 				{
 					var station = Settings.CurrentPlaybackContext.ParentId == "IFL"
-						? new RadioStation("I'm Feeling Lucky")
+					                      ? new RadioStation(Strings.ImFeelingLuckyRadioStation)
 						{
 							Id = "IFL",
 						}

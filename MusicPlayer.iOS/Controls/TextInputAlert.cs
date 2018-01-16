@@ -15,11 +15,11 @@ namespace MusicPlayer.iOS.Controls
 		UIAlertController alertController;
 		UIAlertView alertView;
 
-		public TextInputAlert(string text, string defaultText = "", string buttonText = "Ok")
+		public TextInputAlert(string text, string defaultText = "", string buttonText = null)
 		{
 			this.text = text;
 			this.defaultText = defaultText;
-			this.buttonText = buttonText;
+			this.buttonText = buttonText ?? Strings.Ok;
 			alertController = UIAlertController.Create(text, "", UIAlertControllerStyle.Alert);
 			if (alertController != null)
 				setupAlertController();

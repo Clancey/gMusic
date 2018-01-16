@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UIKit;
 using System.Collections;
+using Localizations;
 
 namespace MusicPlayer.iOS
 {
@@ -27,7 +28,7 @@ namespace MusicPlayer.iOS
 
 		void SetupActionSheet()
 		{
-			sheet = new UIAlertView(title,message,null,"Ok");
+			sheet = new UIAlertView(title,message,null,Strings.Ok);
 			sheet.Clicked += SheetOnClicked;
 		}
 

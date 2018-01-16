@@ -510,4 +510,40 @@ gMusic</value>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="SignInToService" xml:space="preserve">
+    <value>Sign in to {0}</value>
+  </data>
+  <data name="RecentlyPlayed" xml:space="preserve">
+    <value>Recently Played</value>
+  </data>
+  <data name="MostPlayed" xml:space="preserve">
+    <value>Most Played</value>
+  </data>
+  <data name="ThumbsUp" xml:space="preserve">
+    <value>Thumbs Up</value>
+  </data>
+  <data name="Searching" xml:space="preserve">
+    <value>Searching</value>
+  </data>
+  <data name="RelatedArtists" xml:space="preserve">
+    <value>Related Artists</value>
+  </data>
+  <data name="TopSongs" xml:space="preserve">
+    <value>Top Songs</value>
+  </data>
+  <data name="RadioStations" xml:space="preserve">
+    <value>Radio Stations</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="LoadingPlaylist" xml:space="preserve">
+    <value>Loading Playlist</value>
+  </data>
+  <data name="AutoPlaylists" xml:space="preserve">
+    <value>Auto Playlists</value>
+  </data>
+  <data name="DownloadToDevice" xml:space="preserve">
+    <value>Download to Device</value>
+  </data>
 </root>

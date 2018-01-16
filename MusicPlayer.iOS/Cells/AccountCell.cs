@@ -4,6 +4,7 @@ using MusicPlayer.Api;
 using MusicPlayer.Managers;
 using Foundation;
 using UIKit;
+using Localizations;
 namespace MusicPlayer.iOS
 {
 	public class AccountCell : StyledStringElement, IElementSizing
@@ -24,9 +25,9 @@ namespace MusicPlayer.iOS
 		{
 			Value = Provider?.Email ?? "";
 			if (string.IsNullOrWhiteSpace(Value))
-				Caption = $"Sign in to {ApiManager.Shared.DisplayName(ServiceType)}";
+				Caption = string.Format(Strings.SignInToService,ApiManager.Shared.DisplayName(ServiceType));
 			else
-				Caption = "Logout";
+				Caption = Strings.Logout;
 
 			var cell = base.GetCell(tv);
 			cell.ImageView.LoadSvg(ApiManager.Shared.GetSvg(ServiceType),new NGraphics.Size(30,30));

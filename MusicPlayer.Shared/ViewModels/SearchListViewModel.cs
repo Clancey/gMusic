@@ -6,6 +6,7 @@ using System.Linq;
 using MusicPlayer.Api;
 using MusicPlayer.Cells;
 using MusicPlayer.Managers;
+using Localizations;
 
 namespace MusicPlayer
 {
@@ -50,7 +51,24 @@ namespace MusicPlayer
 
 		public override string HeaderForSection(int section)
 		{
-			return GetSection(section);
+			switch (GetSection(section))
+			{
+				case "Searching":
+					return Strings.Searching;
+				case "Artist":
+					return Strings.Artists;
+				case "Albums":
+					return Strings.Albums;
+				case "Songs":
+					return Strings.Songs;
+				case "Radio Stations":
+					return Strings.RadioStations;
+				case "Playlists":
+					return Strings.Playlists;
+				case "Videos":
+					return Strings.Videos;
+			}
+			return "";
 		}
 
 		public int GetRowsInSection(string section)

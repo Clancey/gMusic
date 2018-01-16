@@ -34,7 +34,7 @@ namespace MusicPlayer.iOS.ViewControllers
 			menuItems = new Tuple<Element, UIViewController>[]
 			{
 				new Tuple<Element, UIViewController>(new MenuElement(Strings.Search,"SVG/search.svg",20) {SaveIndex = false }, new SearchViewController()),
-				new Tuple<Element, UIViewController>(new MenuHeaderElement("my music"), null),
+				new Tuple<Element, UIViewController>(new MenuHeaderElement(Strings.MusicLibraryHeading), null),
 				new Tuple<Element, UIViewController>(new MenuElement(Strings.Artists, "SVG/artist.svg"), new ArtistViewController()),
 				new Tuple<Element, UIViewController>(new MenuElement(Strings.Albums, "SVG/album.svg"), new AlbumViewController()),
 				new Tuple<Element, UIViewController>(new MenuElement(Strings.Genres, "SVG/genres.svg"), new GenreViewController()),
@@ -45,7 +45,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				//	new BaseViewController {Title = "Trending", View = {BackgroundColor = UIColor.White}}),
 				new Tuple<Element, UIViewController>(new MenuElement(Strings.Radio, "SVG/radio.svg"), new RadioStationViewController()),
 				new Tuple<Element, UIViewController>(new MenuHeaderElement(Strings.Settings), null),
-				new Tuple<Element, UIViewController>(new MenuSwitch("Offline Only", "SVG/offline.svg", Settings.ShowOfflineOnly) {ValueUpdated = (b)=> Settings.ShowOfflineOnly = b}, null),
+				new Tuple<Element, UIViewController>(new MenuSwitch(Strings.OfflineOnly, "SVG/offline.svg", Settings.ShowOfflineOnly) {ValueUpdated = (b)=> Settings.ShowOfflineOnly = b}, null),
 				new Tuple<Element, UIViewController>(new MenuSubtextSwitch(Strings.Equalizer
 					, MusicPlayer.Playback.Equalizer.Shared.CurrentPreset?.Name , "SVG/equalizer.svg", Settings.EqualizerEnabled){ValueUpdated = (b) => MusicPlayer.Playback.Equalizer.Shared.Active = b},
 					new EqualizerViewController()),

@@ -2,6 +2,7 @@
 using MusicPlayer.Data;
 using MusicPlayer.ViewModels;
 using System.Linq;
+using Localizations;
 
 namespace MusicPlayer.Models
 {
@@ -34,21 +35,21 @@ namespace MusicPlayer.Models
 			new AutoPlaylist()
 				{
 					Id = "recentlyPlayed",
-					Name = "Recently Played",
+				Name = Strings.RecentlyPlayed,
 					OrderByClause = " LastPlayed Desc",
 					Limit = 100,
 				},
 			new AutoPlaylist()
 				{
 					Id = "mostPlayed",
-					Name = "Most Played",
+					Name = Strings.MostPlayed,
 					OrderByClause = " PlayedCount Desc",
 					Limit = 100,
 				},
 			new AutoPlaylist()
 				{
 					Id = "thumbsUp",
-					Name = "Thumbs Up",
+					Name = Strings.ThumbsUp,
 					OrderByClause = " PlayedCount Desc",
 					WhereClause = "Rating > 4",
 				},

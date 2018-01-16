@@ -167,7 +167,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 					lastFmElement.Value = false;
 					ReloadData();
-					App.ShowAlert($"{Strings.ErrorLoggingInto} Last.FM", Strings.PleaseTryAgain);
+					App.ShowAlert(string.Format(Strings.ErrorLoggingInto, "Last.FM"), Strings.PleaseTryAgain);
 				};
 			}
 			twitterScrobbleElement.ValueUpdated = async b =>
@@ -268,7 +268,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					elements.Remove (element);
 				else {
 					newElements.Add (new AccountCell (x, () => {
-					new AlertView (Strings.Logout, "Are you sure you want to logout?") {
+					new AlertView (Strings.Logout, Strings.LogOutConfirmation) {
 							{Strings.Logout,async()=>{
 									await ApiManager.Shared.LogOut (x);
 									UpdateAccounts ();
