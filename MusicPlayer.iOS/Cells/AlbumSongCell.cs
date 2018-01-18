@@ -21,7 +21,7 @@ namespace MusicPlayer
 		public UITableViewCell GetCell(UITableView tableview)
 		{
 			Cell cell = tableview.DequeueReusableCell(Cell.Key) as Cell ?? new Cell();
-			cell.Update(song);
+			cell.BindingContext = song;
 			cell.ApplyStyle(tableview);
 			return cell;
 		}
@@ -64,9 +64,8 @@ namespace MusicPlayer
 				}
 			}
 
-			public async void Update(Song song)
+			public void Update(Song song)
 			{
-				BindingContext = song;
 				TextView.TopLabel.Text = song?.Name ?? "";
 				TextView.BottomLabel.Text = song?.Artist ?? "";
 				trackLabel.Text = song?.Track.ToString() ?? "";
