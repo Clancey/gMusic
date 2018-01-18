@@ -45,6 +45,29 @@ namespace MusicPlayer.Playback
 		async void FetchArtwork (Song song)
 		{
 			try {
+				
+				var art = await song.GetLocalImage(Images.MaxScreenSize);
+
+				if (art == null)
+				{
+					var url = await ArtworkManager.Shared.GetArtwork(song);
+					if (string.IsNullOrWhiteSpace(url))
+						return;
+					var tcs = new TaskCompletionSource<UIImage>();
+					var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(url), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
+					{
+
+					}, (image, data, error, finished) =>
+					{
+						if (error != null)
+							tcs.TrySetException(new Exception(error.ToString()));
+						else
+							tcs.TrySetResult(image);
+					});
+					art = await tcs.Task;
+					if (art == null || song.Id != Settings.CurrentSong)
+						return;
+				}
 				if (Device.IsIos10)
 				{
 					artwork = new MPMediaItemArtwork(new CGSize(Images.MaxScreenSize, Images.MaxScreenSize), (arg) =>
@@ -56,30 +79,9 @@ namespace MusicPlayer.Playback
 				}
 				else
 				{
-					var art = await song.GetLocalImage(Images.MaxScreenSize);
-
-					if (art == null)
-					{
-						var url = await ArtworkManager.Shared.GetArtwork(song);
-						if (string.IsNullOrWhiteSpace(url))
-							return;
-						var tcs = new TaskCompletionSource<UIImage>();
-						var imageManager = SDWebImageManager.SharedManager.ImageDownloader.DownloadImage(new NSUrl(url), SDWebImageDownloaderOptions.HighPriority, (receivedSize, expectedSize, u) =>
-						{
-
-						}, (image, data, error, finished) =>
-						{
-							if (error != null)
-								tcs.TrySetException(new Exception(error.ToString()));
-							else
-								tcs.TrySetResult(image);
-						});
-						art = await tcs.Task;
-						if (art == null || song.Id != Settings.CurrentSong)
-							return;
-					}
 					artwork = new MPMediaItemArtwork(art);
 				}
+
 				if (nowPlayingInfo == null)
 					return;
 				nowPlayingInfo.Artwork = artwork;
