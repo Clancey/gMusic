@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accounts" xml:space="preserve">
+    <value>帳號</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>啟用</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>加入</value>
+  </data>
+  <data name="AddingToPlaylist" xml:space="preserve">
+    <value>正在加入播放列表</value>
+  </data>
+  <data name="AdditionalTracks" xml:space="preserve">
+    <value>額外的音軌</value>
+  </data>
+  <data name="AddStreamingService" xml:space="preserve">
+    <value>加入串流伺服器</value>
+  </data>
+  <data name="AddToLibrary" xml:space="preserve">
+    <value>加入資料庫</value>
+  </data>
+  <data name="AddToPlaylist" xml:space="preserve">
+    <value>加入播放列表</value>
+  </data>
+  <data name="AddToQueue" xml:space="preserve">
+    <value>加入佇列</value>
+  </data>
+  <data name="Album" xml:space="preserve">
+    <value>專輯</value>
+  </data>
+  <data name="AlbumArtist" xml:space="preserve">
+    <value>專輯類型</value>
+  </data>
+  <data name="Albums" xml:space="preserve">
+    <value>專輯</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>您確定嗎？</value>
+  </data>
+  <data name="Artist" xml:space="preserve">
+    <value>藝人</value>
+  </data>
+  <data name="Artists" xml:space="preserve">
+    <value>藝人</value>
+  </data>
+  <data name="AutoPlaylists" xml:space="preserve">
+    <value>自動播放列表</value>
+  </data>
+  <data name="AutoTweet" xml:space="preserve">
+    <value>自動於推退發文</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CellularAudioQuality" xml:space="preserve">
+    <value>行動網路音質</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>繼續</value>
+  </data>
+  <data name="CopyPreset" xml:space="preserve">
+    <value>拷貝模組</value>
+  </data>
+  <data name="CreatingStation" xml:space="preserve">
+    <value>正在建立站台</value>
+  </data>
+  <data name="CurrentDownloads" xml:space="preserve">
+    <value>目前的下載項目</value>
+  </data>
+  <data name="CurrentPlaylist" xml:space="preserve">
+    <value>目前的播放列表</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>預設</value>
+  </data>
+  <data name="DefaultPreset" xml:space="preserve">
+    <value>預設模組</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="Deleting" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="DisableAllAccess" xml:space="preserve">
+    <value>停用所有存取</value>
+  </data>
+  <data name="DisableAllAccessHint" xml:space="preserve">
+    <value>您若不需要存取整合，可選擇停用</value>
+  </data>
+  <data name="Disc" xml:space="preserve">
+    <value>光碟</value>
+  </data>
+  <data name="DownloadQueue" xml:space="preserve">
+    <value>下載佇列</value>
+  </data>
+  <data name="DownloadToDevice" xml:space="preserve">
+    <value>下載至設備</value>
+  </data>
+  <data name="DoYouWantToContinue" xml:space="preserve">
+    <value>您確定要繼續嗎？</value>
+  </data>
+  <data name="EnableGaplessPlayback" xml:space="preserve">
+    <value>啟用無縫播放</value>
+  </data>
+  <data name="EnableGapplessHint" xml:space="preserve">
+    <value>這將移除歌曲間之空白間隔</value>
+  </data>
+  <data name="EnableLikeHint" xml:space="preserve">
+    <value>若您啟用此選項，「上一首」的按鈕，會由「喜歡或不喜歡」取代</value>
+  </data>
+  <data name="EnableLikeOnTheLockScreen" xml:space="preserve">
+    <value>在鎖定螢幕啟用喜好按鈕</value>
+  </data>
+  <data name="Equalizer" xml:space="preserve">
+    <value>等化器</value>
+  </data>
+  <data name="EqualizerPresets" xml:space="preserve">
+    <value>等化器模組</value>
+  </data>
+  <data name="ErrorAddingToPlaylist" xml:space="preserve">
+    <value>加入播放列表發生錯誤</value>
+  </data>
+  <data name="ErrorCreatingStation" xml:space="preserve">
+    <value>建立廣播站台時發生錯誤</value>
+  </data>
+  <data name="ErrorLoggingInto" xml:space="preserve">
+    <value>登入錯誤</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>反饋意見</value>
+  </data>
+  <data name="Genre" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="Genres" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="GoToAlbum" xml:space="preserve">
+    <value>前往專輯</value>
+  </data>
+  <data name="GoToArtist" xml:space="preserve">
+    <value>前往藝人</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="ImFeelingLuckyRadioStation" xml:space="preserve">
+    <value>我覺得很幸運</value>
+  </data>
+  <data name="ImportIpodHint" xml:space="preserve">
+    <value>自動輸入並從你的本機資料庫播放音樂，這可節省您手機上的數據及空間</value>
+  </data>
+  <data name="ImportIPodMusic" xml:space="preserve">
+    <value>輸入 iPod 音樂</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>無效憑證</value>
+  </data>
+  <data name="InvalidName" xml:space="preserve">
+    <value>無效名稱</value>
+  </data>
+  <data name="LoadingPlaylist" xml:space="preserve">
+    <value>本地播放列表</value>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>本機</value>
+  </data>
+  <data name="LoggingOut" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="LogOutConfirmation" xml:space="preserve">
+    <value>您確定要登出嗎？</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="MostPlayed" xml:space="preserve">
+    <value>最常播放</value>
+  </data>
+  <data name="MusicLibraryHeading" xml:space="preserve">
+    <value>我的音樂</value>
+  </data>
+  <data name="MyStations" xml:space="preserve">
+    <value>我的站台</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>歌名</value>
+  </data>
+  <data name="Nevermind" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="NewPreset" xml:space="preserve">
+    <value>新增模組</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="NobodyHasRatedYet" xml:space="preserve">
+    <value>尚未評分 :(</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="OfflineAudioQuality" xml:space="preserve">
+    <value>離線音質</value>
+  </data>
+  <data name="OfflineOnly" xml:space="preserve">
+    <value>僅限離線</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>好</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>線上</value>
+  </data>
+  <data name="Only" xml:space="preserve">
+    <value>只有</value>
+  </data>
+  <data name="OnlyOnePersonHasRatedThisVersion" xml:space="preserve">
+    <value>只有1人對此版本評分</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="PeopleHaveRatedThisVersion" xml:space="preserve">
+    <value>人對此版本評分</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>播放</value>
+  </data>
+  <data name="Playback" xml:space="preserve">
+    <value>播放</value>
+  </data>
+  <data name="PlayCleanVersionsOfSongs" xml:space="preserve">
+    <value>播放乾淨版本的歌曲</value>
+  </data>
+  <data name="PlayesCleanVersionOfSongsHint" xml:space="preserve">
+    <value>播放廣播時，播放無人聲的歌曲 (在可行條件下)</value>
+  </data>
+  <data name="PlaylistName" xml:space="preserve">
+    <value>播放列表名稱</value>
+  </data>
+  <data name="Playlists" xml:space="preserve">
+    <value>播放列表</value>
+  </data>
+  <data name="PlayNext" xml:space="preserve">
+    <value>播放下一首</value>
+  </data>
+  <data name="PlaysMusicVideoHint" xml:space="preserve">
+    <value>若有音樂影片時，則播放音樂影片</value>
+  </data>
+  <data name="PlayVideo" xml:space="preserve">
+    <value>播放影片</value>
+  </data>
+  <data name="PlayVideosWhenAvailable" xml:space="preserve">
+    <value>允許播放音樂影片</value>
+  </data>
+  <data name="PleaseRate" xml:space="preserve">
+    <value>請評分</value>
+  </data>
+  <data name="PleaseSendAnEmailTo" xml:space="preserve">
+    <value>請寄送電子郵件至：</value>
+  </data>
+  <data name="PleaseTryAgain" xml:space="preserve">
+    <value>請重試</value>
+  </data>
+  <data name="PleaseTryAgainLater" xml:space="preserve">
+    <value>請稍候再試</value>
+  </data>
+  <data name="QualityHints" xml:space="preserve">
+    <value>若您有緩存不足或跳音問題，請降低串流品質。較低的串流品質使用較少的數據，也會節省儲存在設備上的空間</value>
+  </data>
+  <data name="Radio" xml:space="preserve">
+    <value>廣播</value>
+  </data>
+  <data name="RadioStations" xml:space="preserve">
+    <value>廣播站台</value>
+  </data>
+  <data name="RecentlyPlayed" xml:space="preserve">
+    <value>最近播放</value>
+  </data>
+  <data name="RecentStations" xml:space="preserve">
+    <value>最近站台</value>
+  </data>
+  <data name="RelatedArtists" xml:space="preserve">
+    <value>相關的藝人</value>
+  </data>
+  <data name="RemoveFromDevice" xml:space="preserve">
+    <value>從設備中移除</value>
+  </data>
+  <data name="RemoveFromLibrary" xml:space="preserve">
+    <value>從資料庫移除</value>
+  </data>
+  <data name="RenameError" xml:space="preserve">
+    <value>錯誤</value>
+  </data>
+  <data name="RenamePreset" xml:space="preserve">
+    <value>重新命名模組</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="ResyncDatabase" xml:space="preserve">
+    <value>重新同步資料庫</value>
+  </data>
+  <data name="ResyncDatabaseHint" xml:space="preserve">
+    <value>這將刪除現有資料庫，並從伺服器全部重新同步</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>搜尋</value>
+  </data>
+  <data name="Searching" xml:space="preserve">
+    <value>搜尋</value>
+  </data>
+  <data name="SendFeedback" xml:space="preserve">
+    <value>傳送反饋意見</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Shuffle" xml:space="preserve">
+    <value>隨機播放</value>
+  </data>
+  <data name="SignInToService" xml:space="preserve">
+    <value>登入 {0}</value>
+  </data>
+  <data name="Song" xml:space="preserve">
+    <value>音樂</value>
+  </data>
+  <data name="Songs" xml:space="preserve">
+    <value>歌曲</value>
+  </data>
+  <data name="SongsCount" xml:space="preserve">
+    <value>音樂數量</value>
+  </data>
+  <data name="Sorry" xml:space="preserve">
+    <value>抱歉</value>
+  </data>
+  <data name="StartingARadioStationWillDisableOfflineMode" xml:space="preserve">
+    <value>開使廣播站台時將停用離線模式</value>
+  </data>
+  <data name="StartingStation" xml:space="preserve">
+    <value>開使廣播站台</value>
+  </data>
+  <data name="StartRadioStation" xml:space="preserve">
+    <value>開始廣播站台</value>
+  </data>
+  <data name="Streaming" xml:space="preserve">
+    <value>串流</value>
+  </data>
+  <data name="SyncingDatabase" xml:space="preserve">
+    <value>同步資料庫</value>
+  </data>
+  <data name="ThankYou" xml:space="preserve">
+    <value>感謝</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>主題</value>
+  </data>
+  <data name="ThereWasAnErrorPlayingTrack" xml:space="preserve">
+    <value>播放這和音樂時發生錯誤</value>
+  </data>
+  <data name="ThumbsUp" xml:space="preserve">
+    <value>比讚！</value>
+  </data>
+  <data name="TipTheDeveloper" xml:space="preserve">
+    <value>提示開發者</value>
+  </data>
+  <data name="TopSongs" xml:space="preserve">
+    <value>熱門歌曲</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>音軌</value>
+  </data>
+  <data name="TrackNumber" xml:space="preserve">
+    <value>音軌編號</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>使用者名稱</value>
+  </data>
+  <data name="UsesLessData" xml:space="preserve">
+    <value>(使用較少數據)</value>
+  </data>
+  <data name="UsesMoreData" xml:space="preserve">
+    <value>(使用較多數據)</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="VideoQuality" xml:space="preserve">
+    <value>影片畫質</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>影片</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>歡迎使用</value>
+  </data>
+  <data name="WelcomToGmusic" xml:space="preserve">
+    <value>歡迎使用 gMusic</value>
+  </data>
+  <data name="WifiAudioQuality" xml:space="preserve">
+    <value>Wifi 音質</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>年份</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="YouShouldReceiveAReplyShortly_" xml:space="preserve">
+    <value>您短期內會收到回復</value>
+  </data>
+</root>
