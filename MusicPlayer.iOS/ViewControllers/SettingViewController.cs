@@ -39,8 +39,8 @@ namespace MusicPlayer.iOS.ViewControllers
 		public SettingViewController() : base(UITableViewStyle.Plain, null)
 		{
 			Title = Strings.Settings;
-			accountsSection = new MenuSection ("Accounts"){
-				(addNewAccountElement = new SettingsElement("Add Streaming Service",async ()=>{
+			accountsSection = new MenuSection (Strings.Accounts){
+				(addNewAccountElement = new SettingsElement(Strings.AddStreamingService,async ()=>{
 					try{
 						var vc = new ServicePickerViewController();
 						this.PresentModalViewController(new UINavigationController(vc),true);
@@ -58,7 +58,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					}
 				})),
 				(lastFmElement = string.IsNullOrEmpty (ApiConstants.LastFmApiKey) ? null : new SettingsSwitch("Last.FM", Settings.LastFmEnabled)),
-					(twitterScrobbleElement = new SettingsSwitch("Auto Tweet", Settings.TwitterEnabled)
+					(twitterScrobbleElement = new SettingsSwitch(Strings.AutoTweet, Settings.TwitterEnabled)
 					{
 					Detail = Settings.TwitterDisplay
 				}),
@@ -128,7 +128,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				},
 				new MenuSection(Strings.Settings)
 				{
-					CreateThemePicker("Theme"),
+					CreateThemePicker(Strings.Theme),
 					new SettingsElement(Strings.ResyncDatabase, () =>
 					{
 						Database.Main.ResetDatabase();
@@ -139,7 +139,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					new SettingsElement(Strings.DownloadQueue,
 						() => NavigationController.PushViewController(new DownloadViewController(), true)),
 					(songsElement = new SettingsElement(Strings.SongsCount)),
-					new StringElement("Version",Device.AppVersion()),
+					new StringElement(Strings.Version,Device.AppVersion()),
 				}
 			};
 			if (lastFmElement != null) {
@@ -434,7 +434,7 @@ namespace MusicPlayer.iOS.ViewControllers
 			SettingsElement element = null;
 			element = new SettingsElement(title, () =>
 			{
-				var sheet = new ActionSheet("Theme");
+				var sheet = new ActionSheet(Strings.Theme);
 				MusicPlayer.iOS.Style.AvailableStyles.ForEach(x=> sheet.Add(x.Id, () =>
 				{
 					Settings.CurrentStyle = x.Id;
