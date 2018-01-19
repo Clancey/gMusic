@@ -377,5 +377,11 @@ namespace MusicPlayer.Data
 			get { return AppSettings.GetBool (true); }
 			set { AppSettings.Set (value); }
 		}
+
+		public static bool DisableAutoLock
+		{
+			get { return AppSettings.GetBool(false); }
+			set { AppSettings.Set(value); }
+		}
 	}
 }

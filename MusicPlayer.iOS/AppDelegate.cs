@@ -147,6 +147,7 @@ namespace MusicPlayer.iOS
 #pragma warning disable 4014
 			App.Start();
 #pragma warning restore 4014
+			AutolockPowerWatcher.Shared.CheckStatus();
 		}
 
 		public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)

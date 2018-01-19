@@ -546,4 +546,10 @@ gMusic</value>
   <data name="DownloadToDevice" xml:space="preserve">
     <value>Download to Device</value>
   </data>
+  <data name="DisableAutoLock" xml:space="preserve">
+    <value>Disable Autolock</value>
+  </data>
+  <data name="DisableAutoLockHelpText" xml:space="preserve">
+    <value>Disables the the lock screen from automatically locking when plugged in.</value>
+  </data>
 </root>

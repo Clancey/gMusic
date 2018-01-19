@@ -898,5 +898,17 @@ namespace Localizations {
                 return ResourceManager.GetString("DownloadToDevice", resourceCulture);
             }
         }
+        
+        public static string DisableAutoLock {
+            get {
+                return ResourceManager.GetString("DisableAutoLock", resourceCulture);
+            }
+        }
+        
+        public static string DisableAutoLockHelpText {
+            get {
+                return ResourceManager.GetString("DisableAutoLockHelpText", resourceCulture);
+            }
+        }
     }
 }

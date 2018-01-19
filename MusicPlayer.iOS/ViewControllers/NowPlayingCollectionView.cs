@@ -105,7 +105,6 @@ namespace MusicPlayer.iOS.ViewControllers
 		public override nint GetItemsCount(UICollectionView collectionView, nint section)
 		{
 			CurrentCount = Math.Max(1, PlaybackManager.Shared.CurrentPlaylistSongCount);
-			Task.Run(()=>App.RunOnMainThread(()=>scrollTocurrentSong()));
 			return CurrentCount;
 		}
 

@@ -136,6 +136,13 @@ namespace MusicPlayer.iOS.ViewControllers
 						ApiManager.Shared.ReSync();
 					}),
 					new MenuHelpTextElement (Strings.ResyncDatabaseHint),
+					new SettingsSwitch(Strings.DisableAutoLock,Settings.DisableAutoLock){
+						ValueUpdated = (b => { 
+							Settings.PreferVideos = b;
+							AutolockPowerWatcher.Shared.CheckStatus();
+						})
+					},
+					new MenuHelpTextElement(Strings.DisableAutoLockHelpText),
 					new SettingsElement(Strings.DownloadQueue,
 						() => NavigationController.PushViewController(new DownloadViewController(), true)),
 					(songsElement = new SettingsElement(Strings.SongsCount)),

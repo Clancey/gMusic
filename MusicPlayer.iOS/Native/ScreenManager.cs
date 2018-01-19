@@ -48,11 +48,13 @@ namespace MusicPlayer.iOS
 				Window.RootViewController = new  Car.CarHeadViewController ();
 			Window.Hidden = false;
 #endif
+			IsRunning = true;
 			UIApplication.SharedApplication.IdleTimerDisabled = true;
 		}
-
+		public bool IsRunning { get; set; }
 		public virtual void StopWindow()
 		{
+			IsRunning = false;
 			UIApplication.SharedApplication.IdleTimerDisabled = false;
 			if (Window == null)
 				return;

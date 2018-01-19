@@ -445,6 +445,7 @@
     <Compile Include="UI\LevelMeter.cs" />
     <Compile Include="ViewControllers\AutoPlaylistSongsViewController.cs" />
     <BundleResource Include="Resources\SVG\dice.svg" />
+    <Compile Include="Native\AutolockPowerWatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -571,6 +572,12 @@
     </Reference>
     <Reference Include="SimpleAuth">
       <HintPath>..\packages\Clancey.SimpleAuth.1.0.47\lib\Xamarin.iOS10\SimpleAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Battery.Abstractions">
+      <HintPath>..\packages\Xam.Plugin.Battery.3.0.1\lib\Xamarin.iOS10\Plugin.Battery.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Battery">
+      <HintPath>..\packages\Xam.Plugin.Battery.3.0.1\lib\Xamarin.iOS10\Plugin.Battery.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
