@@ -32,7 +32,7 @@
 			<string>MobileCenter</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mobilecenter-e1552973-f10e-43a7-8529-fa1cf8082bd8</string>
+				<string>appcenter-e1552973-f10e-43a7-8529-fa1cf8082bd8</string>
 			</array>
 		</dict>
 	</array>
