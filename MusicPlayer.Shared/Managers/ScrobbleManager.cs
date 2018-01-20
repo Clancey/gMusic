@@ -20,6 +20,8 @@ using Accounts;
 using Foundation;
 using Twitter;
 using Localizations;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 #endif
 
 namespace MusicPlayer.Managers
@@ -283,9 +285,9 @@ namespace MusicPlayer.Managers
 				}
 #endif
 				var account = await twitter.Authenticate();
-				var user = await twitter.Get<Dictionary<string, string>>("account/verify_credentials.json");
-				Settings.TwitterDisplay = user["name"];
-				Settings.TwitterAccount = user["id"];
+				var user = await twitter.Get<TwitterAccountResponse>("account/verify_credentials.json");
+				Settings.TwitterDisplay = user.Name;
+				Settings.TwitterAccount = user.Id.ToString();
 				return true;
 			}
 			catch (Exception x)
@@ -293,6 +295,15 @@ namespace MusicPlayer.Managers
 				Console.WriteLine(x);
 			}
 			return false;
+		}
+
+		public class TwitterAccountResponse
+		{
+			[JsonProperty("id")]
+			public int Id { get; set; }
+
+			[JsonProperty("name")]
+			public string Name { get; set; }
 		}
 
 		async Task<bool> LoginTwitterOld()

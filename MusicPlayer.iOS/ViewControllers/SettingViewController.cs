@@ -196,7 +196,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					return;
 				}
 
-
+				Settings.TwitterEnabled = true;
 				twitterScrobbleElement.Detail = Settings.TwitterDisplay;
 
 				ReloadData();
