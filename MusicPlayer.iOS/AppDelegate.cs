@@ -44,7 +44,7 @@ namespace MusicPlayer.iOS
 			bool handled = true;
 			SimpleAuth.Providers.Twitter.Init();
 			AppCenter.Start(ApiConstants.MobileCenterApiKey,
-			                   #if !APPSTORE
+			                	#if ADHOC
 			                   typeof(Microsoft.AppCenter.Distribute.Distribute),
 								#endif
 							   typeof(Analytics),
@@ -109,6 +109,14 @@ namespace MusicPlayer.iOS
 
 		public void SetUpApp(UIApplication app)
 		{
+			try
+			{
+				Strings.Culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+			}
+			catch (Exception ex)
+			{
+				LogManager.Shared.Log($"Error setting Culture {System.Threading.Thread.CurrentThread.CurrentCulture}");
+			}
 			SimpleAuth.OnePassword.Activate();
 			ApiManager.Shared.Load();
 			App.AlertFunction = (t, m) => { new UIAlertView(t, m, null, "Ok").Show(); };

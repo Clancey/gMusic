@@ -43,7 +43,10 @@ namespace MusicPlayer.Managers
 		Lastfm.Session session;
 		Connection connection;
 		Lastfm.Scrobbling.ScrobbleManager manager;
-		TwitterApi twitter = new TwitterApi("Twitter", ApiConstants.TwitterClientId, ApiConstants.TwitterSecret);
+		TwitterApi twitter = new TwitterApi("Twitter", ApiConstants.TwitterClientId, ApiConstants.TwitterSecret)
+		{
+			RedirectUrl = new Uri("http://www.gmusicapp.com/")		
+		};
 		public async void Init()
 		{
 			if (Settings.LastFmEnabled)
@@ -273,7 +276,10 @@ namespace MusicPlayer.Managers
 				return false;
 			}
 		}
-
+		public void LogOutOfTwitter()
+		{
+			twitter?.Logout();
+		}
 		public async Task<bool> LoginToTwitter()
 		{
 			try
@@ -358,15 +364,16 @@ namespace MusicPlayer.Managers
 		async Task<bool> SubmitScrobbleToTwitter(Song song)
 		{
 
-			var message = $"#NowPlaying {song.ToString(114)} on @gMusicApp";
+			var message = $"#NowPlaying {song.ToString(254)} on @gMusicApp";
 			try
 			{
 				if (!Device.HasIntegratedTwitter)
 				{
-					var resp = await twitter.Post(null, "statuses/update.json", new Dictionary<string, string>()
+					var content = new FormUrlEncodedContent(new Dictionary<string, string>()
 					{
 						{"status",message}
 					});
+					var resp = await twitter.Post(content, "statuses/update.json" );
 					Console.WriteLine(resp);
 				}
 				else

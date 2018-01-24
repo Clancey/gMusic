@@ -137,7 +137,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					}),
 					new MenuHelpTextElement (Strings.ResyncDatabaseHint),
 					new SettingsSwitch(Strings.DisableAutoLock,Settings.DisableAutoLock){
-						ValueUpdated = (b => { 
+						ValueUpdated = (b => {
 							Settings.PreferVideos = b;
 							AutolockPowerWatcher.Shared.CheckStatus();
 						})
@@ -147,6 +147,9 @@ namespace MusicPlayer.iOS.ViewControllers
 						() => NavigationController.PushViewController(new DownloadViewController(), true)),
 					(songsElement = new SettingsElement(Strings.SongsCount)),
 					new StringElement(Strings.Version,Device.AppVersion()),
+					#if !AppStore
+					new StringElement("Culture",System.Threading.Thread.CurrentThread.CurrentCulture.ToString()),
+					#endif
 				}
 			};
 			if (lastFmElement != null) {
@@ -185,6 +188,8 @@ namespace MusicPlayer.iOS.ViewControllers
 					Settings.TwitterDisplay = "";
 					Settings.TwitterAccount = "";
 					twitterScrobbleElement.Detail = "";
+					ScrobbleManager.Shared.LogOutOfTwitter();
+
 					return;
 				}
 				var success = await ScrobbleManager.Shared.LoginToTwitter();
