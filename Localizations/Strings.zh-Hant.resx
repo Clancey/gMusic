@@ -216,6 +216,12 @@
   <data name="DownloadToDevice" xml:space="preserve">
     <value>下載至設備</value>
   </data>
+  <data name="DisableAutoLock" xml:space="preserve">
+    <value>停用自動鎖定</value>
+  </data>
+  <data name="DisableAutoLockHelpText" xml:space="preserve">
+    <value>當充電時，停用自動鎖定功能</value>
+  </data>
   <data name="DoYouWantToContinue" xml:space="preserve">
     <value>您確定要繼續嗎？</value>
   </data>

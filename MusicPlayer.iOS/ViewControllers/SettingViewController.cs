@@ -474,7 +474,7 @@ namespace MusicPlayer.iOS.ViewControllers
 			new CultureInfo("ja"),
 			new CultureInfo("ko"),
 			new CultureInfo("ru"),
-			new CultureInfo("zh"),
+			new CultureInfo("zh-Hant"),
 
 		};
 		SettingsElement CreateLanguagePicker(string title)

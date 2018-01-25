@@ -16,21 +16,21 @@ namespace Localizations {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Strings_zh_CHT {
+    public class Strings_zh_Hant {
         
         private static System.Resources.ResourceManager resourceMan;
         
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings_zh_CHT() {
+        internal Strings_zh_Hant() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         public static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("Localizations.Strings.zh-CHT", typeof(Strings_zh_CHT).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("Localizations.Strings.zh-Hant", typeof(Strings_zh_Hant).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -242,6 +242,18 @@ namespace Localizations {
         public static string DownloadToDevice {
             get {
                 return ResourceManager.GetString("DownloadToDevice", resourceCulture);
+            }
+        }
+        
+        public static string DisableAutoLock {
+            get {
+                return ResourceManager.GetString("DisableAutoLock", resourceCulture);
+            }
+        }
+        
+        public static string DisableAutoLockHelpText {
+            get {
+                return ResourceManager.GetString("DisableAutoLockHelpText", resourceCulture);
             }
         }
         
