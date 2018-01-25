@@ -111,7 +111,7 @@ namespace MusicPlayer.iOS
 		{
 			try
 			{
-				Strings.Culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+				Strings.Culture = new System.Globalization.CultureInfo(NSLocale.CurrentLocale.LanguageCode);
 			}
 			catch (Exception ex)
 			{
