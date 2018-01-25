@@ -23,6 +23,7 @@ using MusicPlayer.Playback;
 using Accounts;
 using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace MusicPlayer.iOS.ViewControllers
 {
@@ -98,7 +99,7 @@ namespace MusicPlayer.iOS.ViewControllers
 					{
 						ValueUpdated = (b=> { Settings.FilterExplicit = b; })
 					},
-                    new MenuHelpTextElement(Strings.PlayesCleanVersionOfSongsHint),
+					new MenuHelpTextElement(Strings.PlayesCleanVersionOfSongsHint),
 				},
 				new MenuSection(Strings.Streaming)
 				{
@@ -128,6 +129,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				},
 				new MenuSection(Strings.Settings)
 				{
+					CreateLanguagePicker("Language"),
 					CreateThemePicker(Strings.Theme),
 					new SettingsElement(Strings.ResyncDatabase, () =>
 					{
@@ -146,10 +148,13 @@ namespace MusicPlayer.iOS.ViewControllers
 					new SettingsElement(Strings.DownloadQueue,
 						() => NavigationController.PushViewController(new DownloadViewController(), true)),
 					(songsElement = new SettingsElement(Strings.SongsCount)),
-					new StringElement(Strings.Version,Device.AppVersion()),
-					#if !AppStore
-					new StringElement("Culture",System.Threading.Thread.CurrentThread.CurrentCulture.ToString()),
-					#endif
+					new SettingsElement(Strings.Version){
+						Value = Device.AppVersion(),
+					},
+					new StringElement(""),
+					new StringElement(""),
+					new StringElement(""),
+					new StringElement(""),
 				}
 			};
 			if (lastFmElement != null) {
@@ -457,6 +462,43 @@ namespace MusicPlayer.iOS.ViewControllers
 			{
 				style = UITableViewCellStyle.Value1,
 				Value = Settings.CurrentStyle,
+			};
+
+			return element;
+		}
+		CultureInfo[] cultures = new CultureInfo[]{
+			new CultureInfo("en"),
+			new CultureInfo("es"),
+			new CultureInfo("fr"),
+			new CultureInfo("it"),
+			new CultureInfo("ja"),
+			new CultureInfo("ko"),
+			new CultureInfo("ru"),
+			new CultureInfo("zh"),
+
+		};
+		SettingsElement CreateLanguagePicker(string title)
+		{
+			SettingsElement element = null;
+			var currentCulture = string.IsNullOrWhiteSpace(Settings.LanguageOverride) ? Strings.Default : new CultureInfo(Settings.LanguageOverride).DisplayName;
+			element = new SettingsElement(title, () =>
+			{
+				var sheet = new ActionSheet("Language");
+				sheet.Add(Strings.Default, () =>
+				 {
+					 Settings.LanguageOverride = null;
+				 });
+				cultures.ForEach(x => sheet.Add(x.NativeName, () =>
+				{
+					Strings.Culture = x;
+					Settings.LanguageOverride = x.TwoLetterISOLanguageName;
+					element.Value = x.NativeName;
+				}));
+				sheet.Show(this, TableView);
+			})
+			{
+				style = UITableViewCellStyle.Value1,
+				Value = currentCulture,
 			};
 
 			return element;

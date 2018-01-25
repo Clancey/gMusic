@@ -383,5 +383,15 @@ namespace MusicPlayer.Data
 			get { return AppSettings.GetBool(false); }
 			set { AppSettings.Set(value); }
 		}
+
+		public static string LanguageOverride
+		{
+			get { return AppSettings.GetString(); }
+			set
+			{
+				AppSettings.Set(value);
+				NotificationManager.Shared.ProcLanguageChanged();
+			}
+		}
 	}
 }

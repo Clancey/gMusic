@@ -212,5 +212,11 @@ namespace MusicPlayer.Managers
 		{
 			ConsoleChanged?.InvokeOnMainThread(this);
 		}
+
+		public event EventHandler LanguageChanged;
+		public void ProcLanguageChanged()
+		{
+			LanguageChanged?.InvokeOnMainThread(this);
+		}
 	}
 }

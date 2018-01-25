@@ -39,6 +39,10 @@ namespace MusicPlayer
 		{
 			if (completed)
 				return;
+			if (!string.IsNullOrWhiteSpace(Settings.LanguageOverride))
+			{
+				Strings.Culture = new System.Globalization.CultureInfo(Settings.LanguageOverride);
+			}
 			MainThread = Thread.CurrentThread;
 			InMemoryConsole.Current.Activate();
 			TempFileManager.Shared.Cleanup();

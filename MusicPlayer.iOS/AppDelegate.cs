@@ -152,6 +152,10 @@ namespace MusicPlayer.iOS
 				}.Show(window.RootViewController);
 				return tcs.Task;
 			};
+			NotificationManager.Shared.LanguageChanged += (s, e) =>
+			{
+				window.RootViewController = new RootViewController();
+			};
 #pragma warning disable 4014
 			App.Start();
 #pragma warning restore 4014
