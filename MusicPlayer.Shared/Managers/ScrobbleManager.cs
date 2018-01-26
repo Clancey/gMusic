@@ -368,11 +368,11 @@ namespace MusicPlayer.Managers
 			{
 				if (!Device.HasIntegratedTwitter)
 				{
-					var content = new FormUrlEncodedContent(new Dictionary<string, string>()
+
+					var resp = await twitter.Post(null, "statuses/update.json", new Dictionary<string, string>
 					{
-						{"status",message}
+						["status"] = message
 					});
-					var resp = await twitter.Post(content, "statuses/update.json" );
 					Console.WriteLine(resp);
 				}
 				else
