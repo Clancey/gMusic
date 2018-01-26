@@ -546,4 +546,7 @@
   <data name="YouShouldReceiveAReplyShortly_" xml:space="preserve">
     <value>您短期內會收到回復</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>語言</value>
+  </data>
 </root>

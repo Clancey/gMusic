@@ -910,5 +910,11 @@ namespace Localizations {
                 return ResourceManager.GetString("DisableAutoLockHelpText", resourceCulture);
             }
         }
+        
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
     }
 }

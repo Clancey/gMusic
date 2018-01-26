@@ -552,4 +552,7 @@ gMusic</value>
   <data name="DisableAutoLockHelpText" xml:space="preserve">
     <value>Disables the the lock screen from automatically locking when plugged in.</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
 </root>

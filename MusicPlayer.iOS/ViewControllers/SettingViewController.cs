@@ -129,7 +129,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				},
 				new MenuSection(Strings.Settings)
 				{
-					CreateLanguagePicker("Language"),
+					CreateLanguagePicker(Strings.Language),
 					CreateThemePicker(Strings.Theme),
 					new SettingsElement(Strings.ResyncDatabase, () =>
 					{
@@ -483,7 +483,7 @@ namespace MusicPlayer.iOS.ViewControllers
 			var currentCulture = string.IsNullOrWhiteSpace(Settings.LanguageOverride) ? Strings.Default : new CultureInfo(Settings.LanguageOverride).NativeName;
 			element = new SettingsElement(title, () =>
 			{
-				var sheet = new ActionSheet("Language");
+				var sheet = new ActionSheet(title);
 				sheet.Add(Strings.Default, () =>
 				 {
 					 Settings.LanguageOverride = null;

@@ -904,5 +904,11 @@ namespace Localizations {
                 return ResourceManager.GetString("YouShouldReceiveAReplyShortly_", resourceCulture);
             }
         }
+        
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
     }
 }
