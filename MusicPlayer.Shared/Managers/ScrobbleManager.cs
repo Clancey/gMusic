@@ -13,15 +13,14 @@ using MusicPlayer.Api;
 using SimpleAuth;
 using SimpleAuth.Providers;
 using Localizations;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 #if __IOS__
 using Accounts;
 using MusicPlayer.iOS;
 using Accounts;
 using Foundation;
 using Twitter;
-using Localizations;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
 #endif
 
 namespace MusicPlayer.Managers
