@@ -207,7 +207,9 @@ namespace MusicPlayer.Managers
 			{
 				if (data.Position < 3)
 					return;
-				var song = Database.Main.GetObject<Song>(data.SongId);
+				var song = Database.Main.GetObject<Song,TempSong>(data.SongId);
+				if (song == null)
+					return;
 				if (!string.IsNullOrWhiteSpace(song?.Id))
 				{
 					song.LastPlayed = (long)(DateTime.Now - new System.DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
