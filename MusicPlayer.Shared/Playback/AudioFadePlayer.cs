@@ -20,7 +20,10 @@ namespace MusicPlayer.iOS.Playback
 				try
 				{
 					item.Value?.Pause();
-					item.Value?.Dispose();
+					Task.Run(() =>
+					{
+						item.Value?.Dispose();
+					});
 				}
 				catch (Exception ex)
 				{

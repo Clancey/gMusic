@@ -110,9 +110,9 @@ namespace MusicPlayer.Managers
 
 		public async Task QueueTrack(string trackId)
 		{
-			if (downloads.ContainsKey(trackId))
+			if (downloads.TryGetValue(trackId, out var helper) && !helper.IsCanceled)
 				return;
-			var helper = downloads[trackId] = CreateHelper(trackId);
+			helper = downloads[trackId] = CreateHelper(trackId);
 			RunPoller();
 
 			await helper.StartDownload();
@@ -124,7 +124,7 @@ namespace MusicPlayer.Managers
 			Finish(currentId);
 			currentId = trackId;
 			DownloadHelper helper;
-			if (!downloads.TryGetValue(trackId, out helper))
+			if (!downloads.TryGetValue(trackId, out helper) || helper.IsCanceled)
 				downloads[trackId] = helper = CreateHelper(trackId, uri);
 
 			RunPoller();
@@ -485,7 +485,7 @@ namespace MusicPlayer.Managers
 		{
 			Stream.Write(buffer, offset, count);
 		}
-
+		public bool IsCanceled { get; set; }
 		public void Cancel()
 		{
 			try
@@ -502,6 +502,7 @@ namespace MusicPlayer.Managers
 			{
 				LogManager.Shared.Report(ex);
 			}
+			IsCanceled = true;
 			cancelSource?.Cancel();
 			response?.Dispose();
 		}
