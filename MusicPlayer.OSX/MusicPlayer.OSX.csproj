@@ -92,14 +92,8 @@
       <HintPath>..\packages\Xamarin.SDWebImage.4.0.0-beta1\lib\Xamarin.Mac20\SDWebImage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Xamarin.Insights">
-      <HintPath>..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.Mac20\Xamarin.Insights.dll</HintPath>
-    </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="SimpleDatabase">
       <HintPath>..\packages\Clancey.SimpleDatabase.1.1.3\lib\netstandard1.1\SimpleDatabase.dll</HintPath>
     </Reference>
@@ -136,8 +130,14 @@
     <Reference Include="SQLitePCLRaw.provider.sqlite3">
       <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.macos.1.1.9\lib\Xamarin.Mac20\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleAuth">
-      <HintPath>..\packages\Clancey.SimpleAuth.1.0.48\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.49\lib\Xamarin.Mac20\SimpleAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Insights">
+      <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +277,7 @@
     <Compile Include="Views\AutoPlaylistSongsListView.cs" />
     <Compile Include="Helpers\AudioOutputHelper.cs" />
     <Compile Include="Views\SimpleButton.cs" />
+    <Compile Include="Helpers\DetatchableNSPopoover.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\MainMenu.xib" />
@@ -564,4 +565,5 @@
   </ItemGroup>
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.9\build\Xamarin.Mac20\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.9\build\Xamarin.Mac20\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
+  <Import Project="..\packages\Xamarin.Insights.1.12.3\build\portable-win+net40\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\portable-win+net40\Xamarin.Insights.targets')" />
 </Project>
