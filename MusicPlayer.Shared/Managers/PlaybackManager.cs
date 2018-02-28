@@ -621,6 +621,7 @@ namespace MusicPlayer.Managers
 				CurrentSongIndex--;
 			}
 			PlaySongAtIndex(CurrentSongIndex);
+			NativePlayer.Seek(0);
 		}
 
 		public void Seek(float percent)
