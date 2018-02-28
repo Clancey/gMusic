@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+
 
 namespace MusicPlayer.Managers
 {
@@ -22,8 +24,7 @@ namespace MusicPlayer.Managers
 
 				Console.WriteLine(ex);
 				Console.WriteLine("{0} - {1} - {2} \r\n {3}", sourceFilePath, memberName, sourceLineNumber, ex);
-
-				TrackEvent("Exception", new Dictionary<string, string>{
+				Crashes.TrackError(ex, new Dictionary<string, string>{
 					{"Exception",ex.Message},
 					{"Method",memberName},
 					{"File Name",sourceFilePath},
