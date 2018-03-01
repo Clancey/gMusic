@@ -101,7 +101,7 @@ namespace MusicPlayer.iOS
 #endif
 		void CheckLogin()
 		{
-			if (ApiManager.Shared.Count == 0)
+			if (ApiManager.Shared.Count == 0 && !Settings.IPodOnly)
 			{
 				window.RootViewController.PresentViewController(new IntroViewController(), false, null);
 			}
