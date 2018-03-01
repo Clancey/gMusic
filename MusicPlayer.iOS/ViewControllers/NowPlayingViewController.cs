@@ -369,7 +369,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				SimpleButton shuffleButton;
 				SimpleButton repeatButton;
 				SimpleButton menuButton;
-
+				string currentSongID;
 				BluredView backgroundBluredView;
 				const float playButtonSize = 30f;
 				const float nextbuttonSize = 25;
@@ -529,6 +529,7 @@ namespace MusicPlayer.iOS.ViewControllers
 				}
 				public void SetCurrentSong(Song song)
 				{
+					currentSongID = song?.Id;
 					shareButton.Enabled = song != null;
 					labelView.TopLabel.Text = song?.Name ?? "";
 					var artist = song?.Artist;
@@ -544,6 +545,8 @@ namespace MusicPlayer.iOS.ViewControllers
 
 				public void SetThumbsState(Song song)
 				{
+					if (song.Id != currentSongID)
+						return;
 					thumbsDownButton.StyleActivatedButton(song?.Rating == 1);
 					thumbsUpButton.StyleActivatedButton( song?.Rating == 5);
 				}
