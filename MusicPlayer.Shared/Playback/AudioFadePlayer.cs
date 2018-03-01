@@ -131,7 +131,7 @@ namespace MusicPlayer.iOS.Playback
 				return s;
 
 			} catch (Exception ex) {
-				Console.WriteLine (ex);
+				LogManager.Shared.Report(ex);
 			}
 			return false;
 		}
@@ -181,7 +181,7 @@ namespace MusicPlayer.iOS.Playback
 				}
 				catch (Exception ex)
 				{
-					Console.WriteLine(ex);
+					LogManager.Shared.Report(ex);
 				}
 			}
 			else if (isSongPlaying (song)) {

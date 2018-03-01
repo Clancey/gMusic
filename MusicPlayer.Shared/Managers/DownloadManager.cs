@@ -342,6 +342,7 @@ namespace MusicPlayer.Managers
 				Console.WriteLine ("Finished Downloading: {0} {1}", State, TrackId);
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
+				LogManager.Shared.Report(ex);
 			}
 		}
 
