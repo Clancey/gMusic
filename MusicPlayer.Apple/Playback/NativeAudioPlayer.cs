@@ -24,83 +24,86 @@ namespace MusicPlayer.Playback
 {
 	internal partial class NativeAudioPlayer : BaseModel
 	{
-		public static NativeAudioPlayer Shared {get;set;}
+		public static NativeAudioPlayer Shared { get; set; }
 		public readonly AudioFadePlayer player;
 		readonly AVAudioPlayer silentPlayer;
 		IDisposable observer;
 
 		NSTimer timer;
-        PlaybackState lastState;
-        DateTime lastInterupt;
+		PlaybackState lastState;
+		DateTime lastInterupt;
 
-		public CustomVideoLayer VideoLayer { get; } = new CustomVideoLayer ();
+		public CustomVideoLayer VideoLayer { get; } = new CustomVideoLayer();
 		public NativeAudioPlayer()
 		{
 			Shared = this;
-            timer = NSTimer.CreateRepeatingScheduledTimer(10,CheckPlaybackStatus);
+			timer = NSTimer.CreateRepeatingScheduledTimer(10, CheckPlaybackStatus);
 			NSError error;
-			#if __IOS__
+#if __IOS__
 			AVAudioSession.SharedInstance().SetCategory(AVAudioSession.CategoryPlayback, out error);
-			#endif
+#endif
 
 			player = new AudioFadePlayer
 			{
 				Parent = this,
-				Finished = (obj) => {
+				Finished = (obj) =>
+				{
 					finishedPlaying(player.CurrentSong);
 				},
 			};
 
-			#if __IOS__
-			silentPlayer = new AVAudioPlayer(NSBundle.MainBundle.GetUrlForResource("empty","mp3"),"mp3", out error) {
+#if __IOS__
+			silentPlayer = new AVAudioPlayer(NSBundle.MainBundle.GetUrlForResource("empty", "mp3"), "mp3", out error)
+			{
 				NumberOfLoops = -1,
 			};
 
 			PictureInPictureManager.Shared.Setup(VideoLayer);
-//			observer = player.AddObserver("rate", NSKeyValueObservingOptions.New, (change) =>
-//			{
-//				Console.WriteLine("Playback state changed: {0}", player.Rate);
-//				if (player.Rate == 0)
-//				{
-//					State = PlaybackState.Paused;
-//					Console.WriteLine("AVPlayer Paused");
-//				}
-//				else
-//				{
-//					State = PlaybackState.Playing;
-//					Console.WriteLine("AVPlayer Playing");
-//				}
-//			});
-//			NSNotificationCenter.DefaultCenter.AddObserver(AVPlayerItem.DidPlayToEndTimeNotification, (notification) =>
-//			{
-//				finishedPlaying(currentSong);
-//				player.ReplaceCurrentItemWithPlayerItem(new AVPlayerItem(new NSUrl("")));
-//			});
+			//			observer = player.AddObserver("rate", NSKeyValueObservingOptions.New, (change) =>
+			//			{
+			//				Console.WriteLine("Playback state changed: {0}", player.Rate);
+			//				if (player.Rate == 0)
+			//				{
+			//					State = PlaybackState.Paused;
+			//					Console.WriteLine("AVPlayer Paused");
+			//				}
+			//				else
+			//				{
+			//					State = PlaybackState.Playing;
+			//					Console.WriteLine("AVPlayer Playing");
+			//				}
+			//			});
+			//			NSNotificationCenter.DefaultCenter.AddObserver(AVPlayerItem.DidPlayToEndTimeNotification, (notification) =>
+			//			{
+			//				finishedPlaying(currentSong);
+			//				player.ReplaceCurrentItemWithPlayerItem(new AVPlayerItem(new NSUrl("")));
+			//			});
 			AVAudioSession.Notifications.ObserveInterruption((sender, args) =>
 				{
 					if (args.InterruptionType == AVAudioSessionInterruptionType.Began)
 					{
 						lastState = State;
-						if(State == PlaybackState.Playing)
+						if (State == PlaybackState.Playing)
 							Pause();
 						else
 							State = PlaybackState.Stopped;
 						lastInterupt = DateTime.Now;
 					}
-					else if(args.InterruptionType == AVAudioSessionInterruptionType.Ended){
+					else if (args.InterruptionType == AVAudioSessionInterruptionType.Ended)
+					{
 						State = lastState;
-						if(args.Option == AVAudioSessionInterruptionOptions.ShouldResume && lastState == PlaybackState.Playing)
+						if (args.Option == AVAudioSessionInterruptionOptions.ShouldResume && lastState == PlaybackState.Playing)
 							Play();
 						else
 							Pause();
 					}
 					NotificationManager.Shared.ProcPlaybackStateChanged(State);
-					Console.WriteLine("Interupted,: {2} -  {0} , {1}", args.InterruptionType, args.Option,(DateTime.Now - lastInterupt).TotalSeconds);
+					Console.WriteLine("Interupted,: {2} -  {0} , {1}", args.InterruptionType, args.Option, (DateTime.Now - lastInterupt).TotalSeconds);
 				});
 
 			AVAudioSession.Notifications.ObserveRouteChange((sender, args) =>
 				{
-					if(args.Reason == AVAudioSessionRouteChangeReason.OldDeviceUnavailable)
+					if (args.Reason == AVAudioSessionRouteChangeReason.OldDeviceUnavailable)
 						Pause();
 					Console.WriteLine("Route Changed");
 				});
@@ -114,20 +117,20 @@ namespace MusicPlayer.Playback
 				else
 					ApplyEqualizer(Equalizer.Shared.Bands);
 			};
-			#endif
+#endif
 		}
 
-		public void UpdateBand (int band, float gain)
+		public void UpdateBand(int band, float gain)
 		{
-			if(Settings.EqualizerEnabled)
-				player?.UpdateBand (band, gain);
+			if (Settings.EqualizerEnabled)
+				player?.UpdateBand(band, gain);
 		}
 
 		double lastDurration;
 		DateTime playbackStarted = DateTime.Now;
 		Task checkPlaybackTask;
-	   void CheckPlaybackStatus(NSTimer timer)
-	    {
+		void CheckPlaybackStatus(NSTimer timer)
+		{
 			try
 			{
 				if (CurrentSong == null || (!(player.CurrentPlayer?.IsPlayerItemValid ?? false) && (DateTime.Now - playbackStarted).TotalSeconds < 10))
@@ -140,7 +143,7 @@ namespace MusicPlayer.Playback
 				if (State == PlaybackState.Paused || State == PlaybackState.Stopped)
 					return;
 				var time = player.CurrentTimeSeconds();
-				if (player.Rate > 0 &&  (time - lastSeconds).IsNotZero())
+				if (player.Rate > 0 && (time - lastSeconds).IsNotZero())
 				{
 					lastSeconds = time;
 					return;
@@ -151,27 +154,27 @@ namespace MusicPlayer.Playback
 				{
 					//if (player.Rate > 0)
 					//{
-						await PrepareSong(CurrentSong, isVideo);
-						await player.PlaySong(CurrentSong, isVideo, true);
-						if (time > 0)
-							player.Seek(time);
+					await PrepareSong(CurrentSong, isVideo);
+					await player.PlaySong(CurrentSong, isVideo, true);
+					if (time > 0)
+						player.Seek(time);
 
 					//}
 					//else
-						//Play();
+					//Play();
 				});
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine(e);
 			}
-	    }
+		}
 
 		public async Task PrepareFirstTrack(Song song, bool isVideo)
 		{
-			if (!(await PrepareSong (song, isVideo)).Item1)
+			if (!(await PrepareSong(song, isVideo)).Item1)
 				return;
-			await player.PrepareSong (song, isVideo);
+			await player.PrepareSong(song, isVideo);
 		}
 
 		public double CurrentTime => player.CurrentTimeSeconds();
@@ -191,23 +194,23 @@ namespace MusicPlayer.Playback
 		}
 		public void Pause()
 		{
-			#if __IOS__
+#if __IOS__
 			silentPlayer.Pause();
-			#endif
+#endif
 			player.Pause();
 			State = PlaybackState.Paused;
 		}
 
 		public async void Play()
 		{
-			#if __IOS__
+#if __IOS__
 			silentPlayer.Play();
-			#endif
+#endif
 			if ((State == PlaybackState.Playing && player.Rate > 0 && !player.IsPlayerItemValid) || State == PlaybackState.Buffering || CurrentSong == null)
 			{
 				return;
 			}
-			if (player.IsPlayerItemValid )
+			if (player.IsPlayerItemValid)
 			{
 				ScrobbleManager.Shared.SetNowPlaying(CurrentSong, Settings.CurrentTrackId);
 				player.Play();
@@ -220,7 +223,7 @@ namespace MusicPlayer.Playback
 
 		public void QueueTrack(Track track)
 		{
-			player.Queue (track);
+			player.Queue(track);
 		}
 
 		public Song CurrentSong
@@ -235,15 +238,15 @@ namespace MusicPlayer.Playback
 			set => ProcPropertyChanged(ref state, value);
 		}
 
-		public void ApplyEqualizer (Equalizer.Band [] bands)
+		public void ApplyEqualizer(Equalizer.Band[] bands)
 		{
-			if(Settings.EqualizerEnabled)
-				player.ApplyEqualizer (bands);
+			if (Settings.EqualizerEnabled)
+				player.ApplyEqualizer(bands);
 		}
-		public float[] AudioLevels 
+		public float[] AudioLevels
 		{
-			get{return player.AudioLevels;}
-			set{ player.AudioLevels = value; }
+			get { return player.AudioLevels; }
+			set { player.AudioLevels = value; }
 		}
 
 
@@ -267,7 +270,7 @@ namespace MusicPlayer.Playback
 		{
 			var song = Database.Main.GetObject<Song, TempSong>(songId);
 			CleanupSong(song);
-			PlaySong(song,isVideo);
+			PlaySong(song, isVideo);
 		}
 
 		public void CleanupSong(Song song)
@@ -286,15 +289,15 @@ namespace MusicPlayer.Playback
 				SongIdTracks.Remove(key.Key);
 		}
 
-        bool isVideo;
+		bool isVideo;
 		static int AutoSkipCount = 0;
 		public async Task PlaySong(Song song, bool playVideo = false)
 		{
 			playbackStarted = DateTime.Now;
-			#if __IOS__
-			if(!playVideo)
+#if __IOS__
+			if (!playVideo)
 				PictureInPictureManager.Shared.StopPictureInPicture();
-			#endif
+#endif
 			player.Pause();
 			CleanupSong(CurrentSong);
 			CurrentSong = song;
@@ -311,9 +314,9 @@ namespace MusicPlayer.Playback
 				return;
 			}
 			State = PlaybackState.Buffering;
-			#if __IOS__
+#if __IOS__
 			silentPlayer.Play();
-			#endif
+#endif
 
 			var success = await player.PlaySong(song, playVideo);
 			ScrobbleManager.Shared.SetNowPlaying(song, Settings.CurrentTrackId);
@@ -338,14 +341,14 @@ namespace MusicPlayer.Playback
 		PlaybackState state;
 		Song currentSong;
 
-		public void SeekTime (double time)
+		public void SeekTime(double time)
 		{
-			player.Seek (time);
+			player.Seek(time);
 		}
 		public void Seek(float percent)
 		{
-			var seconds = percent*Duration;
-			if(double.IsNaN(seconds))
+			var seconds = percent * Duration;
+			if (double.IsNaN(seconds))
 				seconds = 0;
 			player.Seek(seconds);
 
@@ -360,18 +363,19 @@ namespace MusicPlayer.Playback
 
 		public static async Task<bool> VerifyMp3(string path, bool deleteBadFile = false)
 		{
-			if (!File.Exists (path)) {
+			if (!File.Exists(path))
+			{
 				LogManager.Shared.Log("File does not exist");
 				return false;
 			}
 			var asset = AVAsset.FromUrl(NSUrl.FromFilename(path));
-			await asset.LoadValuesTaskAsync(new[]{ "duration" ,"tracks"});
+			await asset.LoadValuesTaskAsync(new[] { "duration", "tracks" });
 			if (asset.Duration.Seconds > 0)
 			{
 				asset.Dispose();
 				return true;
 			}
-			LogManager.Shared.Log("File is too short",key:"File Size",value:new FileInfo(path).Length.ToString());
+			LogManager.Shared.Log("File is too short", key: "File Size", value: new FileInfo(path).Length.ToString());
 			if (deleteBadFile)
 				System.IO.File.Delete(path);
 			return false;
