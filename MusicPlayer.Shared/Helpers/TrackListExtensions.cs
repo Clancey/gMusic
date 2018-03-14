@@ -13,12 +13,13 @@ namespace MusicPlayer.Helpers
 	{
 		public static List<Track> SortByPriority(this List<Track> tracks)
 		{
-			return tracks.OrderByDescending(x => x, new TrackPriorityComparer()).ToList();
+			return tracks.OrderByDescending(x => x, TrackPriorityComparer.Shared).ToList();
 		}
 	}
 
 	public class TrackPriorityComparer : IComparer<Track>
 	{
+		public static TrackPriorityComparer Shared { get; set; } = new TrackPriorityComparer();
 		public int Compare(Track x, Track y)
 		{
 			var first = OfflinePriority(TempFileManager.Shared.GetTempFile(x.Id).Item1);
@@ -40,12 +41,12 @@ namespace MusicPlayer.Helpers
 			return mediaPriority;
 		}
 
-		public int OfflinePriority(bool isLocal)
+		public static int OfflinePriority(bool isLocal)
 		{
 			return isLocal ? 100 : 0;
 		}
 
-		public int Priority(MediaType media)
+		public static int Priority(MediaType media)
 		{
 			switch (media)
 			{
@@ -57,7 +58,7 @@ namespace MusicPlayer.Helpers
 			return 0;
 		}
 
-		public int Priority(ServiceType serviceType)
+		public static int Priority(ServiceType serviceType)
 		{
 			switch (serviceType)
 			{

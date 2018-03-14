@@ -19,7 +19,7 @@ namespace MusicPlayer.Managers
 	{
 		public async Task<SongPlaybackData> GetPlaybackData(Song song, bool playVideo = false)
 		{
-			var tracks = (await GetTracks(song.Id)).SortByPriority();
+			var tracks = (await GetTracks(song.Id));
 			var track = playVideo ? tracks.FirstOrDefault(x=> x.MediaType == MediaType.Video) : tracks.FirstOrDefault();
 			if (track == null)
 				return null;
