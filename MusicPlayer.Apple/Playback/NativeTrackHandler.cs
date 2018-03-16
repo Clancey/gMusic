@@ -31,9 +31,10 @@ namespace MusicPlayer.Playback
 
 		MPNowPlayingInfo nowPlayingInfo;
 		MPMediaItemArtwork artwork;
-
+		Song currentSong;
 		public void UpdateSong (Song song)
 		{
+			currentSong = song;
 			if (song == null)
 				return;
 			try {
@@ -70,13 +71,21 @@ namespace MusicPlayer.Playback
 		{
 			try {
 
-				if (nowPlayingInfo == null)
+				if (currentSong == null)
 					return;
 				if (Math.Abs(position.CurrentTime - lastTime) < 1)
 					return;
+
+				nowPlayingInfo = new MPNowPlayingInfo
+				{
+					Title = currentSong?.Name ?? "",
+					Artist = currentSong?.Artist ?? "",
+					AlbumTitle = currentSong?.Album ?? "",
+					Genre = currentSong?.Genre ?? "",
+					Artwork = artwork ?? CreateDefaultArtwork(),
+				};
+
 				lastTime = position.CurrentTime;
-				if (artwork != null && (int) lastTime%10 == 0)
-					nowPlayingInfo.Artwork = artwork;
 				nowPlayingInfo.ElapsedPlaybackTime = position.CurrentTime;
 				nowPlayingInfo.PlaybackDuration = position.Duration;
 				App.RunOnMainThread(() => MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = nowPlayingInfo);
