@@ -6,6 +6,14 @@ using MusicPlayer.Data;
 
 namespace MusicPlayer.Api.GoogleMusic
 {
+	class PostRequest
+	{
+		[JsonProperty("max-results")]
+		public int MaxResults { get; set; }
+
+		[JsonProperty("start-token", NullValueHandling = NullValueHandling.Ignore)]
+		public string StartToken { get; set; }
+	}
 	public class GoogleMusicApiRequest
 	{
 		static int count = 1;
@@ -261,8 +269,13 @@ namespace MusicPlayer.Api.GoogleMusic
 			public class StationRequest
 			{
 				public int numEntries { get; set; }
+
+				[Newtonsoft.Json.JsonProperty("radioId", NullValueHandling = NullValueHandling.Ignore)]
 				public string radioId { get; set; }
+				[Newtonsoft.Json.JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
+				public object seed { get; set; }
 				public string[] recentlyPlayed { get; set; }
+
 			}
 		}
 

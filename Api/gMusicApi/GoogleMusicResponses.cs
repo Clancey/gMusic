@@ -289,16 +289,9 @@ namespace MusicPlayer.Api.GoogleMusic
 
 	public class RootRadioStationsApiObject : RootApiObject
 	{
-		public ResultClass Result { get; set; }
-
-		public class ResultClass
-		{
-			public string Kind { get; set; }
-			public Data Data { get; set; }
-			public string NextPageToken { get; set; }
-		}
-
-		public class Data
+		public DataClass Data { get; set; }
+		public string NextPageToken { get; set; }
+		public class DataClass
 		{
 			public List<Station> Items { get; set; }
 		}
@@ -306,51 +299,518 @@ namespace MusicPlayer.Api.GoogleMusic
 
 	public class Station
 	{
+
+		[JsonProperty("kind")]
 		public string Kind { get; set; }
+
+		[JsonProperty("id")]
 		public string Id { get; set; }
+
+		[JsonProperty("clientId")]
 		public string ClientId { get; set; }
+
+		[JsonProperty("lastModifiedTimestamp")]
 		public long LastModifiedTimestamp { get; set; }
+
+		[JsonProperty("recentTimestamp")]
 		public long RecentTimestamp { get; set; }
+
+		[JsonProperty("name")]
 		public string Name { get; set; }
-		public string Description { get; set; }
-		public SearchResultResponse.ResultClass.Seed seed { get; set; }
-		public bool InLibrary { get; set; }
-		public List<SongItem> Tracks { get; set; }
-		public List<ArtRef> ImageUrls { get; set; }
-		public List<ArtRef> CompositeArtRefs { get; set; }
+
+		[JsonProperty("seed")]
+		public SeedClass Seed { get; set; }
+
+		[JsonProperty("imageUrls")]
+		public List<ImageUrl> ImageUrls { get; set; }
+
+		[JsonProperty("deleted")]
 		public bool Deleted { get; set; }
+
+		[JsonProperty("skipEventHistory")]
+		public List<object> SkipEventHistory { get; set; }
+
+		[JsonProperty("inLibrary")]
+		public bool InLibrary { get; set; }
+
+		[JsonProperty("compositeArtRefs")]
+		public List<ArtRef> CompositeArtRefs { get; set; }
+
+		[JsonProperty("stationSeeds")]
+		public List<SeedClass> StationSeeds { get; set; }
+
+		[JsonProperty("description")]
+		public string Description { get; set; }
+
+		[JsonProperty("byline")]
+		public string Byline { get; set; }
+
+		[JsonProperty("tracks")]
+		public List<SongItem> Tracks { get; set; }
+
+		public partial class SeedClass
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("artistId")]
+			public string ArtistId { get; set; }
+
+			[JsonProperty("seedType")]
+			public string SeedType { get; set; }
+
+			[JsonProperty("albumId")]
+			public string AlbumId { get; set; }
+
+			[JsonProperty("metadataSeed")]
+			public SeedMetadataSeed MetadataSeed { get; set; }
+
+			[JsonProperty("genreId")]
+			public string GenreId { get; set; }
+
+			[JsonProperty("trackId")]
+			public string TrackId { get; set; }
+
+			[JsonProperty("trackLockerId")]
+			public string TrackLockerId { get; set; }
+
+			[JsonProperty("curatedStationId")]
+			public string CuratedStationId { get; set; }
+
+			public string Id
+			{
+				get
+				{
+					if (!string.IsNullOrWhiteSpace(ArtistId))
+						return ArtistId;
+					if (!string.IsNullOrWhiteSpace(TrackId))
+						return TrackId;
+					if (!string.IsNullOrWhiteSpace(CuratedStationId))
+						return CuratedStationId;
+
+					if (!string.IsNullOrWhiteSpace(TrackLockerId))
+						return TrackLockerId;
+
+					if (!string.IsNullOrWhiteSpace(AlbumId))
+						return AlbumId;
+
+					if (!string.IsNullOrWhiteSpace(GenreId))
+						return GenreId;
+					return "";
+				}
+			}
+		
+		}
+
+		public partial class SeedMetadataSeed
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("artist")]
+			public Artist Artist { get; set; }
+
+			[JsonProperty("genre")]
+			public Genre Genre { get; set; }
+
+			[JsonProperty("album")]
+			public Album Album { get; set; }
+
+			[JsonProperty("track")]
+			public PurpleTrack Track { get; set; }
+		}
+		public partial class Album
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("name")]
+			public string Name { get; set; }
+
+			[JsonProperty("albumArtist")]
+			public string AlbumArtist { get; set; }
+
+			[JsonProperty("albumArtRef")]
+			public string AlbumArtRef { get; set; }
+
+			[JsonProperty("albumId")]
+			public string AlbumId { get; set; }
+
+			[JsonProperty("artist")]
+			public string Artist { get; set; }
+
+			[JsonProperty("artistId")]
+			public List<string> ArtistId { get; set; }
+
+			[JsonProperty("description")]
+			public string Description { get; set; }
+
+			[JsonProperty("year")]
+			public long Year { get; set; }
+
+			[JsonProperty("explicitType")]
+			public string ExplicitType { get; set; }
+
+			[JsonProperty("description_attribution")]
+			public DescriptionAttribution DescriptionAttribution { get; set; }
+		}
+
+		public partial class DescriptionAttribution
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("source_title")]
+			public string SourceTitle { get; set; }
+		}
+
+		public partial class Artist
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("name")]
+			public string Name { get; set; }
+
+			[JsonProperty("artistArtRef")]
+			public string ArtistArtRef { get; set; }
+
+			[JsonProperty("artistId")]
+			public string ArtistId { get; set; }
+
+			[JsonProperty("artistBio")]
+			public string ArtistBio { get; set; }
+
+			[JsonProperty("total_albums")]
+			public long? TotalAlbums { get; set; }
+
+			[JsonProperty("artistArtRefs")]
+			public List<ArtRef> ArtistArtRefs { get; set; }
+
+			[JsonProperty("artist_bio_attribution")]
+			public ArtistBioAttribution ArtistBioAttribution { get; set; }
+		}
+
+		public partial class ArtistBioAttribution
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("source_title")]
+			public string SourceTitle { get; set; }
+
+			[JsonProperty("source_url")]
+			public string SourceUrl { get; set; }
+
+			[JsonProperty("license_title")]
+			public string LicenseTitle { get; set; }
+
+			[JsonProperty("license_url")]
+			public string LicenseUrl { get; set; }
+		}
+
+		public partial class Genre
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("id")]
+			public string Id { get; set; }
+
+			[JsonProperty("images")]
+			public List<Image> Images { get; set; }
+		}
+
+		public partial class Image
+		{
+			[JsonProperty("url")]
+			public string Url { get; set; }
+		}
+
+		public partial class PurpleTrack
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("id")]
+			public string Id { get; set; }
+
+			[JsonProperty("clientId")]
+			public string ClientId { get; set; }
+
+			[JsonProperty("creationTimestamp")]
+			public string CreationTimestamp { get; set; }
+
+			[JsonProperty("lastModifiedTimestamp")]
+			public string LastModifiedTimestamp { get; set; }
+
+			[JsonProperty("recentTimestamp")]
+			public string RecentTimestamp { get; set; }
+
+			[JsonProperty("deleted")]
+			public bool? Deleted { get; set; }
+
+			[JsonProperty("title")]
+			public string Title { get; set; }
+
+			[JsonProperty("artist")]
+			public string Artist { get; set; }
+
+			[JsonProperty("composer")]
+			public string Composer { get; set; }
+
+			[JsonProperty("album")]
+			public string Album { get; set; }
+
+			[JsonProperty("albumArtist")]
+			public string AlbumArtist { get; set; }
+
+			[JsonProperty("year")]
+			public long? Year { get; set; }
+
+			[JsonProperty("comment")]
+			public string Comment { get; set; }
+
+			[JsonProperty("trackNumber")]
+			public long TrackNumber { get; set; }
+
+			[JsonProperty("genre")]
+			public string Genre { get; set; }
+
+			[JsonProperty("durationMillis")]
+			public string DurationMillis { get; set; }
+
+			[JsonProperty("beatsPerMinute")]
+			public long? BeatsPerMinute { get; set; }
+
+			[JsonProperty("albumArtRef")]
+			public List<ArtRef> AlbumArtRef { get; set; }
+
+			[JsonProperty("playCount")]
+			public long? PlayCount { get; set; }
+
+			[JsonProperty("totalTrackCount")]
+			public long? TotalTrackCount { get; set; }
+
+			[JsonProperty("discNumber")]
+			public long DiscNumber { get; set; }
+
+			[JsonProperty("totalDiscCount")]
+			public long? TotalDiscCount { get; set; }
+
+			[JsonProperty("rating")]
+			public string Rating { get; set; }
+
+			[JsonProperty("estimatedSize")]
+			public string EstimatedSize { get; set; }
+
+			[JsonProperty("trackType")]
+			public string TrackType { get; set; }
+
+			[JsonProperty("albumId")]
+			public string AlbumId { get; set; }
+
+			[JsonProperty("artistId")]
+			public List<string> ArtistId { get; set; }
+
+			[JsonProperty("nid")]
+			public string Nid { get; set; }
+
+			[JsonProperty("storeId")]
+			public string StoreId { get; set; }
+
+			[JsonProperty("trackAvailableForSubscription")]
+			public bool? TrackAvailableForSubscription { get; set; }
+
+			[JsonProperty("trackAvailableForPurchase")]
+			public bool? TrackAvailableForPurchase { get; set; }
+
+			[JsonProperty("albumAvailableForPurchase")]
+			public bool? AlbumAvailableForPurchase { get; set; }
+
+			[JsonProperty("explicitType")]
+			public string ExplicitType { get; set; }
+
+			[JsonProperty("primaryVideo")]
+			public PrimaryVideo PrimaryVideo { get; set; }
+		}
+
+		public partial class PrimaryVideo
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("id")]
+			public string Id { get; set; }
+
+			[JsonProperty("thumbnails")]
+			public List<Thumbnail> Thumbnails { get; set; }
+		}
+
+		public partial class Thumbnail
+		{
+			[JsonProperty("url")]
+			public string Url { get; set; }
+
+			[JsonProperty("width")]
+			public long Width { get; set; }
+
+			[JsonProperty("height")]
+			public long Height { get; set; }
+		}
+
+
+		public partial class StationSeedMetadataSeed
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("track")]
+			public FluffyTrack Track { get; set; }
+		}
+
+		public partial class FluffyTrack
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("id")]
+			public string Id { get; set; }
+
+			[JsonProperty("clientId")]
+			public string ClientId { get; set; }
+
+			[JsonProperty("creationTimestamp")]
+			public string CreationTimestamp { get; set; }
+
+			[JsonProperty("lastModifiedTimestamp")]
+			public string LastModifiedTimestamp { get; set; }
+
+			[JsonProperty("recentTimestamp")]
+			public string RecentTimestamp { get; set; }
+
+			[JsonProperty("deleted")]
+			public bool Deleted { get; set; }
+
+			[JsonProperty("title")]
+			public string Title { get; set; }
+
+			[JsonProperty("artist")]
+			public string Artist { get; set; }
+
+			[JsonProperty("composer")]
+			public string Composer { get; set; }
+
+			[JsonProperty("album")]
+			public string Album { get; set; }
+
+			[JsonProperty("albumArtist")]
+			public string AlbumArtist { get; set; }
+
+			[JsonProperty("year")]
+			public long Year { get; set; }
+
+			[JsonProperty("comment")]
+			public string Comment { get; set; }
+
+			[JsonProperty("trackNumber")]
+			public long TrackNumber { get; set; }
+
+			[JsonProperty("genre")]
+			public string Genre { get; set; }
+
+			[JsonProperty("durationMillis")]
+			public string DurationMillis { get; set; }
+
+			[JsonProperty("beatsPerMinute")]
+			public long BeatsPerMinute { get; set; }
+
+			[JsonProperty("albumArtRef")]
+			public List<ArtRef> AlbumArtRef { get; set; }
+
+			[JsonProperty("playCount")]
+			public long PlayCount { get; set; }
+
+			[JsonProperty("totalTrackCount")]
+			public long TotalTrackCount { get; set; }
+
+			[JsonProperty("discNumber")]
+			public long DiscNumber { get; set; }
+
+			[JsonProperty("totalDiscCount")]
+			public long TotalDiscCount { get; set; }
+
+			[JsonProperty("rating")]
+			public string Rating { get; set; }
+
+			[JsonProperty("estimatedSize")]
+			public string EstimatedSize { get; set; }
+
+			[JsonProperty("trackType")]
+			public string TrackType { get; set; }
+
+			[JsonProperty("albumId")]
+			public string AlbumId { get; set; }
+
+			[JsonProperty("artistId")]
+			public List<string> ArtistId { get; set; }
+
+			[JsonProperty("nid")]
+			public string Nid { get; set; }
+		}
+		public partial class ImageUrl
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("url")]
+			public string Url { get; set; }
+
+			[JsonProperty("aspectRatio")]
+			public int AspectRatio { get; set; }
+
+			[JsonProperty("autogen")]
+			public bool? Autogen { get; set; }
+
+			[JsonProperty("colorStyles")]
+			public ColorStyles ColorStyles { get; set; }
+		}
+
+		public partial class ColorStyles
+		{
+			[JsonProperty("primary")]
+			public Accent Primary { get; set; }
+
+			[JsonProperty("scrim")]
+			public Accent Scrim { get; set; }
+
+			[JsonProperty("accent")]
+			public Accent Accent { get; set; }
+		}
+
+		public partial class Accent
+		{
+			[JsonProperty("red")]
+			public long Red { get; set; }
+
+			[JsonProperty("green")]
+			public long Green { get; set; }
+
+			[JsonProperty("blue")]
+			public long Blue { get; set; }
+		}
+
+
 	}
 
 	public class RootRadioStationsTracksApiObject : RootApiObject
 	{
-		public ResultClass Result { get; set; }
+		public DataClass Data { get; set; }
 
-		public class ResultClass
+		public class DataClass
 		{
-			public DataClass Data { get; set; }
-
-			public class DataClass
-			{
-				public long CurrentTimestampMillis { get; set; }
-				public List<Station> Stations { get; set; }
-
-				public class Station
-				{
-					public string kind { get; set; }
-					public string id { get; set; }
-					public string clientId { get; set; }
-					public string lastModifiedTimestamp { get; set; }
-					public string recentTimestamp { get; set; }
-					public string name { get; set; }
-					public SearchResultResponse.ResultClass.Seed seed { get; set; }
-					public List<SearchResultResponse.ResultClass.Seed> stationSeeds { get; set; }
-					public List<SongItem> tracks { get; set; }
-					//public List<ImageUrl> imageUrls { get; set; }
-					//public List<CompositeArtRef> compositeArtRefs { get; set; }
-					public bool deleted { get; set; }
-					public bool inLibrary { get; set; }
-				}
-			}
+			public long CurrentTimestampMillis { get; set; }
+			public List<Station> Stations { get; set; }
 		}
 	}
 
@@ -770,66 +1230,6 @@ namespace MusicPlayer.Api.GoogleMusic
 				public string shareToken { get; set; }
 				public string ownerName { get; set; }
 				public string ownerProfilePhotoUrl { get; set; }
-				public string description { get; set; }
-			}
-
-			public class Seed
-			{
-				public string kind { get; set; }
-				public string artistId { get; set; }
-				public string seedType { get; set; }
-				public string curatedStationId { get; set; }
-				public string trackId { get; set; }
-
-				public string trackLockerId { get; set; }
-
-				public string albumId { get; set; }
-
-				public string Id
-				{
-					get
-					{
-						if (!string.IsNullOrWhiteSpace(artistId))
-							return artistId;
-						if (!string.IsNullOrWhiteSpace(trackId))
-							return trackId;
-						if (!string.IsNullOrWhiteSpace(curatedStationId))
-							return curatedStationId;
-
-						if (!string.IsNullOrWhiteSpace(trackLockerId))
-							return trackLockerId;
-
-						if (!string.IsNullOrWhiteSpace(albumId))
-							return albumId;
-
-						return "";
-					}
-				}
-			}
-
-			public class ImageUrl
-			{
-				public string kind { get; set; }
-				public string url { get; set; }
-				public int aspectRatio { get; set; }
-				public bool autogen { get; set; }
-			}
-
-			public class CompositeArtRef
-			{
-				public string kind { get; set; }
-				public string url { get; set; }
-				public int aspectRatio { get; set; }
-			}
-
-			public class Station
-			{
-				public string kind { get; set; }
-				public string name { get; set; }
-				public Seed seed { get; set; }
-				public List<Seed> stationSeeds { get; set; }
-				public List<ImageUrl> imageUrls { get; set; }
-				public List<CompositeArtRef> compositeArtRefs { get; set; }
 				public string description { get; set; }
 			}
 		}

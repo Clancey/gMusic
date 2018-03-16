@@ -1312,32 +1312,32 @@ namespace MusicPlayer.Api.GoogleMusic
 
 							if (r.station != null)
 							{
-								var artwork = r.station.compositeArtRefs?.Select(x => new RadioStationArtwork
+								var artwork = r.station.CompositeArtRefs?.Select(x => new RadioStationArtwork
 								{
 									ServiceType = ServiceType,
-									Url = x.url,
-									Ratio = x.aspectRatio
+									Url = x.Url,
+									Ratio = x.AspectRatio
 										}).ToList() ?? new List<RadioStationArtwork>();
 								artwork.AddRange(
-									r.station?.imageUrls?.Select(
-									x => new RadioStationArtwork {ServiceType = ServiceType, Url = x.url, Ratio = x.aspectRatio}).ToList() ?? new List<RadioStationArtwork>());
+									r.station?.ImageUrls?.Select(
+									x => new RadioStationArtwork {ServiceType = ServiceType, Url = x.Url, Ratio = x.AspectRatio}).ToList() ?? new List<RadioStationArtwork>());
 								var s = new OnlineRadioStation()
 								{
 									ServiceId = Api.Identifier,
-									Name = r.station.name,
-									Description = r.station.description,
+									Name = r.station.Name,
+									Description = r.station.Description,
 									AllArtwork = artwork.ToArray(),
-									StationSeeds = r.station.stationSeeds.Select(ss =>
+									StationSeeds = r.station.StationSeeds.Select(ss =>
 									{
 										int k;
-										if (!int.TryParse(ss.seedType, out k))
+										if (!int.TryParse(ss.SeedType, out k))
 										{
-											Console.WriteLine(ss.seedType);
+											Console.WriteLine(ss.SeedType);
 										}
 										return new RadioStationSeed
 										{
 											ItemId = ss.Id,
-											Description = ss.kind,
+											Description = ss.Kind,
 											Kind = k,
 										};
 									}).ToArray(),
@@ -1454,32 +1454,34 @@ namespace MusicPlayer.Api.GoogleMusic
 			try
 			{
 				bool success = false;
-				var request = new GoogleMusicApiRequest
+				var request = new PostRequest
 				{
-					method = "sj.radio.listbypost",
-					parameters =
-					{
-						updatedMin = token == null ? Api.ExtraData.LastRadioSync : 0,
-						maxResults = 5000,
-						startToken = token,
-					}
+					MaxResults = 250,
 				};
 
-				var resp = await SyncRequestQueue.Enqueue(1, () => Api.Post<RootRadioStationsApiObject>(request));
+				const string path = "radio/station";
+				var query = new Dictionary<string, string>
+				{
+					["tier"] = Tier,
+					["updated-min"] = (token == null ? Api.ExtraData.LastRadioSync : 0).ToString(),
+				};
+				if (token != null)
+					query["startToken"] = token;
+
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootRadioStationsApiObject>(path,request,query));
 				if (resp?.Error != null)
 				{
 					Console.WriteLine(resp.Error);
 					return false;
 				}
 				Task<bool> nextTask = null;
-				if (!string.IsNullOrWhiteSpace(resp?.Result?.NextPageToken))
-					nextTask = GetRadioStations(resp?.Result?.NextPageToken);
+				if (!string.IsNullOrWhiteSpace(resp?.NextPageToken))
+					nextTask = GetRadioStations(resp?.NextPageToken);
 				var start = DateTime.Now;
 				List<RadioStationArtwork> artwork = new List<RadioStationArtwork>();
-				var stations = resp?.Result?.Data?.Items?.Select(x => ProcessStation(x, ref artwork)).ToList() ?? new List<RadioStation>();
+				var stations = resp?.Data?.Items?.Select(x => ProcessStation(x, ref artwork)).ToList() ?? new List<RadioStation>();
 				success = await MusicProvider.ProcessRadioStations(stations, artwork);
 				var finished = (DateTime.Now - start).TotalMilliseconds;
-				Debug.WriteLine($"Batch complete {stations.Count} in {finished} ms");
 				//App.ShowAlert("Finished", $"Sync complete {tracks.Count} in {finished} ms");
 				if (nextTask != null)
 					return await nextTask;
@@ -1508,9 +1510,9 @@ namespace MusicPlayer.Api.GoogleMusic
 					Url = a.Url,
 				}));
 			int k;
-			if (!int.TryParse(x.seed.seedType, out k))
+			if (!int.TryParse(x.Seed.SeedType, out k))
 			{
-				Console.WriteLine(x.seed.seedType);
+				Console.WriteLine(x.Seed.SeedType);
 			}
 			return new RadioStation(x.Name)
 			{
@@ -1525,10 +1527,10 @@ namespace MusicPlayer.Api.GoogleMusic
 				StationSeeds = new [] {
 					new RadioStationSeed
 					{
-						Id = $"{x.Id} - {x.seed.Id}",
+						Id = $"{x.Id} - {x.Seed.Id}",
 						StationId = x.Id,
-						ItemId = x.seed.Id,
-						Description = x.seed.kind,
+						ItemId = x.Seed.Id,
+						Description = x.Seed.Kind,
 						Kind = k,
 					}
 				}
@@ -1541,32 +1543,36 @@ namespace MusicPlayer.Api.GoogleMusic
 			try
 			{
 				bool success = false;
-				var request = new GoogleMusicApiRequest
+
+				const string path = "radio/stationfeed";
+				var query = new Dictionary<string, string>
 				{
-					method = "sj.radio.feed",
-					parameters = new GoogleMusicApiRequest.RadioStationParams
+					["tier"] = Tier,
+					//TODO: switch for continuation
+					["rz"] = "start",
+				};
+				bool isIFL = station.Id == "IFL";
+				var request = new
+				{
+					contentFilter = Settings.FilterExplicit ? "2" : "1",
+					stations = new List<GoogleMusicApiRequest.RadioStationParams.StationRequest>
 					{
-						//TODO: switch for continuation
-						rz = "start",
-						stations = new List<GoogleMusicApiRequest.RadioStationParams.StationRequest>
+						new GoogleMusicApiRequest.RadioStationParams.StationRequest
 						{
-							new GoogleMusicApiRequest.RadioStationParams.StationRequest
-							{
-								radioId = station.Id,
-								numEntries = 25,
-							}
-						},
-						contentFilter = Settings.FilterExplicit ? "2" : "1",
-					}
+							radioId = isIFL ? null : station.Id,
+							numEntries = 25,
+							seed = isIFL ? new {seedType = 6} : null,
+						}
+					},
 				};
 
-				var resp = await Api.Post<RootRadioStationsTracksApiObject>(request);
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootRadioStationsTracksApiObject>(path, request, query));
 				if (resp?.Error != null)
 				{
 					Console.WriteLine(resp.Error);
 					return false;
 				}
-				success = await ProcessStationTracks(station, resp.Result.Data.Stations.First().tracks);
+				success = await ProcessStationTracks(station, resp.Data.Stations.First().Tracks);
 				if (!isContinuation)
 					UpdateRadioStationLastPlayed(station);
 				else
