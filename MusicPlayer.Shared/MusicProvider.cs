@@ -611,6 +611,7 @@ where (select SongId from Track where Id = TrackId) is not null");
 				});
 
 				await ProcessTempData();
+				Database.Main.ClearMemory<Playlist>();
                 Database.Main.ClearMemory<PlaylistSong>();
 				Database.Main.ClearMemoryStore();
 				return true;

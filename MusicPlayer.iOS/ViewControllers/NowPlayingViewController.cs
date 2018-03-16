@@ -545,7 +545,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 				public void SetThumbsState(Song song)
 				{
-					if (song.Id != currentSongID)
+					if (song?.Id != currentSongID)
 						return;
 					thumbsDownButton.StyleActivatedButton(song?.Rating == 1);
 					thumbsUpButton.StyleActivatedButton( song?.Rating == 5);

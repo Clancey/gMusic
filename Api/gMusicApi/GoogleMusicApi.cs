@@ -71,6 +71,20 @@ namespace MusicPlayer.Api.GoogleMusic
 				Utility.SetSecured ("deviceName", value, "gmusic");
 			}
 		}
+
+		public string Tier
+		{
+			get
+			{
+				string tier = "none";
+				CurrentOAuthAccount?.UserData?.TryGetValue("tier", out tier);
+				return tier;
+			}
+			set
+			{
+				CurrentOAuthAccount.UserData["tier"] = value;
+			}
+		}
 		public GoogleMusicApiExtraData ExtraData { get; set; } = new GoogleMusicApiExtraData();
 		
 		protected override async Task<Account> PerformAuthenticate()
@@ -89,6 +103,8 @@ namespace MusicPlayer.Api.GoogleMusic
 			: base(id, "936475272427", "KWsJlkaMn1jGLxQpWxMnOox-", handler)
 		{
 			CurrentShowAuthenticator = null;
+
+			BaseAddress = new Uri("https://mclients.googleapis.com/sj/v2.5/");
 			Scopes = new[] {"https://www.google.com/accounts/OAuthLogin", "https://www.googleapis.com/auth/userinfo.email"};
             ForceRefresh = true;
 			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
@@ -161,6 +177,44 @@ namespace MusicPlayer.Api.GoogleMusic
 				LogManager.Shared.Report(result.Error,requestText);
             return result;
 		}
+
+		public async Task<T> GetLatest<T>(string path, Dictionary<string,string> queryParameters = null , bool includeDeviceHeaders = true) where T : RootApiObject
+		{
+			if (CurrentAccount == null)
+				await Authenticate();
+			int tryCount = 0;
+			bool success = false;
+			if (queryParameters == null)
+				queryParameters = new Dictionary<string, string>();
+			queryParameters["dv"] = "3000038001007";
+			queryParameters["hl"] = cultureShort;
+			queryParameters["prettyPrint"] = "false";
+			const string url = "";
+			Dictionary<string, string> headers = new Dictionary<string, string>();
+			if (includeDeviceHeaders)
+			{
+				headers["X-Device-ID"] = DeviceId;
+				headers["X-Device-FriendlyName"] = DeviceName;
+			}
+			T result = default(T);
+			while (!success && tryCount < 3)
+			{
+				var json = await SendObjectMessage(path, null, HttpMethod.Get, queryParameters, headers, true);
+				result = Deserialize<T>(json);
+				success = result != null && result.Error == null;
+				if (!success && result.Error.Code != 400)
+				{
+					if (result.Error != null)
+						await RefreshAccount(CurrentAccount);
+					await Task.Delay(1000);
+				}
+				tryCount++;
+			}
+			if (result?.Error != null)
+				LogManager.Shared.Report(result.Error, path);
+			return result;
+		}
+
 
 		protected override async Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
 		{
@@ -267,6 +321,27 @@ namespace MusicPlayer.Api.GoogleMusic
 				return true;
 			return deviceIndex < devices.Count - (ExtraData.HasGeneratedDeviceId ? 0 : 1);
 			
+		}
+
+		public async Task GetUserConfig()
+		{
+			try
+			{
+				var tier = Tier ?? "none";
+				if (tier != "none")
+					return;
+				var resp = await GetLatest<RootConfigApiObject>("config", new Dictionary<string, string>
+				{
+					["tier"] = Tier,
+					["user-targeting"] = "false",
+				});
+				var isNautilusUser = resp?.Data?.Entries?.FirstOrDefault(x => x.Key == "isNautilusUser");
+				Tier = isNautilusUser?.Value == "true" ? "aa" : "fr";
+			}
+			catch (Exception ex)
+			{
+				LogManager.Shared.Report(ex);
+			}
 		}
 
 

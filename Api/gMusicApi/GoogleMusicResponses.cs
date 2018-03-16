@@ -16,97 +16,118 @@ namespace MusicPlayer.Api.GoogleMusic
 {
 	public class RootApiObject
 	{
+
+        [JsonProperty("kind")]
+		public string Kind { get; set; }
+
 		public Error Error { get; set; }
 		public string Id { get; set; }
 	}
 
 	public class RootTrackApiObject : RootApiObject
 	{
-		public ResultClass Result { get; set; }
+		[JsonProperty("nextPageToken")]
+		public string NextPageToken { get; set; }
 
-		public class ResultClass
+		[JsonProperty("data")]
+		public DataClass Data { get; set; }
+
+		public class DataClass
 		{
-			public string Kind { get; set; }
-			public string NextPageToken { get; set; }
-			public DataClass Data { get; set; }
 
-			public class DataClass
-			{
-				public List<SongItem> Items { get; set; }
-			}
+			[JsonProperty("items")]
+			public List<SongItem> Items { get; set; } = new List<SongItem>();
 		}
+
 	}
 
-	[Serializable]
-	public class SongItem
+	public partial class SongItem
 	{
+		[JsonProperty("kind")]
 		public string Kind { get; set; }
+
+		[JsonProperty("id")]
 		public string Id { get; set; }
+
+		[JsonProperty("clientId")]
 		public string ClientId { get; set; }
 
-		[JsonProperty("CreationTimestamp")]
-		public long DateCreated { get; set; }
+		[JsonProperty("creationTimestamp")]
+		public string CreationTimestamp { get; set; }
 
+		[JsonProperty("lastModifiedTimestamp")]
 		public long LastModifiedTimestamp { get; set; }
-		public long RecentTimestamp { get; set; }
+
+		[JsonProperty("recentTimestamp")]
+		public string RecentTimestamp { get; set; }
+
+		[JsonProperty("deleted")]
 		public bool Deleted { get; set; }
+
+		[JsonProperty("title")]
 		public string Title { get; set; }
-		public string IndexCharacter { get; set; }
-		public string TitleNorm { get; set; }
+
+		[JsonProperty("artist")]
 		public string Artist { get; set; }
-		public string ArtistNorm { get; set; }
+
+		[JsonProperty("composer")]
 		public string Composer { get; set; }
+
+		[JsonProperty("album")]
 		public string Album { get; set; }
+
+		[JsonProperty("albumArtist")]
 		public string AlbumArtist { get; set; }
 
-		public string RealArtist
-		{
-			get { return string.IsNullOrEmpty(AlbumArtist) ? Artist : AlbumArtist; }
-		}
-
-		public string AlbumArtistNorm { get; set; }
+		[JsonProperty("year")]
 		public int Year { get; set; }
+
+		[JsonProperty("comment")]
 		public string Comment { get; set; }
 
-		[JsonProperty("TrackNumber")]
+		[JsonProperty("trackNumber")]
 		public int Track { get; set; }
 
+		[JsonProperty("genre")]
 		public string Genre { get; set; }
 
-		[JsonProperty("DurationMillis")]
-		public double Duration { get; set; }
+		[JsonProperty("durationMillis")]
+		public long Duration { get; set; }
 
-		public int BeatsPerMinute { get; set; }
-		public string AlbumArtUrl { get; set; }
+		[JsonProperty("beatsPerMinute")]
+		public int? BeatsPerMinute { get; set; }
 
-		[Ignore]
-		public List<AlbumArtRef> AlbumArtRef { get; set; } = new List<AlbumArtRef>();
+		[JsonProperty("albumArtRef")]
+		public ArtRef[] AlbumArtRef { get; set; } = new ArtRef[0];
 
-		public string ArtistImageBaseUrl { get; set; }
+		[JsonProperty("artistArtRef")]
+		public ArtRef[] ArtistArtRef { get; set; } = new ArtRef[0];
 
-		[Ignore]
-		public List<ArtistArtRef> ArtistArtRef { get; set; } = new List<ArtistArtRef>();
-
+		[JsonProperty("playCount")]
 		public int PlayCount { get; set; }
-		public int TotalTrackCount { get; set; }
 
-		[JsonProperty("DiscNumber")]
+		[JsonProperty("totalTrackCount")]
+		public int? TotalTrackCount { get; set; }
+
+		[JsonProperty("discNumber")]
 		public int Disc { get; set; }
 
-		[JsonProperty("TotalDiscCount")]
-		public int TotalDiscs { get; set; }
+		[JsonProperty("totalDiscCount")]
+		public int? TotalDiscCount { get; set; }
 
+		[JsonProperty("rating")]
 		public int Rating { get; set; }
-		public double EstimatedSize { get; set; }
 
-		[JsonProperty("TrackType")]
-		public int Type { get; set; }
+		[JsonProperty("estimatedSize")]
+		public string EstimatedSize { get; set; }
 
+		[JsonProperty("storeId")]
 		public string StoreId { get; set; }
 
-		[JsonProperty("AlbumId")]
-		public string MatchedAlbumId { get; set; }
+		[JsonProperty("albumId")]
+		public string AlbumId { get; set; }
 
+		[JsonIgnore]
 		public string ArtistMatchedId { get; set; }
 		List<string> artistId;
 
@@ -129,39 +150,56 @@ namespace MusicPlayer.Api.GoogleMusic
 			set { }
 		}
 
+		[JsonProperty("nid")]
 		public string Nid { get; set; }
 
+		[JsonProperty("primaryVideo")]
 		public PrimaryVideo PrimaryVideo { get; set; }
+
+		[JsonProperty("trackType")]
+		public int Type { get; set; }
+
+		[JsonProperty("explicitType")]
+		public string ExplicitType { get; set; }
 	}
 
-	public class Thumbnail
+	public partial class ArtRef
 	{
-		public string Url { get; set; }
-		public int Width { get; set; }
-		public int Height { get; set; }
-	}
-
-	public class PrimaryVideo
-	{
+		[JsonProperty("kind")]
 		public string Kind { get; set; }
+
+		[JsonProperty("url")]
+		public string Url { get; set; }
+
+		[JsonProperty("aspectRatio")]
+		public int AspectRatio { get; set; }
+
+		[JsonProperty("autogen")]
+		public bool? Autogen { get; set; }
+	}
+
+	public partial class PrimaryVideo
+	{
+		[JsonProperty("kind")]
+		public string Kind { get; set; }
+
+		[JsonProperty("id")]
 		public string Id { get; set; }
-		public List<Thumbnail> Thumbnails { get; set; }
+
+		[JsonProperty("thumbnails")]
+		public Thumbnail[] Thumbnails { get; set; } = new Thumbnail[0];
 	}
 
-	public class AlbumArtRef
+	public partial class Thumbnail
 	{
+		[JsonProperty("url")]
 		public string Url { get; set; }
-	}
 
-	public class ArtistArtRef
-	{
-		public string Url { get; set; }
-	}
+		[JsonProperty("width")]
+		public long Width { get; set; }
 
-	public class ImageClass
-	{
-		public string Url { get; set; }
-		public int AspectRatio { get; set; } = 1;
+		[JsonProperty("height")]
+		public long Height { get; set; }
 	}
 
 
@@ -171,7 +209,6 @@ namespace MusicPlayer.Api.GoogleMusic
 		public string Reason { get; set; }
 		public string Message { get; set; }
 	}
-
 	public class Error
 	{
 		public int Code { get; set; }
@@ -181,6 +218,32 @@ namespace MusicPlayer.Api.GoogleMusic
 		{
 			var data = string.Join(" , ", Data);
 			return $"Error: {Message} {Code} - {data}";
+		}
+	}
+
+
+	public class RootConfigApiObject : RootApiObject
+	{
+
+        [JsonProperty("data")]
+		public DataClass Data { get; set; }
+
+		public partial class DataClass
+		{
+			[JsonProperty("entries")]
+			public Entry[] Entries { get; set; } = new Entry[0];
+		}
+
+		public partial class Entry
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
+
+			[JsonProperty("key")]
+			public string Key { get; set; }
+
+			[JsonProperty("value")]
+			public string Value { get; set; }
 		}
 	}
 
@@ -253,8 +316,8 @@ namespace MusicPlayer.Api.GoogleMusic
 		public SearchResultResponse.ResultClass.Seed seed { get; set; }
 		public bool InLibrary { get; set; }
 		public List<SongItem> Tracks { get; set; }
-		public List<ImageClass> ImageUrls { get; set; }
-		public List<ImageClass> CompositeArtRefs { get; set; }
+		public List<ArtRef> ImageUrls { get; set; }
+		public List<ArtRef> CompositeArtRefs { get; set; }
 		public bool Deleted { get; set; }
 	}
 
@@ -356,42 +419,74 @@ namespace MusicPlayer.Api.GoogleMusic
 	}
 	public class RootPlaylistApiObject : RootApiObject
 	{
-		public ResultClass Result { get; set; }
-
-		public class ResultClass
-		{
-			public string Kind { get; set; }
 			public DataClass Data { get; set; }
 			public string NextPageToken { get; set; }
 
-			public class DataClass
-			{
-				public List<Item> Items { get; set; }
+		public partial class DataClass
+		{
+			[JsonProperty("items")]
+			public List<Item> Items { get; set; } = new List<Item>();
+		}
 
-				public class Item
-				{
-					public string Kind { get; set; }
-					public string Id { get; set; }
-					public long CreationTimestamp { get; set; }
-					public long LastModifiedTimestamp { get; set; }
-					public long RecentTimestamp { get; set; }
-					public bool Deleted { get; set; }
-					public string Name { get; set; }
-					public string Type { get; set; }
-					public string ShareToken { get; set; }
-					public string OwnerName { get; set; }
-					public string OwnerProfilePhotoUrl { get; set; }
-					public bool AccessControlled { get; set; }
-					public string ClientId { get; set; }
-					//Playlist tracks only
-					public string PlaylistId { get; set; }
-					public string TrackId { get; set; }
-					public long AbsolutePosition { get; set; }
-					public string Source { get; set; }
+		public partial class Item
+		{
+			[JsonProperty("kind")]
+			public string Kind { get; set; }
 
-					public SongItem Track { get; set; }
-				}
-			}
+			[JsonProperty("id")]
+			public string Id { get; set; }
+
+			[JsonProperty("creationTimestamp")]
+			public string CreationTimestamp { get; set; }
+
+			[JsonProperty("lastModifiedTimestamp")]
+			public long LastModifiedTimestamp { get; set; }
+
+			[JsonProperty("recentTimestamp")]
+			public long RecentTimestamp { get; set; }
+
+			[JsonProperty("deleted")]
+			public bool Deleted { get; set; }
+
+			[JsonProperty("name")]
+			public string Name { get; set; }
+
+			[JsonProperty("type")]
+			public string Type { get; set; }
+
+			[JsonProperty("shareToken")]
+			public string ShareToken { get; set; }
+
+			[JsonProperty("ownerName")]
+			public string OwnerName { get; set; }
+
+			[JsonProperty("ownerProfilePhotoUrl")]
+			public string OwnerProfilePhotoUrl { get; set; }
+
+			[JsonProperty("accessControlled")]
+			public bool AccessControlled { get; set; }
+
+			[JsonProperty("clientId")]
+			public string ClientId { get; set; }
+
+			[JsonProperty("description")]
+			public string Description { get; set; }
+
+			//Playlist tracks only
+			[JsonProperty("playlistId")]
+			public string PlaylistId { get; set; }
+
+			[JsonProperty("absolutePosition")]
+			public long AbsolutePosition { get; set; }
+
+			[JsonProperty("trackId")]
+			public string TrackId { get; set; }
+
+			[JsonProperty("source")]
+			public string Source { get; set; }
+
+			[JsonProperty("track")]
+			public SongItem Track { get; set; }
 		}
 	}
 
@@ -479,7 +574,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				public TopTrack()
 				{
 					artistId = new List<string>();
-					albumArtRef = new List<AlbumArtRef>();
+					albumArtRef = new List<ArtRef>();
 				}
 
 				public string kind { get; set; }
@@ -492,7 +587,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				public int trackNumber { get; set; }
 				public string genre { get; set; }
 				public double durationMillis { get; set; }
-				public List<AlbumArtRef> albumArtRef { get; set; }
+				public List<ArtRef> albumArtRef { get; set; }
 				public int playCount { get; set; }
 				public int discNumber { get; set; }
 				public int totalDiscCount { get; set; }

@@ -61,6 +61,8 @@ namespace MusicPlayer.Api.GoogleMusic
 			}
 		}
 
+		public string Tier => Api?.Tier ?? "none";
+
 		public Dictionary<string, string> UserDictionary => Api?.CurrentOAuthAccount.UserData;
 
 		public override async Task<bool> Resync()
@@ -81,6 +83,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				if (Api.CurrentAccount == null)
 					await Api.Authenticate();
 				await Api.Identify();
+				await Api.GetUserConfig();
 
 				Decipherer.PreCache ();
 
@@ -118,24 +121,21 @@ namespace MusicPlayer.Api.GoogleMusic
 		{
 			try
 			{
-				var request = new GoogleMusicApiRequest
+				const string path = "tracks";
+				var query = new Dictionary<string, string>
 				{
-					method = "sj.tracks.list",
-					parameters =
-					{
-						updatedMin = token == null ? Api.ExtraData.LastSongSync : 0,
-						maxResults = 5000,
-						startToken = token,
-					}
+					["max-results"] = "5000",
+					["tier"] = Tier,
+					["updated-min"] = (token == null ? Api.ExtraData.LastSongSync : 0).ToString(),
 				};
 
-				var resp = await SyncRequestQueue.Enqueue(1, () => Api.Post<RootTrackApiObject>(request));
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootTrackApiObject>(path,query,includeDeviceHeaders:true));
 				Task<bool> nextTask = null;
-				if (!string.IsNullOrWhiteSpace(resp?.Result?.NextPageToken))
-					nextTask = GetTracks(resp.Result.NextPageToken);
+				if (!string.IsNullOrWhiteSpace(resp?.NextPageToken))
+					nextTask = GetTracks(resp.NextPageToken);
 				var youtubeTracks = new List<FullTrackData>();
 				var start = DateTime.Now;
-				var tracks = resp?.Result?.Data?.Items?.Select(x =>
+				var tracks = resp?.Data?.Items?.Select(x =>
 				{
 					var id = x.Type == 0 ? x.Id : !string.IsNullOrWhiteSpace(x.StoreId) && x.StoreId.StartsWith("T") ? x.StoreId : x.Id;
                     var t = new FullTrackData(x.Title, x.Artist, x.AlbumArtist, x.Album, x.Genre)
@@ -143,7 +143,7 @@ namespace MusicPlayer.Api.GoogleMusic
 						Deleted = x.Deleted,
 						Duration = x.Duration,
 						ArtistServerId = x.ArtistMatchedId,
-						AlbumServerId = x.MatchedAlbumId,
+						AlbumServerId = x.AlbumId,
 						AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
 						ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
 						MediaType = MediaType.Audio,
@@ -226,25 +226,22 @@ namespace MusicPlayer.Api.GoogleMusic
 		{
 			try
 			{
-				var request = new GoogleMusicApiRequest
+				const string path = "playlists";
+				var query = new Dictionary<string, string>
 				{
-					method = "sj.playlists.list",
-					parameters =
-				{
-					updatedMin = token == null ? Api.ExtraData.LastPlaylistSync : 0,
-					maxResults = 5000,
-					startToken = token,
-				}
+					["max-results"] = "5000",
+					["tier"] = Tier,
+					["updated-min"] = (token == null ? Api.ExtraData.LastPlaylistSync : 0).ToString(),
 				};
 
-				var resp = await SyncRequestQueue.Enqueue(1, () => Api.Post<RootPlaylistApiObject>(request));
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootPlaylistApiObject>(path, query));
 				Task<bool> nextTask = null;
-				if (!string.IsNullOrWhiteSpace(resp?.Result?.NextPageToken))
-					nextTask = GetPlaylists(resp.Result.NextPageToken);
+				if (!string.IsNullOrWhiteSpace(resp?.NextPageToken))
+					nextTask = GetPlaylists(resp.NextPageToken);
 
 				var start = DateTime.Now;
 
-				var playlists = resp?.Result?.Data?.Items.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x =>
+				var playlists = resp?.Data?.Items.Where(x => !string.IsNullOrWhiteSpace(x.Name)).Select(x =>
 				{
 					TotalPlaylistSync++;
 					LastPlaylistSync = Math.Max(x.LastModifiedTimestamp, LastPlaylistSync);
@@ -309,33 +306,30 @@ namespace MusicPlayer.Api.GoogleMusic
 			try
 			{
 				bool success = false;
-				var request = new GoogleMusicApiRequest
+				const string path = "plentries";
+				var query = new Dictionary<string, string>
 				{
-					method = "sj.playlistentries.list",
-					parameters =
-					{
-						updatedMin = token == null ? Api.ExtraData.LastPlaylistSongSync : 0,
-						maxResults = 5000,
-						startToken = token,
-					}
+					["max-results"] = "5000",
+					["tier"] = Tier,
+					["updated-min"] = (token == null ? Api.ExtraData.LastPlaylistSongSync : 0).ToString(),
 				};
 
-				var resp = await SyncRequestQueue.Enqueue(1, () => Api.Post<RootPlaylistApiObject>(request));
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootPlaylistApiObject>(path, query));
 				if (resp?.Error != null)
 				{
 					Console.WriteLine(resp.Error);
 					return false;
 				}
 				Task<bool> nextTask = null;
-				if (!string.IsNullOrWhiteSpace(resp?.Result?.NextPageToken))
-					nextTask = GetPlaylistTracks(resp.Result.NextPageToken);
+				if (!string.IsNullOrWhiteSpace(resp?.NextPageToken))
+					nextTask = GetPlaylistTracks(resp.NextPageToken);
 				var start = DateTime.Now;
 
 				var fullTracks = new List<FullPlaylistTrackData>();
 				var partTracks = new List<TempPlaylistEntry>();
-				if (resp?.Result?.Data?.Items?.Count == 0)
+				if (resp?.Data?.Items?.Count == 0)
 					return true;
-				resp?.Result?.Data?.Items?.ForEach(s =>
+				resp?.Data?.Items?.ForEach(s =>
 				{
 					TotalPlaylistSync ++;
 					LastPlaylistSongSync = Math.Max(s.LastModifiedTimestamp, LastPlaylistSongSync);
@@ -360,7 +354,7 @@ namespace MusicPlayer.Api.GoogleMusic
 						Deleted = x.Deleted,
 						Duration = x.Duration,
 						ArtistServerId = x.ArtistMatchedId,
-						AlbumServerId = x.MatchedAlbumId,
+						AlbumServerId = x.AlbumId,
 						AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
 						ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
 						MediaType = MediaType.Audio,
@@ -463,7 +457,7 @@ namespace MusicPlayer.Api.GoogleMusic
 									Deleted = x.Deleted,
 									Duration = x.Duration,
 									ArtistServerId = x.ArtistMatchedId,
-									AlbumServerId = x.MatchedAlbumId,
+									AlbumServerId = x.AlbumId,
 									AlbumArtwork = x.AlbumArtRef.Select (a => new AlbumArtwork { Url = a.Url }).ToList (),
 									ArtistArtwork = x.ArtistArtRef.Select (a => new ArtistArtwork { Url = a.Url }).ToList (),
 									MediaType = MediaType.Audio,
@@ -930,7 +924,7 @@ namespace MusicPlayer.Api.GoogleMusic
 								Deleted = x.Deleted,
 								Duration = x.Duration,
 								ArtistServerId = x.ArtistMatchedId,
-								AlbumServerId = x.MatchedAlbumId,
+								AlbumServerId = x.AlbumId,
 								AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
 								ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
 								MediaType = MediaType.Audio,
@@ -1067,7 +1061,7 @@ namespace MusicPlayer.Api.GoogleMusic
 							Deleted = x.Deleted,
 							Duration = x.Duration,
 							ArtistServerId = x.ArtistMatchedId,
-							AlbumServerId = x.MatchedAlbumId,
+							AlbumServerId = x.AlbumId,
 							AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
 							ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
 							MediaType = MediaType.Audio,
@@ -1225,7 +1219,7 @@ namespace MusicPlayer.Api.GoogleMusic
 									Deleted = x.Deleted,
 									Duration = x.Duration,
 									ArtistServerId = x.ArtistMatchedId,
-									AlbumServerId = x.MatchedAlbumId,
+									AlbumServerId = x.AlbumId,
 									AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
 									ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
 									MediaType = MediaType.Audio,
@@ -1417,7 +1411,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					Deleted = x.Deleted,
 					Duration = x.Duration,
 					ArtistServerId = x.ArtistMatchedId,
-					AlbumServerId = x.MatchedAlbumId,
+					AlbumServerId = x.AlbumId,
 					AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
 					ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 					MediaType = MediaType.Audio,
@@ -1697,7 +1691,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					Deleted = x.Deleted,
 					Duration = x.Duration,
 					ArtistServerId = x.ArtistMatchedId,
-					AlbumServerId = x.MatchedAlbumId,
+					AlbumServerId = x.AlbumId,
 					AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
 					ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
 					MediaType = MediaType.Audio,
