@@ -41,7 +41,11 @@ namespace MusicPlayer.iOS.ViewControllers
 			this.StyleViewController();
 			(View as SearchView).ApplyStyle();
 		}
-
+		public override void ViewSafeAreaInsetsDidChange()
+		{
+			base.ViewSafeAreaInsetsDidChange();
+			View.SetNeedsLayout();
+		}
 		class SearchView : UIView
 		{
 			WeakReference parent;
