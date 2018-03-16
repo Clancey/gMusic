@@ -2192,9 +2192,9 @@ namespace MusicPlayer.Api.GoogleMusic
 				var guid = ((long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds).ToString();
 				var songId = !string.IsNullOrWhiteSpace(track.ServiceExtra) && tryCount > 0 ? track.ServiceExtra : track.Id;
 				var sig = GetSig(songId + guid, key);
-				var parameter = $"&{(songId.StartsWith("T") ? "mjck" : "songid")}={songId}";
+				var parameter = $"&{(songId.StartsWith("T") || songId.StartsWith("D") ? "mjck" : "songid")}={songId}";
 
-				var startUrl = $"https://android.clients.google.com/music/mplay?slt={guid}&sig={sig}{parameter}&pt=e{qualityString}";
+				var startUrl = $"https://mclients.googleapis.com/music/mplay?slt={guid}&sig={sig}{parameter}&pt=e{qualityString}";
 
 				var client = new HttpClient();
 				await Api.PrepareClient(client);
