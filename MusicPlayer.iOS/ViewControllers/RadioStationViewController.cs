@@ -68,6 +68,11 @@ namespace MusicPlayer.iOS.ViewControllers
 				AccessibilityLabel = "Play I'm Feeling Lucky Station",
 			};
 		}
+		public override void ViewSafeAreaInsetsDidChange()
+		{
+			base.ViewSafeAreaInsetsDidChange();
+			TopOffset = View.GetSafeArea().Top;
+		}
 		public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
 		{
 			base.DidRotate(fromInterfaceOrientation);
