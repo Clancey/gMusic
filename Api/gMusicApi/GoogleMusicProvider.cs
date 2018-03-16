@@ -128,6 +128,8 @@ namespace MusicPlayer.Api.GoogleMusic
 					["tier"] = Tier,
 					["updated-min"] = (token == null ? Api.ExtraData.LastSongSync : 0).ToString(),
 				};
+				if (!string.IsNullOrWhiteSpace(token))
+					query["start-token"] = token;
 
 				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootTrackApiObject>(path,query,includeDeviceHeaders:true));
 				Task<bool> nextTask = null;
@@ -233,6 +235,8 @@ namespace MusicPlayer.Api.GoogleMusic
 					["tier"] = Tier,
 					["updated-min"] = (token == null ? Api.ExtraData.LastPlaylistSync : 0).ToString(),
 				};
+				if (!string.IsNullOrWhiteSpace(token))
+					query["start-token"] = token;
 
 				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootPlaylistApiObject>(path, query));
 				Task<bool> nextTask = null;
@@ -286,7 +290,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			set
 			{
 				_lastPlaylistSong = value;
-				Debug.WriteLine(value);
+				//Debug.WriteLine(value);
 			}
 		}
 
@@ -313,6 +317,8 @@ namespace MusicPlayer.Api.GoogleMusic
 					["tier"] = Tier,
 					["updated-min"] = (token == null ? Api.ExtraData.LastPlaylistSongSync : 0).ToString(),
 				};
+				if (!string.IsNullOrWhiteSpace(token))
+					query["start-token"] = token;
 
 				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootPlaylistApiObject>(path, query));
 				if (resp?.Error != null)
