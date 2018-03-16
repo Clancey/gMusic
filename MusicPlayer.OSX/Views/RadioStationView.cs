@@ -14,16 +14,14 @@ namespace MusicPlayer
 		RadioStationListView recent;
 		RadioStationListView stations;
 		SimpleButton iflButton;
+
 		public RadioStationView ()
 		{
 			iflButton = new SimpleButton
 			{
 				Clicked = async (obj) =>
 				{
-					await PlaybackManager.Shared.Play(new RadioStation("I'm Feeling Lucky")
-					{
-						Id = "IFL",
-					});
+					await PlayIFL();
 				},
 				Title = "I'm Feeling Luck",
 
@@ -51,6 +49,17 @@ namespace MusicPlayer
 				stations.CollectionView.ReloadData ();
 			};
 			AddSubview (tabView);
+		}
+		Task iflTask;
+		Task PlayIFL()
+		{
+
+			if(iflTask?.IsCompleted ?? true)
+				iflTask = PlaybackManager.Shared.Play(new RadioStation("I'm Feeling Lucky")
+				{
+					Id = "IFL",
+				});
+			return iflTask;
 		}
 		public override bool IsFlipped => true;
 		public override void ResizeSubviewsWithOldSize (CoreGraphics.CGSize oldSize)

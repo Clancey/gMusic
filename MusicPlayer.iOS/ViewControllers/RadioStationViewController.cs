@@ -9,6 +9,7 @@ using MusicPlayer.Managers;
 using MusicPlayer.ViewModels;
 using UIKit;
 using MusicPlayer.Models;
+using System.Threading.Tasks;
 
 namespace MusicPlayer.iOS.ViewControllers
 {
@@ -58,16 +59,26 @@ namespace MusicPlayer.iOS.ViewControllers
 			NavigationItem.LeftBarButtonItem = BaseViewController.ShouldShowMenuButton(this) ? menuButton : null;
 			NavigationItem.RightBarButtonItem = new UIBarButtonItem(Images.DiceImage, UIBarButtonItemStyle.Plain, async (sender, e) =>
 			{
-				await PlaybackManager.Shared.Play(new RadioStation("I'm Feeling Lucky")
-				{
-					Id = "IFL",
-				});
+				await PlayIFL();
 			})
 			{
 				AccessibilityIdentifier="IFL",
 				AccessibilityLabel = "Play I'm Feeling Lucky Station",
 			};
 		}
+
+		Task iflTask;
+		Task PlayIFL()
+		{
+
+			if (iflTask?.IsCompleted ?? true)
+				iflTask = PlaybackManager.Shared.Play(new RadioStation("I'm Feeling Lucky")
+				{
+					Id = "IFL",
+				});
+			return iflTask;
+		}
+
 		public override void ViewSafeAreaInsetsDidChange()
 		{
 			base.ViewSafeAreaInsetsDidChange();
