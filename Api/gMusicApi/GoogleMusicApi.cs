@@ -215,6 +215,48 @@ namespace MusicPlayer.Api.GoogleMusic
 			return result;
 		}
 
+		public async Task<T> PostLatest<T>(string path,object body, Dictionary<string, string> queryParameters = null, bool includeDeviceHeaders = true) where T : RootApiObject
+		{
+			if (CurrentAccount == null)
+				await Authenticate();
+			int tryCount = 0;
+			bool success = false;
+			if (queryParameters == null)
+				queryParameters = new Dictionary<string, string>();
+			queryParameters["dv"] = "3000038001007";
+			queryParameters["hl"] = cultureShort;
+			queryParameters["prettyPrint"] = "false";
+
+
+			var requestText = SerializeObject(body);
+
+			Dictionary<string, string> headers = new Dictionary<string, string>();
+			if (includeDeviceHeaders)
+			{
+				headers["X-Device-ID"] = DeviceId;
+				headers["X-Device-FriendlyName"] = DeviceName;
+			}
+
+			T result = default(T);
+			while (!success && tryCount < 3)
+			{
+				var content = new StringContent(requestText, Encoding.UTF8, "application/json");
+				var json = await SendObjectMessage(path, content, HttpMethod.Post, queryParameters,headers );
+				result = Deserialize<T>(json);
+				success = result != null && result.Error == null;
+				if (!success && result.Error.Code != 400)
+				{
+					if (result.Error != null)
+						await RefreshAccount(CurrentAccount);
+					await Task.Delay(1000);
+				}
+				tryCount++;
+			}
+			if (result?.Error != null)
+				LogManager.Shared.Report(result.Error, path);
+			return result;
+		}
+
 
 		protected override async Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
 		{

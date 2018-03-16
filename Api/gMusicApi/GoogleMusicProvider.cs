@@ -401,7 +401,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			return false;
 		}
 
-
+		//TODO: Update based off NextToken
 		public Task<bool> SyncSharedPlaylistTracks()
 		{
 			return Task.Run(async () =>
@@ -417,26 +417,19 @@ namespace MusicPlayer.Api.GoogleMusic
 						UpdatedMin = x.LastSync,
 					}).ToList();
 					bool success = false;
-					var request = new GoogleMusicApiRequest
+					var request = new { entries = entries, includeDeleted = true };
+					const string path = "plentries/shared";
+					var query = new Dictionary<string, string>
 					{
-						method = "sj.playlistentries.listshared",
-						parameters = new GoogleMusicApiRequest.EntriesParams()
-						{
-							Request = new GoogleMusicApiRequest.EntriesParams.EntryRequest()
-							{
-								Entries = entries,
-							}
-						}
-
+						["tier"] = Tier,
 					};
 
-					var resp = await Api.Post<RootOnlinePlaylistApiObject>(request);
+					var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootOnlinePlaylistApiObject>(path,request, query));
 
-					Console.WriteLine(resp);
 
 					var fullTracks = new List<FullPlaylistTrackData>();
 					var partTracks = new List<TempPlaylistEntry>();
-					foreach (var entry in resp?.Result?.entries ?? new List<RootOnlinePlaylistApiObject.Entry>()) {
+					foreach (var entry in resp?.Entries ?? new List<RootOnlinePlaylistApiObject.Entry>()) {
 						var playlist = playlists.FirstOrDefault (x => x.ShareToken == entry.shareToken);
 						foreach (var s in entry.playlistEntry) {
 							try {
@@ -492,6 +485,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				return false;
 			});
 		}
+
 		public override async Task<bool> DeletePlaylist(Playlist playlist)
 		{
 			try
@@ -1017,30 +1011,26 @@ namespace MusicPlayer.Api.GoogleMusic
 				try
 				{
 					bool success = false;
-					var request = new GoogleMusicApiRequest
-					{
-						method = "sj.playlistentries.listshared",
-						parameters = new GoogleMusicApiRequest.EntriesParams()
-						{
-							Request = new GoogleMusicApiRequest.EntriesParams.EntryRequest()
-							{
-								Entries =
-								{
-									new GoogleMusicApiRequest.EntriesParams.Entry
-									{
-										ShareToken = playlist.ShareToken
-									}
-								}
-							}
-						}
 
+					var entries = new[] {
+						new GoogleMusicApiRequest.EntriesParams.Entry
+						{
+							ShareToken = playlist.ShareToken
+						}
+					};
+					var request = new { entries = entries, includeDeleted = true };
+					const string path = "plentries/shared";
+					var query = new Dictionary<string, string>
+					{
+						["max-results"] = "5000",
+						["tier"] = Tier,
 					};
 
-					var resp = await Api.Post<RootOnlinePlaylistApiObject>(request);
+					var resp = await Api.PostLatest<RootOnlinePlaylistApiObject>(path, request, query);
 
 					Console.WriteLine(resp);
 					var songs = new List<OnlinePlaylistEntry>();
-					foreach (var s in resp.Result.entries[0].playlistEntry)
+					foreach (var s in resp.Entries[0].playlistEntry)
 					{
 						if (s.Track == null)
 						{

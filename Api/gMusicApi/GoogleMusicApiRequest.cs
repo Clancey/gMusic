@@ -362,7 +362,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				[JsonProperty("maxResults", NullValueHandling = NullValueHandling.Ignore)]
 				public int maxResults { get; set; } = 5000;
 
-				[JsonProperty("updated-min", NullValueHandling = NullValueHandling.Ignore)]
+				[JsonProperty("updatedMin", NullValueHandling = NullValueHandling.Ignore)]
 				public long UpdatedMin { get; set; } = 0;
 			}
 

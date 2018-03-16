@@ -378,8 +378,9 @@ namespace MusicPlayer.Api.GoogleMusic
 
 	public class RootOnlinePlaylistApiObject : RootApiObject
 	{
-		public ResultClass Result { get; set; }
 
+		[JsonProperty("entries")]
+		public List<Entry> Entries { get; set; }
 		public class Item
 		{
 			public string Kind { get; set; }
@@ -411,11 +412,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			public List<Item> playlistEntry { get; set; } = new List<Item>();
 		}
 
-		public class ResultClass
-		{
-			public string kind { get; set; }
-			public List<Entry> entries { get; set; }
-		}
+
 	}
 	public class RootPlaylistApiObject : RootApiObject
 	{
