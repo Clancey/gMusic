@@ -51,12 +51,25 @@ namespace MusicPlayer.Managers
 			});
 			NotificationManager.Shared.OfflineChanged += Shared_OfflineChanged;
 			NotificationManager.Shared.FailedDownload += NotificationManager_Shared_FailedDownload;
+			NotificationManager.Shared.SongDownloadPulsed += NotificationManager_SongDownloadPulsed;
         }
-
+		int failedDownloadCount = 0;
 		void NotificationManager_Shared_FailedDownload (object sender, SimpleTables.EventArgs<string> e)
 		{
-			if(e.Data == Settings.CurrentSong)
-				NextTrack ();
+			if (e.Data == Settings.CurrentSong)
+			{
+				if (failedDownloadCount < 5)
+					NextTrack();
+				else
+					Pause();
+				failedDownloadCount++;
+			}
+		}
+
+		void NotificationManager_SongDownloadPulsed(object sender, NotificationManager.SongDowloadEventArgs e)
+		{
+			if (e.Percent > 0)
+				failedDownloadCount = 0;
 		}
 
 		private void Shared_OfflineChanged(object sender, EventArgs e)
@@ -1026,7 +1039,7 @@ namespace MusicPlayer.Managers
 				return;
 			}
 
-			App.ShowNotImplmented(new Dictionary<string, string> { { "Media Type", item?.GetType().ToString() } } );
+			App.ShowNotImplmented(new Dictionary<string, string> { { "Media Type", item?.GetType().ToString() } });
 		}
 
 		public async void PlayNext(Song song)
@@ -1034,7 +1047,7 @@ namespace MusicPlayer.Managers
 			var currIndex = Database.Main.ExecuteScalar<int>("select rowid from SongsOrdered where Id = ?", song.Id);
 			if (currIndex > 0 && CurrentSongIndex > 0)
 			{
-				var songIndex = CurrentOrder.IndexOf (currIndex - 1);
+				var songIndex = CurrentOrder.IndexOf(currIndex - 1);
 				var offset = songIndex < CurrentSongIndex ? 0 : 1;
 				MoveSong(songIndex, CurrentSongIndex + offset);
 				return;

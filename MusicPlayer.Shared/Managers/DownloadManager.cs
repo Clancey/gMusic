@@ -128,6 +128,7 @@ namespace MusicPlayer.Managers
 				downloads[trackId] = helper = CreateHelper(trackId, uri);
 
 			RunPoller();
+			helper.ErrorCount = 0;
 			await helper.StartDownload();
 
 			return helper;
@@ -238,6 +239,8 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
+				if (ErrorCount > 10)
+					return false;
 				if (State == DownloadState.Completed || State == DownloadState.Downloading)
 					return true;
 				State = DownloadState.Downloading;
@@ -277,6 +280,8 @@ namespace MusicPlayer.Managers
 			});
 			return success;
 		}
+
+		public int ErrorCount { get; set; }
 
 		public async Task WaitForComplete()
 		{
@@ -364,6 +369,7 @@ namespace MusicPlayer.Managers
 				if (url == null)
 				{
 					NotificationManager.Shared.ProcFailedDownload(SongId);
+					ErrorCount++;
 					return false;
 				}
 				else
