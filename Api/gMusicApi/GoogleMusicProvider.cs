@@ -19,6 +19,7 @@ using YoutubeExtractor;
 using MusicPlayer.Api;
 using Plugin.Connectivity;
 using Plugin.Connectivity.Abstractions;
+using MusicPlayer.ViewModels;
 
 namespace MusicPlayer.Api.GoogleMusic
 {
@@ -1543,7 +1544,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			};
 		}
 
-
+		Random Random = new Random();
 		public override async Task<bool> LoadRadioStation(RadioStation station, bool isContinuation)
 		{
 			try
@@ -1558,17 +1559,45 @@ namespace MusicPlayer.Api.GoogleMusic
 					["rz"] = "start",
 				};
 				bool isIFL = station.Id == "IFL";
+				bool isFree = Tier != "aa" || Settings.DisableAllAccess;
+				object seed = null;
+				var stationRequest = new GoogleMusicApiRequest.RadioStationParams.StationRequest
+				{
+					radioId = isIFL ? null : station.Id,
+					numEntries = 25,
+				};
+				if (isIFL)
+				{
+					if (isFree)
+					{
+						//Gets a random song from your thumbs up, and plays one. If they have less than 10 thumbs up songs, Mix in the most played tracks.
+						var thumbsUpCount = AutoPlaylist.ThumbsUp.SongCount;
+						bool shouldUsethumbsUp = thumbsUpCount > 0 && (thumbsUpCount > 10 || Random.Next(0, 2) > 1);
+						var plist = shouldUsethumbsUp? AutoPlaylist.ThumbsUp : AutoPlaylist.MostPlayed;
+						var groupInfo = AutoPlaylistSongViewModel.CreateGroupInfo(plist, false);
+						var songSeed = Database.Main.GetObjectByIndex<Song>(Random.Next(0, plist.SongCount - 1), groupInfo);
+						var track = (await MusicManager.Shared.GetTracks(songSeed.Id, Api.Identifier)).FirstOrDefault();
+						if (track == null)
+							return false;
+						stationRequest.LibraryContentOnly = true;
+						var isAllAccess = track.Id.StartsWith("T");
+						if(isAllAccess)
+							seed = new { seedType = 1, trackId = track.Id };
+						else
+							seed = new { seedType = 1, trackLockerId = track.Id };
+
+
+					}
+					else
+						seed = new { seedType = 6 };
+					stationRequest.seed = seed;
+				}
 				var request = new
 				{
 					contentFilter = Settings.FilterExplicit ? "2" : "1",
 					stations = new List<GoogleMusicApiRequest.RadioStationParams.StationRequest>
 					{
-						new GoogleMusicApiRequest.RadioStationParams.StationRequest
-						{
-							radioId = isIFL ? null : station.Id,
-							numEntries = 25,
-							seed = isIFL ? new {seedType = 6} : null,
-						}
+						stationRequest
 					},
 				};
 

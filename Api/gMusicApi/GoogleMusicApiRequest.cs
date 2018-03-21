@@ -276,6 +276,9 @@ namespace MusicPlayer.Api.GoogleMusic
 				public object seed { get; set; }
 				public string[] recentlyPlayed { get; set; }
 
+				[Newtonsoft.Json.JsonProperty("libraryContentOnly", NullValueHandling = NullValueHandling.Ignore)]
+				public bool? LibraryContentOnly { get; set; }
+
 			}
 		}
 
