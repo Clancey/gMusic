@@ -279,7 +279,7 @@ namespace MusicPlayer
 		public override void EnableVideo()
 		{
 #if __IOS__
-			var tracks = player?.CurrentItem?.Tracks?.Where(x => x.AssetTrack.HasMediaCharacteristic(AVMediaCharacteristic.Visual))?.ToList();
+			var tracks = player?.CurrentItem?.Tracks?.Where(x => x?.AssetTrack?.HasMediaCharacteristic(AVMediaCharacteristic.Visual) ?? false)?.ToList();
 			if (tracks?.Any() != true)
 				return;
 			PictureInPictureManager.Shared.StopPictureInPicture();
