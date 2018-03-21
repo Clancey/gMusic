@@ -9,7 +9,7 @@
 	<key>CFBundleName</key>
 	<string>gMusic Beta</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.5</string>
+	<string>3.6</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -37,7 +37,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3.5</string>
+	<string>3.6</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>org-appextension-feature-password-management</string>
