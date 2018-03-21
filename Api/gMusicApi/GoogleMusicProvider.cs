@@ -112,6 +112,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			var s = await GetTracks();
 			if (TotalSync > 0)
 				await FinalizeProcessing(Id);
+			s = await GetThumbsUpTracks();
 			var finished = (DateTime.Now - start).TotalMilliseconds;
 			Console.WriteLine($"Sync complete {TotalSync} in {finished} ms");
 			//App.ShowAlert("Finished", $"Sync complete {TotalSync} in {finished} ms");
@@ -199,6 +200,84 @@ namespace MusicPlayer.Api.GoogleMusic
 			}
 			return false;
 		}
+
+		//Not paged for some reason :(
+		async Task<bool> GetThumbsUpTracks()
+		{
+			try
+			{
+				const string path = "ephemeral/top";
+				var query = new Dictionary<string, string>
+				{
+					["tier"] = Tier,
+					//["updated-min"] = (token == null ? Api.ExtraData.LastSongSync : 0).ToString(),
+				};
+				var request = new PostRequest
+				{
+					MaxResults = 5000,
+				};
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootTrackApiObject>(path, request, query));
+				var youtubeTracks = new List<FullTrackData>();
+				var start = DateTime.Now;
+				var tracks = resp?.Data?.Items?.Select(x =>
+				{
+					var id = x.Type == 0 ? x.Id : !string.IsNullOrWhiteSpace(x.StoreId) && x.StoreId.StartsWith("T") ? x.StoreId : x.Id;
+					var t = new FullTrackData(x.Title, x.Artist, x.AlbumArtist, x.Album, x.Genre)
+					{
+						Deleted = x.Deleted,
+						Duration = x.Duration,
+						ArtistServerId = x.ArtistMatchedId,
+						AlbumServerId = x.AlbumId,
+						AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+						ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
+						MediaType = MediaType.Audio,
+						PlayCount = x.PlayCount,
+						ServiceId = Api.CurrentAccount.Identifier,
+						Id = id,
+						ServiceExtra = x.Id == id ? x.StoreId : x.Id,
+						ServiceExtra2 = x.Type.ToString(),
+						ServiceType = ServiceType.Google,
+						Rating = x.Rating,
+						FileExtension = "mp3",
+						Disc = x.Disc,
+						Track = x.Track,
+						Year = x.Year,
+					};
+
+					LastSongSync = Math.Max(x.LastModifiedTimestamp, LastSongSync);
+					if (x.PrimaryVideo == null)
+						return t;
+
+					var y = t.Clone();
+					y.Id = x.PrimaryVideo.Id;
+					y.FileExtension = "mp4";
+					//y.ServiceType = ServiceType.YouTube;
+					y.MediaType = MediaType.Video;
+					youtubeTracks.Add(y);
+
+					return t;
+				}).ToList();
+				if (tracks != null && youtubeTracks.Count > 0)
+					tracks.AddRange(youtubeTracks);
+
+				//				await Task.WhenAll (tracks?.Select (async x => await ProcessTrack (x)).ToList ());
+				if ((tracks?.Count ?? 0) == 0)
+					return true;
+				await MusicProvider.ProcessTracks(tracks);
+				TotalSync += tracks?.Count ?? 0;
+				var finished = (DateTime.Now - start).TotalMilliseconds;
+				Debug.WriteLine($"Batch complete {tracks.Count} in {finished} ms");
+				Api.ExtraData.LastSongSync = LastSongSync;
+				ApiManager.Shared.SaveApi(Api);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				LogManager.Shared.Report(ex);
+			}
+			return false;
+		}
+
 
 		#region Playlists
 
