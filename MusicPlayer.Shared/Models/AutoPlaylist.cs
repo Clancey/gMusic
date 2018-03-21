@@ -33,30 +33,30 @@ namespace MusicPlayer.Models
 				//	Limit = 100,
 				//},
 			new AutoPlaylist()
-				{
-					Id = "recentlyPlayed",
+			{
+				Id = "recentlyPlayed",
 				Name = Strings.RecentlyPlayed,
-					OrderByClause = " LastPlayed Desc",
-					Limit = 100,
-				},
-			MostPlayed,
-			ThumbsUp,
+				OrderByClause = " LastPlayed Desc",
+				Limit = 100,
+			},
+			(MostPlayed = new AutoPlaylist()
+			{
+				Id = "mostPlayed",
+				Name = Strings.MostPlayed,
+				OrderByClause = " PlayedCount Desc",
+				Limit = 100,
+			}),     
+			(ThumbsUp = new AutoPlaylist()
+			{
+				Id = "thumbsUp",
+				Name = Strings.ThumbsUp,
+				OrderByClause = " PlayedCount Desc",
+				WhereClause = "Rating > 4",
+			}),
 		};
 
-		public static AutoPlaylist MostPlayed { get; set; } = new AutoPlaylist()
-		{
-			Id = "mostPlayed",
-			Name = Strings.MostPlayed,
-			OrderByClause = " PlayedCount Desc",
-			Limit = 100,
-		};
-		public static AutoPlaylist ThumbsUp { get; set; } = new AutoPlaylist()
-		{
-			Id = "thumbsUp",
-			Name = Strings.ThumbsUp,
-			OrderByClause = " PlayedCount Desc",
-			WhereClause = "Rating > 4",
-		};
+		public static AutoPlaylist MostPlayed { get; set; }
+		public static AutoPlaylist ThumbsUp { get; set; }
 
 	}
 }

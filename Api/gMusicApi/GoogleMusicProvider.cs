@@ -25,14 +25,17 @@ namespace MusicPlayer.Api.GoogleMusic
 {
 	internal class GoogleMusicProvider : MusicProvider
 	{
-		public override MediaProviderCapabilities[] Capabilities {
-			get {
-				return new []{ MediaProviderCapabilities.Searchable , MediaProviderCapabilities.Radio , MediaProviderCapabilities.NewReleases , MediaProviderCapabilities.Trending , MediaProviderCapabilities.Playlists};
+		public override MediaProviderCapabilities[] Capabilities
+		{
+			get
+			{
+				return new[] { MediaProviderCapabilities.Searchable, MediaProviderCapabilities.Radio, MediaProviderCapabilities.NewReleases, MediaProviderCapabilities.Trending, MediaProviderCapabilities.Playlists };
 			}
 		}
 
-		public new GoogleMusicApi Api {
-			get {  return (GoogleMusicApi) base.Api; }
+		public new GoogleMusicApi Api
+		{
+			get { return (GoogleMusicApi)base.Api; }
 		}
 
 		public override bool RequiresAuthentication => true;
@@ -72,7 +75,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			LastPlaylistSync = 0;
 			LastPlaylistSongSync = 0;
 			TotalSync = 0;
-			Api.ExtraData = new GoogleMusicApiExtraData(); 
+			Api.ExtraData = new GoogleMusicApiExtraData();
 			return await SyncDatabase();
 
 		}
@@ -86,11 +89,11 @@ namespace MusicPlayer.Api.GoogleMusic
 				await Api.Identify();
 				await Api.GetUserConfig();
 
-				Decipherer.PreCache ();
+				Decipherer.PreCache();
 
 				await Task.WhenAll(SyncTracks(), SyncPlaylistTracks(), SyncRadioStations());
 				await SyncPlaylists();
-				await SyncSharedPlaylistTracks ();
+				await SyncSharedPlaylistTracks();
 				await FinalizePlaylists(Id);
 				return true;
 			}
@@ -133,7 +136,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				if (!string.IsNullOrWhiteSpace(token))
 					query["start-token"] = token;
 
-				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootTrackApiObject>(path,query,includeDeviceHeaders:true));
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.GetLatest<RootTrackApiObject>(path, query, includeDeviceHeaders: true));
 				Task<bool> nextTask = null;
 				if (!string.IsNullOrWhiteSpace(resp?.NextPageToken))
 					nextTask = GetTracks(resp.NextPageToken);
@@ -142,19 +145,19 @@ namespace MusicPlayer.Api.GoogleMusic
 				var tracks = resp?.Data?.Items?.Select(x =>
 				{
 					var id = x.Type == 0 ? x.Id : !string.IsNullOrWhiteSpace(x.StoreId) && x.StoreId.StartsWith("T") ? x.StoreId : x.Id;
-                    var t = new FullTrackData(x.Title, x.Artist, x.AlbumArtist, x.Album, x.Genre)
+					var t = new FullTrackData(x.Title, x.Artist, x.AlbumArtist, x.Album, x.Genre)
 					{
 						Deleted = x.Deleted,
 						Duration = x.Duration,
 						ArtistServerId = x.ArtistMatchedId,
 						AlbumServerId = x.AlbumId,
-						AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
-						ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
+						AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+						ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 						MediaType = MediaType.Audio,
 						PlayCount = x.PlayCount,
 						ServiceId = Api.CurrentAccount.Identifier,
 						Id = id,
-						ServiceExtra = x.Id == id ?  x.StoreId : x.Id,
+						ServiceExtra = x.Id == id ? x.StoreId : x.Id,
 						ServiceExtra2 = x.Type.ToString(),
 						ServiceType = ServiceType.Google,
 						Rating = x.Rating,
@@ -417,7 +420,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					return true;
 				resp?.Data?.Items?.ForEach(s =>
 				{
-					TotalPlaylistSync ++;
+					TotalPlaylistSync++;
 					LastPlaylistSongSync = Math.Max(s.LastModifiedTimestamp, LastPlaylistSongSync);
 					if (s.Track == null)
 					{
@@ -441,8 +444,8 @@ namespace MusicPlayer.Api.GoogleMusic
 						Duration = x.Duration,
 						ArtistServerId = x.ArtistMatchedId,
 						AlbumServerId = x.AlbumId,
-						AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
-						ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
+						AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+						ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 						MediaType = MediaType.Audio,
 						PlayCount = x.PlayCount,
 						ServiceId = Api.CurrentAccount.Identifier,
@@ -495,7 +498,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				try
 				{
 					var playlists = await Database.Main.TablesAsync<Playlist>().Where(x => x.PlaylistType == "SHARED").ToListAsync();
-					if(playlists.Count == 0)
+					if (playlists.Count == 0)
 						return true;
 					var entries = playlists.Select(x => new GoogleMusicApiRequest.EntriesParams.Entry
 					{
@@ -510,39 +513,45 @@ namespace MusicPlayer.Api.GoogleMusic
 						["tier"] = Tier,
 					};
 
-					var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootOnlinePlaylistApiObject>(path,request, query));
+					var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootOnlinePlaylistApiObject>(path, request, query));
 
 
 					var fullTracks = new List<FullPlaylistTrackData>();
 					var partTracks = new List<TempPlaylistEntry>();
-					foreach (var entry in resp?.Entries ?? new List<RootOnlinePlaylistApiObject.Entry>()) {
-						var playlist = playlists.FirstOrDefault (x => x.ShareToken == entry.shareToken);
-						foreach (var s in entry.playlistEntry) {
-							try {
-								if (s.Track == null) {
-									var ple = new TempPlaylistEntry {
+					foreach (var entry in resp?.Entries ?? new List<RootOnlinePlaylistApiObject.Entry>())
+					{
+						var playlist = playlists.FirstOrDefault(x => x.ShareToken == entry.shareToken);
+						foreach (var s in entry.playlistEntry)
+						{
+							try
+							{
+								if (s.Track == null)
+								{
+									var ple = new TempPlaylistEntry
+									{
 										PlaylistEntryId = $"{playlist.Id} - {s.TrackId}",
 										TrackId = s.TrackId,
 										PlaylistId = playlist.Id,
 										LastUpdate = s.LastModifiedTimestamp,
 										SOrder = s.AbsolutePosition,
 									};
-									partTracks.Add (ple);
+									partTracks.Add(ple);
 									continue;
 								}
 								var x = s.Track;
-								var t = new FullPlaylistTrackData (x.Title, x.Artist, x.AlbumArtist, x.Album, x.Genre) {
+								var t = new FullPlaylistTrackData(x.Title, x.Artist, x.AlbumArtist, x.Album, x.Genre)
+								{
 									ParentId = playlist.Id,
 									Deleted = x.Deleted,
 									Duration = x.Duration,
 									ArtistServerId = x.ArtistMatchedId,
 									AlbumServerId = x.AlbumId,
-									AlbumArtwork = x.AlbumArtRef.Select (a => new AlbumArtwork { Url = a.Url }).ToList (),
-									ArtistArtwork = x.ArtistArtRef.Select (a => new ArtistArtwork { Url = a.Url }).ToList (),
+									AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+									ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 									MediaType = MediaType.Audio,
 									PlayCount = x.PlayCount,
 									ServiceId = Api.CurrentAccount.Identifier,
-									Id = x.Type == 0 ? x.Id : !string.IsNullOrWhiteSpace (x.StoreId) && x.StoreId.StartsWith ("T") ? x.StoreId : x.Id,
+									Id = x.Type == 0 ? x.Id : !string.IsNullOrWhiteSpace(x.StoreId) && x.StoreId.StartsWith("T") ? x.StoreId : x.Id,
 									ServiceType = ServiceType.Google,
 									Rating = x.Rating,
 									FileExtension = "mp3",
@@ -553,14 +562,16 @@ namespace MusicPlayer.Api.GoogleMusic
 									SOrder = s.AbsolutePosition,
 									LastUpdated = s.LastModifiedTimestamp,
 								};
-								fullTracks.Add (t);
-							} catch (Exception e) {
-								LogManager.Shared.Report (e);
+								fullTracks.Add(t);
+							}
+							catch (Exception e)
+							{
+								LogManager.Shared.Report(e);
 							}
 						}
 					}
-					if(fullTracks.Count == 0 && partTracks.Count == 0)
-							return true;
+					if (fullTracks.Count == 0 && partTracks.Count == 0)
+						return true;
 					success = await MusicProvider.ProcessPlaylistTracks(fullTracks, partTracks);
 					return success;
 				}
@@ -733,7 +744,7 @@ namespace MusicPlayer.Api.GoogleMusic
 							.OrderByDescending(x => x.SOrder)
 							.FirstOrDefaultAsync());
 				var lastId = lastTrack?.Id;
-                foreach (var track in tracks)
+				foreach (var track in tracks)
 				{
 					var clientid = $"CLIENT-{Guid.NewGuid()}";
 					trackData[clientid] = track;
@@ -756,7 +767,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					int index = 0;
 					foreach (GoogleMusicApiRequest.MutateEditParams.MutateRequest.PlaylistMutation mutation in mutations)
 					{
-						var next = index ++;
+						var next = index++;
 						if (next >= mutations.Count)
 							break;
 						(mutation.Create as GoogleMusicApiRequest.MutateEditParams.MutateRequest.PlaylistMutation.PlaylistUpdateMutation).followingEntryId =
@@ -778,13 +789,13 @@ namespace MusicPlayer.Api.GoogleMusic
 				var result = await Api.Post<RootMutateApiObject>(request);
 				var success = true;
 				var songs = new List<PlaylistSong>();
-				var sOrder = lastTrack?.SOrder + 10?? 10;
+				var sOrder = lastTrack?.SOrder + 10 ?? 10;
 				foreach (var resp in result.result.mutate_response)
 				{
 					if (resp.response_code == "OK")
 					{
 						var t = trackData[resp.client_id];
-						songs.Add(new PlaylistSong {Id = resp.id, PlaylistId = playlist.Id, SongId = t.SongId, SOrder = sOrder});
+						songs.Add(new PlaylistSong { Id = resp.id, PlaylistId = playlist.Id, SongId = t.SongId, SOrder = sOrder });
 						sOrder += 10;
 					}
 					if (resp.response_code != "OK" && success)
@@ -869,7 +880,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				};
 
 				var resp = await Api.Post<RecordPlaybackResponse>(request, true);
-				
+
 				return resp.result?.eventResults?.All(x => x.Success) == true;
 			}
 			catch (Exception ex)
@@ -884,7 +895,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			try
 			{
 				var clientid = $"CLIENT-{Guid.NewGuid()}".ToUpper();
-                var request = new GoogleMusicApiRequest
+				var request = new GoogleMusicApiRequest
 				{
 					method = "sj.playlists.batchmutate",
 					parameters = new GoogleMusicApiRequest.MutateEditParams
@@ -900,7 +911,7 @@ namespace MusicPlayer.Api.GoogleMusic
 										ClientId =clientid,
 										Name = playlist.Name,
 									}
-								}	
+								}
 							},
 						},
 						refresh = null,
@@ -949,11 +960,11 @@ namespace MusicPlayer.Api.GoogleMusic
 
 					if (!await ProcessAlbumTracks(id, resp?.result?.Tracks))
 						return songs;
-					RequestCache<AlbumDataResultObject>.AlbumResults.Add(id,resp);
-                }
+					RequestCache<AlbumDataResultObject>.AlbumResults.Add(id, resp);
+				}
 				var tempSongs = await Database.Main.TablesAsync<TempSong>().Where(x => x.ParentId == id).ToListAsync() ??
 								new List<TempSong>();
-				if(tempSongs.Count == 0)
+				if (tempSongs.Count == 0)
 				{
 					if (!await ProcessAlbumTracks(id, cachedResult.result.Tracks))
 						return songs;
@@ -961,13 +972,13 @@ namespace MusicPlayer.Api.GoogleMusic
 						new List<TempSong>();
 				}
 				var theAlbum = (await Database.Main.TablesAsync<AlbumIds>().Where(x => x.Id == id).FirstOrDefaultAsync());
-                var albumId = theAlbum?.AlbumId;
+				var albumId = theAlbum?.AlbumId;
 				var existingSongs = string.IsNullOrWhiteSpace(albumId) ? new List<string>()
 					: (await Database.Main.TablesAsync<Song>().Where(x => x.AlbumId == albumId).ToListAsync()).Select(x => x.Id).ToList();
 
 
-				songs.AddRange(tempSongs.Where(x=> !existingSongs.Contains(x.Id)));
-				return songs.OrderBy(x=> x.Disc).ThenBy(x=> x.Track).ToList();
+				songs.AddRange(tempSongs.Where(x => !existingSongs.Contains(x.Id)));
+				return songs.OrderBy(x => x.Disc).ThenBy(x => x.Track).ToList();
 			}
 			catch (Exception ex)
 			{
@@ -1005,8 +1016,8 @@ namespace MusicPlayer.Api.GoogleMusic
 								Duration = x.Duration,
 								ArtistServerId = x.ArtistMatchedId,
 								AlbumServerId = x.AlbumId,
-								AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
-								ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
+								AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+								ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 								MediaType = MediaType.Audio,
 								PlayCount = x.PlayCount,
 								ServiceId = Api.CurrentAccount.Identifier,
@@ -1056,7 +1067,7 @@ namespace MusicPlayer.Api.GoogleMusic
 						var a = new OnlineArtist(t.Artist, t.NormalizedAlbumArtist)
 						{
 							OnlineId = r.artistId,
-                            AllArtwork =
+							AllArtwork =
 								new[] { new ArtistArtwork { ArtistId = t.ArtistId, ServiceType = ServiceType, Url = r.artistArtRef } },
 						};
 						result.Artist.Add(a);
@@ -1138,8 +1149,8 @@ namespace MusicPlayer.Api.GoogleMusic
 							Duration = x.Duration,
 							ArtistServerId = x.ArtistMatchedId,
 							AlbumServerId = x.AlbumId,
-							AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
-							ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
+							AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+							ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 							MediaType = MediaType.Audio,
 							PlayCount = x.PlayCount,
 							ServiceId = Api.CurrentAccount.Identifier,
@@ -1208,7 +1219,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					return null;
 			}
 
-			return null;;
+			return null; ;
 		}
 		public override async Task<bool> RecordPlayack(PlaybackEndedEvent data)
 		{
@@ -1248,7 +1259,7 @@ namespace MusicPlayer.Api.GoogleMusic
 
 				};
 
-				var resp = await Api.Post<RecordPlaybackResponse>(request,true);
+				var resp = await Api.Post<RecordPlaybackResponse>(request, true);
 
 				Console.WriteLine(resp.Error);
 				return resp.result?.eventResults?.All(x => x.Success) == true;
@@ -1259,12 +1270,12 @@ namespace MusicPlayer.Api.GoogleMusic
 			}
 			return false;
 		}
-		
+
 		public override async Task<SearchResults> Search(string query)
 		{
 			var cachedResult = RequestCache<SearchResultResponse>.WebSearchResults.Get(query);
 
-			return await Task.Run(async() =>
+			return await Task.Run(async () =>
 			{
 				try
 				{
@@ -1278,7 +1289,7 @@ namespace MusicPlayer.Api.GoogleMusic
 						}
 					};
 					var resp = cachedResult ?? await Api.Post<SearchResultResponse>(request);
-                    var result = new SearchResults
+					var result = new SearchResults
 					{
 						Query = query,
 					};
@@ -1287,7 +1298,7 @@ namespace MusicPlayer.Api.GoogleMusic
 						try
 						{
 							if (r.track != null)
-								{
+							{
 								var x = r.track;
 								var id = x.Type == 0 ? x.Id : !string.IsNullOrWhiteSpace(x.StoreId) && x.StoreId.StartsWith("T") ? x.StoreId : x.Id;
 								var t = new FullTrackData(x.Title, x.Artist, x.AlbumArtist, x.Album, x.Genre)
@@ -1296,13 +1307,13 @@ namespace MusicPlayer.Api.GoogleMusic
 									Duration = x.Duration,
 									ArtistServerId = x.ArtistMatchedId,
 									AlbumServerId = x.AlbumId,
-									AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
-									ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
+									AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+									ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 									MediaType = MediaType.Audio,
 									PlayCount = x.PlayCount,
 									ServiceId = Api.CurrentAccount.Identifier,
 									Id = id,
-									ServiceExtra = x.Id == id ?  x.StoreId : x.Id,
+									ServiceExtra = x.Id == id ? x.StoreId : x.Id,
 									ServiceExtra2 = x.Type.ToString(),
 									ServiceType = ServiceType.Google,
 									Rating = x.Rating,
@@ -1339,7 +1350,7 @@ namespace MusicPlayer.Api.GoogleMusic
 								var t = new FullTrackData(x.title, "", "", "", "")
 								{
 									AlbumArtwork =
-										x.thumbnails.Select(a => new AlbumArtwork {Url = a.url, Height = a.height, Width = a.width}).ToList(),
+										x.thumbnails.Select(a => new AlbumArtwork { Url = a.url, Height = a.height, Width = a.width }).ToList(),
 									MediaType = MediaType.Video,
 									ServiceId = Api.CurrentAccount.Identifier,
 									Id = x.id,
@@ -1376,7 +1387,7 @@ namespace MusicPlayer.Api.GoogleMusic
 									AlbumId = r.album.albumId,
 									Year = r.album.year,
 									AllArtwork =
-										new[] {new AlbumArtwork {AlbumId = t.AlbumId, Url = r.album.albumArtRef, ServiceType = ServiceType},},
+										new[] { new AlbumArtwork { AlbumId = t.AlbumId, Url = r.album.albumArtRef, ServiceType = ServiceType }, },
 								};
 								result.Albums.Add(a);
 								continue;
@@ -1390,7 +1401,7 @@ namespace MusicPlayer.Api.GoogleMusic
 								{
 									OnlineId = r.artist.artistId,
 									AllArtwork =
-										new[] {new ArtistArtwork {ArtistId = t.ArtistId, ServiceType = ServiceType, Url = r.artist.artistArtRef}},
+										new[] { new ArtistArtwork { ArtistId = t.ArtistId, ServiceType = ServiceType, Url = r.artist.artistArtRef } },
 								};
 								result.Artist.Add(a);
 								continue;
@@ -1403,10 +1414,10 @@ namespace MusicPlayer.Api.GoogleMusic
 									ServiceType = ServiceType,
 									Url = x.Url,
 									Ratio = x.AspectRatio
-										}).ToList() ?? new List<RadioStationArtwork>();
+								}).ToList() ?? new List<RadioStationArtwork>();
 								artwork.AddRange(
 									r.station?.ImageUrls?.Select(
-									x => new RadioStationArtwork {ServiceType = ServiceType, Url = x.Url, Ratio = x.AspectRatio}).ToList() ?? new List<RadioStationArtwork>());
+									x => new RadioStationArtwork { ServiceType = ServiceType, Url = x.Url, Ratio = x.AspectRatio }).ToList() ?? new List<RadioStationArtwork>());
 								var s = new OnlineRadioStation()
 								{
 									ServiceId = Api.Identifier,
@@ -1444,7 +1455,7 @@ namespace MusicPlayer.Api.GoogleMusic
 									PlaylistType = r.playlist.type,
 									ShareToken = r.playlist.shareToken,
 									Description = r.playlist.description,
-									AllArtwork = r.playlist.albumArtRef?.Select(x=> new AlbumArtwork {Url = x.url}).ToArray() ?? new AlbumArtwork[0],
+									AllArtwork = r.playlist.albumArtRef?.Select(x => new AlbumArtwork { Url = x.url }).ToArray() ?? new AlbumArtwork[0],
 								};
 								result.Playlists.Add(p);
 								continue;
@@ -1459,7 +1470,7 @@ namespace MusicPlayer.Api.GoogleMusic
 						}
 					}
 
-					RequestCache<SearchResultResponse>.WebSearchResults.Add(query,resp);
+					RequestCache<SearchResultResponse>.WebSearchResults.Add(query, resp);
 					return result;
 				}
 				catch (Exception e)
@@ -1471,7 +1482,7 @@ namespace MusicPlayer.Api.GoogleMusic
 		}
 
 
-		protected async Task<bool> ProcessAlbumTracks(string id,List<SongItem> tracks)
+		protected async Task<bool> ProcessAlbumTracks(string id, List<SongItem> tracks)
 		{
 			var fullTracks = new List<FullTrackData>();
 
@@ -1494,7 +1505,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					PlayCount = x.PlayCount,
 					ServiceId = Api.CurrentAccount.Identifier,
 					Id = x.Nid,
-					ServiceExtra = x.Id == x.Nid ?  x.StoreId : x.Id,
+					ServiceExtra = x.Id == x.Nid ? x.StoreId : x.Id,
 					ServiceExtra2 = x.Type.ToString(),
 					ServiceType = ServiceType.Google,
 					Rating = x.Rating,
@@ -1554,7 +1565,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				if (token != null)
 					query["startToken"] = token;
 
-				var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootRadioStationsApiObject>(path,request,query));
+				var resp = await SyncRequestQueue.Enqueue(1, () => Api.PostLatest<RootRadioStationsApiObject>(path, request, query));
 				if (resp?.Error != null)
 				{
 					Console.WriteLine(resp.Error);
@@ -1610,7 +1621,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				ServiceId = Api.Identifier,
 				Description = x.Description,
 				Deleted = x.Deleted,
-				StationSeeds = new [] {
+				StationSeeds = new[] {
 					new RadioStationSeed
 					{
 						Id = $"{x.Id} - {x.Seed.Id}",
@@ -1652,7 +1663,7 @@ namespace MusicPlayer.Api.GoogleMusic
 						//Gets a random song from your thumbs up, and plays one. If they have less than 10 thumbs up songs, Mix in the most played tracks.
 						var thumbsUpCount = AutoPlaylist.ThumbsUp.SongCount;
 						bool shouldUsethumbsUp = thumbsUpCount > 0 && (thumbsUpCount > 10 || Random.Next(0, 2) > 1);
-						var plist = shouldUsethumbsUp? AutoPlaylist.ThumbsUp : AutoPlaylist.MostPlayed;
+						var plist = shouldUsethumbsUp ? AutoPlaylist.ThumbsUp : AutoPlaylist.MostPlayed;
 						var groupInfo = AutoPlaylistSongViewModel.CreateGroupInfo(plist, false);
 						var songSeed = Database.Main.GetObjectByIndex<Song>(Random.Next(0, plist.SongCount - 1), groupInfo);
 						var track = (await MusicManager.Shared.GetTracks(songSeed.Id, Api.Identifier)).FirstOrDefault();
@@ -1660,7 +1671,7 @@ namespace MusicPlayer.Api.GoogleMusic
 							return false;
 						stationRequest.LibraryContentOnly = true;
 						var isAllAccess = track.Id.StartsWith("T");
-						if(isAllAccess)
+						if (isAllAccess)
 							seed = new { seedType = 1, trackId = track.Id };
 						else
 							seed = new { seedType = 1, trackLockerId = track.Id };
@@ -1710,7 +1721,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			{
 				SeedType = kind,
 			};
-			
+
 			switch (kind)
 			{
 				case GoogleMusicApiRequest.RadioMutateEditParams.SeedTypes.Album:
@@ -1732,7 +1743,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			return CreateRadioStation(mutation);
 		}
 
-	protected async Task<bool> UpdateRadioStationLastPlayed(RadioStation station)
+		protected async Task<bool> UpdateRadioStationLastPlayed(RadioStation station)
 		{
 			try
 			{
@@ -1745,9 +1756,9 @@ namespace MusicPlayer.Api.GoogleMusic
 
 					parameters = new GoogleMusicApiRequest.RadioMutateEditParams()
 					{
-						mutations =new List<GoogleMusicApiRequest.RadioMutateEditParams.Mutation>()
+						mutations = new List<GoogleMusicApiRequest.RadioMutateEditParams.Mutation>()
 						{
-							
+
 							new GoogleMusicApiRequest.RadioMutateEditParams.RadioStationMutation
 							{
 								update = new GoogleMusicApiRequest.RadioMutateEditParams.RadioStationMutation.RadioStationsUpdate
@@ -1757,7 +1768,7 @@ namespace MusicPlayer.Api.GoogleMusic
 									RecentTimestamp = updated,
 								}
 							}
-                        }
+						}
 					}
 				};
 
@@ -1802,8 +1813,8 @@ namespace MusicPlayer.Api.GoogleMusic
 					Duration = x.Duration,
 					ArtistServerId = x.ArtistMatchedId,
 					AlbumServerId = x.AlbumId,
-					AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork {Url = a.Url}).ToList(),
-					ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork {Url = a.Url}).ToList(),
+					AlbumArtwork = x.AlbumArtRef.Select(a => new AlbumArtwork { Url = a.Url }).ToList(),
+					ArtistArtwork = x.ArtistArtRef.Select(a => new ArtistArtwork { Url = a.Url }).ToList(),
 					MediaType = MediaType.Audio,
 					PlayCount = x.PlayCount,
 					ServiceId = Api.CurrentAccount.Identifier,
@@ -1910,7 +1921,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					method = "sj.radio.edit",
 					parameters = new GoogleMusicApiRequest.RadioMutateEditParams()
 					{
-						mutations = {mutation}
+						mutations = { mutation }
 					}
 				};
 
@@ -1927,7 +1938,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					var artwork = new List<RadioStationArtwork>();
 					var station = ProcessStation(mutationResp.Station, ref artwork, false);
 
-					var success = await MusicProvider.ProcessRadioStations(new List<RadioStation> {station}, artwork);
+					var success = await MusicProvider.ProcessRadioStations(new List<RadioStation> { station }, artwork);
 					if (!success)
 						continue;
 					await ProcessStationTracks(station, mutationResp.Station.Tracks);
@@ -2010,7 +2021,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					method = "sj.radio.edit",
 					parameters = new GoogleMusicApiRequest.RadioMutateEditParams
 					{
-						mutations = 
+						mutations =
 						{
 						new GoogleMusicApiRequest.RadioMutateEditParams.RadioStationMutation()
 						{
@@ -2071,14 +2082,14 @@ namespace MusicPlayer.Api.GoogleMusic
 
 		public override async Task<bool> AddToLibrary(OnlineAlbum album)
 		{
-			var songs = (await GetAlbumDetails(album.AlbumId)).Select(x=> x.Id).ToArray();
+			var songs = (await GetAlbumDetails(album.AlbumId)).Select(x => x.Id).ToArray();
 
-			var tracks = await Database.Main.TablesAsync<TempTrack>().Where(x => x.AlbumId == album.Id && x.MediaType== MediaType.Audio).ToListAsync();
-			if(tracks.Count() == 0)
+			var tracks = await Database.Main.TablesAsync<TempTrack>().Where(x => x.AlbumId == album.Id && x.MediaType == MediaType.Audio).ToListAsync();
+			if (tracks.Count() == 0)
 				return false;
 
-			tracks = tracks.Where(x=> songs.Contains(x.SongId)).ToList();
-			if(tracks.Count() == 0)
+			tracks = tracks.Where(x => songs.Contains(x.SongId)).ToList();
+			if (tracks.Count() == 0)
 				return true;
 			var edits = tracks.Select(x => new GoogleMusicApiRequest.MutateEditParams.MutateRequest.TrackMutation
 			{
@@ -2103,7 +2114,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			};
 			return await AddToLibrary(create);
 		}
-        public async Task<bool> AddToLibrary(params GoogleMusicApiRequest.MutateEditParams.MutateRequest.TrackMutation[] mutations)
+		public async Task<bool> AddToLibrary(params GoogleMusicApiRequest.MutateEditParams.MutateRequest.TrackMutation[] mutations)
 		{
 			try
 			{
@@ -2152,10 +2163,10 @@ namespace MusicPlayer.Api.GoogleMusic
 			{
 				if (string.IsNullOrWhiteSpace(Api.DeviceId))
 					await Api.GetDeviceId();
-				var qualityString = QualityString(Settings.DownloadStreamQuality,true);
+				var qualityString = QualityString(Settings.DownloadStreamQuality, true);
 
 				var result = await GetTrackUri(track, qualityString);
-				
+
 				var auth = new System.Net.Http.Headers.AuthenticationHeaderValue(Api.CurrentOAuthAccount.TokenType,
 					Api.CurrentOAuthAccount.Token);
 				var data = new DownloadUrlData
@@ -2166,19 +2177,19 @@ namespace MusicPlayer.Api.GoogleMusic
 						{"X-Device-ID", Api.DeviceId},
 						{"X-Device-FriendlyName", Device.Name},
 						{"Authorization", auth.ToString()},
-                        {"User-Agent","com.google.PlayMusic/2.1.0 iSL/1.0 iPhone/8.2 hw/iPhone7_2 (gzip)" },
+						{"User-Agent","com.google.PlayMusic/2.1.0 iSL/1.0 iPhone/8.2 hw/iPhone7_2 (gzip)" },
 					}
 				};
-				#if __IOS__
-				if(Api.DeviceId.StartsWith("ios:"))
+#if __IOS__
+				if (Api.DeviceId.StartsWith("ios:"))
 					data.Headers.Add("X-Device-ID-IOS-Deprecated", Api.DeviceId);
-				#endif
+#endif
 				return data;
 			}
 			catch (Exception ex)
 			{
 				ex.Data["Method"] = "GetDownloadUri";
-                if (!(ex is TimeoutException))
+				if (!(ex is TimeoutException))
 					LogManager.Shared.Report(ex);
 				else
 					Console.WriteLine(ex);
@@ -2228,7 +2239,7 @@ namespace MusicPlayer.Api.GoogleMusic
 				success = resp?.result?.mutate_response?.Any(x => x.response_code.ToLower() == "ok") ?? false;
 				if (!success)
 					return false;
-				
+
 				SyncDatabase();
 				return true;
 			}
@@ -2239,28 +2250,31 @@ namespace MusicPlayer.Api.GoogleMusic
 			return false;
 		}
 
-		public override async Task<string> GetShareUrl (Song song)
+		public override async Task<string> GetShareUrl(Song song)
 		{
-			var tracks = await Database.Main.TablesAsync<Track> ().Where (x => x.SongId == song.Id && x.ServiceType == ServiceType).ToListAsync () ?? new List<Track>();
+			var tracks = await Database.Main.TablesAsync<Track>().Where(x => x.SongId == song.Id && x.ServiceType == ServiceType).ToListAsync() ?? new List<Track>();
 			tracks.AddRange(await Database.Main.TablesAsync<TempTrack>().Where(x => x.SongId == song.Id && x.ServiceType == ServiceType).ToListAsync());
-			var youtube = tracks.FirstOrDefault (x => x.MediaType == MediaType.Video);
-			if (youtube != null) {
+			var youtube = tracks.FirstOrDefault(x => x.MediaType == MediaType.Video);
+			if (youtube != null)
+			{
 				return $"https://www.youtube.com/watch?v={youtube.Id}";
 			}
 			string trackId = null;
-			foreach(var track in tracks){
+			foreach (var track in tracks)
+			{
 				trackId = track.Id;
-				if (trackId.StartsWith ("T")) {
+				if (trackId.StartsWith("T"))
+				{
 					break;
 				}
 				trackId = track.ServiceExtra ?? "";
-				if (trackId.StartsWith ("T"))
+				if (trackId.StartsWith("T"))
 					break;
 				trackId = null;
 			}
-			if (string.IsNullOrWhiteSpace (trackId) || !trackId.StartsWith ("T"))
+			if (string.IsNullOrWhiteSpace(trackId) || !trackId.StartsWith("T"))
 				return null;
-			var name = song.Name?.Replace(' ','_') ?? "";
+			var name = song.Name?.Replace(' ', '_') ?? "";
 			return $"https://play.google.com/music/m/{trackId}?t={name}";
 		}
 		public override async Task<Uri> GetPlaybackUri(Track track)
@@ -2269,8 +2283,8 @@ namespace MusicPlayer.Api.GoogleMusic
 				return await GetVideoUri(track);
 			if (!Api.HasAuthenticated)
 				await Api.Authenticate();
-			var wifi = CrossConnectivity.Current.ConnectionTypes.Any (x => x == ConnectionType.WiFi);// (Reachability.LocalWifiConnectionStatus() == NetworkStatus.ReachableViaWiFiNetwork);
-			var qualityString = QualityString( wifi ? Settings.WifiStreamQuality : Settings.MobileStreamQuality, wifi);
+			var wifi = CrossConnectivity.Current.ConnectionTypes.Any(x => x == ConnectionType.WiFi);// (Reachability.LocalWifiConnectionStatus() == NetworkStatus.ReachableViaWiFiNetwork);
+			var qualityString = QualityString(wifi ? Settings.WifiStreamQuality : Settings.MobileStreamQuality, wifi);
 			try
 			{
 
@@ -2309,23 +2323,23 @@ namespace MusicPlayer.Api.GoogleMusic
 				var devices = await Api.GetDeviceId();
 				client.DefaultRequestHeaders.Add("X-Device-FriendlyName", Api.DeviceName);
 				client.DefaultRequestHeaders.Add("X-Device-ID", devices);
-				if(devices.StartsWith("ios:"))
+				if (devices.StartsWith("ios:"))
 					client.DefaultRequestHeaders.Add("X-Device-ID-IOS-Deprecated", devices);
 				client.DefaultRequestHeaders.UserAgent.ParseAdd("com.google.PlayMusic/2.1.0 iSL/1.0 iPhone/8.2 hw/iPhone7_2 (gzip)");
 
 				var cancelToken = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-				var respTask = client.GetAsync(startUrl, HttpCompletionOption.ResponseHeadersRead,cancelToken.Token);
+				var respTask = client.GetAsync(startUrl, HttpCompletionOption.ResponseHeadersRead, cancelToken.Token);
 				if (await Task.WhenAny(respTask, Task.Delay(TimeSpan.FromSeconds(60))) != respTask)
 					throw new TimeoutException();
 				var resp = respTask.Result;
 
 				var returlUri = resp.RequestMessage.RequestUri;
 				//resp.Headers.ForEach(x => Console.WriteLine(x));
-				if(resp.IsSuccessStatusCode)
+				if (resp.IsSuccessStatusCode)
 					return new Tuple<string, Uri>(startUrl, returlUri);
 				if (tryCount == 0 && !string.IsNullOrWhiteSpace(track.ServiceExtra))
 				{
-					LogManager.Shared.GetPlaybackUrlError(resp.StatusCode.ToString(),tryCount,track);
+					LogManager.Shared.GetPlaybackUrlError(resp.StatusCode.ToString(), tryCount, track);
 					return await GetTrackUri(track, qualityString, 1);
 				}
 				else
@@ -2362,21 +2376,22 @@ namespace MusicPlayer.Api.GoogleMusic
 
 					else
 					{
-						if(Api.HasMoreDevices())
+						if (Api.HasMoreDevices())
 						{
 							await Api.GetDeviceId(true);
 							return await GetTrackUri(track, qualityString, 0);
 						}
-						else{
+						else
+						{
 
 							LogManager.Shared.GetPlaybackUrlError(resp.StatusCode.ToString(), tryCount, track);
-							return new Tuple<string, Uri>("ERROR", null) ;
+							return new Tuple<string, Uri>("ERROR", null);
 						}
 					}
-                    LogManager.Shared.GetPlaybackUrlError(resp.StatusCode.ToString(), tryCount, track);
+					LogManager.Shared.GetPlaybackUrlError(resp.StatusCode.ToString(), tryCount, track);
 					Console.WriteLine("Error downloading track url");
 				}
-				return new Tuple<string, Uri>("ERROR", null) ;
+				return new Tuple<string, Uri>("ERROR", null);
 			}
 			catch (Exception ex)
 			{
@@ -2385,13 +2400,14 @@ namespace MusicPlayer.Api.GoogleMusic
 				else
 					Console.WriteLine(ex);
 			}
-			return new Tuple<string, Uri>("ERROR", null) ;
+			return new Tuple<string, Uri>("ERROR", null);
 		}
 
 
 		public async Task<Uri> GetVideoUri(Track track)
 		{
-			return await Task.Run(()=>{
+			return await Task.Run(() =>
+			{
 				var url = $"https://www.youtube.com/watch?v={track.Id}";
 				var videoInfos = YoutubeExtractor.DownloadUrlResolver.GetDownloadUrls(url);
 				var video = YouTubeHelper.GetVideoInfo(videoInfos, true);
@@ -2427,14 +2443,14 @@ namespace MusicPlayer.Api.GoogleMusic
 			{
 				char ch = s[ix];
 				if (ch <= 0x7f)
-					retval[ix] = (byte) ch;
+					retval[ix] = (byte)ch;
 				else
-					retval[ix] = (byte) '?';
+					retval[ix] = (byte)'?';
 			}
 			return retval;
 		}
 
-		static string QualityString(StreamQuality quality,bool wifi)
+		static string QualityString(StreamQuality quality, bool wifi)
 		{
 			var netString = wifi ? "wifi" : "mob";
 			switch (quality)
@@ -2458,7 +2474,7 @@ namespace MusicPlayer.Api.GoogleMusic
 			}
 			catch (TaskCanceledException ex)
 			{
-				if(!allowCancel)
+				if (!allowCancel)
 					await LogIn(allowCancel);
 			}
 		}
