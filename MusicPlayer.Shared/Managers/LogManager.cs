@@ -27,7 +27,7 @@ namespace MusicPlayer.Managers
 				Crashes.TrackError(ex, new Dictionary<string, string>{
 					{"Exception",ex.Message},
 					{"Method",memberName},
-					{"File Name",sourceFilePath},
+					{"File Name",CleansFilePath(sourceFilePath)},
 					{"Line Number",sourceLineNumber.ToString()},
 				});
 			}
@@ -74,7 +74,7 @@ namespace MusicPlayer.Managers
 			try {
 				var dictionary = new Dictionary<string, string> () {
 					{"Method", memberName},
-					{"File",sourceFilePath },
+					{"File",CleansFilePath(sourceFilePath)},
 					{"Line number",sourceLineNumber.ToString() },
 				};
 				if (!string.IsNullOrWhiteSpace (key))
@@ -97,7 +97,7 @@ namespace MusicPlayer.Managers
 					{"Media Title",mediaItem?.Name ?? "NULL" },
 					{"Media Type",mediaItem?.GetType().Name  ?? "NULL"},
 					{"Method", memberName},
-					{"File",sourceFilePath },
+					{"File",CleansFilePath(sourceFilePath) },
 					{"Line number",sourceLineNumber.ToString() },
 				};
 				TrackEvent(message, dictionary);
@@ -122,7 +122,7 @@ namespace MusicPlayer.Managers
 					{"Song Service Types",song?.ServiceTypesString  ?? "NULL"},
 					{"Song Offline Count",song?.OfflineCount.ToString() ?? "NULL" },
 					{"Method", memberName},
-					{"File",sourceFilePath },
+					{"File",CleansFilePath(sourceFilePath) },
 					{"Line number",sourceLineNumber.ToString() },
 				};
 				TrackEvent(message, dictionary);
@@ -147,7 +147,7 @@ namespace MusicPlayer.Managers
 					{"Media Type",track?.MediaType.ToString() ?? "NULL" },
 					{"Service Type",track?.ServiceType.ToString() ?? "NULL" },
 					{"Method", memberName},
-					{"File",sourceFilePath },
+					{"File",CleansFilePath(sourceFilePath) },
 					{"Line number",sourceLineNumber.ToString() },
 				};
 				TrackEvent(message, dictionary);
@@ -174,7 +174,7 @@ namespace MusicPlayer.Managers
 					{"Media Type",track?.MediaType.ToString() ?? "NULL" },
 					{"Service Type",track?.ServiceType.ToString() ?? "NULL" },
 					{"Method", memberName},
-					{"File",sourceFilePath },
+					{"File",CleansFilePath(sourceFilePath) },
 					{"Line number",sourceLineNumber.ToString() },
 				};
 				TrackEvent("Failed to get playback url", dictionary);
@@ -198,7 +198,7 @@ namespace MusicPlayer.Managers
 					{"Track Id",file?.TrackId ?? "NULL" },
 					{"Song ID",file?.Track?.SongId ?? "NULL" },
 					{"Method", memberName},
-					{"File",sourceFilePath },
+					{"File",CleansFilePath(sourceFilePath) },
 					{"Line number",sourceLineNumber.ToString() },
 				};
 				TrackEvent(message, dictionary);
@@ -395,6 +395,9 @@ namespace MusicPlayer.Managers
 			}
 
 		}
+
+		//Remove the extra path to get straight to the root
+		static string CleansFilePath(string path) => path.Substring(path.IndexOf("MusicPlayer"));
 	}
 }
 #endif
