@@ -111,7 +111,13 @@ namespace MusicPlayer.iOS.ViewControllers
 
 			Menu.SelectedIndex = artistIndex;
 		}
-
+		public void GoToPlaylists()
+		{
+			var playlistItem = menuItems.FirstOrDefault(x => x.Item2 is PlaylistViewController);
+			var playlistIndex = menuItems.IndexOf(playlistItem);
+			view?.HideNowPlaying(true);
+			Menu.SelectedIndex = playlistIndex;
+		}
 		void GoToAlbum(object sender, EventArgs<string> eventArgs)
 		{
 			var albumControllerItem = menuItems.FirstOrDefault(x => x.Item2 is AlbumViewController);

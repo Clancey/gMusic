@@ -18,7 +18,7 @@ namespace MusicPlayer
 				try
 				{
 					using (new EventLogger(memberName))
-						handler.Invoke(sender, args);
+						handler?.Invoke(sender, args);
 				}
 				catch (Exception ex)
 				{
@@ -36,7 +36,7 @@ namespace MusicPlayer
 			{
 				try{
 					using (new EventLogger(memberName))
-							handler.Invoke(sender, args);}
+							handler?.Invoke(sender, args);}
 				catch (Exception ex)
 				{
 					LogManager.Shared.Report(ex);
@@ -52,7 +52,7 @@ namespace MusicPlayer
 			{
 				try{
 					using (new EventLogger(memberName))
-						handler.Invoke(sender, new SimpleTables.EventArgs<T>(args));
+						handler?.Invoke(sender, new SimpleTables.EventArgs<T>(args));
 				}
 				catch (Exception ex)
 				{
@@ -65,7 +65,7 @@ namespace MusicPlayer
 							   [CallerFilePath] string sourceFilePath = "",
 							   [CallerLineNumber] int sourceLineNumber = 0)
 		{
-			handler.InvokeOnMainThread(sender, EventArgs.Empty, memberName, sourceFilePath,sourceLineNumber);
+			handler?.InvokeOnMainThread(sender, EventArgs.Empty, memberName, sourceFilePath,sourceLineNumber);
 		}
 
 		public static void InvokeOnMainThread(this Action action, [CallerMemberName] string memberName = "",
@@ -77,7 +77,7 @@ namespace MusicPlayer
 				try
 				{
 					using (new EventLogger(memberName))
-						action.Invoke();
+						action?.Invoke();
 				}
 				catch (Exception ex)
 				{
@@ -94,7 +94,7 @@ namespace MusicPlayer
 			{
 				try{
 					using(new EventLogger(memberName))
-						action.Invoke(t);
+						action?.Invoke(t);
 				}
 				catch (Exception ex)
 				{

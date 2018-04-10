@@ -248,6 +248,28 @@ namespace MusicPlayer.iOS
 		{
 			if (SimpleAuth.Native.OpenUrl(app, url, options))
 				return true;
+
+			var autoPlay = false;
+			if (string.IsNullOrEmpty(url.Host))
+				return true;
+			if (url.Host.IndexOf("playlist", StringComparison.OrdinalIgnoreCase) >= 0)
+			{
+				(window.RootViewController as RootViewController).GoToPlaylists();
+			}
+			else if (url.Host.IndexOf("play", StringComparison.OrdinalIgnoreCase) >= 0)
+			{
+				autoPlay = true;
+			}
+			else if (url.Host.IndexOf("random", StringComparison.OrdinalIgnoreCase) >= 0)
+			{
+				Settings.CurrentSong = null;
+				autoPlay = true;
+			}
+			if (autoPlay)
+			{
+				PlaybackManager.Shared.Play();
+			}
+
 			return false;
 		}
 	}

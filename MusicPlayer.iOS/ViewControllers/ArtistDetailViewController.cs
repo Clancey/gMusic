@@ -18,7 +18,7 @@ namespace MusicPlayer.iOS.ViewControllers
 
 		public ArtistDetailViewController()
 		{
-			
+			HeaderHeight = 44;
 		}
 
 		public Artist Artist
