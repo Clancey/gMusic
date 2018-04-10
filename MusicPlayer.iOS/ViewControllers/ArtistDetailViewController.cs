@@ -16,11 +16,6 @@ namespace MusicPlayer.iOS.ViewControllers
 		ArtistAlbumsViewController albumsController;
 		OnlineArtistDetailsViewController onlineController;
 
-		public ArtistDetailViewController()
-		{
-			HeaderHeight = 44;
-		}
-
 		public Artist Artist
 		{
 			set
@@ -90,6 +85,11 @@ namespace MusicPlayer.iOS.ViewControllers
 			base.ViewWillDisappear(animated);
 			if(albumsController != null)
 				albumsController.AlbumSelected = null;
+		}
+		public override void ViewSafeAreaInsetsDidChange()
+		{
+			base.ViewSafeAreaInsetsDidChange();
+			TopOffset = View.GetSafeArea().Top;
 		}
 	}
 }
