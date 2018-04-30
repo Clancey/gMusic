@@ -11,7 +11,26 @@ namespace MusicPlayer.Data
 {
 	internal class Database : SimpleDatabaseConnection
 	{
-		public static Database Main { get; set; } = new Database(new SQLiteConnection(dbPath,SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex | SQLiteOpenFlags.Create, true));
+		public static Database Main { get; set; } = setupDb();
+		static Database setupDb(bool shouldDeleteOnFail = true)
+		{
+			try
+			{
+				return new Database(new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex | SQLiteOpenFlags.Create, true));
+			}
+			catch (Exception ex)
+			{
+				if (shouldDeleteOnFail)
+				{
+					LogManager.Shared.Report(ex);
+					File.Delete(dbPath);
+				}
+				else
+					throw ex;
+			}
+
+			return setupDb(false);
+		}
 		static string dbPath => Path.Combine(Locations.LibDir, "db.db");
 		SQLiteConnection connection;
 		public Database(SQLiteConnection connection) : base(connection)
