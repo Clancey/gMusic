@@ -363,21 +363,29 @@ namespace MusicPlayer.Playback
 
 		public static async Task<bool> VerifyMp3(string path, bool deleteBadFile = false)
 		{
-			if (!File.Exists(path))
+			try
 			{
-				LogManager.Shared.Log("File does not exist");
+				if (!File.Exists(path))
+				{
+					LogManager.Shared.Log("File does not exist");
+					return false;
+				}
+				var asset = AVAsset.FromUrl(NSUrl.FromFilename(path));
+				await asset.LoadValuesTaskAsync(new[] { "duration", "tracks" });
+				if (asset.Duration.Seconds > 0)
+				{
+					asset.Dispose();
+					return true;
+				}
+				LogManager.Shared.Log("File is too short");
+				if (deleteBadFile)
+					System.IO.File.Delete(path);
 				return false;
 			}
-			var asset = AVAsset.FromUrl(NSUrl.FromFilename(path));
-			await asset.LoadValuesTaskAsync(new[] { "duration", "tracks" });
-			if (asset.Duration.Seconds > 0)
+			catch (Exception ex)
 			{
-				asset.Dispose();
-				return true;
+				LogManager.Shared.Report(ex);
 			}
-			LogManager.Shared.Log("File is too short", key: "File Size", value: new FileInfo(path).Length.ToString());
-			if (deleteBadFile)
-				System.IO.File.Delete(path);
 			return false;
 		}
 	}
