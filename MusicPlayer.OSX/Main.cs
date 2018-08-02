@@ -8,7 +8,6 @@ namespace MusicPlayer.OSX
 		{
 
 			NSApplication.CheckForIllegalCrossThreadCalls = false;
-			Xamarin.Insights.Initialize (ApiConstants.InsightsApiKey, "1.0", "com.iis.gmusic.mac");
 			NSApplication.Init ();
 			NSApplication.Main (args);
 		}

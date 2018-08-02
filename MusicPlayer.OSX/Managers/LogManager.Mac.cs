@@ -13,7 +13,7 @@ namespace MusicPlayer.Managers
 	{
 		public void Identify(string email, Dictionary<string, string> data = null)
 		{
-			Xamarin.Insights.Identify(email, data);
+			//Xamarin.Insights.Identify(email, data);
 		}
 		public void Report(Exception ex,
 							   [CallerMemberName] string memberName = "",
@@ -26,13 +26,13 @@ namespace MusicPlayer.Managers
 				Console.WriteLine(ex);
 				Console.WriteLine("{0} - {1} - {2} \r\n {3}", sourceFilePath, memberName, sourceLineNumber, ex);
 
-				Task.Run(()=>{
-					Insights.Report(ex, new Dictionary<string, object>{
-						{"Method",memberName},
-						{"File Name",sourceFilePath},
-						{"Line Number",sourceLineNumber},
-					});
-				});
+				//Task.Run(()=>{
+				//	Insights.Report(ex, new Dictionary<string, object>{
+				//		{"Method",memberName},
+				//		{"File Name",sourceFilePath},
+				//		{"Line Number",sourceLineNumber},
+				//	});
+				//});
 			}
 			catch (Exception ex1)
 			{
@@ -76,7 +76,7 @@ namespace MusicPlayer.Managers
 				if (!string.IsNullOrWhiteSpace (key))
 					dictionary [key] = value;
 				Console.WriteLine(message);
-				Task.Run(()=> Insights.Track(message, dictionary));
+				//Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -98,7 +98,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				Task.Run(()=> Insights.Track(message, dictionary));
+				//Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -123,7 +123,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				Task.Run(()=> Insights.Track(message, dictionary));
+				//Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -148,7 +148,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				Insights.Track(message, dictionary);
+				//Insights.Track(message, dictionary);
 			}
 			catch (Exception ex)
 			{
@@ -175,7 +175,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				Task.Run(()=> Insights.Track("Failed to get playback url", dictionary));
+				//Task.Run(()=> Insights.Track("Failed to get playback url", dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -199,7 +199,7 @@ namespace MusicPlayer.Managers
 					{"File",sourceFilePath },
 					{"Line number",sourceLineNumber.ToString() },
 				};
-				Task.Run(()=> Insights.Track(message, dictionary));
+				//Task.Run(()=> Insights.Track(message, dictionary));
 			}
 			catch (Exception ex)
 			{
@@ -210,7 +210,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=>Insights.Track("Pressed Play"));
+				//Task.Run(()=>Insights.Track("Pressed Play"));
 			}
 			catch (Exception ex)
 			{
@@ -222,9 +222,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=>{
-					Insights.Track("Pressed Pause");
-				});
+				//Task.Run(()=>{
+				//	Insights.Track("Pressed Pause");
+				//});
 			}
 			catch (Exception ex)
 			{
@@ -237,7 +237,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=>Insights.Track("Pressed Next"));
+				//Task.Run(()=>Insights.Track("Pressed Next"));
 			}
 			catch (Exception ex)
 			{
@@ -250,7 +250,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Pressed Previous"));
+				//Task.Run(()=> Insights.Track("Pressed Previous"));
 			}
 			catch (Exception ex)
 			{
@@ -263,11 +263,11 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Play Album", new Dictionary<string, string> {
-					{ "Album", album?.Name },
-					{ "Artist", album?.Artist },
-					{ "Album Artist",album?.AlbumArtist },
-				}));
+				//Task.Run(()=> Insights.Track("Play Album", new Dictionary<string, string> {
+				//	{ "Album", album?.Name },
+				//	{ "Artist", album?.Artist },
+				//	{ "Album Artist",album?.AlbumArtist },
+				//}));
 			}
 			catch (Exception ex)
 			{
@@ -281,7 +281,7 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Artist Play", new Dictionary<string, string> { { "Artist", artist.Name } }));
+				//Task.Run(()=> Insights.Track("Artist Play", new Dictionary<string, string> { { "Artist", artist.Name } }));
 			}
 			catch (Exception ex)
 			{
@@ -294,15 +294,15 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Play Song", new Dictionary<string, string>{
-					{"Song",song?.ToString()},
-					{"Title",song?.Name},
-					{"Artist",song?.Artist},
-					{"Album", song?.Album},
-					{"Genre", song?.Genre},
-					{"Id", song?.Id},
-					{"ServiceTypes", song?.ServiceTypesString},
-				}));
+				//Task.Run(()=> Insights.Track("Play Song", new Dictionary<string, string>{
+				//	{"Song",song?.ToString()},
+				//	{"Title",song?.Name},
+				//	{"Artist",song?.Artist},
+				//	{"Album", song?.Album},
+				//	{"Genre", song?.Genre},
+				//	{"Id", song?.Id},
+				//	{"ServiceTypes", song?.ServiceTypesString},
+				//}));
 			}
 			catch (Exception ex)
 			{
@@ -313,9 +313,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Play Genre", new Dictionary<string, string>{
-					{"Genre",genre?.Name},
-				}));
+				//Task.Run(()=> Insights.Track("Play Genre", new Dictionary<string, string>{
+				//	{"Genre",genre?.Name},
+				//}));
 			}
 			catch (Exception ex)
 			{
@@ -328,9 +328,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Play Online playlist", new Dictionary<string, string>
-				{
-					}));
+				//Task.Run(()=> Insights.Track("Play Online playlist", new Dictionary<string, string>
+				//{
+					//}));
 			}
 			catch (Exception ex)
 			{
@@ -342,9 +342,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Play playlist entry", new Dictionary<string, string>
-				{
-					}));
+				//Task.Run(()=> Insights.Track("Play playlist entry", new Dictionary<string, string>
+				//{
+					//}));
 			}
 			catch (Exception ex)
 			{
@@ -356,9 +356,9 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Play Playlist", new Dictionary<string, string>
-				{
-					}));
+				//Task.Run(()=> Insights.Track("Play Playlist", new Dictionary<string, string>
+				//{
+					//}));
 			}
 			catch (Exception ex)
 			{
@@ -371,10 +371,10 @@ namespace MusicPlayer.Managers
 		{
 			try
 			{
-				Task.Run(()=> Insights.Track("Play Station", new Dictionary<string, string>{
-					{"Station",station?.ToString()},
-					{"Id", station?.Id},
-				}));
+				//Task.Run(()=> Insights.Track("Play Station", new Dictionary<string, string>{
+				//	{"Station",station?.ToString()},
+				//	{"Id", station?.Id},
+				//}));
 			}
 			catch (Exception ex)
 			{
@@ -390,10 +390,10 @@ namespace MusicPlayer.Managers
 				extra["Method"] = method;
 				extra["File"] = file;
 				extra["Line number"] = lineNumber.ToString();
-				Task.Run(() =>
-					{
-					Insights.Report(new Exception($"Not Implemented Exception: {method}"),extra,Insights.Severity.Error);
-				});
+				//Task.Run(() =>
+				//	{
+				//	Insights.Report(new Exception($"Not Implemented Exception: {method}"),extra,Insights.Severity.Error);
+				//});
 			}
 			catch (Exception ex)
 			{
