@@ -10,12 +10,12 @@ namespace AppKit
 	{
 		static readonly IPlatform Platform = new ApplePlatform();
 
-		public static void LoadSvg(this NSImageView imageView, string svg)
+		public static void LoadSvg(this NSImageView imageView, string svg, NSColor color = null)
 		{
 			if (string.IsNullOrWhiteSpace (svg))
 				return;
 			var s = imageView.Bounds.Size;
-			LoadSvg(imageView, svg, new Size(s.Width, s.Height));
+			LoadSvg(imageView, svg, new Size(s.Width, s.Height), color);
 		}
 
 		public static void LoadSvg(this NSImageView imageView, string svg, Size size , NSColor color = null)

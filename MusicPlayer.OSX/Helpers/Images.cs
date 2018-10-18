@@ -36,44 +36,44 @@ namespace MusicPlayer
 
 		public static NSImage GetPlaybackButton(double size)
 		{
-			return GetGeneratedImage("SVG/playButton.svg", size);
+			return GetGeneratedImage("SVG/playButton.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetBorderedPlaybackButton(double size)
 		{
 			return
-				GetGeneratedImage("SVG/playButtonBordered.svg", size);
+				GetGeneratedImage("SVG/playButtonBordered.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetPauseButton(double size)
 		{
-			return GetGeneratedImage("SVG/pauseButton.svg", size);
+			return GetGeneratedImage("SVG/pauseButton.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetBorderedPauseButton(double size)
 		{
 			return
-				GetGeneratedImage("SVG/pauseButtonBordered.svg", size);
+				GetGeneratedImage("SVG/pauseButtonBordered.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetNextButton(double size)
 		{
-			return GetGeneratedImage("SVG/next.svg", size);
+			return GetGeneratedImage("SVG/next.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetPreviousButton(double size)
 		{
-			return GetGeneratedImage("SVG/previous.svg", size);
+			return GetGeneratedImage("SVG/previous.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetShuffleImage(double size)
 		{
-			return GetGeneratedImage("SVG/shuffle.svg", size);
+			return GetGeneratedImage("SVG/shuffle.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetShuffleOffImage(double size)
 		{
-			return GetGeneratedImage("SVG/shuffle.svg", size, NSColor.DarkGray);
+			return GetGeneratedImage("SVG/shuffle.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetShuffleOnImage(double size)
@@ -82,7 +82,7 @@ namespace MusicPlayer
 		}
 		public static NSImage GetRepeatImage(double size)
 		{
-			return GetGeneratedImage("SVG/repeat.svg", size, NSColor.DarkGray);
+			return GetGeneratedImage("SVG/repeat.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetRepeatOnImage(double size)
@@ -97,7 +97,7 @@ namespace MusicPlayer
 
 		public static NSImage GetThumbsUpOffImage(double size)
 		{
-			return GetGeneratedImage("SVG/thumbsUp.svg", size, NSColor.DarkGray);
+			return GetGeneratedImage("SVG/thumbsUp.svg", size, NSColor.ControlText);
 		}
 		public static NSImage GetThumbsUpOnImage(double size)
 		{
@@ -106,7 +106,7 @@ namespace MusicPlayer
 
 		public static NSImage GetThumbsDownOffImage(double size)
 		{
-			return GetGeneratedImage("SVG/thumbsDown.svg", size, NSColor.DarkGray);
+			return GetGeneratedImage("SVG/thumbsDown.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetThumbsDownOnImage(double size)
@@ -116,17 +116,17 @@ namespace MusicPlayer
 
 		public static NSImage GetShareIcon(double size)
 		{
-			return GetGeneratedImage("SVG/share.svg", size);
+			return GetGeneratedImage("SVG/share.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetCloseImage(double size)
 		{
-			return GetGeneratedImage("SVG/close.svg", size);
+			return GetGeneratedImage("SVG/close.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetPlaylistIcon(double size)
 		{
-			return GetGeneratedImage("SVG/playlists.svg", size);
+			return GetGeneratedImage("SVG/playlists.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetSliderTrack()
@@ -141,16 +141,16 @@ namespace MusicPlayer
 
 		public static NSImage GetMusicNotes(double size)
 		{
-			return GetGeneratedImage("SVG/musicalNotes.svg", size);
+			return GetGeneratedImage("SVG/musicalNotes.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetOfflineImage(double size)
 		{
-			return GetGeneratedImage("SVG/isOffline.svg", size);
+			return GetGeneratedImage("SVG/isOffline.svg", size, NSColor.ControlText);
 		}
 		public static NSImage GetVideoIcon(double size)
 		{
-			return GetGeneratedImage("SVG/videoIcon.svg", size);
+			return GetGeneratedImage("SVG/videoIcon.svg", size, NSColor.ControlText);
 		}
 
 		public static NSImage GetEditIcon(double size)

@@ -128,16 +128,20 @@ namespace MusicPlayer
 				NSWorkspace.SharedWorkspace.NotificationCenter.RemoveObserver (appTerminated);
 		}
 
-		public void StartWatchingMediaKeys ()
-		{
-			StopWatchingMediaKeys ();
-			var sysMask = (CGEventMask)NX_SYSDEFINED;
-			eventPort = CreateTap (CGEventTapLocation.Session, CGEventTapPlacement.HeadInsert, CGEventTapOptions.Default, 16384, tapEventCallback, this.Handle);
-			eventPortSource = eventPort.CreateRunLoopSource ();
-			Task.Run (() => {
-				eventTapThread ();
-			});
-			ShouldInterceptMediaKeyEvents = true;
+        public void StartWatchingMediaKeys()
+        {
+            Task.Run(() =>
+            {
+                StopWatchingMediaKeys();
+                var sysMask = (CGEventMask)NX_SYSDEFINED;
+                eventPort = CreateTap(CGEventTapLocation.Session, CGEventTapPlacement.HeadInsert, CGEventTapOptions.Default, 16384, tapEventCallback, this.Handle);
+                eventPortSource = eventPort.CreateRunLoopSource();
+                Task.Run(() =>
+                {
+                    eventTapThread();
+                });
+                ShouldInterceptMediaKeyEvents = true;
+            });
 		}
 
 		[DllImport (Constants.ApplicationServicesCoreGraphicsLibrary)]

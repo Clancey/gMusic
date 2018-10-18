@@ -16,7 +16,7 @@ namespace MusicPlayer
 			var cell = tableView.MakeView ("MainCell", sender) as  SidebarTableCellView ?? new SidebarTableCellView();
 			cell.TextField.StringValue = Text;
 			if(!string.IsNullOrWhiteSpace(Svg))
-				cell.ImageView.LoadSvg (Svg);
+				cell.ImageView.LoadSvg (Svg, NSColor.ControlText);
 			return cell;
 		}
 		public override NSObject Copy ()

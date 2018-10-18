@@ -33,7 +33,7 @@ namespace MusicPlayer
 
 		public PlaybackBar (CGRect rect) : base (rect)
 		{
-			BackgroundColor = NSColor.FromRgba(249,249,249,255);
+            BackgroundColor = NSColor.ControlBackground;
 			AutoresizingMask = NSViewResizingMask.WidthSizable | NSViewResizingMask.HeightSizable;
 			AddSubview (AlbumArt = new NSImageView (new CGRect (0, 0, 67, 67)));
 			videoView = new VideoView { WantsLayer = true, Hidden = true };
@@ -134,7 +134,7 @@ namespace MusicPlayer
 		NSButton CreateButton (string svg,float size , Action clicked)
 		{
 			var button = new NSButton (new CGRect (0, 0, size, size));
-			button.Image = svg.LoadImageFromSvg (new NGraphics.Size (25, 25));
+			button.Image = svg.LoadImageFromSvg (new NGraphics.Size (25, 25), NSColor.ControlText);
 			button.Bordered = false;
 			button.Activated += (sender, e) => clicked();
 			button.ImagePosition = NSCellImagePosition.ImageOnly;
@@ -158,12 +158,12 @@ namespace MusicPlayer
 			case PlaybackState.Paused:
 			case PlaybackState.Stopped:
 				playing = false;
-				play.Image = "SVG/playButtonBordered.svg".LoadImageFromSvg (new NGraphics.Size (50, 50));
+				play.Image = "SVG/playButtonBordered.svg".LoadImageFromSvg (new NGraphics.Size (50, 50), NSColor.ControlText);
 				break;
 			default:
 				CheckVideoStatus();
 				playing = true;
-				play.Image = "SVG/pauseButtonBordered.svg".LoadImageFromSvg (new NGraphics.Size (50, 50));
+				play.Image = "SVG/pauseButtonBordered.svg".LoadImageFromSvg (new NGraphics.Size (50, 50), NSColor.ControlText);
 				SetVideoState (Settings.CurrentPlaybackIsVideo);
 				break;
 			}
@@ -232,6 +232,8 @@ namespace MusicPlayer
 			var bounds = Bounds;
 			var frame = bounds;
 			frame.Width = bounds.Height;
+            if (AlbumArt == null)
+                return;
 			AlbumArt.Frame = videoView.Frame = frame;
 			videoView.ResizeSubviewsWithOldSize (videoView.Bounds.Size);
 

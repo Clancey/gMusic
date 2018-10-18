@@ -66,7 +66,7 @@ namespace MusicPlayer
 				textView.TopLabel.StringValue = element?.Text ?? "";
 				textView.BottomLabel.StringValue = element?.Subtext ?? "";
 				switchView.IsOn = element?.Value ?? false;
-				imageView.LoadSvg (element?.Svg);
+				imageView.LoadSvg (element?.Svg, NSColor.ControlText);
 			}
 
 			const float padding = 8;
