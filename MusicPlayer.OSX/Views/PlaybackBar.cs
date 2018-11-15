@@ -10,7 +10,9 @@ using SDWebImage;
 
 namespace MusicPlayer
 {
-	public  class PlaybackBar : NSColorView
+
+    //[Register("PlaybackBar")]
+    public class PlaybackBar : NSColorView
 	{
 		NSImageView AlbumArt;
 		NSButton previous;
