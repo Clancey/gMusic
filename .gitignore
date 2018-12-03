@@ -9,7 +9,7 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
+.DS_Store
 [Cc]omponents
 
 # Build results

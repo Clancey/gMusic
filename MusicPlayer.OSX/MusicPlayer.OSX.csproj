@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup> 
     <PackageReference Include="Clancey.SimpleAuth" Version="1.0.49" />
-    <PackageReference Include="Clancey.SimpleDatabase" Version="1.1.3" />
     <PackageReference Include="ManagedBass" Version="2.0.4" />
     <PackageReference Include="ManagedBass.Fx" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -255,6 +254,10 @@
     <ProjectReference Include="..\..\SimpleTables\src\SimpleTables.Mac\SimpleTables.Mac.csproj">
       <Project>{36A61C93-6C47-4CEB-BC6A-FF659CE6F7D3}</Project>
       <Name>SimpleTables.Mac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SimpleDatabase\SimpleDatabase\SimpleDatabase.csproj">
+      <Project>{04B90603-0A05-467F-8FE0-7038C3667B38}</Project>
+      <Name>SimpleDatabase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

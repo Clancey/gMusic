@@ -162,7 +162,7 @@ namespace MusicPlayer.Data
 
 		public static bool FilterExplicit
 		{
-			get { return AppSettings.GetValueOrDefault(filterExplicit, false); }
+			get { return AppSettings.GetValueOrDefault(filterExplicit, true); }
 			set { AppSettings.AddOrUpdateValue(filterExplicit, value); }
 		}
 
