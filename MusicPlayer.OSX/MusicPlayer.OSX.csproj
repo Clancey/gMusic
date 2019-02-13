@@ -37,6 +37,7 @@
     <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
     <EnableSGenConc>true</EnableSGenConc>
     <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -60,6 +61,7 @@
     <Profiling>false</Profiling>
     <HttpClientHandler>NSUrlSessionHandler</HttpClientHandler>
     <EnableSGenConc>true</EnableSGenConc>
+    <AOTMode>None</AOTMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.ServiceModel.Web" />

@@ -39,7 +39,8 @@ namespace MusicPlayer
 						var oldDevice = Bass.DefaultDevice;
 						if (oldDevice == d)
 							break;
-						Bass.Init(d);
+                        if(!di.IsInitialized)
+						        Bass.Init(d);
 						currentPlayers.ForEach(x => x.OutputChanged(d));
 						CurrentDevice = d;
 					}
