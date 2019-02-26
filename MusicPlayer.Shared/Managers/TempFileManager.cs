@@ -11,11 +11,11 @@ namespace MusicPlayer.Managers
 {
 	internal class TempFileManager : ManagerBase<TempFileManager>
 	{
-		SlideQueue<string> Queue = new SlideQueue<string>(5);
+		FixedSizedQueue<string> Queue = new FixedSizedQueue<string>(5);
 
 		public TempFileManager()
 		{
-			Queue.Removed = (file) => { File.Delete(Path.Combine(Locations.TmpMusicCacheDir, file)); };
+            Queue.OnDequeue = (file) => { File.Delete(Path.Combine(Locations.TmpMusicCacheDir, file)); };
 			var files = Directory.EnumerateFiles(Locations.TmpMusicCacheDir)
 				.Where(x => x.EndsWith("mp3", StringComparison.CurrentCultureIgnoreCase) ||
 							x.EndsWith("mp4", StringComparison.CurrentCultureIgnoreCase))
@@ -26,7 +26,7 @@ namespace MusicPlayer.Managers
 						File.Delete(x);
 					return (info.Length > 0);
 				}).Select(Path.GetFileName).ToList();
-			files.ForEach(Queue.Add);
+			files.ForEach(Queue.Enqueue);
 		}
 
 		public void Cleanup()
@@ -53,7 +53,7 @@ namespace MusicPlayer.Managers
 				return null;
 			if(filePath != track.FileLocation)
 				File.Copy(filePath, track.FileLocation, true);
-			Queue.Add(newPath);
+            Queue.Enqueue(newPath);
 			return track.FileLocation;
 		}
 	}

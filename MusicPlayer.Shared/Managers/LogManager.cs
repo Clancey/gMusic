@@ -397,7 +397,7 @@ namespace MusicPlayer.Managers
 		}
 
 		//Remove the extra path to get straight to the root
-		static string CleansFilePath(string path) => path.Substring(path.IndexOf("MusicPlayer"));
+		static string CleansFilePath(string path) => path.Substring(path.IndexOf("gMusic"));
 	}
 }
 #endif

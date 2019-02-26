@@ -2,11 +2,13 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
+
 namespace MusicPlayer
 {
 
-	public class FixedSizedQueue<T>
-	{
+    public class FixedSizedQueue<T> : IEnumerable<T>
+    {
 		private readonly object privateLockObject = new object ();
 
 		readonly List<T> queue = new List<T> ();
@@ -82,5 +84,15 @@ namespace MusicPlayer
 			}
 			
 		}
-	}
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return queue.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
 }
