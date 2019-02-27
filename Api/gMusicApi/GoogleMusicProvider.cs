@@ -2228,7 +2228,7 @@ namespace MusicPlayer.Api.GoogleMusic
 					{
 						var reason = reasons.FirstOrDefault();
 						Console.WriteLine("Rejected reason: " + reason);
-						LogManager.Shared.Log("Rejected reason","Reason",reason);
+						//LogManager.Shared.Log("Rejected reason","Reason",reason);
 						if(reason == "DEVICE_NOT_AUTHORIZED" || reason	== "EXCEEDED_DEVICE_TRANSITION_QUOTA")
 						{
 							LogManager.Shared.GetPlaybackUrlError(reason, tryCount, track);

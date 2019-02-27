@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AVFoundation;
 using Foundation;
-using Haneke;
+//using Haneke;
 using MediaPlayer;
 using MusicPlayer.Data;
 using MusicPlayer.iOS;
@@ -70,12 +70,12 @@ namespace MusicPlayer.Playback
 					if (string.IsNullOrWhiteSpace(url))
 						return;
 					TaskCompletionSource<UIImage> tcs = new TaskCompletionSource<UIImage>();
-					var fether = new HNKNetworkFetcher(new NSUrl(url));
-					fether.FetchImage((image) => { tcs.TrySetResult(image); },
-						(error) => { tcs.TrySetException(new Exception(error.ToString())); });
-					art = await tcs.Task;
-					if (art == null || song.Id != Settings.CurrentSong)
-						return;
+					//var fether = new HNKNetworkFetcher(new NSUrl(url));
+					//fether.FetchImage((image) => { tcs.TrySetResult(image); },
+					//	(error) => { tcs.TrySetException(new Exception(error.ToString())); });
+					//art = await tcs.Task;
+					//if (art == null || song.Id != Settings.CurrentSong)
+						//return;
 				}
 				artwork = new MPMediaItemArtwork(art);
 				if (nowPlayingInfo == null)

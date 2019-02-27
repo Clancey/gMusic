@@ -16,6 +16,7 @@ namespace MusicPlayer.Forms
 				Type baseType = assembly.GetType("Xamarin.Forms.Registrar");
 				var prop = baseType.GetProperty("Registered",BindingFlags.Instance |
 							BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+                var props = baseType.GetProperties();
 				reggistrar = prop.GetValue(null, null);
 				var type = reggistrar.GetType();
 				registerMethod = type.GetMethod("Register",BindingFlags.Instance | BindingFlags.NonPublic |
@@ -37,7 +38,7 @@ namespace MusicPlayer.Forms
 		}
 		public static void Register(Type tview, Type trender)
 		{
-			registerMethod.Invoke(reggistrar, new object[] { tview, trender });
+			//registerMethod.Invoke(reggistrar, new object[] { tview, trender });
 		}
 	}
 }

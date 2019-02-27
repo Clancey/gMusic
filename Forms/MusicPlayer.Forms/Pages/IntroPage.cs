@@ -24,8 +24,8 @@ namespace MusicPlayer.Forms
 			var loginButton = new Button { Text = Strings.Login }.StyleAsBorderedButton();
 			loginButton.Clicked += async (sender, e) => await Login();
 			var skipButton = new Button { Text = Strings.Skip }.StyleAsTextButton();
-
-			Func<double> getImageWidth = () => Math.Min(layout.Width / 2 * .6, 512);
+            skipButton.Clicked +=  async(s,e) => await this.Navigation.PopModalAsync(true);
+            Func<double> getImageWidth = () => Math.Min(layout.Width / 2 * .6, 512);
 			Func<double> getSkipButtonHeight = () => skipButton.Measure(layout.Width, layout.Height).Request.Height;
 			Func<double> getLoginButtonHeight = () =>
 			{
