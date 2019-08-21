@@ -83,11 +83,13 @@ namespace MusicPlayer.Playback
 					Presets = Database.Main.GetObjects<EqualizerPreset>(groupInfo);
 				}
 
-
-				EqualizerPreset preset = Presets.FirstOrDefault(x => x.Id == StateManager.Shared.GlobalEqualizerPreset);
-				if (preset != null)
-					ApplyPreset(preset);
-			}
+                if (force)
+                {
+                    EqualizerPreset preset = Presets.FirstOrDefault(x => x.Id == StateManager.Shared.GlobalEqualizerPreset);
+                    if (preset != null)
+                        ApplyPreset(preset);
+                }
+            }
 		}
 
 		public void Clear ()
